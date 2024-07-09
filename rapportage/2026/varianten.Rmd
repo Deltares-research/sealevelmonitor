@@ -1,0 +1,646 @@
+
+# Varianten {#varianten}
+
+Voor de berekeningen van de zeespiegel zijn de volgende varianten doorgerekend:
+
+
+```{r}
+require(tidyverse)
+require(scales)
+```
+
+
+```{r prepareDataVarianten, eval=F}
+
+# run chapter "Resultaten.Rmd" first code block to prepare data
+
+stations <- read_csv("../../data/deltares/results/variants/stations.csv")
+series <- read_csv("../../data/deltares/results/variants/series.csv")
+fits <- read_csv("../../data/deltares/results/variants/fits.csv")
+predictions_url <- "../../data/deltares/results/dutch-sea-level-monitor-predictions-2023-2-28.csv"
+predictions <- read_csv(predictions_url)
+
+fitstyle =   theme_light() %+replace%
+    theme(
+      axis.text.x = element_text(angle = 45, vjust = 1, hjust = 1),
+      legend.position = "bottom"
+      ) 
+
+### predictions moeten ook van github gelezen worden, maar staan daar nu nog niet. 
+
+stationlevels <- c("Vlissingen",
+              "Hoek van Holland",
+              "IJmuiden",
+              "Den Helder",
+              "Harlingen",
+              "Delfzijl",
+              "Netherlands",
+              "Netherlands (without Delfzijl)"
+              )
+model_variants <- c("linear", "quadratic", "broken_linear", "broken_quadratic")
+
+fits <- fits %>%
+  mutate(name = factor(name, levels = stationlevels),
+         model_variant = factor(model_variant, levels = model_variants))
+
+fits_wind <- fits %>% 
+      filter(has_wind) %>%
+      distinct(psmsl_id, `Wind $u^2$`, `Wind $v^2$`, wind_variant, model_variant, quantity, aic, Constant, `Constant (in year 1960)`, `Constant (in year 1970)`, Trend, `+trend (1993)`, Acceleration, `Acceleration from 1960`, `Nodal U` , `Nodal V` )
+
+timeseries_wind <- series %>%
+  select(year, station, u2, v2, wind_variant, height) %>%
+  left_join(
+    stations %>% select(psmsl_id...1, name_rws), 
+    by = c(station = "psmsl_id...1")
+  ) %>%
+  full_join(fits_wind, by = c(
+    station = "psmsl_id", 
+    wind_variant = "wind_variant"
+  )) %>%
+  mutate(effect = `Wind $u^2$`*u2 + `Wind $v^2$`*v2) %>%
+  group_by(station, wind_variant, model_variant, name_rws, quantity) %>%
+  mutate(anomaly = effect - mean(effect)) %>%
+  ungroup() %>%
+    mutate(
+    `height - effect` = height - effect,
+    `height - anomaly` = height - anomaly
+  ) %>% 
+  rename(
+    correction_variant = wind_variant
+    ) %>%
+  mutate(fit_height = `height - effect`)
+
+fits_surge <- fits %>%
+      filter(!has_wind) %>%
+      distinct(psmsl_id, model_variant, quantity,
+               aic, Constant, `Constant (in year 1960)`, `Constant (in year 1970)` , Trend, `+trend (1993)`, 
+               Acceleration, `Acceleration from 1960`, `Nodal U` , `Nodal V` ) %>%
+  mutate(wind_variant = "GTSM") %>%
+  select(-quantity)
+
+
+timeseries_surge <- series %>%
+  distinct(year, station, height, surge_mm, `height - surge`, `height - surge anomaly`) %>%
+  mutate(wind_variant = "GTSM") %>%
+  left_join(
+    stations %>% select(psmsl_id...1, name_rws), 
+    by = c(station = "psmsl_id...1") 
+  ) %>%
+  left_join(fits_surge, by = c(
+    station = "psmsl_id",
+    wind_variant = "wind_variant"
+  )) %>%
+  mutate(
+    anomaly = height - `height - surge anomaly`
+  ) %>%
+  rename(
+    `height - effect` = `height - surge`,
+    `height - anomaly` = `height - surge anomaly`
+  ) %>% 
+  rename(
+    correction_variant = wind_variant, 
+    effect = surge_mm
+    )  %>% 
+  mutate(fit_height = `height - anomaly`)
+
+timeseries <- bind_rows(timeseries_wind, timeseries_surge) %>%
+  mutate(correction_variant = factor(correction_variant, levels = c("NCEP1","20CR","Combined", "GTSM" ))) %>%
+  mutate(model_variant = factor(model_variant, levels = model_variants)) %>%
+  mutate(name_rws = factor(name_rws, levels = stationlevels))
+
+predictions_all <- read_csv("../../data/deltares/results/predictions_all.csv")
+
+rm(predictions_surge, predictions_wind, predictions, predictions2, pred_series)
+
+```
+
+
+
+**Locaties** 
+
+Er is voor elk van de volgende locaties of comginatie van locaties doorgerekend.
+
+*   Vlissingen				
+*   Hoek van Holland				
+*   Den Helder				
+*   Delfzijl				
+*   Harlingen				
+*   IJmuiden				
+*   Netherlands				
+*   Netherlands (without Delfzijl)
+
+**Model varianten**
+
+De modelvarianten die zijn doorgerekend zijn: 
+
+*   linear				
+*   quadratic
+*   broken_linear
+*   broken_quadratic
+
+**Wind/stormopzet correcties**
+
+Er is met verschillende heranalyses gecorrigeerd voor windopzet
+
+*   NCEP1				
+*   20CR				
+*   Combined
+*   GTSM
+
+Het effect van surge met de drie windanalyses is meegeschat in de regressiemodellen. Het effect van windopzet uit GTSM is eerst van de zeespiegel afgetrokken, waarna de regressiemodellen zijn uitgevoerd op de 'zeespiegel - opzet'.  
+
+Al met al zijn due $ 8 * 4 * 4 = 128 $ varianten doorgerekend. In deze appendix worden de belangrijkste resultaten voor al deze varianten naast elkaar gezet. 
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+## Tijdseries met en zonder wind en/of surge
+
+### GTSM en lineair model
+
+```{r allVariantsGTSM-linear, fig.height=10, fig.width=8, fig.cap="Zeespiegelmetingen (jaargemiddelde, correcties voor wind of opzet (GTSM) en fits met het lineaire model voor alle stations. "}
+
+plot_all_stations <- function(predictions_all = predictions_all, correctionVariant, modelVariant) {
+
+  startyear = 1900
+  zoomyear = 2010
+  
+  plotShapes = c(
+    "height" = 1,
+    "height - anomaly" = 24#,
+    # "heigt - effect" = 22
+  )
+  
+  pal <- hue_pal()(4)
+  
+  plotColors = c(
+    "zeespiegel" = "darkgrey",
+    # "zeespiegel (- nodaal getij)" = pal[1],
+    # "zeespiegel (-opzet)" = pal[2],
+    "zeespiegel (-opzetanomalie -nodaal getij)" = pal[2],
+    # "predictie (-opzetanomalie +getij)" = pal[3],
+    "predictie (-opzetanomalie -nodaal getij)" = pal[4]
+  )
+  
+  pred_series2 <- predictions_all %>%
+    # filter(name_rws == "Netherlands (without Delfzijl)") %>%
+    filter(correction_variant == correctionVariant) %>%
+    filter(model_variant == modelVariant)
+  
+  symboolgrootte = 0.75
+  
+  q <- ggplot() +
+    geom_point(data = pred_series2 %>% filter(year >= startyear), 
+               aes(x = year, y = height/10, color = "metingen"), 
+               size = symboolgrootte, alpha = 0.5) +
+    # geom_line(data = pred_series2 %>% filter(year >= startyear),
+    #            aes(x = year, y = (height - `nodal tide`)/10, color = "zeespiegel (- nodaal getij)"),
+    #            size = symboolgrootte, alpha = 0.6) +
+    geom_line(data = pred_series2 %>% filter(year >= startyear), 
+               aes(x = year, y = (`height - anomaly` - `nodal tide`)/10, color = "zeespiegel (-opzetanomalie -nodaal getij)"), 
+               size = symboolgrootte, alpha = 0.5) +
+    # geom_line(data = pred_series2 %>% filter(year >= startyear),
+    #           aes(x = year, y = prediction/10, color = "predictie (-opzetanomalie +getij)"),
+    #           size = symboolgrootte, alpha = 0.7) +
+    geom_line(data = pred_series2 %>% filter(year >= startyear),
+              aes(x = year, y = prediction_recalc/10, color = "predictie (-opzetanomalie -nodaal getij)"),
+              size = symboolgrootte, alpha = 0.7) +
+    facet_wrap( ~ name_rws) +
+    coord_cartesian(ylim = c(NA, NA)) +
+    xlab("jaar") +
+    ylab("zeespiegel in cm tov NAP") +
+    labs(subtitle = paste("Zeespiegel en componenten voor modelvariant", modelVariant, "en gecorrigeerd voor wind of opzet met", correctionVariant)) +
+    fitstyle +
+    theme(
+      strip.text.y = element_text(angle = 0)) +
+    theme(legend.title = element_blank()) +
+    scale_color_manual(values = plotColors) +
+    scale_x_continuous(breaks = scales::pretty_breaks())
+  
+  if(modelVariant == "broken_linear") {
+    q <- q + geom_vline(xintercept = 1993, linetype = 5)
+  }
+  if(modelVariant == "broken_quadratic") {
+    q <- q + geom_vline(xintercept = 1960, linetype = 5)
+  }
+  
+  print(q)
+}
+
+plot_all_stations(predictions_all = predictions_all, correctionVariant = "GTSM", modelVariant = "linear")
+
+```
+
+### GTSM en gebroken lineair model
+
+```{r allVariantsGTSM-brokenlinear, fig.height=10, fig.width=8, fig.cap="Zeespiegelmetingen (jaargemiddelde, correcties voor wind of opzet (GTSM) en fits met het gebroken lineaire model voor alle stations. "}
+
+plot_all_stations(predictions_all = predictions_all, correctionVariant = "GTSM", modelVariant = "broken_linear")
+
+```
+
+
+
+### GTSM en kwadratisch model
+
+```{r allVariantsGTSM-quadratic, fig.height=10, fig.width=8, fig.cap="Zeespiegelmetingen (jaargemiddelde, correcties voor wind of opzet (GTSM) en fits met het kwadratische model voor alle stations. "}
+
+plot_all_stations(predictions_all = predictions_all, correctionVariant = "GTSM", modelVariant = "quadratic")
+
+```
+
+
+### GTSM en gebroken kwadratisch model
+
+```{r allVariantsGTSM-brokenquadratic, fig.height=10, fig.width=8, fig.cap="Zeespiegelmetingen (jaargemiddelde, correcties voor wind of opzet (GTSM) en fits met het gebroken kwadratische model voor alle stations. "}
+
+plot_all_stations(predictions_all = predictions_all, correctionVariant = "GTSM", modelVariant = "broken_quadratic")
+
+```
+
+
+### NCEP1 en lineair model
+
+```{r allVariantsNCEP-linear, fig.height=10, fig.width=8, fig.cap="Zeespiegelmetingen (jaargemiddelde, correcties voor wind of opzet (NCEP1) en fits met het lineaire model voor alle stations. "}
+
+plot_all_stations(predictions_all = predictions_all, correctionVariant = "NCEP1", modelVariant = "linear")
+
+```
+
+### NCEP1 en gebroken lineair model
+
+```{r allVariantsNCEP-brokenlinear, fig.height=10, fig.width=8, fig.cap="Zeespiegelmetingen (jaargemiddelde, correcties voor wind of opzet (NCEP1) en fits met het gebroken lineaire model voor alle stations. "}
+
+plot_all_stations(predictions_all = predictions_all, correctionVariant = "NCEP1", modelVariant = "broken_linear")
+
+```
+
+
+### NCEP1 en kwadratisch model
+
+```{r allVariantsNCEP-quadratic, fig.height=10, fig.width=8, fig.cap="Zeespiegelmetingen (jaargemiddelde, correcties voor wind of opzet (NCEP1) en fits met het kwadratische model voor alle stations. "}
+
+plot_all_stations(predictions_all = predictions_all, correctionVariant = "NCEP1", modelVariant = "quadratic")
+
+```
+
+
+### NCEP1 en gebroken kwadratisch model
+
+```{r allVariantsNCEP-brokenquadratic, fig.height=10, fig.width=8, fig.cap="Zeespiegelmetingen (jaargemiddelde, correcties voor wind of opzet (NCEP1) en fits met het gebroken kwadratische model voor alle stations. "}
+
+plot_all_stations(predictions_all = predictions_all, correctionVariant = "NCEP1", modelVariant = "broken_quadratic")
+
+```
+
+
+### 20CR en lineair model
+
+```{r allVariants20CR-linear, fig.height=10, fig.width=8, fig.cap="Zeespiegelmetingen (jaargemiddelde, correcties voor wind of opzet (20CR) en fits met het lineaire model voor alle stations. "}
+
+plot_all_stations(predictions_all = predictions_all, correctionVariant = "20CR", modelVariant = "linear")
+
+```
+
+
+### 20CR en gebroken lineair model
+
+```{r allVariants20CR-brokenlinear, fig.height=10, fig.width=8, fig.cap="Zeespiegelmetingen (jaargemiddelde, correcties voor wind of opzet (20CR) en fits met het gebroken lineaire model voor alle stations. "}
+
+plot_all_stations(predictions_all = predictions_all, correctionVariant = "20CR", modelVariant = "broken_linear")
+
+```
+### 20CR en kwadratisch model
+
+```{r allVariants20CR-quadratic, fig.height=10, fig.width=8, fig.cap="Zeespiegelmetingen (jaargemiddelde, correcties voor wind of opzet (20CR) en fits met het kwadratische model voor alle stations. "}
+
+plot_all_stations(predictions_all = predictions_all, correctionVariant = "20CR", modelVariant = "quadratic")
+
+```
+
+
+### 20CR en gebroken kwadratische model
+
+```{r allVariants20CR-brokenquadratic, fig.height=10, fig.width=8, fig.cap="Zeespiegelmetingen (jaargemiddelde, correcties voor wind of opzet (20CR) en fits met het gebroken quadratische model voor alle stations. "}
+
+plot_all_stations(predictions_all = predictions_all, correctionVariant = "20CR", modelVariant = "broken_quadratic")
+
+```
+
+
+### Combined en linaire model
+
+Combined windopzet is een combinatie van 20CR en vanaf 2018 NCEP1. 
+
+```{r allVariantsCombined-linear, fig.height=10, fig.width=8, fig.cap="Zeespiegelmetingen (jaargemiddelde, correcties voor wind of opzet (20CR) en fits met het lineaire model voor alle stations. "}
+
+plot_all_stations(predictions_all = predictions_all, correctionVariant = "Combined", modelVariant = "linear")
+
+```
+
+
+### Combined en gebroken linaire model
+
+
+```{r allVariantsCombined-brokenlinear, fig.height=10, fig.width=8, fig.cap="Zeespiegelmetingen (jaargemiddelde, correcties voor wind of opzet (20CR) en fits met het gebroken lineaire model voor alle stations. "}
+
+plot_all_stations(predictions_all = predictions_all, correctionVariant = "Combined", modelVariant = "broken_linear")
+
+```
+
+
+
+### Combined en kwadratisch model
+
+
+```{r allVariantsCombined-quadratic, fig.height=10, fig.width=8, fig.cap="Zeespiegelmetingen (jaargemiddelde, correcties voor wind of opzet (20CR) en fits met het kwadratische model voor alle stations. "}
+
+plot_all_stations(predictions_all = predictions_all, correctionVariant = "Combined", modelVariant = "quadratic")
+
+```
+
+
+### Combined en gebroken kwadratisch model
+
+
+```{r allVariantsCombined-brokenquadratic, fig.height=10, fig.width=8, fig.cap="Zeespiegelmetingen (jaargemiddelde, correcties voor wind of opzet (20CR) en fits met het gebroken kwadratische model voor alle stations. "}
+
+plot_all_stations(predictions_all = predictions_all, correctionVariant = "Combined", modelVariant = "broken_quadratic")
+
+```
+
+
+
+### Alle windopzet varianten
+
+De verschillende windopzetcorrecties varianten vertonen, behalve "combined", een kleine negatieve trend over de periode 1980 - nu (figuur \@ref(fig:windopzetvarianten)). Het verschil tussen de verschillende varianten (behalve combined) is echter nauwelijks waarneembaar. 
+
+```{r windopzetvarianten, fig.height=10, fig.width=8, fig.cap="Windopzet berekend met GTSM en geschat met de verschillende wind heranalyses en modelvarianten met predictieinterval."}
+
+timeseries %>%
+  filter(year > 1978) %>%
+  ggplot(aes(year, effect)) +
+  geom_point(aes(color = correction_variant, shape = model_variant), alpha = 0.3) +
+  # geom_line(aes(color = correction_variant), alpha = 0.3) +
+  # geom_smooth(aes(color = wind_variant), alpha = 0.2) +
+  geom_smooth(method = "lm", aes(color = correction_variant), alpha = 0.2) +
+  facet_wrap(~ name_rws) +
+  coord_cartesian(xlim = c(NA, 2022)) +
+  theme_light()
+```
+
+
+### Nodaal getij
+
+De amplitude van het geschatte nodaal getij verschilt vooral per station (figuur \@ref(fig:nodaltide)), en iets minder per opzetcorrectievariant. Er is ook een klein verschil in fase tussen de windopzetcorrecties, GTSM en NCEP1 enerzijds, en 20CR en Combined anderszijds. Er lijkt nauwelijks verschil te zijn in nodaal getij tussen de verschillende modelvarianten. Op dit moment is het nodaal getij op weg naar een nieuw maximum. We verwachten dat door het nodaal getij de zeespiegel nog ongeveer 3 (Hoek van Holland) tot 17 (IJmuiden) $mm$ zal stijgen de komende jaren, waarna dit effect weer zal afnemen.
+
+```{r nodaltide, fig.width=10, fig.height=6, fig.cap="Geschat nodaal getij voor alle varianten. Alleen de periode vanaf 2000 wordt getoond om de verschillen in fase beter te kunnen zien. De amplitude en fase zijn over de hele periode constant. " }
+predictions_all %>% ungroup() %>%
+    # filter(name_rws == "Netherlands (without Delfzijl)") %>%
+  #   filter(correction_variant == "GTSM") %>%
+  #   filter(model_variant == c("linear", "broken_linear")) %>%
+  ggplot(aes(year, `nodal tide`)) +
+  geom_line(aes(color = correction_variant), size = 1) +
+  facet_grid(model_variant ~ name_rws) +
+  ylab("nodaal getij in mm") +
+  xlab("jaar") +
+  scale_x_continuous(breaks = scales::pretty_breaks(3)) +
+  theme(axis.text.x.bottom = element_text(angle = 45)) +
+  coord_cartesian(xlim = c(2000, 2022)) +
+  theme_light()
+  
+```
+ 
+
+
+
+<!-- ### Huidige zeespiegel -->
+
+<!-- De huidige zeespiegel gecorrigeerd voor de variatie in windopzet en nodaal getij. De voorkeursvariant  -->
+
+
+<!-- ```{r zeespiegel2021, fig.cap = ""} -->
+
+<!-- yearOfInterest = 2021 -->
+
+<!-- predictions_all %>% -->
+<!--   filter(name_rws == "Netherlands (without Delfzijl)") %>% -->
+<!--   filter(year == yearOfInterest) %>% -->
+<!--   ggplot() + -->
+<!--     geom_col(aes(interaction(correction_variant, model_variant), y = `height - anomaly` - `nodal tide`)) + -->
+<!--     # facet_grid(correction_variant ~ model_variant) + -->
+<!--   fitstyle + -->
+<!--   ylab("Huidige zeespiegel geschat door ") -->
+<!-- ``` -->
+
+
+
+
+### Effect van modelkeuze op de huidige trend.
+
+
+```{r, fig.height=10, fig.width=8, fig.cap = "Schatting van de huidige zeespiegel en trend voor alle stations, windopzetcorrecties en modelkeuzen. "}
+
+startyear = 2000
+
+ggplot() +
+  geom_point(data = predictions_all %>% filter(model_variant == "linear", year > startyear), aes(x = year, y = `height - anomaly` - `nodal tide`), size = 1, alpha = 0.5) +
+  geom_point(data = predictions_all %>% filter(model_variant == "linear", year > 2017), aes(x = year, y = `height - anomaly` - `nodal tide`), size = 2, alpha = 1, color = "blue") +
+  geom_line(data = predictions_all %>% filter(year > startyear), aes(x = year, y = prediction_recalc, color = model_variant), size = 1) +
+  facet_grid(name_rws ~ correction_variant, scales = "free") +
+  coord_cartesian(xlim = c(2000, 2022), ylim = c(NA, NA)) +
+  xlab("jaar") +
+  ylab("zeespiegel in mm") +
+  labs(title = "Gemeten en geschatte zeespiegel", subtitle = "GTSM versie is zeespiegel minus opzetafwijking, blauwe punten zijn van na 2017") +
+  fitstyle +
+  theme(strip.text.y = element_text(angle = 0))
+
+ggsave("zeespiegelFit.pdf" , width = 10, height = 12)
+
+```
+
+
+
+### Effect van modelkeuze op de schatting van windcorrectie.
+
+
+```{r, fig.height=5, fig.width=7, fig.cap = "Schatting van de invloed van modelkeuze op de invloed van wind op de zeespiegelstand  voor alle stations, windopzetcorrecties. "}
+
+startyear = 1990
+
+ggplot() +
+  geom_line(data = predictions_all %>% filter(name_rws == "Netherlands (without Delfzijl)"), aes(x = year, y = anomaly, color = model_variant), alpha = 1) +
+  # geom_line(data = predictions_all %>% filter(year > startyear), aes(x = year, y = prediction_recalc, color = model_variant), size = 1) +
+  facet_wrap(correction_variant ~., scales = "free") +
+  coord_cartesian(xlim = c(startyear, 2022), ylim = c(NA, NA)) +
+  xlab("jaar") +
+  ylab("windopzetcorrectie anomalie in mm") +
+  labs(title = "Windopzet geschat met verschillende methodieken en modellen. ") +
+  fitstyle +
+  theme(strip.text.y = element_text(angle = 0))
+
+ggsave("modelkeuze_wind_effect.pdf" , width = 10, height = 12)
+
+```
+
+
+
+
+
+## Vergelijking van de trends tussen stations, en tussen de verschillende methoden
+
+In figuur \@ref(fig:trends) is de trend (zeespiegelstijging) uitgezet tegen de tijd voor alle combinaties van modelvariant, windopzetvariant en voor alle stations. Het laat zien dat er grote verschillen zijn tussen de stations. Wat gemeenschappelijk is voor alle stations is dat zowel het gebroken lineaire als het gebroken kwadratische model op een vergelijkbare huidige zeespiegelstijging uitkomt voor 2021. De stijging die geschat wordt met het lineaire model en het kwadratische model komen lager uit. 
+
+
+```{r trends, fig.height=8, fig.width=8, fig.cap="Vergelijking tussen de zeespiegelstijging vanaf 1979  voor alle stations, windopzetcorrecties en modelkeuzen.  "}
+
+startyear = 1978
+
+
+predictions_all %>% 
+  group_by(station, model_variant, correction_variant) %>%
+  arrange(station, model_variant, correction_variant, year) %>%
+  mutate(diff_pred = c(NA, diff(prediction_recalc))) %>%
+  ggplot() +
+  # geom_point(data = pred_series %>% filter(model_variant == "linear", year > startyear), aes(x = year, y = diff(fit_height) ), size = 0.5, alpha = 0.2) +
+  # geom_point(data = pred_series %>% filter(model_variant == "linear", year > 2017), aes(x = year, y = diff(fit_height)), size = 1, alpha = 1, color = "blue") +
+  geom_line(aes(x = year, y = diff_pred, color = model_variant), size = 1) +
+  facet_grid(name_rws ~ correction_variant) +
+  coord_cartesian(ylim = c(0, NA)) +
+  xlab("jaar") +
+  ylab("zeespiegelstijging in mm/jaar") +
+  labs(title = "Gemeten en geschatte zeespiegelstijging") +
+  fitstyle +
+  theme(strip.text.y = element_text(angle = 0))
+```
+
+
+In figuur \@ref(fig:trend-vergelijking) worden de trends voor gebroken lineaire fit voor de verschillende varianten van windopzet met elkaar vergeleken. Het patroon is voor alle windopzetverianten gelijk. Het kleinste verschil tussen de trend voor en na 1993 wordt gevonden bij station IJmuiden. Bij gebruik van NCEP1 is er zelfs geen zichtbare knik bij dat station. Het grootste verschil in trend voor en na 1993 wordt gevonden bij de stations in en in de buurt van de Waddenzee, Delfzijl, Harlingen, en in mindere mate Den Helder.
+
+
+```{r trend-vergelijking, fig.height=5, fig.width=7, fig.show='hold', out.width="70%", fig.cap="Berekende trends voor het lineaire model (zwarte punten), en de pre- en post-1993 trend voor het broken linear model (kolommen). "}
+
+
+timeseries %>%
+  filter(model_variant == "broken_linear") %>%
+  distinct(model_variant, correction_variant, name_rws, Trend, `+trend (1993)`) %>%
+  rename(`trend vóór 1993` = Trend,
+         `+ trend na 1993` = `+trend (1993)`) %>%
+  pivot_longer(c(`trend vóór 1993`, `+ trend na 1993`), names_to = 'gebroken lineair', values_to = 'waarde') %>%
+  ggplot(aes(x = name_rws)) +
+  geom_col(aes(y = waarde, fill = `gebroken lineair`)) +
+  geom_point(data = timeseries %>%
+               filter(model_variant == "linear") %>%
+               distinct(model_variant, correction_variant, name_rws, Trend),
+             aes(x = name_rws, y = Trend),
+             shape = "_", size = 8
+  ) +
+coord_cartesian(ylim = c(0,4)) +
+  labs(subtitle = "gebroken lineair model, trend voor en na 1993 en lineaire trend (zwart)") +
+  fitstyle +
+  facet_wrap(~ correction_variant)
+
+
+
+
+```
+
+
+
+
+<!-- ## Lineaire trend schattingen in de 20e eeuw -->
+
+<!-- Onder het lineaire deel verstaan we dat deel van de verschillende trendberekeningen dat lineair in de tijd is en vóór een eventuele versnelling optreedt. Ruwweg is dat dus de trend over de 20e eeuw. Dit verschilt per model: -->
+
+<!-- - lineaire model: de helling van de trend -->
+<!-- - gebroken lineaire model: de trend voor 1993 -->
+<!-- - kwadratische model: de trend zonder de quadratische term -->
+<!-- - gebroken kwadratische model: de trend vóór 1960 -->
+
+<!-- We zien vooral verschillen per station, en in mindere mate per  -->
+
+<!-- ```{r} -->
+
+<!-- fits %>% -->
+<!--   filter(quantity == "height - surge anomaly", wind_variant == "Combined") %>% -->
+<!--   ggplot(aes(x = name, y = model_variant)) + -->
+<!--   geom_tile(aes(fill = Trend)) + -->
+<!--   geom_text(aes(label = round(Trend, 2)), color = "white") + -->
+<!--   fitstyle + -->
+<!--   scale_fill_viridis_b(direction = -1) -->
+
+<!-- ``` -->
+
+
+## AIC bij gebruik van wind correcties
+
+```{r, fig.height = 6, fig.width=7}
+
+fits %>%
+  filter(quantity == "height") %>%
+  # filter(name == "Netherlands (without Delfzijl)") %>%
+  bind_rows(fits %>%
+               # filter(name == "Netherlands (without Delfzijl)") %>%
+              filter(quantity == "height - surge anomaly", wind_variant == "Combined") %>%
+              mutate(wind_variant = "none-GTSM")
+              ) %>%
+  ggplot(aes(x = wind_variant, y = aic)) +
+  geom_col(aes(fill = model_variant), position = position_dodge(width=0.8), width = 0.8) +
+  # geom_text(aes(label = round(aic, 0)), color = "white") +
+  facet_wrap(name ~ ., scales = 'free_y') + 
+  coord_cartesian(ylim = c(1140, 1280)) +
+  scale_fill_brewer(palette = "Paired") +
+  fitstyle
+```
+
+
+
+
+
+
+
+
+
+
+
+
+<!-- ```{r} -->
+
+<!-- # betrouwbaarheid toevoegen -->
+<!-- # zelfde voor zeespiegel 2021 -->
+<!-- # voorkeursvariant markeren -->
+<!-- #  -->
+
+<!-- fits %>% -->
+<!--   # filter(wind_variant == "NCEP1") %>% -->
+<!--   # filter(quantity == "height") %>% -->
+<!--   # filter(!has_wind) %>% -->
+<!--   mutate(stijging_2021 = case_when( -->
+<!--     model_variant == "linear" ~ Trend, -->
+<!--     model_variant == "broken_linear" ~ Trend + `+trend (1993)`, -->
+<!--     model_variant == "quadratic" ~ Trend + 2 * (2021-1970)*Acceleration, -->
+<!--     model_variant == "broken_quadratic" ~ Trend + 2 * (2021-1960)*`Acceleration from 1960` -->
+<!--   )) %>% -->
+<!--   select(name, Trend, `+trend (1993)`, stijging_2021, quantity, model_variant, has_wind, wind_variant) %>% -->
+<!--   ggplot(aes(name, stijging_2021)) + -->
+<!--   geom_point(aes(color = model_variant, shape = wind_variant), size = 3, alpha = 0.5) + -->
+<!--   fitstyle + -->
+<!--   facet_wrap(~ quantity) -->
+
+<!-- ``` -->
+
+
+
