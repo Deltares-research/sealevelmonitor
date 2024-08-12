@@ -1,0 +1,47 @@
+
+Beste Nathalie, Willem,
+
+Wat betreft de bonferonni correctie zou ik de volgende redenering voorstellen:
+
+Er is een algemeen probleem met hypotheses toetsen dat je ook door toeval kan zeggen dat een hypothese verworpen wordt. Dat noem je “vals positief”.  Hoe meer hypotheses je test, hoe groter de kans op vals positieven. In de zeespiegelmonitor doen we dat ook, we testen meer dan 100 verschillende modellen op 8 verschillende stations. In aansluiting op de discussie met Hessel de vraag: geeft dat niet een hele grote kans om op basis van toeval iets te vinden? 
+
+Hoeveel hypotheses toetsen we? 
+In de laatste zeespiegelmonitor hebben we heel veel hypotheses getoetst. We hebben per model ongeveer 5 parameters. We hebben 5 varianten van wind gebruikt (NCEP1, NCEP + 20CR, ERA5, GTSM, zonder GTSM). We hebben modellen gedraaid met 5 verschillende trend methoden (linear, broken, broken quadratic, quadratic). Dan kom je op 125 model/parametervarianten. 
+
+Op basis van hoeveel hypotheses concluderen we dat er sprake is van versnelde zeespiegelstijging? 
+Gelukkig hebben we niet op basis van al deze modelvarianten een uitspraak gedaan.  Onze meest sterkste stelling is dat de zeespiegel versnelt. Hiervoor kijken we maar naar 1 parameter (de versnellingsterm) en voor 1 windvariant (GTSM), maar wel voor 5 modelvarianten. 
+
+Wat kunnen we daaraan doen?
+De gebruikelijke aanpak is om een correctie te doen voor het aantal toetsen. Een recente beschrijving van zo’n correctie staat hier beschreven [1]. Zij stellen de volgende onderverdeling voor in aanbevolen aanpakken:
+-	Bonferonni: corrigeren voor alfa van 0.05 / aantal toetsen, dus bij ons 0.01 
+-	Sequentieel Bonferonni: corrigeren voor 0.01, als die niet significant is, slechtst fittende model eruit gooien en dan toetsen op 0.015 (0.05 / 4), en dat herhalen. 
+-	Betrouwbaarheidsintervallen rapporteren (doen we ook, maar dat lost het probleem niet op)
+
+Mijn suggestie zou zijn om de sequentieel bonferonni aanpak te hanteren. Daarbij is de afweging tussen de fout positieve en fout negatieve iets meer in balans. Voor onze huidige data maakt het niet uit. Onze p waarde van het broken linear model was al < 0.01, dus ongeacht de aanpak komen we uit op een significante versnelling. Maar voor de volgende rapportage zou ik voorstellen om de sequentieel bonferonnie toe te passen bij het toepassen van de significantie. Deze is ook bekend onder de naam Holm-Bonferroni [2]. Bij de methode keuze zou ik verwijzen naar de overwegingen van [1]. 
+
+[1] https://academic.oup.com/beheco/article/15/6/1044/206216?login=false
+[2] https://www.jstor.org/stable/4615733
+
+
+De contactpersonen voor mogelijke ijsvisualisaties zijn:
+Bert Wouters Bert.Wouters@tudelft.nl 
+Stef Lhermitte S.Lhermitte@tudelft.nl S.Lhermitte@tudelft.nl 
+
+Met Bert besprak ik eerder hun mogelijke bijdrage. Daar was hij toen positief over. 
+
+
+Voor de “overdracht mail” zal ik een wat bredere mail opstellen met jullie als contactpersonen. 
+
+Groetjes,
+
+Fedor 
+
+-- 
+dr. Fedor Baart
+mail: fedor.baart@deltares.nl
+phone: 31(0)6 4691 4564
+LinkedIn: https://www.linkedin.com/in/fedorbaart/
+YouTube: https://www.youtube.com/user/fedorbaart/videos
+ 
+ 
+
