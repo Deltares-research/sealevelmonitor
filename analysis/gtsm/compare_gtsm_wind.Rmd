@@ -1,0 +1,154 @@
+---
+title: "Compare GTSM and wind"
+author: "Willem Stolte, Nathalie Dees"
+date: "2024-09-12"
+output:
+  html_document:
+    df_print: paged
+    code_folding: hide
+---
+
+# Compare gtsm with wind
+
+```{r setupWind}
+knitr::opts_chunk$set(
+  echo = TRUE,
+  comment=FALSE,
+  message=FALSE,
+  warning = FALSE
+)
+```
+
+```{r dependencies}
+require(tidyverse)
+source("../sealevelmonitor/_common/functions.R")
+source("../sealevelmonitor/_common/plotfunctions.R")
+
+```
+
+```{r readNewGTSM}
+
+gtsm <- read_yearly_gtsm(filename = "../../data/deltares/gtsm/gtsm_surge_annual_mean_main_stations_2024.csv") |>
+  mutate(
+    year = year(ymd(t)),
+    surge_mm = surge *1000
+    )
+
+```
+
+
+## measured wind at De Kooy
+
+KNMI daily average wind observations were downloaded via https://www.knmi.nl/nederland-nu/klimatologie/daggegevens.  . Data for station "De Kooy" ([station nr 235](https://cdn.knmi.nl/knmi/map/page/klimatologie/gegevens/daggegevens/etmgeg_235.zip)) were selected. This station is close by the tidal station "Den Helder". 
+
+
+```{r}
+list.files("../../data/knmi/metingen")
+
+kooy_raw = read_delim("../../data/knmi/metingen/dekooy_wind.txt", comment = "#", trim_ws = T)
+
+kooy = kooy_raw %>%
+  mutate(
+    year = YYYYMMDD %/% 10000,
+    windspeed = as.numeric(FHVEC) / 10,
+    metrad = as.numeric(DDVEC) * pi / 180,
+    u2 = (windspeed)^2 * (-sin(metrad)),
+    v2 = (windspeed)^2 * (-cos(metrad)),
+       # Mathematical metrad
+   rad = 2*pi - metrad - pi/2,
+   rad = ifelse(rad >= 2*pi, rad - 2*pi, rad)
+         ) %>%
+  group_by(year, STN) %>%
+  summarise(
+    windspeed = mean(windspeed),
+    u2 = mean(u2),
+    v2 = mean(v2),
+    rad = mean(rad)
+            )
+
+```
+## Windrose
+
+Windroses for the last four years show that there is considerable variation in average wind speed, and direction distribution.
+
+```{r windrose,  fig.show="hold", out.width="50%", fig.cap="Windroses of measured wind at De Kooy station for the last 4 years. "}
+kooy_raw_2022_2023 = kooy_raw %>% 
+  mutate(
+    year = YYYYMMDD %/% 10000,
+    spd = as.numeric(FHVEC) / 10,
+    dir = as.numeric(DDVEC)
+  ) %>%
+  filter(year >= 2020 & year < 2024) %>%
+  select(year, spd, dir) %>%
+  group_by(year) %>%
+  nest()
+
+walk(1:length(kooy_raw_2022_2023$data), 
+     function(x) {
+       plot.windrose(
+         spd = kooy_raw_2022_2023$data[[x]]$spd, 
+         dir = kooy_raw_2022_2023$data[[x]]$dir,
+       plot.title = kooy_raw_2022_2023$year[x],
+       palette = "YlOrBr"
+       )
+     }
+)
+
+```
+
+
+
+```{r compare, figures-side, fig.show="hold", out.width="50%"}
+
+gtsm %>%
+  filter(name == "Den Helder") %>%
+  left_join(kooy) %>%
+  ggplot() +
+  geom_point(aes(u2, surge_mm)) +
+  geom_text(aes(u2, surge_mm, label = year), alpha = 0.5, nudge_x = 1, nudge_y = 10) +
+  geom_smooth(aes(u2, surge_mm, label = year), method = 'lm')
+
+gtsm %>%
+  filter(name == "Den Helder") %>%
+  left_join(kooy) %>%
+  ggplot() +
+  geom_point(aes(v2, surge_mm)) +
+  geom_text(aes(v2, surge_mm, label = year), alpha = 0.5, nudge_x = 1, nudge_y = 10) +
+  geom_smooth(aes(v2, surge_mm, label = year), method = 'lm')
+
+```
+
+
+```{r}
+kooy = kooy_raw %>%
+  mutate(
+    year = YYYYMMDD %/% 10000,
+    windspeed = as.numeric(FHVEC) *10,
+    metrad = as.numeric(DDVEC) * pi / 180,
+    u2 = (windspeed)^2 * (-sin(metrad)),
+    v2 = (windspeed)^2 * (-cos(metrad)),
+       # Mathematical metrad
+   rad = 2*pi - metrad - pi/2,
+   rad = ifelse(rad >= 2*pi, rad - 2*pi, rad)
+         )  %>%
+  group_by(year, STN) %>%
+  summarise(
+    windspeed = mean(windspeed),
+    u2 = mean(u2),
+    v2 = mean(v2),
+    rad = mean(rad),
+    n = n()
+  )
+
+gtsm %>%
+  filter(name == "Den Helder") %>%
+  mutate(surge_um = surge_mm * 1000) %>%
+  left_join(kooy) %>%
+  filter(year < 2024) %>%
+  select(year, u2, v2, surge_um) %>%
+  pivot_longer(c(u2, v2, surge_um), names_to = "factor", values_to = "value") %>%
+  ggplot() +
+  geom_path(aes(year, value, color = factor))
+
+```
+

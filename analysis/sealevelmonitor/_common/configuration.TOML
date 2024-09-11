@@ -3,11 +3,13 @@
 
 [runparameters]
 
+monitoryear = 2024
+
 modeltypes = [
   "linear", 
   "broken_linear", 
 #  "squared",  
-#  "broken_squared"
+  "broken_squared"
 ]
 
 stations = [
