@@ -55,7 +55,8 @@ nsurge  = length(params$wind_or_surge_type)
 
 ```{r readData, comment=F, message=F}
 
-df <- readSeaLevelData(file.path("../", config$constants$dataUrl)) %>%
+# df <- readSeaLevelData(file.path("../", config$constants$dataUrl)) %>%
+  df <- read_csv2(file.path("../", "../data/deltares/results/dutch-sea-level-monitor-export-stations-2023-11-20_temp.csv")) %>%
   filter(
     station %in% params$station
   ) 
