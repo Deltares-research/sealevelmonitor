@@ -25,6 +25,17 @@ params:
   - broken_squared
 ---
 
+# Sea Level Monitor analysis
+
+The Sea Level Monitor methodology is described in detail in Deltares (2023). Principles are:
+
+-   Sea Level is based on yearly averaged sea levels that are reported by Rijkswaterstaat to [PSMSL](https://www.psmsl.org) for the six main stations. 
+-    The mean of these stations is used to estimate the "current sea-level rise". The measurements since 1890 are taken into account. Measurements before that are considered less valid because the Amsterdam Ordnance Datum was not yet normalized.
+-   Sea Level is corrected for yearly fluctuations in *surge* using independently modelled surge values from the Global Surge and Tide Model (GTSM).
+-   The trend of Sea Level over the years is fitted with various models including nodal tide, with ant without an acceleration term.
+-   From the different models a preferred model is chosen based on:
+    +   significant better fit than the simplest model (linear model)
+    +   lowest AIC (Akaike Information Criteria)
 
 ```{r setup, include=FALSE}
 
@@ -37,12 +48,13 @@ knitr::opts_chunk$set(
 require(leaflet)
 require(plotly)
 require(nlme)
+# require(reticulate)
 
 config <- RcppTOML::parseToml("_common/configuration.TOML")
 source("_common/functions.R")
 source("_common/plotfunctions.R")
 epoch = config$constants$epoch
-mainstations_df <- readMainStationInfo(path = "../../")
+mainstations_df <- readMainStationInfo(filepath = "../../")
 mainstations_locs <- readMainStationLocations(path = "../../")
 nstations = length(params$station)
 nmodels  = length(params$modeltype)
@@ -50,46 +62,270 @@ nsurge  = length(params$wind_or_surge_type)
 
 ```
 
-## Gegevens inlezen
-
-### Zeespiegelmetingen
-
-Maandelijks en jaarlijks gemiddelde waterhoogtegegevens worden ingelezen via [PSMSL](https://psmsl.org/data/obtaining/).
-
-### Windopzet
-
-De verwachte windopzet per jaar wordt bepaald met een model, \acr{GTSM} (ref). Het model wordt elk jaar bijgewerkt, en de jaargemiddelde opzet door wind en luchtdruk wordt hieruit gehaald. De gegevens worden gebruikt om de variatie veroorzaakt door windopze van de jaargemiddelde zeespiegel af te trekken. Hierdoor kan er preciezer een schatting van de trend en eventueel een trendbreuk worden gevonden.   
-
-!!!!! Onderstaand vervangen door inlezen van origineel gedownloade data 
-- psmsl
-- gtsm
-- wind heranalyses
 
 
-```{r readData, comment=F, message=F}
 
-df <- readSeaLevelData(file.path("../", config$constants$dataUrl)) %>%
-  filter(
-    station %in% params$station
-  ) 
+```{r readPreviousYearData, comment=F, message=F}
+
+df <- readSeaLevelData(file.path("../../data/deltares/results/dutch-sea-level-monitor-export-stations-2023-11-20.csv")) %>%
+  filter(station %in% params$station)
 
 ```
 
-## Locaties van de Nederlandse hoofdstations
 
-Dit document rapporteert over een selectie van de Nederlandse getijstations. Er is een keuze gemaakt op basis van geografissche spreiding en lengte van de beschikbare tijdseries. 
+```{r readNewGTSM}
+
+gtsm <- read_yearly_gtsm(filename = "../../data/deltares/gtsm/gtsm_surge_annual_mean_main_stations_2024.csv") |>
+  mutate(
+    year = year(ymd(t)),
+    surge_mm = surge *1000
+    )
+
+```
+
+
+```{r compareOldNewGTSM}
+
+ggplot() +
+  geom_point(data = df %>% filter(station == "Delfzijl"), aes(year, surge_anomaly)) +
+  geom_point(data = gtsm %>% filter(name == "Delfzijl"), aes(year, surge_mm), color = "orange")
+
+```
+
+
+
+
+```{r}
+
+rlr_df <- read_yearly_psmsl_csv(mainstations_df$psmsl_id, filepath = "../../") 
+
+ddl_datayear <- read_csv2(file.path("../../data/rijkswaterstaat/ddl/annual_means/", paste0(2023, ".csv")))
+
+# ddl_2022 <- read_csv2(file.path("../../data/rijkswaterstaat/ddl/annual_means/", paste0(2022, ".csv")))
+
+  
+gtsm <- read_yearly_gtsm(filename = "../../data/deltares/gtsm/gtsm_surge_annual_mean_main_stations_2024.csv") |>
+  mutate(year = year(ymd(t)))
+
+refreshed_df <- rlr_df |> 
+  mutate(
+    height = rlr_height_mm - as.numeric(`nap-rlr`),
+  ) |> 
+  rename(station = name) |>
+  bind_rows(ddl_datayear) |>
+  left_join(gtsm, by = c(station = "name", year = "year")) |>
+  mutate(
+    surge_anomaly = case_when(
+      year > 1950 ~ (1000 * surge - mean(1000 * surge, na.rm = T)), # meters to millimeters
+      year <= 1950 ~ 0
+    )
+  ) |>
+  select(
+    year,
+    height,
+    station,
+    surge_anomaly
+  ) %>%
+  bind_rows(
+   . |>
+      group_by(year) |>
+      summarise(
+        height = mean(height, na.rm = T),
+        surge_anomaly = mean(surge_anomaly, na.rm = T)
+      ) |>
+      mutate(
+        station = "Netherlands"
+      )
+  ) %>%
+  bind_rows(
+   . |>
+     filter(station %in% c("Vlissingen", "Hoek van Holland", "Den Helder", "Harlingen", "IJmuiden")) |>
+      group_by(year) |>
+      summarise(
+        height = mean(height, na.rm = T),
+        surge_anomaly = mean(surge_anomaly, na.rm = T)
+      ) |>
+      mutate(
+        station = "Netherlands (without Delfzijl)"
+      )
+  ) |>
+  addBreakPoints() %T>% 
+  write_csv2("../../data/deltares/results/dutch-sea-level-monitor-export-stations-2023-11-20_temp.csv") %>%
+  filter(year >= 1890)
+
+```
+
+
+
+
+
+
+```{r vergelijk-oud-en-nieuw}
+
+# previous year did not include gtsm for year 1950.
+# Therefore comparison of surge is done for years > 1950
+
+# range(df$surge_anomaly)
+# range(refreshed_df$surge_anomaly, na.rm = T)
+
+refreshed_df_filter <- refreshed_df %>% filter(year > 1950 & year < 2023)
+
+ggplot() +
+  geom_point(
+    data = df, 
+    aes(x = year, y = height)
+  ) +
+  geom_point(
+    data = refreshed_df_filter, 
+    aes(x = year, y = height), 
+    color = "green"
+  ) +
+  facet_wrap(c("station"), ncol = 3)
+
+
+ggplot() +
+  geom_point(
+    data = df, 
+    aes(x = year, y = surge_anomaly)
+    ) +
+  geom_point(
+    data = refreshed_df_filter, 
+    aes(x = year, y = surge_anomaly), 
+    color = "green"
+    ) +
+  facet_wrap(c("station"), ncol = 3)
+
+```
+
+
+## Locations of the main stations
+
+
+This document analyses the sea level trend of the main stations in the Netherlands using different models. 
+Dit document analyseert een selectie van de Nederlandse getijstations. Op basis van geografissche spreiding en lengte van de beschikbare tijdseries is een selectie van hoofdstations gemaakt. Voor het berekenenen van de gemiddelde zeespiegel en -stijging is ook het gemiddelde van de stations meegenomen in de analyse. Vanwege het feit dat station Delfzijl al langere tijd losgekoppeld is van het NAP referentieniveau is er ook een gemiddelde van de stations zonder Delfzijl in de analyse opgenomen. 
+
+```{r}
+df <- refreshed_df
+```
+
+
 
 ```{r selected-stations, fig.cap="Hoofdgetijstations in Nederland. Er is aangegeven welke stations zijn meegenomen in dit rekendocument. "}
 
-map_selected_stations(df = df, mainstations_df = mainstations_df, mainstations_locs = mainstations_locs)
+map_stations(df = df, mainstations_df = mainstations_df, mainstations_locs = mainstations_locs)
 
 ```
+
+
+
+### Sea level measurements
+
+In this section we download sea-level measurements. The global collection of tide gauge records at the PSMSL is used to access the data. The other way to access the data is to ask the "service desk data" at Rijkswaterstaat. There are two types of datasets the "Revised Local Reference" and "Metric". For the Netherlands the difference is that the "Revised Local Reference" undoes the corrections from the NAP correction in 2014, to get a consistent dataset. Here we transform the RLR back to NAP (without undoing the correction).
+
+Check: Make sure that you verify the rlr2nap parameters.
+
+The rlrnap computes the rlr back to latest NAP (ignoring the undoing of the NAP correction) the alpha paramater is the dominant wind direction for the stations, based on de Ronde 2013. Id's are the station ids in the PSMSL dataset. They may change from year to year as the PSMSL 0 point is arbitary. You can lookup the relevant parameters in the schematic diagram like this: https://www.psmsl.org/data/obtaining/rlr.diagrams/20.php
+
+Check the numbers at PSMSL with numbers in this table.
+
+```{r}
+mainstations_df[,c('name', 'psmsl_id', 'msl-rlr', 'msl-nap', 'nap-rlr')]
+```
+
+!!!! metingen inlezen en wegschrijven samen met gtsm. waar gebeurt dat?
+
+Refer to Python notebook (and run it?)
+
+
+In this analysis, measurements over the period 1890 to `r config$ config$runparameters$monitoryear - 1` are considered. 
+
+
+```{r, results='asis'}
+
+if(config$runparameters$monitoryear == max(df$year)){
+  cat("Measuremnts are availabale up to ", max(df$year), ", the time series is up to date. ")
+} else {
+  cat("Measurements are only available up to ", max(df$year), " and thus incomplete for the current analysis.")
+}
+
+```
+Sea level for the main stations (yearly average) are shown in figure \@ref(fig:zeespiegelmetingen). 
+
+
+```{r zeespiegelmetingen, fig.width=8, fig.height=5, fig.cap="Jaarlijks gemiddelde zeespiegel voor de zes hoofdstations langs de Nederlandse kust."}
+p <- df %>%
+  dplyr::filter(!grepl("Netherlands", station)) %>%
+ggplot(aes(year, height)) +
+  geom_point(alpha = 1, aes(color = station), shape = 21, fill = "white", size = 1) +
+  geom_line(alpha = 0.5, aes(color = station), linewidth = 0.75) +
+  xlab("jaar") + ylab("gemeten zeespiegel in mm") +
+  theme_light() +
+  theme(legend.position = "bottom")
+
+ggplotly(p) %>% layout(legend = list(x = 0.05, y = 0.95))
+# p
+```
+
+
+```{r zeespiegelmetingenGemiddeld, fig.width=8, fig.height=5, fig.cap="Jaarlijks gemiddelde zeespiegel voor gemiddelde van stations langs de Nederlandse kust."}
+p <- df %>%
+  dplyr::filter(grepl("Netherlands", station)) %>%
+ggplot(aes(year, height)) +
+  geom_point(alpha = 1, aes(color = station), shape = 21, fill = "white", size = 1) +
+  geom_line(alpha = 0.5, aes(color = station), linewidth = 0.75) +
+  xlab("jaar") + ylab("gemeten zeespiegel in mm") +
+  theme_light() +
+  theme(legend.position = "bottom")
+
+ggplotly(p) %>% layout(legend = list(x = 0.05, y = 0.95))
+# p
+```
+
+
+### Windopzet
+
+De verwachte windopzet per jaar wordt bepaald met het Global Tide and Surge Model (GTSM) (ref). Dit berekent de windopzet gegeven de bathymetrie en klimatologische omstandigheden. Modelresultaten zijn beschikbaar vanaf 1950. Het model wordt elk opvolgend jaar gedraaid om de jaargemiddelde opzet door wind en luchtdruk te berekenen voor gebruik in de Zeespiegelmonitor. Deze berekende opzet wordt afgetrokken van de gemeten zeespiegel voordat de zeespiegelstijging wordt berekend. Voor de jaren vóór 1950 wordt de gemiddelde opzet afgetrokken. Door deze correctie wordt de variatie door verschillen in opzet per jaar verminderd, en kan preciezere schatting worden gemaakt van de langjarige trend.
+
+```{r windopzet, fig.width=8, fig.height=5, fig.cap="Gemodelleerde windopzet met GTSM. De afwijking van het berekende gemiddelde over de hele periode is hier uitgezet. De jaarlijkse windopzet is berekend vanaf 1950. Voor de jaren daarvoor is een gemiddeld effect aangenomen." }
+
+p <- df %>%
+  # filter(!grepl("Netherlands", station)) %>%
+  # filter(station == "IJmuiden") %>%
+ggplot(aes(year, surge_anomaly)) +
+  geom_point(alpha = 1, aes(color = station), shape = 21, fill = "white", size = 1) +
+  geom_line(alpha = 0.5, aes(color = station), linewidth = 0.75) +
+  xlab("jaar") + ylab("windopzet in mm") +
+  theme_light() +
+  theme(legend.position = "bottom")
+
+# ggplotly(p) %>% layout(legend = list(x = 0.05, y = 0.95))
+p
+```
+
+
 
 
 
 To do
 
 - check ERA5 data for comparison with GTSM wind setup.
+
+
+## Trendberekening
+
+De trend van de zeespiegel wordt berekend met een lineaire regressie methode. De volgende modellen worden getest:
+
+-   lineair model 
+-   gebroken lineair model (vanaf 1993)
+-   gebroken kwadratisch model (vanaf 1960)
+
+Voor meer informatie hierover wordt verwezen naar de Zeespiegelmonitor (Deltares 2023).
+
+De trend wordt berekend voor alle stations afzonderlijk, voor het gemiddelde van alle stations ("Netherlands") en voor het gemiddelde van alle stations met uitzondering van Delfzijl ("Netherlands without Delfzijl")
+
+De zeespiegel wordt vooraf gecorrigeerd voor de verschillen in windopzet per jaar. 
+Het nodaal getij wordt meegenomen in de modellen als een sinusoide met een periode van 18,6 jaar. 
+
 
 ```{r nest-per-station}
 byStation <- df %>%
@@ -98,14 +334,6 @@ byStation <- df %>%
   dplyr::ungroup()
 ```
 
-
-```{r check-workflow, results='asis'}
-
-cat(
-  "For correction of wind uppset,", params$wind_or_surge_type, "is used"
-)
-
-```
 
 
 ```{r}
@@ -139,7 +367,8 @@ models <- byStation %>%
 
 ## Autocorrelation
 
-Autocorrelation
+Autocorrelation with previous year(s) can sometimes explain part of the otherwise unexplained variance. Especially when a trend is detected in the data, autocorrelation with relatively short lags (1 or few years) often occurs. It is necessary to take this into account when considering standard errors of the estimated parameters. 
+
 
 ```{r acf-plot, fig.height=nstations*2+1, fig.width=nmodels*3+1, fig.cap="Autocorrelation plot for selected stations and models. "}
 
@@ -167,9 +396,12 @@ models %>%
         )
 ```
 
-Add Newey West autocorrelation term for calculating standard errors 
 
-https://search.r-project.org/CRAN/refmans/sandwich/html/NeweyWest.html
+Er blijkt een consistente autocorrelatie met een 'lag' van 1 jaar. Dit is gebruikelijk bij tijdseries die een trend vertonen. Deze beïnvloedt niet de berekende trend, maar wel de foutenmarges van de berekende trend. Een [Newey West autocorrelatie term](https://search.r-project.org/CRAN/refmans/sandwich/html/NeweyWest.html) wordt toegevoegd voor het correct berekenen van de standaardfout.
+
+Bij stations Vlissingen is ook een vrij sterke autocorrelatie te zien bij een 'lag' van 10 jaar. Dit zou kunnen duiden op een effect van  "the 8.8-year lunar perigee cycle". Omdat dit zich alleen voordoet bij Vlissingen wordt dit getij verder niet meegenomen in de analyse.
+
+
 
 ```{r add-HAC}
 # Using NeweyWest():
@@ -209,6 +441,7 @@ models <- models %>%
 
 ## Heteroskedasticity
 
+
 ### Residuals distribution
 
 ```{r, fig.height=nstations*1.5+1, fig.width=nmodels*2+1 }
@@ -247,30 +480,13 @@ ggplot(aes(data_year, augment_.resid)) +
   facet_grid(station ~ modeltype) #+
 ```
 
-## Metingen
 
-```{r, fig.width=8, fig.height=3}
-p <- models %>%
-  # filter(!grepl("Netherlands", station)) %>%
-  # filter(station == "IJmuiden") %>%
-  unnest(c(data), names_sep = "_") %>% #str(max.level = 2)
-ggplot(aes(data_year, data_height)) +
-  geom_point(alpha = 1, aes(color = station), shape = 21, fill = "white", size = 2) +
-  geom_line(alpha = 0.5, aes(color = station), linewidth = 0.75) +
-  xlab("jaar") + ylab("gemeten zeespiegel in mm") +
-  theme_linedraw()
-
-# ggplotly(p) %>% layout(legend = list(x = 0.05, y = 0.95))
-p
-```
 
 
 ## Sea level rise
 
 
 ```{r}
-
-
 
 lookup <- c(
    Constant = "(Intercept)",
@@ -281,7 +497,6 @@ lookup <- c(
     `+ square_trend 1960` = "from1960_square",
     AR_term = "previousYearHeight"
   )
-
 
 # data wrangling. move to functions.R
 
@@ -304,6 +519,7 @@ all_predictions <- models %>%
     names_from = term, 
     values_from = estimate
   ) %>%
+  mutate(`data_height-surge_anomaly` = data_height - `preds_surge_anomaly`) %>%
   mutate(`preds_height-surge_anomaly` = preds_pred - `preds_surge_anomaly`) %>%
   rename(any_of(lookup)) %>%
   # str(max.level = 2)
@@ -338,6 +554,7 @@ all_predictions <- models %>%
     data_height,
     preds_year,
     prediction_recalc,
+    `data_height-surge_anomaly`,
     `preds_height-surge_anomaly`,
     nodal_tide
   )
@@ -482,19 +699,20 @@ p_value <- t$`Pr(>F)`[2]
 
 ## Conclusies
 
-```{asis, echo = p_value<0.05}
+```{asis, echo = p_value<0.01}
 
-Op grond van variantie-analyse is het gebroken lineair model significant beter dan het lineaire model. Het gebroken lineaire model wordt geaccepteerd als het beste model.
-
-```
-
-
-```{asis, echo = p_value>=0.05}
-
-Op grond van variantie-analyse is het gebroken lineair model niet significant beter dan het lineaire model. Het lineaire model is het betere model.
+'Op grond van variantie-analyse is het gebroken lineair model significant beter dan het lineaire model. Het gebroken lineaire model wordt geaccepteerd als het beste model.'
 
 ```
 
 
+```{asis, echo = p_value>=0.01}
 
+'Op grond van variantie-analyse is het gebroken lineair model niet significant beter dan het lineaire model. Het lineaire model is het betere model.'
+
+```
+
+
+
+Het voorkeursmodel voor berekening van de zeespiegel is... 
 

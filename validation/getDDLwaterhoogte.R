@@ -6,47 +6,90 @@
 
 source("analysis/sealevelmonitor/_common/functions.R")
 
-datayear = 2022
+datayear = 1950:2019
 
 ddlrawdir <- "data/rijkswaterstaat/ddl/raw"
 ddlmeandir <- "data/rijkswaterstaat/ddl/annual_means"
 mainstations_df <- readMainStationInfo(filepath = "")
 mainstationcodes <- mainstations_df$ddl_id
 
-readDDLwaterhoogte(station = mainstationcodes, startyear = datayear, endyear = datayear, outDir = ddlrawdir)
+readDDLwaterhoogte(station = mainstationcodes, startyear = min(datayear), endyear = max(datayear), outDir = ddlrawdir)
 
 # calculate annual means
 
-files <- list.files(ddlrawdir, pattern = as.character(datayear))
+for(datayear in 1950:2023){
+  
+  files <- list.files(ddlrawdir, pattern = as.character(datayear))
+  
+  waterhoogtes_datayear <- lapply(
+    files, function(x){
+      read_delim(paste0(ddlrawdir, "/", x),
+                 delim = ";", 
+                 escape_double = FALSE, 
+                 locale = locale(), 
+                 col_types = cols(),
+                 trim_ws = TRUE, 
+                 na = "-999999999")
+    }
+  ) %>%
+    list_rbind() %>%
+    select(
+      locatie.code,
+      locatie.naam,
+      coordinatenstelsel,
+      geometriepunt.x,
+      geometriepunt.y,
+      tijdstip,
+      statuswaarde,
+      kwaliteitswaarde.code,
+      bemonsteringssoort.omschrijving,
+      eenheid.code,
+      grootheid.omschrijving,
+      hoedanigheid.code,
+      meetapparaat.omschrijving,
+      waardebepalingsmethode.omschrijving,
+      numeriekewaarde
+    )
+  
+  annual_means <- waterhoogtes_datayear %>%
+    filter(kwaliteitswaarde.code < 50,
+           grepl("gemiddelde", waardebepalingsmethode.omschrijving)
+    ) %>%
+    group_by(locatie.naam,
+             locatie.code,
+             grootheid.omschrijving
+    ) %>%
+    summarise(
+      annual_mean_mm = mean(numeriekewaarde, na.rm = T) %/% 0.1,
+      n = n(),
+      .groups = "drop"
+    ) %>%
+    mutate(
+      year = datayear,
+      source = "rws_ddl"
+    ) %>%
+    select(
+      year,
+      height = annual_mean_mm,
+      station = locatie.naam,
+      n_per_year = n,
+      source
+    )
 
-waterhoogtes_datayear <- lapply(
-  files, function(x){
-     read_delim(paste0(ddlrawdir, "/", x),
-                delim = ";", 
-                escape_double = FALSE, 
-                locale = locale(),
-                trim_ws = TRUE, 
-                na = "-999999999")
-  }
-) %>%
-  list_rbind() %>%
-  select(
-    locatie.code,
-    locatie.naam,
-    coordinatenstelsel,
-    geometriepunt.x,
-    geometriepunt.y,
-    tijdstip,
-    statuswaarde,
-    kwaliteitswaarde.code,
-    bemonsteringssoort.omschrijving,
-    eenheid.code,
-    grootheid.omschrijving,
-    hoedanigheid.code,
-    meetapparaat.omschrijving,
-    waardebepalingsmethode.omschrijving,
-    numeriekewaarde
-  )
+  if(nrow(annual_means) > 0){
+    write_delim(
+      annual_means, delim = ";",
+      file = file.path(ddlmeandir, paste0(datayear, ".csv")
+      )
+    )
+  }  
+  
+}
+
+waterhoogtes_datayear %>%
+  filter(kwaliteitswaarde.code < 50) %>%
+  ggplot(aes(x = numeriekewaarde)) +
+  geom_histogram()
 
 waterhoogtes_datayear %>%
   count(statuswaarde, kwaliteitswaarde.code)
@@ -67,28 +110,8 @@ waterhoogtes_datayear %>%
   ggplot(aes(tijdstip, numeriekewaarde)) +
   # geom_line(alpha = 0.1) +
   geom_smooth() +
+  scale_x_datetime(date_breaks = "2 month", date_labels = "%h") +
   facet_wrap("locatie.code")
 
-annual_means <- waterhoogtes_datayear %>%
-  filter(kwaliteitswaarde.code < 50) %>%
-  group_by(locatie.naam,
-           locatie.code,
-           grootheid.omschrijving
-           ) %>%
-  summarise(
-    annual_mean_mm = mean(numeriekewaarde) %/% 0.1,
-    .groups = "drop"
-  ) %>%
-  mutate(
-    year = datayear
-  ) %>%
-  select(
-    year,
-    height = annual_mean_mm,
-    station = locatie.naam
-  )
 
-write_delim(annual_means, delim = ";",
-            file = file.path(ddlmeandir, paste0(datayear, ".csv")
-            )
-)
+

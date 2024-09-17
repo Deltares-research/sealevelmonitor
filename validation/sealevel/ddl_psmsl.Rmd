@@ -1,0 +1,115 @@
+---
+title: "Compare ddl and psmsl"
+author: "Willem Stolte, Nathalie Dees"
+date: "2024-09-12"
+output:
+  html_document:
+    df_print: paged
+    code_folding: hide
+---
+
+```{r setupWind}
+knitr::opts_chunk$set(
+  echo = TRUE,
+  comment=FALSE,
+  message=FALSE,
+  warning = FALSE
+)
+```
+
+```{r dependencies}
+require(tidyverse)
+list.files()
+source("../../analysis/sealevelmonitor/_common/functions.R")
+source("../../analysis/sealevelmonitor/_common/plotfunctions.R")
+
+```
+
+```{r}
+
+list.files("../../analysis")
+config <- RcppTOML::parseToml("../../analysis/sealevelmonitor/_common/configuration.TOML")
+source("../../analysis/sealevelmonitor/_common/functions.R")
+source("../../analysis/sealevelmonitor/_common/plotfunctions.R")
+
+epoch = config$constants$epoch
+df_psmsl <- readSeaLevelData(file.path("../../data/deltares/results/dutch-sea-level-monitor-export-stations-2023-11-20.csv"))
+
+
+ddl_y_files <- list.files("../../data/rijkswaterstaat/ddl/annual_means", full.names = T)
+
+ddl_y_means <- lapply(ddl_y_files, function(x) read_delim(x, delim = ";", col_types = cols())) %>%
+  list_rbind()
+
+# correctie NAP 2005
+
+ddl_y_means <- ddl_y_means %>%
+  mutate(
+    height = case_when(
+      year >= 2005 ~ height,
+      year < 2005 ~ height - 25
+    )
+  )
+
+```
+
+
+```{r}
+ggplot(ddl_y_means, aes(year,height)) +
+  geom_col(aes(year, n_per_year/1e3, fill = station), position = position_dodge())
+```
+
+```{r}
+ddl_y_means %>%
+  filter(year > 1986) %>%
+ggplot(aes(year,height)) +
+  geom_path(aes(color = station), size = 1) +
+  theme(legend.position = "bottom")
+```
+
+```{r}
+ddl_y_means_av <- ddl_y_means %>%
+  bind_rows(
+    . |>
+      group_by(year) |>
+      summarise(
+        height = mean(height, na.rm = T)
+      ) |>
+      mutate(
+        station = "Netherlands",
+        source = "rws_ddl_mean"
+      )
+  ) %>%
+  bind_rows(
+    . |>
+      filter(station %in% c("Vlissingen", "Hoek van Holland", "Den Helder", "Harlingen", "IJmuiden")) |>
+      group_by(year) |>
+      summarise(
+        height = mean(height, na.rm = T)
+      ) |>
+      mutate(
+        station = "Netherlands (without Delfzijl)",
+        source = "rws_ddl_mean"
+      )
+  )
+
+```
+
+```{r}
+
+ddl_y_means_av %>%
+  select(year, height, station, source) %>%
+  bind_rows(
+    df_psmsl %>% 
+      select(year, height, station) %>%
+      mutate(source = "psmsl")) %>%
+  filter(station == "Netherlands (without Delfzijl)") %>%
+  ggplot(aes(year, height)) +
+  geom_path(aes(color = source)) +
+  coord_cartesian(xlim = c(1986, NA))
+
+
+
+```
+
+

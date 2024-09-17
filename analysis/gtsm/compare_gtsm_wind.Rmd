@@ -42,10 +42,18 @@ gtsm <- read_yearly_gtsm(filename = "../../data/deltares/gtsm/gtsm_surge_annual_
 KNMI daily average wind observations were downloaded via https://www.knmi.nl/nederland-nu/klimatologie/daggegevens.  . Data for station "De Kooy" ([station nr 235](https://cdn.knmi.nl/knmi/map/page/klimatologie/gegevens/daggegevens/etmgeg_235.zip)) were selected. This station is close by the tidal station "Den Helder". 
 
 
-```{r}
+```{r inlezenwind}
 list.files("../../data/knmi/metingen")
 
+# daggemiddelden (alleen gebruikt voor het berekenen van jaargemiddelden)
 kooy_raw = read_delim("../../data/knmi/metingen/dekooy_wind.txt", comment = "#", trim_ws = T)
+
+# uurgemiddelden voor gebruik in windrozen
+kooy_uur_raw = read_delim("../../data/knmi/metingen/dekooy_uurgeg_wind.txt", comment = "#", trim_ws = T) %>%
+  rename(
+    DDVEC = DD,
+    FHVEC = FH
+  )
 
 kooy = kooy_raw %>%
   mutate(
@@ -67,12 +75,16 @@ kooy = kooy_raw %>%
             )
 
 ```
+
+
+
 ## Windrose
 
 Windroses for the last four years show that there is considerable variation in average wind speed, and direction distribution.
 
 ```{r windrose,  fig.show="hold", out.width="50%", fig.cap="Windroses of measured wind at De Kooy station for the last 4 years. "}
-kooy_raw_2022_2023 = kooy_raw %>% 
+
+kooy_raw_2020_2023 = kooy_uur_raw %>% 
   mutate(
     year = YYYYMMDD %/% 10000,
     spd = as.numeric(FHVEC) / 10,
@@ -83,16 +95,45 @@ kooy_raw_2022_2023 = kooy_raw %>%
   group_by(year) %>%
   nest()
 
-walk(1:length(kooy_raw_2022_2023$data), 
+walk(1:length(kooy_raw_2020_2023$data), 
      function(x) {
        plot.windrose(
-         spd = kooy_raw_2022_2023$data[[x]]$spd, 
-         dir = kooy_raw_2022_2023$data[[x]]$dir,
-       plot.title = kooy_raw_2022_2023$year[x],
+         spd = kooy_raw_2020_2023$data[[x]]$spd, 
+         dir = kooy_raw_2020_2023$data[[x]]$dir,
+       plot.title = kooy_raw_2020_2023$year[x],
        palette = "YlOrBr"
        )
      }
 )
+
+```
+
+
+# Wind components
+
+Wind speed and direction were parsed in two components *u* and *v* perpendicular to eachother. In order to get a good representation of surge with one of the components, the wind direction used to split the vectors was chosen in the direction of NW to SE, and SW to NE. It is hereby assumed that wind surge is mostly related to northwestern winds. Furthermore, the quadratic wind speeds *u^2* and *v^2* were compared with surge, since wind force is proportional to the square of wind speed. 
+
+
+```{r}
+kooy = kooy_raw %>%
+  mutate(
+    year = YYYYMMDD %/% 10000,
+    windspeed = as.numeric(FHVEC) / 10,
+    metrad = as.numeric(DDVEC - 45) * pi / 180,
+    u2 = (windspeed)^2 * (-sin(metrad)),
+    v2 = (windspeed)^2 * (-cos(metrad)),
+       # Mathematical metrad
+   rad = 2 * pi - metrad - pi / 2,
+   rad = ifelse(rad >= 2*pi, rad - 2 * pi, rad)
+         )  %>%
+  group_by(year, STN) %>%
+  summarise(
+    windspeed = mean(windspeed),
+    u2 = mean(u2),
+    v2 = mean(v2),
+    rad = mean(rad),
+    n = n()
+  )
 
 ```
 
@@ -120,35 +161,17 @@ gtsm %>%
 
 
 ```{r}
-kooy = kooy_raw %>%
-  mutate(
-    year = YYYYMMDD %/% 10000,
-    windspeed = as.numeric(FHVEC) *10,
-    metrad = as.numeric(DDVEC) * pi / 180,
-    u2 = (windspeed)^2 * (-sin(metrad)),
-    v2 = (windspeed)^2 * (-cos(metrad)),
-       # Mathematical metrad
-   rad = 2*pi - metrad - pi/2,
-   rad = ifelse(rad >= 2*pi, rad - 2*pi, rad)
-         )  %>%
-  group_by(year, STN) %>%
-  summarise(
-    windspeed = mean(windspeed),
-    u2 = mean(u2),
-    v2 = mean(v2),
-    rad = mean(rad),
-    n = n()
-  )
 
 gtsm %>%
   filter(name == "Den Helder") %>%
-  mutate(surge_um = surge_mm * 1000) %>%
+  mutate(surge_cm = surge_mm / 10) %>%
   left_join(kooy) %>%
   filter(year < 2024) %>%
-  select(year, u2, v2, surge_um) %>%
-  pivot_longer(c(u2, v2, surge_um), names_to = "factor", values_to = "value") %>%
+  select(year, u2, v2, surge_cm) %>%
+  pivot_longer(c(u2, v2, surge_cm), names_to = "factor", values_to = "value") %>%
   ggplot() +
-  geom_path(aes(year, value, color = factor))
+  geom_path(aes(year, value, color = factor), size = 1)
+
 
 ```
 

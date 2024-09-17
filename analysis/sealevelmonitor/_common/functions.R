@@ -39,14 +39,16 @@ readDDLwaterhoogte <- function(station, startyear, endyear, grootheid = "Waterho
       locatie.code = code
     )
   
-  rwsapi::getDDLdata( 
-    startyear = startyear,
-    endyear = endyear,
-    myCatalogue = thisCatalogue,
-    outDir = outDir
+  for(iyear in startyear:endyear){
+    rwsapi::getDDLdata( 
+      startyear = iyear,
+      endyear = iyear,
+      myCatalogue = thisCatalogue,
+      outDir = outDir
     )
-  
+  }
 }
+
 
 
 

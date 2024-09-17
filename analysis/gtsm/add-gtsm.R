@@ -25,6 +25,7 @@ gtsm_2024 <- read_gtsm_nc(
   nc = "c:\\Temp\\era5_reanalysis_surge_2023_v1_monthly_mean.nc", 
   stations_selected = selectedstations
   ) %>%
+  mutate(gtsmid = as.character(gtsmid)) %>%
   arrange(gtsmid, month) %>%
   left_join(mainstations_df, by = c(gtsmid = "gtsm_id_2023"))
 
@@ -113,8 +114,9 @@ gtsm_2024_annual_add <- gtsm_2024 %>%
 
 #==== add to existing gtsm file =============================================
 
-gtsm_2023_annual <- read_csv("../data/deltares/gtsm/gtsm_surge_annual_mean_main_stations_2023.csv")
-gtsm_2023_monthly <- read_csv("../data/deltares/gtsm/gtsm_surge_monthly_mean_main_stations_2023.csv")
+list.files("data/deltares/gtsm")
+gtsm_2023_annual <- read_csv("data/deltares/gtsm/gtsm_surge_annual_mean_main_stations_2023.csv")
+gtsm_2023_monthly <- read_csv("data/deltares/gtsm/gtsm_surge_monthly_mean_main_stations_2023.csv")
 
 gtsm_2024_annual <- bind_rows(gtsm_2023_annual, gtsm_2024_annual_add)
 gtsm_2024_monthly <- bind_rows(gtsm_2023_monthly, gtsm_2024_monthly_add)
