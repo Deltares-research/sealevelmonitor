@@ -6,7 +6,7 @@
 
 source("analysis/sealevelmonitor/_common/functions.R")
 
-datayear = 1950:2019
+datayear = 2019:2019
 
 ddlrawdir <- "data/rijkswaterstaat/ddl/raw"
 ddlmeandir <- "data/rijkswaterstaat/ddl/annual_means"
@@ -17,7 +17,7 @@ readDDLwaterhoogte(station = mainstationcodes, startyear = min(datayear), endyea
 
 # calculate annual means
 
-for(datayear in 1950:2023){
+for(datayear in 2019:2019){
   
   files <- list.files(ddlrawdir, pattern = as.character(datayear))
   
@@ -29,7 +29,9 @@ for(datayear in 1950:2023){
                  locale = locale(), 
                  col_types = cols(),
                  trim_ws = TRUE, 
-                 na = "-999999999")
+                 na = "-999999999") %>%
+        filter(!grepl("HW", waardebepalingsmethode.omschrijving)) %>%
+        filter(!grepl("LW", waardebepalingsmethode.omschrijving))
     }
   ) %>%
     list_rbind() %>%
@@ -46,6 +48,7 @@ for(datayear in 1950:2023){
       eenheid.code,
       grootheid.omschrijving,
       hoedanigheid.code,
+      groepering.code,
       meetapparaat.omschrijving,
       waardebepalingsmethode.omschrijving,
       numeriekewaarde
@@ -53,7 +56,7 @@ for(datayear in 1950:2023){
   
   annual_means <- waterhoogtes_datayear %>%
     filter(kwaliteitswaarde.code < 50,
-           grepl("gemiddelde", waardebepalingsmethode.omschrijving)
+           groepering.code == "NVT"
     ) %>%
     group_by(locatie.naam,
              locatie.code,
