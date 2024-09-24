@@ -42,7 +42,7 @@ gtsm <- read_yearly_gtsm(filename = "../../data/deltares/gtsm/gtsm_surge_annual_
 KNMI daily average wind observations were downloaded via https://www.knmi.nl/nederland-nu/klimatologie/daggegevens.  . Data for station "De Kooy" ([station nr 235](https://cdn.knmi.nl/knmi/map/page/klimatologie/gegevens/daggegevens/etmgeg_235.zip)) were selected. This station is close by the tidal station "Den Helder". 
 
 
-```{r inlezenwind}
+```{r readKNMIwind}
 list.files("../../data/knmi/metingen")
 
 # daggemiddelden (alleen gebruikt voor het berekenen van jaargemiddelden)
@@ -60,8 +60,8 @@ kooy = kooy_raw %>%
     year = YYYYMMDD %/% 10000,
     windspeed = as.numeric(FHVEC) / 10,
     metrad = as.numeric(DDVEC) * pi / 180,
-    u2 = (windspeed)^2 * (-sin(metrad)),
-    v2 = (windspeed)^2 * (-cos(metrad)),
+    u = (windspeed) * (-sin(metrad)),
+    v = (windspeed) * (-cos(metrad)),
        # Mathematical metrad
    rad = 2*pi - metrad - pi/2,
    rad = ifelse(rad >= 2*pi, rad - 2*pi, rad)
@@ -69,12 +69,15 @@ kooy = kooy_raw %>%
   group_by(year, STN) %>%
   summarise(
     windspeed = mean(windspeed),
-    u2 = mean(u2),
-    v2 = mean(v2),
-    rad = mean(rad)
+    u = mean(u),
+    v = mean(v),
+    rad = mean(rad),
+    u2 = u^2 * sign(u),
+    v2 = v^2 * sign(v)
             )
 
 ```
+
 
 
 
@@ -108,45 +111,64 @@ walk(1:length(kooy_raw_2020_2023$data),
 
 ```
 
-
-# Wind components
-
-Wind speed and direction were parsed in two components *u* and *v* perpendicular to eachother. In order to get a good representation of surge with one of the components, the wind direction used to split the vectors was chosen in the direction of NW to SE, and SW to NE. It is hereby assumed that wind surge is mostly related to northwestern winds. Furthermore, the quadratic wind speeds *u^2* and *v^2* were compared with surge, since wind force is proportional to the square of wind speed. 
+### ERA5 reanalysis 
 
 
-```{r}
-kooy = kooy_raw %>%
+```{r readERA5wind}
+
+
+eraURL <- "data/copernicus/era5/era5_wind_for_analysis.csv"
+
+era5wind <- read_delim(file.path("../../", eraURL)) %>%
+  rename(
+    u = u_mean,
+    v = v_mean,
+  ) %>%
   mutate(
-    year = YYYYMMDD %/% 10000,
-    windspeed = as.numeric(FHVEC) / 10,
-    metrad = as.numeric(DDVEC - 45) * pi / 180,
-    u2 = (windspeed)^2 * (-sin(metrad)),
-    v2 = (windspeed)^2 * (-cos(metrad)),
-       # Mathematical metrad
-   rad = 2 * pi - metrad - pi / 2,
-   rad = ifelse(rad >= 2*pi, rad - 2 * pi, rad)
-         )  %>%
-  group_by(year, STN) %>%
-  summarise(
-    windspeed = mean(windspeed),
-    u2 = mean(u2),
-    v2 = mean(v2),
-    rad = mean(rad),
-    n = n()
-  )
+    year = year(year),
+    u2 = u^2 * sign(u),
+    v2 = v^2 * sign(v),
+    source = "ERA5"
+    )
+
+```
+
+
+```{r compareERA5-KNMI}
+
+era5wind %>%
+  filter(stationname == "DEN HELDER") %>%
+  bind_rows(kooy %>% mutate(stationname = "DEN HELDER") %>% mutate(source = "KNMI")) %>%
+  pivot_longer(cols = c(u,v), names_to = "component", values_to = "windspeed_ms") %>%
+  ggplot(aes(year, windspeed_ms)) +
+  geom_line(aes(color = source)) +
+  facet_wrap("component", ncol = 1) +
+  ggtitle(
+    label = "Annual average wind",
+    subtitle = "ERA5 reanalysis for Den Helder - KNMI measured wind at De Kooy.")
+  # left_join(kooy, by = c(year = "year")) %>%
+  
 
 ```
 
 
 
-```{r compare, figures-side, fig.show="hold", out.width="50%"}
+
+## Wind components
+
+Wind speed and direction were parsed in two components *u* and *v* perpendicular to eachother. *u* represents the component from west to east, *v* the component from south to north. Furthermore, the quadratic wind speeds *u^2* and *v^2* were compared with surge, since wind force is proportional to the square of wind speed. 
+
+
+### Compare GTSM with KNMI measured wind at Den Helder 
+
+```{r compareGTSM_KNMI, figures-side, fig.show="hold", out.width="50%"}
 
 gtsm %>%
   filter(name == "Den Helder") %>%
   left_join(kooy) %>%
   ggplot() +
   geom_point(aes(u2, surge_mm)) +
-  geom_text(aes(u2, surge_mm, label = year), alpha = 0.5, nudge_x = 1, nudge_y = 10) +
+  geom_text(aes(u2, surge_mm, label = year), alpha = 0.5, nudge_x = 0.1, nudge_y = 1) +
   geom_smooth(aes(u2, surge_mm, label = year), method = 'lm')
 
 gtsm %>%
@@ -154,12 +176,10 @@ gtsm %>%
   left_join(kooy) %>%
   ggplot() +
   geom_point(aes(v2, surge_mm)) +
-  geom_text(aes(v2, surge_mm, label = year), alpha = 0.5, nudge_x = 1, nudge_y = 10) +
+  geom_text(aes(v2, surge_mm, label = year), alpha = 0.5, nudge_x = 0.1, nudge_y = 1) +
   geom_smooth(aes(v2, surge_mm, label = year), method = 'lm')
 
 ```
-
-
 ```{r}
 
 gtsm %>%
@@ -174,4 +194,44 @@ gtsm %>%
 
 
 ```
+
+### Compare GTSM with ERA5 reanalysis wind at Den Helder 
+
+
+```{r compareGTSM_ERA5, figures-side, fig.show="hold", out.width="50%"}
+
+gtsm %>%
+  filter(name == "Den Helder") %>%
+  left_join(era5wind %>% filter(stationname == "DEN HELDER"), by = c(year = "year") ) %>%
+  ggplot() +
+  geom_point(aes(u2, surge_mm)) +
+  geom_text(aes(u2, surge_mm, label = year), alpha = 0.5, nudge_x = 0.1, nudge_y = 0) +
+  geom_smooth(aes(u2, surge_mm, label = year), method = 'lm')
+
+gtsm %>%
+  filter(name == "Den Helder") %>%
+  left_join(era5wind %>% filter(stationname == "DEN HELDER"), by = c(year = "year") ) %>%
+  ggplot() +
+  geom_point(aes(v2, surge_mm)) +
+  geom_text(aes(v2, surge_mm, label = year), alpha = 0.5, nudge_x = 0.1, nudge_y = 0) +
+  geom_smooth(aes(v2, surge_mm, label = year), method = 'lm')
+
+```
+
+```{r}
+
+gtsm %>%
+  filter(name == "Den Helder") %>%
+  mutate(surge_cm = surge_mm / 10) %>%
+  left_join(era5wind %>% filter(stationname == "DEN HELDER"), by = c(year = "year")) %>%
+  filter(year < 2024) %>%
+  select(year, u2, v2, surge_cm) %>%
+  pivot_longer(c(u2, v2, surge_cm), names_to = "factor", values_to = "value") %>%
+  ggplot() +
+  geom_path(aes(year, value, color = factor), size = 1)
+
+
+```
+
+
 

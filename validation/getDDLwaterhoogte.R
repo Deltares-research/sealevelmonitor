@@ -6,7 +6,7 @@
 
 source("analysis/sealevelmonitor/_common/functions.R")
 
-datayear = 2019:2019
+datayear = 1900:2023
 
 ddlrawdir <- "data/rijkswaterstaat/ddl/raw"
 ddlmeandir <- "data/rijkswaterstaat/ddl/annual_means"
@@ -17,7 +17,7 @@ readDDLwaterhoogte(station = mainstationcodes, startyear = min(datayear), endyea
 
 # calculate annual means
 
-for(datayear in 2019:2019){
+for(datayear in datayear){
   
   files <- list.files(ddlrawdir, pattern = as.character(datayear))
   
