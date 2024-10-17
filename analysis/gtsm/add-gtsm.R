@@ -3,44 +3,50 @@ require(ncdf4)
 require(tidyverse)
 require(scales)
 
-# todo:
-# make more generic. 
-# year as parameter
-# update last years data
-# write to generic file (no year in filename)
+replacement_year = 2023
+
+gtsm_dir <- "data/deltares/gtsm"
 
 #== read station information =================================
 
-mainstations <- jsonlite::read_json("..\\data\\deltares\\main_stations.json")
-mainstations_df <- map_df(mainstations, ~ unlist(.[1:15])) %>%
-  mutate(gtsm_id_2023 = as.numeric(gtsm_id_2023))
+mainstations <- jsonlite::read_json("data\\deltares\\main_stations.json")
+mainstations_df <- map_df(mainstations, ~ unlist(.[1:15])) #%>%
+  # mutate(gtsm_id_2023 = as.numeric(gtsm_id_2023))
 
-source("_common/functions.R")
+source("analysis/sealevelmonitor/_common/functions.R")
 
 selectedstations = mainstations_df$gtsm_id_2023
 
-#===== read test NetCDF for 2023 =============================
+#===== read test NetCDF for certain year =============================
 
-gtsm_2024 <- read_gtsm_nc(
-  nc = "c:\\Temp\\era5_reanalysis_surge_2023_v1_monthly_mean.nc", 
+gtsm_replacementyear <- read_gtsm_nc(
+  nc = file.path(
+    "data", 
+    "deltares", 
+    "gtsm", 
+    "gtsm_nc", 
+    paste0("era5_reanalysis_surge_", replacement_year, "_v1_monthly_mean.nc")
+  ), 
   stations_selected = selectedstations
   ) %>%
-  mutate(gtsmid = as.character(gtsmid)) %>%
+  mutate(
+    gtsmid = as.character(gtsmid),
+    ) %>%
   arrange(gtsmid, month) %>%
   left_join(mainstations_df, by = c(gtsmid = "gtsm_id_2023"))
 
-gtsm_2024 %>% distinct(id, gtsm_id, gtsmid, stationname, name)
-range(gtsm_2024$month)
-range(gtsm_2024$surge_m)
+gtsm_replacementyear %>% distinct(id, gtsm_id, gtsmid, stationname, name)
+range(gtsm_replacementyear$month)
+range(gtsm_replacementyear$surge_m)
 
 #========== visual checks ===============================
 
-ggplot(gtsm_2024, aes(month, surge_m)) +
+ggplot(gtsm_replacementyear, aes(month, surge_m)) +
   geom_path(aes(color = name, group = name), size = 1, alpha = 1) +
   theme_minimal()
   
 require(leaflet)
-leaflet(gtsm_2024) %>%
+leaflet(gtsm_replacementyear) %>%
   addTiles() %>%
   addCircleMarkers(
     lng = ~station_x_coordinate, 
@@ -51,9 +57,9 @@ leaflet(gtsm_2024) %>%
 
 #======== calculate yearly averages (weigthed) ===============================
 
-gtsm_2024_monthly_add <- gtsm_2024 %>%
+gtsm_replacementyear_monthly_add <- gtsm_replacementyear %>%
   mutate(
-    t = as.Date(paste("2023", str_pad(as.character(month), 2, "left", "0"), "01", sep = "-")),
+    t = as.Date(paste(replacement_year, str_pad(as.character(month), 2, "left", "0"), "01", sep = "-")),
     psmsl_id = as.numeric(psmsl_id)
   ) %>% 
   select(
@@ -81,9 +87,9 @@ gtsm_2024_monthly_add <- gtsm_2024 %>%
   )
 
 
-gtsm_2024_annual_add <- gtsm_2024 %>% 
+gtsm_replacementyear_annual_add <- gtsm_replacementyear %>% 
   mutate(
-    date = as.Date(paste("2023", str_pad(as.character(month), 2, "left", "0"), "01", sep = "-")),
+    date = as.Date(paste(replacement_year, str_pad(as.character(month), 2, "left", "0"), "01", sep = "-")),
     year = year(date),
     daysInMonth = lubridate::days_in_month(date)
     ) %>% 
@@ -114,59 +120,101 @@ gtsm_2024_annual_add <- gtsm_2024 %>%
 
 #==== add to existing gtsm file =============================================
 
-list.files("data/deltares/gtsm")
-gtsm_2023_annual <- read_csv("data/deltares/gtsm/gtsm_surge_annual_mean_main_stations_2023.csv")
-gtsm_2023_monthly <- read_csv("data/deltares/gtsm/gtsm_surge_monthly_mean_main_stations_2023.csv")
+list.files(gtsm_dir)
+gtsm_annual <- read_yearly_gtsm("data/deltares/gtsm/gtsm_surge_annual_mean_main_stations.csv") %>%
+  mutate(t = as.Date(t))
+gtsm_monthly <- read_yearly_gtsm("data/deltares/gtsm/gtsm_surge_monthly_mean_main_stations.csv") %>%
+  mutate(t = as.Date(t))
 
-gtsm_2024_annual <- bind_rows(gtsm_2023_annual, gtsm_2024_annual_add)
-gtsm_2024_monthly <- bind_rows(gtsm_2023_monthly, gtsm_2024_monthly_add)
+#333 check replacement values ==============================================
+
+gtsm_annual %>%
+  ggplot(aes(t, surge, color = name)) +
+  geom_line(aes()) +
+  geom_point(data = gtsm_replacementyear_annual_add, size = 2) +
+  coord_cartesian(xlim = c(min(unique(gtsm_replacementyear_annual_add$t)), max(unique(gtsm_replacementyear_annual_add$t))))
+
+gtsm_monthly %>%
+  ggplot(aes(t, surge, color = name)) +
+  geom_line(aes()) +
+  geom_point(data = gtsm_replacementyear_monthly_add, size = 2) +
+  coord_cartesian(xlim = c(min(unique(gtsm_replacementyear_monthly_add$t)), max(unique(gtsm_replacementyear_monthly_add$t))))
+
+#=== add new values to existing table ======================================
+
+gtsm_allyears_annual <- gtsm_annual %>%
+  filter(!t %in% unique(gtsm_replacementyear_annual_add$t)) %>%
+  bind_rows(gtsm_replacementyear_annual_add) %>%
+  select(
+    t,
+    name,
+    ddl_id,
+    surge
+  ) %>%
+  arrange(name, t)
+
+gtsm_allyears_monthly <- gtsm_monthly %>%
+  filter(!t %in% unique(gtsm_replacementyear_annual_add$t)) %>%
+  bind_rows(gtsm_replacementyear_monthly_add) %>%
+  select(
+    t,
+    name,
+    ddl_id,
+    surge
+  ) %>%
+  arrange(name, t)
 
 #==== check =================================================================
 
-gtsm_2024_annual %>%
+gtsm_allyears_annual %>%
   filter(name !="NL") %>%
   ggplot(aes(t, surge)) +
-  geom_line(aes(color = name), linewidth = 1) +
-  scale_x_date(breaks = scales::breaks_pretty(10), date_labels = "%Y")
+  geom_point(aes(color = name), linewidth = 1) +
+  scale_x_date(breaks = scales::breaks_pretty(10), date_labels = "%Y") +
+  geom_smooth(span = 0.3) +
+  scale_x_date(breaks = scales::breaks_pretty(20), minor_breaks = "1 year", date_labels = "%Y") +
+  facet_wrap("name")
 
-save_file_name_annual <- "../data/deltares/gtsm/gtsm_surge_annual_mean_main_stations_2024.csv"
-metadata_gtsm_2024_annual <- c("# generated with r-analyse/gtsm/add-gtsm.R", 
+
+save_file_name_annual <- "data/deltares/gtsm/gtsm_surge_annual_mean_main_stations.csv"
+metadata_gtsm_replacementyear_annual <- c("# generated with r-analyse/gtsm/add-gtsm.R", 
                                 "# contains gtsm surge output per year")
 # not implemented, but metadata can be added above the csv table
 write_lines(
-  metadata_gtsm_2024_annual, 
+  metadata_gtsm_replacementyear_annual, 
   save_file_name_annual, 
 )
 write.table(
-  gtsm_2024_annual,
+  gtsm_allyears_annual,
   save_file_name_annual, 
   append = T,
+  row.names = FALSE,
   sep = ","
 )
 
 
-
-
-
-gtsm_2024_monthly %>%
+gtsm_allyears_monthly %>%
   filter(name !="NL") %>%
   ggplot(aes(t, surge)) +
   geom_line(aes(color = name), linewidth = 1) +
-  scale_x_date(breaks = scales::breaks_pretty(20), minor_breaks = "1 year", date_labels = "%Y")
+  geom_smooth(span = 0.1) +
+  scale_x_date(breaks = scales::breaks_pretty(20), minor_breaks = "1 year", date_labels = "%Y") +
+  facet_wrap("name")
 
-save_file_name_monthly <- "../data/deltares/gtsm/gtsm_surge_monthly_mean_main_stations_2024.csv"
-metadata_gtsm_2024_monthly <- c("# generated with r-analyse/gtsm/add-gtsm.R", 
+save_file_name_monthly <- "data/deltares/gtsm/gtsm_surge_monthly_mean_main_stations.csv"
+metadata_gtsm_replacementyear_monthly <- c("# generated with r-analyse/gtsm/add-gtsm.R", 
                                "# contains gtsm surge output per month")
 # not implemented, but metadata can be added above the csv table
 write_lines(
-  metadata_gtsm_2024_monthly, 
+  metadata_gtsm_replacementyear_monthly, 
   save_file_name_monthly, 
 )
 write.table(
-  gtsm_2024_monthly,
+  gtsm_allyears_monthly,
   save_file_name_monthly, 
   append = T,
-  sep = ","
+  sep = ",", 
+  row.names = F
 )
 
 

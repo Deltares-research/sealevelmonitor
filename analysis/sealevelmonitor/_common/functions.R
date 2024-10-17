@@ -142,7 +142,7 @@ read_gtsm_nc <- function(nc = "c:\\Temp\\era5_reanalysis_surge_2023_v1_monthly_m
 
 read_yearly_gtsm <- function(filename = "data/deltares/gtsm/gtsm_surge_annual_mean_main_stations_2024.csv") {
   
-  gtsm_surge_annual_mean_main_stations_2024 <- read.csv(filename, comment = "#", )
+  gtsm_surge_annual_mean_main_stations_2024 <- read.csv(filename, comment = "#")
   
 }
   

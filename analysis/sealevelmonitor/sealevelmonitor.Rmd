@@ -21,9 +21,8 @@ params:
   - Netherlands (without Delfzijl)
   modeltype:
   # - linear
-  - broken_linear
-#  - broken_linear
-#  - broken_squared
+   - broken_linear
+   # - broken_squared
 ---
 
 
@@ -32,7 +31,8 @@ params:
 knitr::opts_chunk$set(
   echo = TRUE,
   comment=FALSE,
-  message=FALSE
+  message=FALSE,
+  warning = FALSE
 )
 
 require(leaflet)
@@ -43,7 +43,7 @@ config <- RcppTOML::parseToml("_common/configuration.TOML")
 source("_common/functions.R")
 source("_common/plotfunctions.R")
 epoch = config$constants$epoch
-mainstations_df <- readMainStationInfo(path = "../../")
+mainstations_df <- readMainStationInfo(filepath = "../../")
 mainstations_locs <- readMainStationLocations(path = "../../")
 nstations = length(params$station)
 nmodels  = length(params$modeltype)
@@ -51,12 +51,11 @@ nsurge  = length(params$wind_or_surge_type)
 
 ```
 
-## Gegevens inlezen
 
 ```{r readData, comment=F, message=F}
 
 # df <- readSeaLevelData(file.path("../", config$constants$dataUrl)) %>%
-  df <- read_csv2(file.path("../", "../data/deltares/results/dutch-sea-level-monitor-export-stations-2023-11-20_temp.csv")) %>%
+  df <- read_csv(file.path("../", "../data/deltares/results/dutch-sea-level-monitor-export-stations-2024-09-30_temp.csv")) %>%
   filter(
     station %in% params$station
   ) 
@@ -65,15 +64,63 @@ nsurge  = length(params$wind_or_surge_type)
 
 ### Zeespiegelmetingen
 
-Maandelijks en jaarlijks gemiddelde waterhoogtegegevens worden ingelezen via [PSMSL](https://psmsl.org/data/obtaining/).
+Maandelijks en jaarlijks gemiddelde waterhoogtegegevens worden ingelezen via [PSMSL](https://psmsl.org/data/obtaining/) voor de Nederlandse hoofdstations. PSMS geeft waterhoogtes ten opzichte van "revised local reference". Deze moet per station worden teruggerekend naar waterhoogte t.o.v. NAP 2005 (zie rekendocument ... ) waarna de waterhoogtes per jaar worden gemiddeld over de stations `r if(params$station == "Netherlands (without Delfzijl)"){c("Harlingen", "Den Helder", "IJmuiden", "Hoek van Holland", "Vlissingen")} `. Station Delfzijl wordt op dit moment niet meegenomen omdat het een aantal jaren niet gekoppeld is geweest aan het NAP referentievlak. De gemiddelde waterhoogte over de laatste jaren is te zien in tabel \@ref(tab:metingenView).
+
+```{r metingenView}
+df %>% 
+  arrange(year) %>%
+  select(year, 
+         `height in mm`  = height, 
+         station) %>%
+  tail(10) %>%
+  kableExtra::kable(caption = "Zeespiegelhoogte in mm over de laatste 10 jaar")
+```
 
 ### Windopzet
 
-De verwachte windopzet per jaar wordt bepaald met een model, \acr{GTSM} (ref). Het model wordt elk jaar bijgewerkt, en de jaargemiddelde opzet door wind en luchtdruk wordt hieruit gehaald. De gegevens worden gebruikt om de variatie veroorzaakt door windopze van de jaargemiddelde zeespiegel af te trekken. Hierdoor kan er preciezer een schatting van de trend en eventueel een trendbreuk worden gevonden.   
+ 
 
-!! To do !!
+```{r metingenView2}
+df %>% 
+  arrange(year) %>%
+  select(year, 
+         `opzetanomalie in mm`  = surge_anomaly, 
+         station) %>%
+  tail(10) %>%
+  kableExtra::kable(caption = "Opzetanomalie berekend door GTSM in mm over de laatste 10 jaar")
+```
 
-- check ERA5 data for comparison with GTSM wind setup.
+
+
+```{r check-workflow, results='asis'}
+
+if(params$wind_or_surge_type == "GTSM"){
+  cat(
+    "De verwachte windopzet per jaar is benaderd met GTSM. Het model wordt elk jaar bijgewerkt, en de jaargemiddelde opzet door wind en luchtdruk uit dit model worden gebruikt om de variatie veroorzaakt door windopze van de jaargemiddelde zeespiegel af te trekken. Hierdoor kan er preciezer een schatting van de trend en eventueel een trendbreuk worden gevonden. Voor de trendberekening wordt de opzetanomalie gebruikt, dat is de opzet per jaar, gedeeld door de gemiddelde opzet over de hele periode.", sep = ""
+  )
+}
+
+```
+In het rekendocument "Sealevelanalysis" is bekeken welk model het voorkeursmodel is voor de bepaling van de huidige zeespiegelstijging. Op dit moment worden de volgende modellen getest:
+
+- lineair model (geen versnelling)
+- gebroken lineair model (met breekpunt in 1993)
+- gebroken kwadratisch model (met breekpunt in 1960)
+
+De keuze voor model wordt gedaan op basis van 3 criteria:
+
+- Er moet een significant betere fit zijn t.o.v. het meest simpele model (lineair)
+- De versnellingsterm moet significant zijn
+- De AIC waarde is lager dan van de overige modellen
+
+
+```{r preferedModel, results='asis'}
+selectedmodel <- params$modeltype
+cat("Het voorkeursmodel voor de bepaling van de huidige zeespiegelstijging is het ", selectedmodel, " model.")
+```
+
+
+
 
 ```{r nest-per-station}
 byStation <- df %>%
@@ -83,20 +130,8 @@ byStation <- df %>%
 ```
 
 
-```{r check-workflow, results='asis'}
-
-cat(
-  "For wind upset,", params$wind_or_surge_type, "is used"
-)
-
-```
-
 
 ```{r}
-
-selectedmodel <- params$modeltype
-
-cat("Het voorkeursmodel voor de bepaling van de huidige zeespiegelstijging is het ", selectedmodel, " model.")
 
 models <- byStation %>%
   expand_grid(modeltype = selectedmodel) %>%
@@ -125,10 +160,10 @@ models <- byStation %>%
 
 ```
 
+### Omgaan met autocorrelatie
 
-Add Newey West autocorrelation term for calculating standard errors 
+Er is een consistente autocorrelatie met een 'lag' van 1 jaar (zie rekendocument Sealevelanalysis). Het is niet ongebruikelijk voor lange tijdseries die een trend vertonen. Hierdoor kan niet alle variatie worden toegekend aan het model zelf, en moet de standaardfout van de modelparameters worden gecorrigeerd voor de autocorrelatie. Dit gebeurt met een [Newey West autocorrelatieterm](https://search.r-project.org/CRAN/refmans/sandwich/html/NeweyWest.html).
 
-https://search.r-project.org/CRAN/refmans/sandwich/html/NeweyWest.html
 
 ```{r add-HAC}
 # Using NeweyWest():
@@ -168,28 +203,17 @@ models <- models %>%
 
 ## Heteroskedasticity
 
+Er wordt gecontroleerd of de verdeling van de residuen regelmatig is verdeeld over de tijd en over de te schatten waarde. 
+
 ### Residuals distribution
 
-```{r, fig.height=nstations*1.5+1, fig.width=nmodels*2+1 }
+```{r, fig.height=nstations*1.5+1, fig.width=nmodels*2+1, fig.align='center'}
+
 models %>%
-  # filter(!grepl("Netherlands", station)) %>%
-  # filter(station == "IJmuiden") %>%
   unnest(c(data, augment), names_sep = "_") %>%
-  # str(max.level = 2)
 ggplot(aes(x = augment_.resid)) +
   geom_histogram(bins = 20, stat = ) +
-  stat_function(fun = dnorm, 
-                geom = "line",
-                args = list(
-                  mean = mean(
-                    unnest(models, cols = c(augment), names_sep = "_")$augment_.resid
-                    ),
-                    sd = sd(
-                      unnest(models, cols = c(data, augment), names_sep = "_")$augment_.resid
-                    )
-                )
-  ) +
-                  facet_grid(station ~ modeltype) #+
+                  facet_grid(station ~ modeltype)
 
 ```
 
@@ -263,6 +287,7 @@ all_predictions <- models %>%
     names_from = term, 
     values_from = estimate
   ) %>%
+  mutate(`data_height-surge_anomaly` = data_height - `preds_surge_anomaly`) %>%
   mutate(`preds_height-surge_anomaly` = preds_pred - `preds_surge_anomaly`) %>%
   rename(any_of(lookup)) %>%
   # str(max.level = 2)
@@ -284,10 +309,11 @@ all_predictions <- models %>%
           # AR_term * data_previousYearHeight +
           (data_year >= 1993) * `+ trend 1993` * (data_year - 1993)
       },
-      # if("broken_quadratic" %in% params$modeltype){
-      #   modeltype == "broken_quadratic" ~ Constant + Trend * (data_year - epoch) +
-      #     ifelse(data_year >= 1960, from1960_square * (data_year - 1960) * (data_year - 1960), 0)
-      # }
+      if("broken_squared" %in% params$modeltype){
+        modeltype == "broken_squared" ~ Constant + 
+          Trend * (data_year - epoch) +
+          (data_year >= 1960) * `+ square_trend 1960` * (data_year - 1960) * (data_year - 1960)
+      }
     )
     ) %>%
   select(
@@ -297,10 +323,10 @@ all_predictions <- models %>%
     data_height,
     preds_year,
     prediction_recalc,
+    `data_height-surge_anomaly`,
     `preds_height-surge_anomaly`,
     nodal_tide
   )
-
 ```
 
 
@@ -321,19 +347,32 @@ ggplot(
 
 ```{r, eval=TRUE}
 
-if("Netherlands (without Delfzijl)" %in% params$station & "broken_linear" %in% params$modeltype)
-  {
-  p <- plot_station( 
+p <- plot_station( 
     predictions_all = all_predictions %>% 
-      filter(station == "Netherlands (without Delfzijl)") %>%
-      filter(modeltype == "broken_linear"), 
-    correctionVariant = "GTSM", 
-    modelVariant = "broken_linear", 
+      filter(station == params$station) %>%
+      filter(modeltype == params$modeltype), 
+    correctionVariant = params$wind_or_surge_type, 
+    modelVariant = params$modeltype, 
     printNumbers = F)
-  
-  # ggplotly(p) %>% layout(legend = list(x = 0.05, y = 0.95))
-  p
-}
+
+  ggplotly(p) %>% layout(legend = list(x = 0.05, y = 0.95))
+  # p
+```
+
+
+```{r, eval=TRUE}
+
+p <- plot_station( 
+    predictions_all = all_predictions %>% 
+      filter(station == params$station) %>%
+      filter(modeltype == params$modeltype), 
+    correctionVariant = params$wind_or_surge_type, 
+    modelVariant = params$modeltype, 
+    printNumbers = T,
+    startyear = 2010)
+
+  ggplotly(p) %>% layout(legend = list(x = 0.05, y = 0.95))
+  # p
 ```
 
 
@@ -366,9 +405,15 @@ models %>%
               ) %>%
   mutate(across(where(is.numeric), round, 3)) %>%
   left_join(lookup.df, by = c(term = "long_term")) %>%
+  select(
+    short_term,
+    estimate,
+    st.err.HAC,
+    p.value
+  ) %>%
   DT::datatable(
   options = list(
-      "digits" = 3
+      "digits" = 2
     )
   )
 
@@ -382,6 +427,11 @@ models %>%
 
 ```
 
+# Comparison with previous year
+
+```{r}
+knitr::include_graphics("../../data/deltares/results/trend2023.jpg")
+```
 
 
 

@@ -1,17 +1,13 @@
 
 require(tidyverse)
 require(stringr)
-source("_common/functions.R")
+source("analysis/sealevelmonitor/_common/functions.R")
 
 mainstations_df <- readMainStationInfo()
 
 #=== read sea level data - takes time ======================================
 
-df_sealevel <- readSeaLevelData(config$constants$dataUrl) %>%
-  addPreviousYearHeight() %>%
-  addSurgeAnomaly() %>%
-  addBreakPoints() %>%
-  selectCols()
+df_sealevel <- read_delim("data/deltares/results/dutch-sea-level-monitor-export-stations-2024-09-30_temp.csv", delim = ",")
 
 #=== read tidal components data =================================================
 
@@ -22,7 +18,8 @@ df_tidal <- read_tidal_components_csv("p:/11202493--systeemrap-grevelingen/1_dat
 df_tidal %>%
   unnest(data) %>%
   filter(comp %in% c("M2", "M4")) %>%
-  filter(station %in% c("DELFZL", "DENHDR", "HARLGN")) %>%
+  # filter(!station %in% c("UITHZWD1", "NES")) %>%
+  filter(station %in% c("DELFZL", "DENHDR", "HARLGN", "WESTTSLG", "HUIBGT", "LAUWOG")) %>%
   pivot_longer(
     cols = c(A, phi_deg), 
     names_to = "variable", 
@@ -69,6 +66,7 @@ p <- df_tidal %>%
   # geom_vline(xintercept = 1993) +
   coord_cartesian(ylim = c(NA,NA)) +
   facet_grid(comp ~ ., scales = "free_y")
+p
 ggsave("results/tidal_analysis/normalized_A_wadden.png", height = 5, width = 10)
 plotly::ggplotly(p)
 colors = colorRamps::magenta2green(2)

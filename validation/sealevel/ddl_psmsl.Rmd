@@ -108,12 +108,10 @@ ddl_y_means_av %>%
   # filter(station == "Netherlands (without Delfzijl)") %>%
   filter(year > 1900 & year < 2023) %>%
   ggplot(aes(year, height)) +
-  geom_path(aes(color = source), size = 1) +
+  geom_point(aes(color = source), size = 1) +
   geom_smooth(method = "lm", aes(color = source), alpha = 0) +
   coord_cartesian(xlim = c(1900, NA)) +
   facet_wrap("station")
-
-
 
 ```
 

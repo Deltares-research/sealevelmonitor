@@ -13,7 +13,7 @@ ddlmeandir <- "data/rijkswaterstaat/ddl/annual_means"
 mainstations_df <- readMainStationInfo(filepath = "")
 mainstationcodes <- mainstations_df$ddl_id
 
-readDDLwaterhoogte(station = mainstationcodes, startyear = min(datayear), endyear = max(datayear), outDir = ddlrawdir)
+# readDDLwaterhoogte(station = mainstationcodes, startyear = min(datayear), endyear = max(datayear), outDir = ddlrawdir)
 
 # calculate annual means
 
@@ -35,6 +35,10 @@ for(datayear in datayear){
     }
   ) %>%
     list_rbind() %>%
+    mutate(locatie.naam = case_when(
+      locatie.naam == "IJmuiden buitenhaven" ~ "IJmuiden",
+      locatie.naam != "IJmuiden buitenhaven" ~ locatie.naam
+    )) %>%
     select(
       locatie.code,
       locatie.naam,

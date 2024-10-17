@@ -3,8 +3,6 @@
 
 [runparameters]
 
-monitoryear = 2024
-
 modeltypes = [
   "linear", 
   "broken_linear", 

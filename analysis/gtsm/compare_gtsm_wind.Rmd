@@ -2,6 +2,8 @@
 title: "Compare GTSM and wind"
 author: "Willem Stolte, Nathalie Dees"
 date: "2024-09-12"
+params:
+  monitoryear: 2024
 output:
   html_document:
     df_print: paged
@@ -23,12 +25,14 @@ knitr::opts_chunk$set(
 require(tidyverse)
 source("../sealevelmonitor/_common/functions.R")
 source("../sealevelmonitor/_common/plotfunctions.R")
+config <- RcppTOML::parseToml("../sealevelmonitor/_common/configuration.TOML")
+config_flat <- list_flatten(config)
 
 ```
 
 ```{r readNewGTSM}
 
-gtsm <- read_yearly_gtsm(filename = "../../data/deltares/gtsm/gtsm_surge_annual_mean_main_stations_2024.csv") |>
+gtsm <- read_yearly_gtsm(filename = "../../data/deltares/gtsm/gtsm_surge_annual_mean_main_stations.csv") |>
   mutate(
     year = year(ymd(t)),
     surge_mm = surge *1000
@@ -66,6 +70,7 @@ kooy = kooy_raw %>%
    rad = 2*pi - metrad - pi/2,
    rad = ifelse(rad >= 2*pi, rad - 2*pi, rad)
          ) %>%
+  filter(year < params$monitoryear) %>%
   group_by(year, STN) %>%
   summarise(
     windspeed = mean(windspeed),
@@ -87,13 +92,15 @@ Windroses for the last four years show that there is considerable variation in a
 
 ```{r windrose,  fig.show="hold", out.width="50%", fig.cap="Windroses of measured wind at De Kooy station for the last 4 years. "}
 
+yearsToPlot <-  seq(params$monitoryear - 4, params$monitoryear-1)
+
 kooy_raw_2020_2023 = kooy_uur_raw %>% 
   mutate(
     year = YYYYMMDD %/% 10000,
     spd = as.numeric(FHVEC) / 10,
     dir = as.numeric(DDVEC)
   ) %>%
-  filter(year >= 2020 & year < 2024) %>%
+  filter(year %in% yearsToPlot) %>%
   select(year, spd, dir) %>%
   group_by(year) %>%
   nest()
@@ -129,7 +136,8 @@ era5wind <- read_delim(file.path("../../", eraURL)) %>%
     u2 = u^2 * sign(u),
     v2 = v^2 * sign(v),
     source = "ERA5"
-    )
+    ) %>%
+  filter(year < params$monitoryear)
 
 ```
 
@@ -141,11 +149,13 @@ era5wind %>%
   bind_rows(kooy %>% mutate(stationname = "DEN HELDER") %>% mutate(source = "KNMI")) %>%
   pivot_longer(cols = c(u,v), names_to = "component", values_to = "windspeed_ms") %>%
   ggplot(aes(year, windspeed_ms)) +
-  geom_line(aes(color = source)) +
+  geom_line(aes(color = source), linewidth = 1) +
   facet_wrap("component", ncol = 1) +
   ggtitle(
     label = "Annual average wind",
-    subtitle = "ERA5 reanalysis for Den Helder - KNMI measured wind at De Kooy.")
+    subtitle = "ERA5 reanalysis for Den Helder - KNMI measured wind at De Kooy."
+    ) +
+  theme_minimal()
   # left_join(kooy, by = c(year = "year")) %>%
   
 
@@ -180,6 +190,9 @@ gtsm %>%
   geom_smooth(aes(v2, surge_mm, label = year), method = 'lm')
 
 ```
+
+
+
 ```{r}
 
 gtsm %>%
@@ -206,7 +219,8 @@ gtsm %>%
   ggplot() +
   geom_point(aes(u2, surge_mm)) +
   geom_text(aes(u2, surge_mm, label = year), alpha = 0.5, nudge_x = 0.1, nudge_y = 0) +
-  geom_smooth(aes(u2, surge_mm, label = year), method = 'lm')
+  geom_smooth(aes(u2, surge_mm, label = year), method = 'lm') +
+  ggtitle(label = NULL, subtitle = "GTSM surge and ERA5 wind reanalysis component u")
 
 gtsm %>%
   filter(name == "Den Helder") %>%
@@ -214,7 +228,8 @@ gtsm %>%
   ggplot() +
   geom_point(aes(v2, surge_mm)) +
   geom_text(aes(v2, surge_mm, label = year), alpha = 0.5, nudge_x = 0.1, nudge_y = 0) +
-  geom_smooth(aes(v2, surge_mm, label = year), method = 'lm')
+  geom_smooth(aes(v2, surge_mm, label = year), method = 'lm') +
+  ggtitle(label = NULL, subtitle = "GTSM surge and ERA5 wind reanalysis component v")
 
 ```
 
