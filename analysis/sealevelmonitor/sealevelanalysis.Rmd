@@ -106,7 +106,7 @@ if(params$monitoryear == max(rlr_df$year)){
 
 ```{r checkdata}
 
-!!!!!!!!! workflow verder aanpassen
+# !!!!!!!!! workflow verder aanpassen
 
 # Check if PSMSL is up to date for analysis year
 
@@ -310,6 +310,20 @@ ggplot(aes(year, height)) +
 ggplotly(p) %>% layout(legend = list(x = 0.05, y = 0.95))
 # p
 ```
+
+
+```{r}
+df %>%
+  filter(year >= 1900) %>%
+  dplyr::filter(station == "Netherlands (without Delfzijl)") %>%
+  dplyr::arrange(-height) %>%
+  dplyr::select(year, station, height_mm = height) %>%
+  # dplyr::group_by(station) %>%
+  dplyr::slice(c(1:5, n()-4, n()-3, n()-2, n()-1, n())) %>%
+  knitr::kable(caption = "The five highest and lowest water levels for the combined station Netherlands (without Delfzijl) in mm during the considered period. ")
+```
+
+
 
 ### Storm surge
 
