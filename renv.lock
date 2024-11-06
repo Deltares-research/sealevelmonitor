@@ -1,6 +1,6 @@
 {
   "R": {
-    "Version": "4.3.3",
+    "Version": "4.4.1",
     "Repositories": [
       {
         "Name": "CRAN",
@@ -755,14 +755,13 @@
     },
     "evaluate": {
       "Package": "evaluate",
-      "Version": "0.24.0",
+      "Version": "1.0.1",
       "Source": "Repository",
       "Repository": "CRAN",
       "Requirements": [
-        "R",
-        "methods"
+        "R"
       ],
-      "Hash": "a1066cbc05caee9a4bf6d90f194ff4da"
+      "Hash": "3fd29944b231036ad67c3edb32e02201"
     },
     "fansi": {
       "Package": "fansi",
@@ -1991,7 +1990,12 @@
     "renv": {
       "Package": "renv",
       "Version": "1.0.11",
-      "Source": "Repository"
+      "Source": "Repository",
+      "Repository": "CRAN",
+      "Requirements": [
+        "utils"
+      ],
+      "Hash": "47623f66b4e80b3b0587bc5d7b309888"
     },
     "reprex": {
       "Package": "reprex",
@@ -2135,6 +2139,18 @@
         "xml2"
       ],
       "Hash": "0bcf0c6f274e90ea314b812a6d19a519"
+    },
+    "rwsapi": {
+      "Package": "rwsapi",
+      "Version": "0.1.0",
+      "Source": "GitHub",
+      "RemoteType": "github",
+      "RemoteHost": "api.github.com",
+      "RemoteUsername": "wstolte",
+      "RemoteRepo": "rwsapi",
+      "RemoteRef": "master",
+      "RemoteSha": "b12c6281d539406cebc8547c618fe08d5da1c135",
+      "Hash": "38bcbef540fb643491e26998c269f4aa"
     },
     "sandwich": {
       "Package": "sandwich",
@@ -2298,6 +2314,17 @@
       ],
       "Hash": "75940133cca2e339afce15a586f85b11"
     },
+    "stargazer": {
+      "Package": "stargazer",
+      "Version": "5.2.3",
+      "Source": "Repository",
+      "Repository": "CRAN",
+      "Requirements": [
+        "stats",
+        "utils"
+      ],
+      "Hash": "d313fa83180f3376229f98633813cd31"
+    },
     "stringi": {
       "Package": "stringi",
       "Version": "1.8.4",
@@ -2350,7 +2377,6 @@
       "RemoteRepo": "svgparser",
       "RemoteRef": "main",
       "RemoteSha": "eed57af52189344d69aded270b4378c2254a4b92",
-      "Remotes": "coolbutuseless/cssparser, coolbutuseless/minisvg, pmur002/gggrid",
       "Requirements": [
         "cssparser",
         "stringi",
