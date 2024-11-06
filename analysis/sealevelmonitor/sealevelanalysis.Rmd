@@ -72,15 +72,6 @@ df <- readSeaLevelData(file.path("../../data/deltares/results/dutch-sea-level-mo
 
 ```
 
-```{r readNewGTSM}
-
-gtsm <- read_yearly_gtsm(filename = "../../data/deltares/gtsm/gtsm_surge_annual_mean_main_stations.csv") |>
-  mutate(
-    year = year(ymd(t)),
-    surge_mm = surge *1000
-    )
-
-```
 
 ## Get data from PSMSL
 
@@ -106,8 +97,6 @@ if(params$monitoryear == max(rlr_df$year)){
 
 ```{r checkdata}
 
-# !!!!!!!!! workflow verder aanpassen
-
 # Check if PSMSL is up to date for analysis year
 
 if(max(rlr_df$year) == params$monitoryear-1){
@@ -125,11 +114,6 @@ if(max(rlr_df$year) == params$monitoryear-1){
     }
   }
 }
-    
-    
-
-  
-
 
 ```
 
@@ -311,6 +295,7 @@ ggplotly(p) %>% layout(legend = list(x = 0.05, y = 0.95))
 # p
 ```
 
+### Sea level low and high years
 
 ```{r}
 df %>%
@@ -346,19 +331,17 @@ ggplot(aes(year, surge_anomaly)) +
 p
 ```
 
-## Trendberekening
+## Trend analysis
 
-De trend van de zeespiegel wordt berekend met een lineaire regressie methode. De volgende modellen worden getest:
+The sea level trend is calculated using generalized linear regression. the following models are tested (Deltares 2018 and Deltares 2023):
 
--   lineair model
--   gebroken lineair model (vanaf 1993)
--   gebroken kwadratisch model (vanaf 1960)
+-   linear model
+-   broken linear model (with breakpoint at 1993)
+-   broken quadratic model (breakpoint at 1960)
 
-Voor meer informatie hierover wordt verwezen naar de Zeespiegelmonitor (Deltares 2023).
+The trend is calculated for all stations individually, for the mean of all stations ("Netherlands"), and for means of all stations minus station Delfzijl ("Netherlands without Delfzijl"). 
 
-De trend wordt berekend voor alle stations afzonderlijk, voor het gemiddelde van alle stations ("Netherlands") en voor het gemiddelde van alle stations met uitzondering van Delfzijl ("Netherlands without Delfzijl")
-
-De zeespiegel wordt vooraf gecorrigeerd voor de verschillen in windopzet per jaar. Het nodaal getij wordt meegenomen in de modellen als een sinusoide met een periode van 18,6 jaar.
+Before the trend is calculated, the sea level is corrected for the yearly variation in storm surge. In the regression equation, nodal tide is one of the components and is estimated as a sinusoid curve with a period of 18.6 years. 
 
 ```{r nest-per-station}
 byStation <- df %>%
@@ -395,6 +378,7 @@ models <- byStation %>%
     equation = map(model, function(x) equatiomatic::extract_eq(x))
   )
 ```
+
 
 ## Autocorrelation
 

@@ -430,9 +430,17 @@ models %>%
 # Comparison with previous year
 
 ```{r}
-knitr::include_graphics("../../data/deltares/results/trend2023.jpg")
+# knitr::include_graphics("../../data/deltares/results/trend2023.jpg")
+
+# knitr::include_url("https://systeemrapportage.nl/zeespiegelmonitor/resultaten.html#tab:zeespiegeltrends", height = "400px")
+
+
+
 ```
 
+| station | zeespiegel (1970) | trend (voor 1993) | se | trend (vanaf 1993)|
+|------:|:------:|:---------:|:-----------:|:----------:|:----------:|
+| Netherlands (without Delfzijl) | -39.3 |	1.8 |	0.1 |	2.9 |	0.4 |
 
 
 
