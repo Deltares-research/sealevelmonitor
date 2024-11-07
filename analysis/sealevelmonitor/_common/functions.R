@@ -2,10 +2,48 @@ require(tidyverse)
 require(modelr)
 require(ggfortify)
 require(jsonlite)
+require(magrittr)
 
 # config <- RcppTOML::parseToml("analysis/sealevelmonitor/_common/configuration.TOML")
 
+waterhoogteparameters <- c("Waterhoogte berekend", "Waterhoogte", "Waterhoogte astronomisch", "Waterhoogte verwacht")    
+grootheid = "Waterhoogte"
 
+# make warning if grootheid is not in list of waterhoogteparameters.  
+
+get_selected_metadata <- function(
+    compartiment = NULL, 
+    grootheid = NULL, 
+    parameter = NULL, 
+    locatie = NULL
+) {
+  
+  require(rwsapi)
+  require(tidyverse)
+  
+  md <- rwsapi::rws_metadata()
+  
+  md$content$AquoMetadataLijst %>% 
+    unnest(
+      names_sep = ".", 
+      c(Compartiment, Eenheid, Grootheid, Hoedanigheid, Parameter)) %>% 
+    filter(
+      if(is.null(grootheid)) TRUE else Grootheid.Omschrijving %in% grootheid | Grootheid.Code %in% grootheid,
+      if(is.null(parameter)) TRUE else Parameter.Omschrijving %in% parameter | Parameter.Code %in% parameter,
+      if(is.null(compartiment)) TRUE else Compartiment.Code %in% compartiment | Compartiment.Code %in% compartiment
+    ) %>%
+    left_join(
+      md$content$AquoMetadataLocatieLijst, 
+      by = c(AquoMetadata_MessageID = "AquoMetaData_MessageID")
+    ) %>%
+    left_join(md$content$LocatieLijst) %>%
+    filter(if(is.null(locatie)) TRUE else Naam %in% locatie |  Code %in% locatie) %>% 
+    rename_with(tolower) %>%
+    rename(
+      locatie.naam = naam,
+      locatie.code = code
+    )
+}
 
 
 
