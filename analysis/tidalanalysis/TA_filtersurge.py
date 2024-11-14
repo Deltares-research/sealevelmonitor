@@ -17,6 +17,7 @@ This script can be reran faster when loading the components from pkl files with 
 
 import os
 import datetime as dt
+import hatyan.analysis_prediction
 import pandas as pd
 import numpy as np
 import matplotlib.pyplot as plt
@@ -42,9 +43,9 @@ if not os.path.exists(dir_TA_perstation):
 #TODO: rerun alle scripts met nieuwe RWS waterstandsdata (hopefully solves duplicate timesteps and weird additional condition for bool_invalid)
 #TODO: ext derive GLLWS/GHHWS with 1min pred interval
 stationdf = pd.read_csv(r"C:\projecten\RWS\sealevelmonitor\data\rijkswaterstaat\stationcode.csv")
-#%%
 
 station_list = stationdf['locatie.code'].tolist()
+# station_list = ['HARVT10']
 #defining a list of the components to be analysed (can also be 'half_year' and others, 'year' contains 94 components and the mean waterlevel A0)
 const_list_year = hatyan.get_const_list_hatyan('year')+['SSA'] #['A0','M2','S2','M4'] # TODO: add SSA and maybe other components for better reproduction
 const_list_year3hr = const_list_year[:]
@@ -55,8 +56,8 @@ for const in drop_list:
 # station_list = ['WIERMGDN','WESTTSLG','TEXNZE','TERSLNZE','SCHIERMNOG','NES','LAUWOG','HUIBGT','HOLWD','HARLGN','EEMSHVN','DENHDR','DELFZL']
 # station_list = ['DENHDR','WESTTSLG','TEXNZE','HARLGN','TERSLNZE','HOLWD','WIERMGDN','NES','HUIBGT','SCHIERMNOG','LAUWOG','EEMSHVN','DELFZL'][::-1] #sorted on M2 amplitude
 
-year_list = range(1879,2023)
-#year_list = [2012]
+# year_list = range(1879,2024)
+year_list = [2023]
 plot_ts = True #plot all timeseries (takes quite some time)
 
 for station in station_list:
@@ -70,7 +71,7 @@ for station in station_list:
         plt.close('all')
         print(f'processing {station} for {year}')
         url_dataraw = 'P:\\11202493--systeemrap-grevelingen\\1_data\\Noordzee\\ddl\\raw\\wathte\\'
-        file_csv = url_dataraw+f'{station}_OW_WATHTE_NVT_NAP_{year}_ddl_wq.csv'
+        file_csv = url_dataraw+f'{station}_OW_WATHTE_NVT_NAP_{year}_ddl.csv'
         try:
             data_pd = pd.read_csv(file_csv,sep=';',parse_dates=['tijdstip'])            
         except: #if not available, skip this station+year combination
@@ -79,6 +80,7 @@ for station in station_list:
                 fstats.write(f'{station:20s} {year}: NO CSV, SKIPPING\n')
             continue
         
+        data_pd = data_pd[data_pd['groepering.code'] == 'NVT']
         bool_invalid = (data_pd['kwaliteitswaarde.code']!=0) & (data_pd['kwaliteitswaarde.code']!=25) | data_pd['numeriekewaarde'].isin([740,999,1010,1011,1012]) #latter is for HUIBGT 1985/1987 and maybe others#| (data_pd['numeriekewaarde']>340) | (data_pd['numeriekewaarde']<-340) 
         data_pd.loc[bool_invalid,'numeriekewaarde'] = np.nan
         ts_meas_raw = pd.DataFrame({'values':data_pd['numeriekewaarde'].values/100},index=data_pd['tijdstip'].dt.tz_localize(None)) #read dataset and convert to DataFrame with correct format. Tijdzone is MET (UTC+1), ook van de resulterende getijcomponenten.
@@ -141,7 +143,8 @@ for station in station_list:
         
         #tidal analysis
         try:  #do the tidal analysis
-            comp_frommeas = hatyan.get_components_from_ts(ts=ts_meas, const_list=const_list, nodalfactors=True, xfac=True, fu_alltimes=True, xTxmat_condition_max=11.5)
+            comp_frommeas = hatyan.analysis_prediction.analysis(ts=ts_meas, const_list=const_list, nodalfactors=True, xfac=True, fu_alltimes=True) #max_matrix_conditionwas 11.5, keeping the default 12
+            
         except: #if the tidal analysis does not work
             with open(file_fstats,'a') as fstats:
                 fstats.write(' >> ANALYSIS FAILED\n')
@@ -150,7 +153,7 @@ for station in station_list:
         comp_frommeas.index.name = 'comp'
         comp_frommeas.to_csv(os.path.join(dir_TA_filtersurge,f'{station}_{year}_components_UTC+1.csv'),float_format='%.3f')
         data_pd_TA_station.loc[const_list,(['A','phi_deg'],year)] = comp_frommeas.loc[const_list,['A','phi_deg']].values
-        ts_pred = hatyan.prediction(comp=comp_frommeas,times_ext=[dt.datetime(year,1,1),dt.datetime(year,12,31,23,50)],timestep_min=10)
+        ts_pred = hatyan.prediction(comp=comp_frommeas,times=slice(dt.datetime(year,1,1),dt.datetime(year,12,31,23,50))) #removal of timestep, was previously timestep_min
         ts_pred.rename_axis('time').to_csv(os.path.join(dir_TA_perstation,f'tspred_anasameyear_{station}_OW_WATHTASTRO_{year}.csv'))
         
         if plot_ts:
@@ -171,3 +174,5 @@ for station in station_list:
         #also save all components
         data_pd_TA_station.to_pickle(os.path.join(dir_TA_filtersurge,f'data_pd_TA_{station}.pkl'))
     """
+
+# %%
