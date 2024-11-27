@@ -87,6 +87,25 @@ readDDLwaterhoogte <- function(station, startyear, endyear, grootheid = "Waterho
   }
 }
 
+readDDLwaterhoogte2 <- function(ddlmetadata, startyear, endyear, outDir = "data/rijkswaterstaat/ddl/raw"){
+  
+  require(rwsapi)
+  require(tidyverse)
+  
+  waterhoogteparameters <- c("Waterhoogte berekend", "Waterhoogte", "Waterhoogte astronomisch", "Waterhoogte verwacht")    
+  
+  # make warning if grootheid is not in list of waterhoogteparameters.  
+
+  for(iyear in startyear:endyear){
+    rwsapi::getDDLdata( 
+      startyear = iyear,
+      endyear = iyear,
+      myCatalogue = ddlmetadata,
+      outDir = outDir
+    )
+  }
+}
+
 
 
 
