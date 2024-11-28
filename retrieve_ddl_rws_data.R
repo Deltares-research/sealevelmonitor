@@ -12,7 +12,7 @@ datayear = 2023:2023
 
 # for all RWS North Sea stations
 stationlist <- read_delim("data/rijkswaterstaat/stationlist.csv", 
-                          delim = ";", escape_double = FALSE, trim_ws = TRUE) %>%
+                          delim = ",", escape_double = FALSE, trim_ws = TRUE) %>%
   distinct(stationname) %>% unlist() %>% unname()
 
 # for 6 "hoofdstations"
@@ -25,6 +25,7 @@ mainstations_df <- readMainStationInfo(filepath = "")
 mainstationcodes <- mainstations_df$ddl_id
 
 mijnmetadata <- get_selected_metadata(compartiment = "OW", grootheid = "WATHTE", locatie = stationlist)
+mijnmetadata <- tail(mijnmetadata, )
 
 readDDLwaterhoogte2(
   ddlmetadata = mijnmetadata, 

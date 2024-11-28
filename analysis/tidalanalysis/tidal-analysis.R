@@ -11,7 +11,9 @@ df_sealevel <- read_delim("data/deltares/results/dutch-sea-level-monitor-export-
 
 #=== read tidal components data =================================================
 
-df_tidal <- read_tidal_components_csv("p:/11202493--systeemrap-grevelingen/1_data/Wadden/ddl/calculated/TA_filtersurge")
+dir = "p:/11202493--systeemrap-grevelingen/1_data/noordzee/ddl/calculated/TA_filtersurge"
+componentfiles <- list.files(dir, pattern = "component", full.names = T)
+df_tidal <- read_tidal_components_csv(dir)
 
 #==== Plot time course of components ============================================
 
@@ -19,7 +21,8 @@ df_tidal %>%
   unnest(data) %>%
   filter(comp %in% c("M2", "M4")) %>%
   # filter(!station %in% c("UITHZWD1", "NES")) %>%
-  filter(station %in% c("DELFZL", "DENHDR", "HARLGN", "WESTTSLG", "HUIBGT", "LAUWOG")) %>%
+  # filter(station %in% c("DELFZL", "DENHDR", "HARLGN", "WESTTSLG", "HUIBGT", "LAUWOG")) %>%
+  filter(!station %in% c("K14PFM", "L9PFM")) %>%
   pivot_longer(
     cols = c(A, phi_deg), 
     names_to = "variable", 
@@ -37,13 +40,14 @@ df_tidal %>%
     variable == "phi_deg" ~ M4 - M2
     )
   ) %>%
+  filter(variable == "A") %>%
   mutate(wanneer = ifelse(jaar < 1993, "voor", "na")) %>%
   ggplot(aes(x = jaar, y = M4_M2)) +
   geom_line(aes(color = wanneer), size = 1) +
   # geom_boxplot(aes(group = wanneer), fill = "transparent") +
   # geom_vline(xintercept = 1993) +
   coord_cartesian(ylim = c(NA,NA)) +
-  facet_grid(variable ~ station, scales = "free_y")
+  facet_wrap(variable ~ station, scales = "free_y")
 
 dir.create("results")
 dir.create("results/tidal_analysis")

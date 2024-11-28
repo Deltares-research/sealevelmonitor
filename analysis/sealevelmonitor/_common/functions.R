@@ -266,9 +266,9 @@ read_yearly_gtsm <- function(filename = "data/deltares/gtsm/gtsm_surge_annual_me
 
 read_tidal_components_csv <- function(filesdir = "p:/11202493--systeemrap-grevelingen/1_data/Wadden/ddl/calculated/TA_filtersurge") {
   
-  filelist <- list.files(filesdir, pattern = "csv", full.names = T)
+  filelist <- list.files(filesdir, pattern = "component", full.names = T)
   # get names of stations and year from filenames in filelistShort
-  filelistShort <- list.files(filesdir, pattern = "csv", full.names = F)
+  filelistShort <- list.files(filesdir, pattern = "component", full.names = F)
   
   df <- lapply(filelist, function(x) read_csv(x, col_types = cols(), progress = FALSE))
   dfs <- dplyr::bind_rows(df)
