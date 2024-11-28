@@ -17,8 +17,8 @@ params:
   # - IJmuiden
   # - Hoek van Holland
   # - Vlissingen
-  # - Netherlands
-  - Netherlands (without Delfzijl)
+  - Netherlands
+  # - Netherlands (without Delfzijl)
   modeltype:
   # - linear
    - broken_linear
@@ -347,7 +347,8 @@ ggplot(
 
 ```{r, eval=TRUE}
 
-p <- plot_station( 
+p <- plot_station(
+  stationi = params$station,
     predictions_all = all_predictions %>% 
       filter(station == params$station) %>%
       filter(modeltype == params$modeltype), 
@@ -363,16 +364,37 @@ p <- plot_station(
 ```{r, eval=TRUE}
 
 p <- plot_station( 
+  stationi = params$station,
     predictions_all = all_predictions %>% 
       filter(station == params$station) %>%
       filter(modeltype == params$modeltype), 
     correctionVariant = params$wind_or_surge_type, 
     modelVariant = params$modeltype, 
     printNumbers = T,
+    plotVline = F,
     startyear = 2010)
 
   ggplotly(p) %>% layout(legend = list(x = 0.05, y = 0.95))
   # p
+```
+
+
+```{r, include=F}
+p = plot_station_website(
+    stationi = params$station,
+    predictions_all = all_predictions %>% 
+      filter(station == params$station) %>%
+      filter(modeltype == params$modeltype), 
+    correctionVariant = params$wind_or_surge_type, 
+    modelVariant = params$modeltype, 
+    printNumbers = F,
+    plotVline = F,
+    startyear = 1890)
+
+p
+
+ggsave(paste0("../../results/sl_web_", params$station, params$modeltype, ".png"), width = 8, height = 5)
+
 ```
 
 
