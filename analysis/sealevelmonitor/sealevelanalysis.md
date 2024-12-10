@@ -26,10 +26,35 @@ The Sea Level Monitor methodology is described in detail in Deltares
   - lowest AIC (Akaike Information Criteria)
   - significant better fit than the simplest model (linear model)
 
+This document is executed with the following parameters:
+
 ``` r
-previous_df <- readSeaLevelData(file.path("../../data/deltares/results/dutch-sea-level-monitor-export-stations-2023-11-20.csv")) %>%
-  filter(station %in% params$station)
+data.frame(
+  "name" = names(unlist(params)),
+  "value" = unlist(params),
+  row.names = NULL
+  ) %>%
+  knitr::kable(caption = "Values of document parameters")
 ```
+
+| name               | value                          |
+|:-------------------|:-------------------------------|
+| monitoryear        | 2024                           |
+| startyear          | 1890                           |
+| wind_or_surge_type | GTSM                           |
+| station1           | Delfzijl                       |
+| station2           | Harlingen                      |
+| station3           | Den Helder                     |
+| station4           | IJmuiden                       |
+| station5           | Hoek van Holland               |
+| station6           | Vlissingen                     |
+| station7           | Netherlands                    |
+| station8           | Netherlands (without Delfzijl) |
+| modeltype1         | linear                         |
+| modeltype2         | broken_linear                  |
+| modeltype3         | broken_squared                 |
+
+Values of document parameters
 
 ## Get data from PSMSL
 
@@ -146,7 +171,7 @@ gtsm <- read_yearly_gtsm(filename = "../../data/deltares/gtsm/gtsm_surge_annual_
       ) |>
       addBreakPoints() %T>% 
       write_csv2("../../data/deltares/results/dutch-sea-level-monitor-export-stations-latest.csv") %>%
-      filter(year >= 1890)
+      filter(year >= params$startyear)
 ```
 
 ### Compare with previous years analysis data
@@ -563,7 +588,7 @@ models %>%
   )
 ```
 
-<img src="sealevelanalysis_files/figure-gfm/unnamed-chunk-7-1.png" width="100%" />
+<img src="sealevelanalysis_files/figure-gfm/unnamed-chunk-8-1.png" width="100%" />
 
 ### Variation of residuals over time
 
@@ -580,7 +605,7 @@ ggplot(aes(data_year, augment_.resid)) +
   facet_grid(station ~ modeltype) #+
 ```
 
-![](sealevelanalysis_files/figure-gfm/unnamed-chunk-8-1.png)<!-- -->
+![](sealevelanalysis_files/figure-gfm/unnamed-chunk-9-1.png)<!-- -->
 
 ## Sea level rise
 
@@ -674,21 +699,24 @@ ggplot(
     correctionVariant = "GTSM", 
     modelVariant = unique(all_predictions$modeltype), 
     printNumbers = F, 
-    startyear = 1900
+    startyear = 1890
   ) +
   facet_grid(station ~ modeltype) +
-  theme(legend.direction = "vertical",
-        legend.box = "horizontal",
-        legend.position = c(0.975, 0.025),
-        legend.justification = c(1, 0),
-        legend.title = element_blank())
+  theme(
+    # legend.direction = "horizontal",
+    # legend.box = "horizontal",
+    legend.position = "bottom", #c(0.975, 0.025),
+    # legend.justification = c(1, 0),
+    legend.title = element_blank()
+  ) +
+  theme(strip.text.y = element_text(angle = 90)) 
 
   
   # ggplotly(p) %>% layout(legend = list(x = 0.05, y = 0.95))
   p
 ```
 
-![](sealevelanalysis_files/figure-gfm/unnamed-chunk-10-1.png)<!-- -->
+![](sealevelanalysis_files/figure-gfm/unnamed-chunk-11-1.png)<!-- -->
 
 ## Parameters
 
@@ -725,7 +753,7 @@ parametertable %>%
   )
 ```
 
-![](sealevelanalysis_files/figure-gfm/unnamed-chunk-11-1.png)<!-- -->
+![](sealevelanalysis_files/figure-gfm/unnamed-chunk-12-1.png)<!-- -->
 
 ``` r
   # kableExtra::kable(
@@ -814,7 +842,7 @@ models %>%
   facet_wrap("station")
 ```
 
-![](sealevelanalysis_files/figure-gfm/unnamed-chunk-14-1.png)<!-- -->
+![](sealevelanalysis_files/figure-gfm/unnamed-chunk-15-1.png)<!-- -->
 
 For the combined stations Netherlands and Netherlands (without
 Delfzijl), the non linear model has the lowest AIC, and is therefore the

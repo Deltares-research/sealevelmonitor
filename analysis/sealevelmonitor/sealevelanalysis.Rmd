@@ -2,14 +2,17 @@
 title: "Zeespiegelmonitor analyse"
 author: "Willem Stolte, Nathalie Dees"
 date: "2024-03-12"
-always_allow_html: true
 output:
+  github_document: null
   html_document:
     df_print: paged
     code_folding: hide
-  github_document:
+    outputdir: ../../docs
+  pdf_document: default
+always_allow_html: true
 params:
   monitoryear: 2024
+  startyear: 1890
   wind_or_surge_type: GTSM
   station:
   - Delfzijl
@@ -37,13 +40,14 @@ The Sea Level Monitor methodology is described in detail in Deltares (2023). Pri
 -   From the different models a preferred model is chosen based on:
     -   lowest AIC (Akaike Information Criteria)
     -   significant better fit than the simplest model (linear model)
-
+    
 ```{r setup, include=FALSE}
 
 knitr::opts_chunk$set(
   echo = TRUE,
   comment=FALSE,
-  message=FALSE
+  message=FALSE,
+  warning = FALSE
 )
 
 require(leaflet)
@@ -65,7 +69,28 @@ nsurge  = length(params$wind_or_surge_type)
 
 ```
 
-```{r readPreviousYearData, comment=F, message=F}
+
+This document is executed with the following parameters:
+
+```{r}
+
+data.frame(
+  "name" = names(unlist(params)),
+  "value" = unlist(params),
+  row.names = NULL
+  ) %>%
+  knitr::kable(caption = "Values of document parameters")
+
+```
+
+
+
+
+
+
+
+
+```{r readPreviousYearData, comment=F, message=F, echo = F}
 
 previous_df <- readSeaLevelData(file.path("../../data/deltares/results/dutch-sea-level-monitor-export-stations-2023-11-20.csv")) %>%
   filter(station %in% params$station)
@@ -83,7 +108,7 @@ rlr_df <- read_yearly_psmsl_csv(mainstations_df$psmsl_id, filepath = "../../")
 
 ```
 
-In this analysis, measurements over the period 1890 to `r params$monitoryear - 1` are considered.
+In this analysis, measurements over the period `r params$startyear` to `r params$monitoryear - 1` are considered.
 
 ```{r, results='asis'}
 
@@ -187,7 +212,7 @@ gtsm <- read_yearly_gtsm(filename = "../../data/deltares/gtsm/gtsm_surge_annual_
       ) |>
       addBreakPoints() %T>% 
       write_csv2("../../data/deltares/results/dutch-sea-level-monitor-export-stations-latest.csv") %>%
-      filter(year >= 1890)
+      filter(year >= params$startyear)
 
 ```
 
@@ -596,7 +621,7 @@ ggplot(
 
 ```
 
-```{r, eval=TRUE, fig.height=nstations*2+1, fig.width=nmodels*2+1}
+```{r, eval=TRUE, fig.height=nstations*2+1, fig.width=nmodels*2.5+2}
 
   p <- plot_station( 
     predictions_all = all_predictions,
@@ -604,14 +629,17 @@ ggplot(
     correctionVariant = "GTSM", 
     modelVariant = unique(all_predictions$modeltype), 
     printNumbers = F, 
-    startyear = 1900
+    startyear = 1890
   ) +
   facet_grid(station ~ modeltype) +
-  theme(legend.direction = "vertical",
-        legend.box = "horizontal",
-        legend.position = c(0.975, 0.025),
-        legend.justification = c(1, 0),
-        legend.title = element_blank())
+  theme(
+    # legend.direction = "horizontal",
+    # legend.box = "horizontal",
+    legend.position = "bottom", #c(0.975, 0.025),
+    # legend.justification = c(1, 0),
+    legend.title = element_blank()
+  ) +
+  theme(strip.text.y = element_text(angle = 90)) 
 
   
   # ggplotly(p) %>% layout(legend = list(x = 0.05, y = 0.95))

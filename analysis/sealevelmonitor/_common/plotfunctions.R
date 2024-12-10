@@ -42,7 +42,7 @@ plot_station <- function(
     # filter(correction_variant == correctionVariant) %>%
     filter(modeltype %in% modelVariant)
   
-  symboolgrootte = 1.5
+  symboolgrootte = 1
   
   q <- ggplot() +
     geom_point(data = predictions_all2 %>% filter(data_year >= startyear), 
