@@ -473,7 +473,7 @@ models <- byStation %>%
     AIC    = glance %>% map_dbl("AIC"),
     tidy   = map(model, broom::tidy),
     augment = map(model, broom::augment),
-    equation = map(model, function(x) equatiomatic::extract_eq(x))
+    equation = map(model, function(x) equatiomatic::extract_eq(x, ital_vars = TRUE))
   )
 ```
 
@@ -487,9 +487,9 @@ knitr::kable(eq, escape = F)
 
 | modeltype | equation |
 |:---|:---|
-| linear | $`\operatorname{height} = \alpha + \beta_{1}(\operatorname{year\ -\ epoch}) + \beta_{2}(\operatorname{cos(2\ *\ pi\ *\ (year\ -\ epoch)/(18.613))}) + \beta_{3}(\operatorname{sin(2\ *\ pi\ *\ (year\ -\ epoch)/(18.613))}) + \epsilon`$ |
-| broken_linear | $`\operatorname{height} = \alpha + \beta_{1}(\operatorname{year\ -\ epoch}) + \beta_{2}(\operatorname{from1993}) + \beta_{3}(\operatorname{cos(2\ *\ pi\ *\ (year\ -\ epoch)/(18.613))}) + \beta_{4}(\operatorname{sin(2\ *\ pi\ *\ (year\ -\ epoch)/(18.613))}) + \epsilon`$ |
-| broken_squared | $`\operatorname{height} = \alpha + \beta_{1}(\operatorname{year\ -\ epoch}) + \beta_{2}(\operatorname{from1960\_square}) + \beta_{3}(\operatorname{cos(2\ *\ pi\ *\ (year\ -\ epoch)/(18.613))}) + \beta_{4}(\operatorname{sin(2\ *\ pi\ *\ (year\ -\ epoch)/(18.613))}) + \epsilon`$ |
+| linear | $`height = \alpha + \beta_{1}(year\ -\ epoch) + \beta_{2}(cos(2\ *\ pi\ *\ (year\ -\ epoch)/(18.613))) + \beta_{3}(sin(2\ *\ pi\ *\ (year\ -\ epoch)/(18.613))) + \epsilon`$ |
+| broken_linear | $`height = \alpha + \beta_{1}(year\ -\ epoch) + \beta_{2}(from1993) + \beta_{3}(cos(2\ *\ pi\ *\ (year\ -\ epoch)/(18.613))) + \beta_{4}(sin(2\ *\ pi\ *\ (year\ -\ epoch)/(18.613))) + \epsilon`$ |
+| broken_squared | $`height = \alpha + \beta_{1}(year\ -\ epoch) + \beta_{2}(from1960\_square) + \beta_{3}(cos(2\ *\ pi\ *\ (year\ -\ epoch)/(18.613))) + \beta_{4}(sin(2\ *\ pi\ *\ (year\ -\ epoch)/(18.613))) + \epsilon`$ |
 
 ## Autocorrelation
 
