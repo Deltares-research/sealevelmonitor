@@ -192,7 +192,7 @@ ggplot() +
     shape = "+"
   ) +
   geom_point(
-    data = refreshed_df_filter, 
+    data = refreshed_df, 
     aes(x = year, y = height), 
     color = "blue", 
     shape = 21, 
@@ -202,26 +202,53 @@ ggplot() +
   facet_wrap(c("station"), ncol = 3)
 ```
 
-![](sealevelanalysis_files/figure-gfm/vergelijk-oud-en-nieuw-1.png)<!-- -->
+<figure>
+<img
+src="sealevelanalysis_files/figure-gfm/vergelijk-oud-en-nieuw-1.png"
+alt="Comparison of measured sea level with previous year." />
+<figcaption aria-hidden="true">Comparison of measured sea level with
+previous year.</figcaption>
+</figure>
 
 ``` r
+# previous year did not include gtsm for year 1950.
+# Therefore comparison of surge is done for years > 1950
+
+# range(df$surge_anomaly)
+# range(refreshed_df$surge_anomaly, na.rm = T)
+
+refreshed_df_filter <- refreshed_df %>% filter(year > 1950 & year < 2023)
+
 ggplot() +
   geom_point(
     data = previous_df, 
-    aes(x = year, y = surge_anomaly)
+    aes(x = year, y = surge_anomaly, color = as.character(params$monitoryear-1))
     ) +
   geom_point(
-    data = refreshed_df_filter, 
-    aes(x = year, y = surge_anomaly), 
-    color = "blue", 
+    data = refreshed_df, 
+    aes(x = year, y = surge_anomaly, color = as.character(params$monitoryear)), 
     shape = 21, 
     fill = "transparent",
     size = 1
     ) +
-  facet_wrap(c("station"), ncol = 3)
+  facet_wrap(c("station"), ncol = 3) +
+  coord_cartesian(xlim = c(1950, params$monitoryear)) +
+  labs(color = "monitor year")
 ```
 
-![](sealevelanalysis_files/figure-gfm/vergelijk-oud-en-nieuw-2.png)<!-- -->
+<figure>
+<img src="sealevelanalysis_files/figure-gfm/compare-gtsm-1.png"
+alt="Comparison of GTSM surge anomaly with previous year." />
+<figcaption aria-hidden="true">Comparison of GTSM surge anomaly with
+previous year.</figcaption>
+</figure>
+
+The difference between the gtsm surge anomalies between the years is
+caused by the addition of two additional years, 1950 and 2023. The mean
+surge for some stations has changed due to this addition, causing the
+surge anomaly to move up or down. This has no consequences for the
+determination of the sea level trend, but it has effect on the corrected
+sea level.
 
 ## Locations of the main stations
 
@@ -453,16 +480,16 @@ models <- byStation %>%
 ``` r
 eq <- models %>% 
   distinct(modeltype, equation) %>%
-  mutate(equation = paste0("$", equation, "$"))
+  mutate(equation = paste0("$`", equation, "`$"))
 
 knitr::kable(eq, escape = F)
 ```
 
 | modeltype | equation |
 |:---|:---|
-| linear | $\operatorname{height} = \alpha + \beta_{1}(\operatorname{year\ -\ epoch}) + \beta_{2}(\operatorname{cos(2\ *\ pi\ *\ (year\ -\ epoch)/(18.613))}) + \beta_{3}(\operatorname{sin(2\ *\ pi\ *\ (year\ -\ epoch)/(18.613))}) + \epsilon$ |
-| broken_linear | $\operatorname{height} = \alpha + \beta_{1}(\operatorname{year\ -\ epoch}) + \beta_{2}(\operatorname{from1993}) + \beta_{3}(\operatorname{cos(2\ *\ pi\ *\ (year\ -\ epoch)/(18.613))}) + \beta_{4}(\operatorname{sin(2\ *\ pi\ *\ (year\ -\ epoch)/(18.613))}) + \epsilon$ |
-| broken_squared | $\operatorname{height} = \alpha + \beta_{1}(\operatorname{year\ -\ epoch}) + \beta_{2}(\operatorname{from1960\_square}) + \beta_{3}(\operatorname{cos(2\ *\ pi\ *\ (year\ -\ epoch)/(18.613))}) + \beta_{4}(\operatorname{sin(2\ *\ pi\ *\ (year\ -\ epoch)/(18.613))}) + \epsilon$ |
+| linear | $`\operatorname{height} = \alpha + \beta_{1}(\operatorname{year\ -\ epoch}) + \beta_{2}(\operatorname{cos(2\ *\ pi\ *\ (year\ -\ epoch)/(18.613))}) + \beta_{3}(\operatorname{sin(2\ *\ pi\ *\ (year\ -\ epoch)/(18.613))}) + \epsilon`$ |
+| broken_linear | $`\operatorname{height} = \alpha + \beta_{1}(\operatorname{year\ -\ epoch}) + \beta_{2}(\operatorname{from1993}) + \beta_{3}(\operatorname{cos(2\ *\ pi\ *\ (year\ -\ epoch)/(18.613))}) + \beta_{4}(\operatorname{sin(2\ *\ pi\ *\ (year\ -\ epoch)/(18.613))}) + \epsilon`$ |
+| broken_squared | $`\operatorname{height} = \alpha + \beta_{1}(\operatorname{year\ -\ epoch}) + \beta_{2}(\operatorname{from1960\_square}) + \beta_{3}(\operatorname{cos(2\ *\ pi\ *\ (year\ -\ epoch)/(18.613))}) + \beta_{4}(\operatorname{sin(2\ *\ pi\ *\ (year\ -\ epoch)/(18.613))}) + \epsilon`$ |
 
 ## Autocorrelation
 
@@ -771,7 +798,7 @@ acc_broken_linear <- parametertable %>%
   filter(modeltype == "broken_linear") %>%
   filter(term == "+ trend 1993") %>%
   select(station, p.value )
-knitr::kable(acc_broken_linear, caption = "Significance for the acceleration term in the broken linear model for all stations. ")
+knitr::kable(acc_broken_linear, caption = "p-values for the acceleration term in the broken linear model for all stations. ")
 ```
 
 | station                        | p.value |
@@ -785,8 +812,8 @@ knitr::kable(acc_broken_linear, caption = "Significance for the acceleration ter
 | Netherlands                    |   0.000 |
 | Netherlands (without Delfzijl) |   0.000 |
 
-Significance for the acceleration term in the broken linear model for
-all stations.
+p-values for the acceleration term in the broken linear model for all
+stations.
 
 For the broken linear model, there is a significant acceleration
 starting in the year 1993 when fitting the average sea level combined
@@ -799,7 +826,7 @@ acc_broken_linear <- parametertable %>%
   filter(modeltype == "broken_squared") %>%
   filter(term == "+ square_trend 1960") %>%
   select(station, p.value )
-knitr::kable(acc_broken_linear, caption = "Significance for the acceleration term in the broken squared model for all stations. ")
+knitr::kable(acc_broken_linear, caption = "p-vallues for the acceleration term in the broken squared model for all stations. ")
 ```
 
 | station                        | p.value |
@@ -813,8 +840,8 @@ knitr::kable(acc_broken_linear, caption = "Significance for the acceleration ter
 | Netherlands                    |   0.000 |
 | Netherlands (without Delfzijl) |   0.001 |
 
-Significance for the acceleration term in the broken squared model for
-all stations.
+p-vallues for the acceleration term in the broken squared model for all
+stations.
 
 For the broken squared model, there is a significant acceleration
 starting in the year 1960 when fitting the average sea level combined
