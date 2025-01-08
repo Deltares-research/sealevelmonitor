@@ -8,7 +8,7 @@ source("analysis/sealevelmonitor/_common/functions.R")
 require(tidyverse)
 require(rwsapi)
 
-datayear = 2023:2023
+datayear = 1900:2024
 
 # for all RWS North Sea stations
 stationlist <- read_delim("data/rijkswaterstaat/stationlist.csv", 
@@ -25,7 +25,9 @@ mainstations_df <- readMainStationInfo(filepath = "")
 mainstationcodes <- mainstations_df$ddl_id
 
 mijnmetadata <- get_selected_metadata(compartiment = "OW", grootheid = "WATHTE", locatie = stationlist)
-mijnmetadata <- tail(mijnmetadata, )
+
+# harlingen was missing in earlier retrievals. 
+mijnmetadata <- mijnmetadata %>% filter(locatie.naam == "Harlingen")
 
 readDDLwaterhoogte2(
   ddlmetadata = mijnmetadata, 

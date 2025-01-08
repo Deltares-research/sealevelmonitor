@@ -144,6 +144,125 @@ selectCols <- function(df){
 }
 
 
+addHACterms <- function(models) {
+  
+  modelstemp <- models %>%
+    mutate(
+      tidy.HAC = map(
+        model, 
+        function(x) broom::tidy(
+          sqrt(
+            diag(
+              NeweyWest(
+                x, 
+                lag = 1, 
+                prewhite = F, 
+                adjust = T
+              )
+            )
+          )
+        )
+      )
+    )
+  
+  modelstemp$tidy.HAC <- lapply(modelstemp$tidy.HAC,
+                                function(x) {
+                                  x %>%
+                                    rename(
+                                      term.HAC = names,
+                                      st.err.HAC = x
+                                    )
+                                }
+  )
+  
+  return(modelstemp)
+}
+
+makePrettyAnovaTable <- function(output, digits) {
+  rm.cols <- NULL
+  for (i in 1:(dim(output)[2])) {
+    if (all(is.na(output[,i]))) { rm.cols <- c(rm.cols,i) }
+  }
+  if (!is.null(rm.cols)) { output <- output[,-rm.cols] }
+  # Reformat column names
+  names(output) <- sub("Rsq","R^2^",names(output))
+  names(output) <- sub("Pr\\(>F\\)","p",names(output))
+  names(output) <- sub("^P$","p",names(output))
+  # Rounding
+  output <- apply(output, 2, signif, digits = digits)
+  # Generate the kable
+  options(knitr.kable.NA = '')
+  knitr::kable(output)
+}
+
+makePredictionTable <- function(models, lookup = lookup) {
+  
+  
+  # data wrangling. move to functions.R
+  
+  all_predictions <- models %>%
+    mutate(
+      preds = map2(data, model, add_predictions)
+    ) %>%
+    dplyr::select(
+      station,
+      modeltype, 
+      data, 
+      tidy, 
+      preds) %>%
+    tidyr::unnest(c(data, preds), names_sep = "_") %>% 
+    tidyr::unnest(tidy) %>%
+    # str(max.level = 2)
+    
+    dplyr::select(-std.error, -statistic, -p.value) %>% # clean up
+    tidyr::pivot_wider(
+      names_from = term, 
+      values_from = estimate
+    ) %>%
+    mutate(`data_height-surge_anomaly` = data_height - `preds_surge_anomaly`) %>%
+    mutate(`preds_height-surge_anomaly` = preds_pred - `preds_surge_anomaly`) %>%
+    rename(any_of(lookup)) %>%
+    # str(max.level = 2)
+    mutate(
+      nodal_tide = 
+        u_nodal * cos(2*pi*(data_year-epoch)/18.613) + 
+        v_nodal * sin(2*pi*(data_year-epoch)/18.613),
+      prediction_recalc = case_when(
+        if("linear" %in% params$modeltype){
+          modeltype == "linear" ~ 
+            Constant + 
+            Trend * (data_year - epoch)
+        },
+        if("broken_linear" %in% params$modeltype){
+          modeltype == "broken_linear" ~ 
+            Constant + 
+            Trend * (data_year - epoch) +
+            (data_year >= 1993) * `+ trend 1993` * (data_year - 1993)
+        },
+        if("broken_squared" %in% params$modeltype){
+          modeltype == "broken_squared" ~ Constant + 
+            Trend * (data_year - epoch) +
+            (data_year >= 1960) * `+ square_trend 1960` * (data_year - 1960) * (data_year - 1960)
+        }
+      )
+    ) %>%
+    select(
+      station,
+      modeltype,
+      data_year,
+      data_height,
+      preds_year,
+      prediction_recalc,
+      `data_height-surge_anomaly`,
+      `preds_height-surge_anomaly`,
+      nodal_tide
+    )
+  
+  return(all_predictions)
+}
+
+
+
 readSeaLevelData <- function(url){
   readr::read_csv(url, comment = "#")
 }  %>% mutate(epoch = epoch) %>%

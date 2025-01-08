@@ -1,6 +1,4 @@
 ---
-title: "Compare GTSM and wind"
-author: "Willem Stolte, Nathalie Dees"
 date: "2024-09-12"
 params:
   monitoryear: 2024
@@ -10,19 +8,18 @@ output:
     code_folding: hide
 ---
 
-# Compare gtsm with wind
+# Compare GTSM and wind measurements and reanalyases
 
-```{r setupWind}
+```{r setupWind, include = FALSE}
 knitr::opts_chunk$set(
   echo = TRUE,
   comment=FALSE,
   message=FALSE,
   warning = FALSE
 )
-```
 
-```{r dependencies}
 require(tidyverse)
+require(DT)
 source("../sealevelmonitor/_common/functions.R")
 source("../sealevelmonitor/_common/plotfunctions.R")
 config <- RcppTOML::parseToml("../sealevelmonitor/_common/configuration.TOML")
@@ -30,20 +27,37 @@ config_flat <- list_flatten(config)
 
 ```
 
+
+## Global Tide and Surge Model
+
+The GTSM model results for wind surge were produced by Deltares (Muis et al., 2016). Wind surge is extracted for the segement representative for each one of the Dutch main tide gauge stations, and averaged per year. This results in wind surge per year and station. Based on previous comparisons with alternative corrections for wind, GTSM was chosen as the preferential method (Deltares 2023). 
+
+A first glance at the GTSM wind surge results is shown below. 
+
 ```{r readNewGTSM}
 
 gtsm <- read_yearly_gtsm(filename = "../../data/deltares/gtsm/gtsm_surge_annual_mean_main_stations.csv") |>
   mutate(
     year = year(ymd(t)),
     surge_mm = surge *1000
-    )
+    ) %>% 
+  select(-t, -surge)
+
+kableExtra::kable(align = "c",
+    gtsm %>% arrange(-year),
+    caption = "GTSM wind surge per station and year.",
+    digits = 2
+    ) %>%
+  kableExtra::scroll_box(height = "500px") %>%
+  kableExtra::kable_styling(full_width = T)
 
 ```
 
+For validation of GTSM wind surge, and perhaps a first explanation of its variation, GTSM surge is compared to measured wind along the Dutch coast, and a commonly used reanalysis of wind selection for the Dutch coast. 
 
 ## measured wind at De Kooy
 
-KNMI daily average wind observations were downloaded via https://www.knmi.nl/nederland-nu/klimatologie/daggegevens.  . Data for station "De Kooy" ([station nr 235](https://cdn.knmi.nl/knmi/map/page/klimatologie/gegevens/daggegevens/etmgeg_235.zip)) were selected. This station is close by the tidal station "Den Helder". 
+KNMI daily average wind observations were downloaded via https://www.knmi.nl/nederland-nu/klimatologie/daggegevens.  . Data for station "De Kooy" ([station nr 235](https://cdn.knmi.nl/knmi/map/page/klimatologie/gegevens/daggegevens/etmgeg_235.zip)) were selected. This station is close by the tidal station "Den Helder". Wind data, originally as wind direction and wind speed, were decomposed in its two perpendicular components ***u*** and ***v***. 
 
 
 ```{r readKNMIwind}
@@ -110,7 +124,7 @@ walk(1:length(kooy_raw_2020_2023$data),
        plot.windrose(
          spd = kooy_raw_2020_2023$data[[x]]$spd, 
          dir = kooy_raw_2020_2023$data[[x]]$dir,
-       plot.title = kooy_raw_2020_2023$year[x],
+       plot.title = kooy_raw_2020_2023$year[x], 
        palette = "YlOrBr"
        )
      }
@@ -249,4 +263,6 @@ gtsm %>%
 ```
 
 
+# Literatuur
 
+Muis, Sanne, Martin Verlaan, Hessel C. Winsemius, and Philip J. Ward Jeroen C. J. H. Aerts. 2016. “A Global Reanalysis of Storm Surges and Extreme Sea Levels.” Nature Communications, Articles 7. https://doi.org/10.1038/ncomms11969.

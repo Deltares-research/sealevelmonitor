@@ -500,28 +500,7 @@ often occurs. In case of autocorrelation, we recalculate standard errors
 of the estimated parameters accordingly.
 
 ``` r
-models %>%
-  mutate(
-    ACF = map(augment, function(x) fortify(acf(x$.resid, plot = F)))
-  ) %>%
-  unnest(ACF) %>%
-  mutate(ACF_pass = (ACF >= lower & ACF <= upper)) %>%
-  filter(Lag >= 1) %>%
-  ggplot(aes(Lag, ACF)) +
-  geom_col(width = 0.4, aes(fill = ACF_pass)) +
-  geom_vline(xintercept = 8.9, linetype = 3) +
-  geom_vline(xintercept = 18.6, linetype = 3) +
-  geom_line(aes(y = lower), linetype = "dotdash", linewidth = 0.5) +
-  geom_line(aes(y = upper), linetype = "dotdash", linewidth = 0.5) +
-  scale_x_continuous(
-    breaks = scales::breaks_pretty(10)
-    )+
-  facet_grid(station ~ modeltype) +
-  theme_minimal() +
-  theme(
-    strip.text.y = element_text(angle = 0),
-    legend.position = "bottom"
-        )
+plot_ACF(models)
 ```
 
 <figure>
@@ -548,37 +527,9 @@ There is no apparent autocorrelation with a ‘lag’ of 18.6 years, the
 incorporated in the three models.
 
 ``` r
-# Using NeweyWest():
 require(sandwich)
 
-models <- models %>%
-  mutate(
-    tidy.HAC = map(
-      model, 
-      function(x) broom::tidy(
-        sqrt(
-          diag(
-            NeweyWest(
-              x, 
-              lag = 1, 
-              prewhite = F, 
-              adjust = T
-            )
-          )
-        )
-      )
-    )
-  )
-    
-  models$tidy.HAC <- lapply(models$tidy.HAC,
-       function(x) {
-         x %>%
-           rename(
-             term.HAC = names,
-             st.err.HAC = x
-           )
-       }
-)
+models <- addHACterms(models)
 ```
 
 ## Heteroskedasticity
@@ -592,27 +543,7 @@ the residuals distribution is narrower when measurements are corrected
 for surge prior to application of the models.
 
 ``` r
-models %>%
-  unnest(c(data, augment), names_sep = "_") %>% 
-  mutate(
-    surge_correction = case_when(
-      params$wind_or_surge_type == "GTSM" ~ ifelse(data_year >= 1950, params$wind_or_surge_type, "none")
-    )
-  ) %>%
- ggplot(aes(x = augment_.resid)) +
-  geom_density(
-    aes(
-      fill = surge_correction,
-      color = surge_correction),
-    # position = position_identity(), 
-    alpha = 0.5, size = 1
-  ) +
-  facet_grid(station ~ modeltype) +
-  geom_vline(xintercept = 0, alpha = 0.5) +
-  theme(
-    strip.text.y = element_text(angle = 0), 
-    legend.position = "bottom"
-  )
+plotResidualDistribution(models)
 ```
 
 <img src="sealevelanalysis_files/figure-gfm/unnamed-chunk-8-1.png" width="100%" />
@@ -624,12 +555,10 @@ horizontal line.
 
 ``` r
 models %>%
-  # filter(!grepl("Netherlands", station)) %>%
-  # filter(station == "IJmuiden") %>%
-  unnest(c(data, augment), names_sep = "_") %>% #str(max.level = 2)
-ggplot(aes(data_year, augment_.resid)) +
+  unnest(c(data, augment), names_sep = "_") %>%
+  ggplot(aes(data_year, augment_.resid)) +
   geom_point(alpha = 0.4) +
-  facet_grid(station ~ modeltype) #+
+  facet_grid(station ~ modeltype)
 ```
 
 ![](sealevelanalysis_files/figure-gfm/unnamed-chunk-9-1.png)<!-- -->
@@ -638,75 +567,16 @@ ggplot(aes(data_year, augment_.resid)) +
 
 ``` r
 lookup <- c(
-   Constant = "(Intercept)",
-    Trend = "I(year - epoch)",
-    u_nodal = "I(cos(2 * pi * (year - epoch)/(18.613)))",
-    v_nodal = "I(sin(2 * pi * (year - epoch)/(18.613)))",
-    `+ trend 1993` = "from1993",
-    `+ square_trend 1960` = "from1960_square",
-    AR_term = "previousYearHeight"
-  )
+  Constant = "(Intercept)",
+  Trend = "I(year - epoch)",
+  u_nodal = "I(cos(2 * pi * (year - epoch)/(18.613)))",
+  v_nodal = "I(sin(2 * pi * (year - epoch)/(18.613)))",
+  `+ trend 1993` = "from1993",
+  `+ square_trend 1960` = "from1960_square",
+  AR_term = "previousYearHeight"
+)
 
-# data wrangling. move to functions.R
-
-all_predictions <- models %>%
-  mutate(
-    preds = map2(data, model, add_predictions)
-  ) %>%
-  dplyr::select(
-    station,
-    modeltype, 
-    data, 
-    tidy, 
-    preds) %>%
-  tidyr::unnest(c(data, preds), names_sep = "_") %>% 
-  tidyr::unnest(tidy) %>%
-    # str(max.level = 2)
-
-  dplyr::select(-std.error, -statistic, -p.value) %>% # clean up
-  tidyr::pivot_wider(
-    names_from = term, 
-    values_from = estimate
-  ) %>%
-  mutate(`data_height-surge_anomaly` = data_height - `preds_surge_anomaly`) %>%
-  mutate(`preds_height-surge_anomaly` = preds_pred - `preds_surge_anomaly`) %>%
-  rename(any_of(lookup)) %>%
-  # str(max.level = 2)
-  mutate(
-    nodal_tide = 
-      u_nodal * cos(2*pi*(data_year-epoch)/18.613) + 
-      v_nodal * sin(2*pi*(data_year-epoch)/18.613),
-    prediction_recalc = case_when(
-      if("linear" %in% params$modeltype){
-        modeltype == "linear" ~ 
-          Constant + 
-          Trend * (data_year - epoch)# + 
-          # AR_term * data_previousYearHeight
-      },
-      if("broken_linear" %in% params$modeltype){
-        modeltype == "broken_linear" ~ 
-          Constant + 
-          Trend * (data_year - epoch) +
-          # AR_term * data_previousYearHeight +
-          (data_year >= 1993) * `+ trend 1993` * (data_year - 1993)
-      },
-      # if("broken_quadratic" %in% params$modeltype){
-      #   modeltype == "broken_quadratic" ~ Constant + Trend * (data_year - epoch) +
-      #     ifelse(data_year >= 1960, from1960_square * (data_year - 1960) * (data_year - 1960), 0)
-      # }
-    )
-    ) %>%
-  select(
-    station,
-    modeltype,
-    data_year,
-    data_height,
-    preds_year,
-    prediction_recalc,
-    `data_height-surge_anomaly`,
-    `preds_height-surge_anomaly`,
-    nodal_tide
-  )
+all_predictions <- makePredictionTable(models, lookup)
 ```
 
 ``` r
@@ -714,7 +584,7 @@ ggplot(
   all_predictions,
   aes(x = data_year)
 ) +
-  geom_point(aes(y = data_height)) +
+  geom_point(aes(y = data_height), alpha = 0.15) +
   geom_line(aes(y = prediction_recalc)) +
   facet_grid(station ~ modeltype)
 ```
@@ -749,11 +619,10 @@ ggplot(
 
 ``` r
 ## gebruik DT in plaats van kableextra
+# library(DT)
 
 lookup.df <- data.frame(long_term = unname(lookup),
                         short_term = names(lookup))
-
-library(DT)
 
 parametertable <- models %>%
   select(station, modeltype, tidy) %>% 
@@ -772,22 +641,2985 @@ parametertable <- models %>%
   select(-term, term = short_term) %>%
   relocate(term, .after = modeltype)
 
-parametertable %>%
-  DT::datatable(
-    options = list(
-      "digits" = 3
-    )
-  )
+# parametertable %>%
+#   DT::datatable(
+#     options = list(
+#       "digits" = 3
+#     )
+#   )
+
+  kableExtra::kable(parametertable,
+    caption = "Coefficients for all models and stations.",digits = 2
+    ) %>%
+  kableExtra::scroll_box(height = "500px")
 ```
 
-![](sealevelanalysis_files/figure-gfm/unnamed-chunk-12-1.png)<!-- -->
+<div style="border: 1px solid #ddd; padding: 0px; overflow-y: scroll; height:500px; ">
 
-``` r
-  # kableExtra::kable(
-  #   caption = "Coefficients for all models and stations.",digits = 2
-  #   ) %>% 
-  # kableExtra::scroll_box(height = "500px")
-```
+<table>
+<caption>
+Coefficients for all models and stations.
+</caption>
+<thead>
+<tr>
+<th style="text-align:left;position: sticky; top:0; background-color: #FFFFFF;">
+station
+</th>
+<th style="text-align:left;position: sticky; top:0; background-color: #FFFFFF;">
+modeltype
+</th>
+<th style="text-align:left;position: sticky; top:0; background-color: #FFFFFF;">
+term
+</th>
+<th style="text-align:right;position: sticky; top:0; background-color: #FFFFFF;">
+estimate
+</th>
+<th style="text-align:right;position: sticky; top:0; background-color: #FFFFFF;">
+std.error
+</th>
+<th style="text-align:right;position: sticky; top:0; background-color: #FFFFFF;">
+statistic
+</th>
+<th style="text-align:right;position: sticky; top:0; background-color: #FFFFFF;">
+p.value
+</th>
+<th style="text-align:right;position: sticky; top:0; background-color: #FFFFFF;">
+st.err.HAC
+</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align:left;">
+Vlissingen
+</td>
+<td style="text-align:left;">
+linear
+</td>
+<td style="text-align:left;">
+Constant
+</td>
+<td style="text-align:right;">
+-63.55
+</td>
+<td style="text-align:right;">
+2.24
+</td>
+<td style="text-align:right;">
+-28.32
+</td>
+<td style="text-align:right;">
+0.00
+</td>
+<td style="text-align:right;">
+2.30
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+Vlissingen
+</td>
+<td style="text-align:left;">
+linear
+</td>
+<td style="text-align:left;">
+Trend
+</td>
+<td style="text-align:right;">
+2.41
+</td>
+<td style="text-align:right;">
+0.06
+</td>
+<td style="text-align:right;">
+43.83
+</td>
+<td style="text-align:right;">
+0.00
+</td>
+<td style="text-align:right;">
+0.07
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+Vlissingen
+</td>
+<td style="text-align:left;">
+linear
+</td>
+<td style="text-align:left;">
+u_nodal
+</td>
+<td style="text-align:right;">
+5.20
+</td>
+<td style="text-align:right;">
+3.04
+</td>
+<td style="text-align:right;">
+1.71
+</td>
+<td style="text-align:right;">
+0.09
+</td>
+<td style="text-align:right;">
+3.45
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+Vlissingen
+</td>
+<td style="text-align:left;">
+linear
+</td>
+<td style="text-align:left;">
+v_nodal
+</td>
+<td style="text-align:right;">
+-12.72
+</td>
+<td style="text-align:right;">
+2.96
+</td>
+<td style="text-align:right;">
+-4.29
+</td>
+<td style="text-align:right;">
+0.00
+</td>
+<td style="text-align:right;">
+3.74
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+Vlissingen
+</td>
+<td style="text-align:left;">
+broken_linear
+</td>
+<td style="text-align:left;">
+Constant
+</td>
+<td style="text-align:right;">
+-66.49
+</td>
+<td style="text-align:right;">
+2.96
+</td>
+<td style="text-align:right;">
+-22.48
+</td>
+<td style="text-align:right;">
+0.00
+</td>
+<td style="text-align:right;">
+3.01
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+Vlissingen
+</td>
+<td style="text-align:left;">
+broken_linear
+</td>
+<td style="text-align:left;">
+Trend
+</td>
+<td style="text-align:right;">
+2.33
+</td>
+<td style="text-align:right;">
+0.07
+</td>
+<td style="text-align:right;">
+31.86
+</td>
+<td style="text-align:right;">
+0.00
+</td>
+<td style="text-align:right;">
+0.10
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+Vlissingen
+</td>
+<td style="text-align:left;">
+broken_linear
+</td>
+<td style="text-align:left;">
+
+- trend 1993
+  </td>
+  <td style="text-align:right;">
+  0.56
+  </td>
+  <td style="text-align:right;">
+  0.37
+  </td>
+  <td style="text-align:right;">
+  1.52
+  </td>
+  <td style="text-align:right;">
+  0.13
+  </td>
+  <td style="text-align:right;">
+  0.33
+  </td>
+  </tr>
+  <tr>
+  <td style="text-align:left;">
+  Vlissingen
+  </td>
+  <td style="text-align:left;">
+  broken_linear
+  </td>
+  <td style="text-align:left;">
+  u_nodal
+  </td>
+  <td style="text-align:right;">
+  5.38
+  </td>
+  <td style="text-align:right;">
+  3.02
+  </td>
+  <td style="text-align:right;">
+  1.78
+  </td>
+  <td style="text-align:right;">
+  0.08
+  </td>
+  <td style="text-align:right;">
+  3.39
+  </td>
+  </tr>
+  <tr>
+  <td style="text-align:left;">
+  Vlissingen
+  </td>
+  <td style="text-align:left;">
+  broken_linear
+  </td>
+  <td style="text-align:left;">
+  v_nodal
+  </td>
+  <td style="text-align:right;">
+  -12.22
+  </td>
+  <td style="text-align:right;">
+  2.97
+  </td>
+  <td style="text-align:right;">
+  -4.12
+  </td>
+  <td style="text-align:right;">
+  0.00
+  </td>
+  <td style="text-align:right;">
+  3.79
+  </td>
+  </tr>
+  <tr>
+  <td style="text-align:left;">
+  Vlissingen
+  </td>
+  <td style="text-align:left;">
+  broken_squared
+  </td>
+  <td style="text-align:left;">
+  Constant
+  </td>
+  <td style="text-align:right;">
+  -64.82
+  </td>
+  <td style="text-align:right;">
+  3.78
+  </td>
+  <td style="text-align:right;">
+  -17.17
+  </td>
+  <td style="text-align:right;">
+  0.00
+  </td>
+  <td style="text-align:right;">
+  4.25
+  </td>
+  </tr>
+  <tr>
+  <td style="text-align:left;">
+  Vlissingen
+  </td>
+  <td style="text-align:left;">
+  broken_squared
+  </td>
+  <td style="text-align:left;">
+  Trend
+  </td>
+  <td style="text-align:right;">
+  2.38
+  </td>
+  <td style="text-align:right;">
+  0.09
+  </td>
+  <td style="text-align:right;">
+  26.47
+  </td>
+  <td style="text-align:right;">
+  0.00
+  </td>
+  <td style="text-align:right;">
+  0.12
+  </td>
+  </tr>
+  <tr>
+  <td style="text-align:left;">
+  Vlissingen
+  </td>
+  <td style="text-align:left;">
+  broken_squared
+  </td>
+  <td style="text-align:left;">
+
+  - square_trend 1960
+    </td>
+    <td style="text-align:right;">
+    0.00
+    </td>
+    <td style="text-align:right;">
+    0.00
+    </td>
+    <td style="text-align:right;">
+    0.42
+    </td>
+    <td style="text-align:right;">
+    0.68
+    </td>
+    <td style="text-align:right;">
+    0.00
+    </td>
+    </tr>
+    <tr>
+    <td style="text-align:left;">
+    Vlissingen
+    </td>
+    <td style="text-align:left;">
+    broken_squared
+    </td>
+    <td style="text-align:left;">
+    u_nodal
+    </td>
+    <td style="text-align:right;">
+    5.23
+    </td>
+    <td style="text-align:right;">
+    3.04
+    </td>
+    <td style="text-align:right;">
+    1.72
+    </td>
+    <td style="text-align:right;">
+    0.09
+    </td>
+    <td style="text-align:right;">
+    3.45
+    </td>
+    </tr>
+    <tr>
+    <td style="text-align:left;">
+    Vlissingen
+    </td>
+    <td style="text-align:left;">
+    broken_squared
+    </td>
+    <td style="text-align:left;">
+    v_nodal
+    </td>
+    <td style="text-align:right;">
+    -12.61
+    </td>
+    <td style="text-align:right;">
+    2.99
+    </td>
+    <td style="text-align:right;">
+    -4.22
+    </td>
+    <td style="text-align:right;">
+    0.00
+    </td>
+    <td style="text-align:right;">
+    3.79
+    </td>
+    </tr>
+    <tr>
+    <td style="text-align:left;">
+    Hoek van Holland
+    </td>
+    <td style="text-align:left;">
+    linear
+    </td>
+    <td style="text-align:left;">
+    Constant
+    </td>
+    <td style="text-align:right;">
+    0.90
+    </td>
+    <td style="text-align:right;">
+    2.25
+    </td>
+    <td style="text-align:right;">
+    0.40
+    </td>
+    <td style="text-align:right;">
+    0.69
+    </td>
+    <td style="text-align:right;">
+    2.26
+    </td>
+    </tr>
+    <tr>
+    <td style="text-align:left;">
+    Hoek van Holland
+    </td>
+    <td style="text-align:left;">
+    linear
+    </td>
+    <td style="text-align:left;">
+    Trend
+    </td>
+    <td style="text-align:right;">
+    2.53
+    </td>
+    <td style="text-align:right;">
+    0.06
+    </td>
+    <td style="text-align:right;">
+    45.95
+    </td>
+    <td style="text-align:right;">
+    0.00
+    </td>
+    <td style="text-align:right;">
+    0.06
+    </td>
+    </tr>
+    <tr>
+    <td style="text-align:left;">
+    Hoek van Holland
+    </td>
+    <td style="text-align:left;">
+    linear
+    </td>
+    <td style="text-align:left;">
+    u_nodal
+    </td>
+    <td style="text-align:right;">
+    0.65
+    </td>
+    <td style="text-align:right;">
+    3.05
+    </td>
+    <td style="text-align:right;">
+    0.21
+    </td>
+    <td style="text-align:right;">
+    0.83
+    </td>
+    <td style="text-align:right;">
+    3.80
+    </td>
+    </tr>
+    <tr>
+    <td style="text-align:left;">
+    Hoek van Holland
+    </td>
+    <td style="text-align:left;">
+    linear
+    </td>
+    <td style="text-align:left;">
+    v_nodal
+    </td>
+    <td style="text-align:right;">
+    -8.82
+    </td>
+    <td style="text-align:right;">
+    2.98
+    </td>
+    <td style="text-align:right;">
+    -2.96
+    </td>
+    <td style="text-align:right;">
+    0.00
+    </td>
+    <td style="text-align:right;">
+    3.05
+    </td>
+    </tr>
+    <tr>
+    <td style="text-align:left;">
+    Hoek van Holland
+    </td>
+    <td style="text-align:left;">
+    broken_linear
+    </td>
+    <td style="text-align:left;">
+    Constant
+    </td>
+    <td style="text-align:right;">
+    -3.16
+    </td>
+    <td style="text-align:right;">
+    2.95
+    </td>
+    <td style="text-align:right;">
+    -1.07
+    </td>
+    <td style="text-align:right;">
+    0.29
+    </td>
+    <td style="text-align:right;">
+    3.23
+    </td>
+    </tr>
+    <tr>
+    <td style="text-align:left;">
+    Hoek van Holland
+    </td>
+    <td style="text-align:left;">
+    broken_linear
+    </td>
+    <td style="text-align:left;">
+    Trend
+    </td>
+    <td style="text-align:right;">
+    2.43
+    </td>
+    <td style="text-align:right;">
+    0.07
+    </td>
+    <td style="text-align:right;">
+    33.34
+    </td>
+    <td style="text-align:right;">
+    0.00
+    </td>
+    <td style="text-align:right;">
+    0.09
+    </td>
+    </tr>
+    <tr>
+    <td style="text-align:left;">
+    Hoek van Holland
+    </td>
+    <td style="text-align:left;">
+    broken_linear
+    </td>
+    <td style="text-align:left;">
+
+    - trend 1993
+      </td>
+      <td style="text-align:right;">
+      0.78
+      </td>
+      <td style="text-align:right;">
+      0.37
+      </td>
+      <td style="text-align:right;">
+      2.10
+      </td>
+      <td style="text-align:right;">
+      0.04
+      </td>
+      <td style="text-align:right;">
+      0.34
+      </td>
+      </tr>
+      <tr>
+      <td style="text-align:left;">
+      Hoek van Holland
+      </td>
+      <td style="text-align:left;">
+      broken_linear
+      </td>
+      <td style="text-align:left;">
+      u_nodal
+      </td>
+      <td style="text-align:right;">
+      0.89
+      </td>
+      <td style="text-align:right;">
+      3.01
+      </td>
+      <td style="text-align:right;">
+      0.30
+      </td>
+      <td style="text-align:right;">
+      0.77
+      </td>
+      <td style="text-align:right;">
+      3.77
+      </td>
+      </tr>
+      <tr>
+      <td style="text-align:left;">
+      Hoek van Holland
+      </td>
+      <td style="text-align:left;">
+      broken_linear
+      </td>
+      <td style="text-align:left;">
+      v_nodal
+      </td>
+      <td style="text-align:right;">
+      -8.13
+      </td>
+      <td style="text-align:right;">
+      2.96
+      </td>
+      <td style="text-align:right;">
+      -2.75
+      </td>
+      <td style="text-align:right;">
+      0.01
+      </td>
+      <td style="text-align:right;">
+      3.08
+      </td>
+      </tr>
+      <tr>
+      <td style="text-align:left;">
+      Hoek van Holland
+      </td>
+      <td style="text-align:left;">
+      broken_squared
+      </td>
+      <td style="text-align:left;">
+      Constant
+      </td>
+      <td style="text-align:right;">
+      -6.66
+      </td>
+      <td style="text-align:right;">
+      3.70
+      </td>
+      <td style="text-align:right;">
+      -1.80
+      </td>
+      <td style="text-align:right;">
+      0.07
+      </td>
+      <td style="text-align:right;">
+      4.29
+      </td>
+      </tr>
+      <tr>
+      <td style="text-align:left;">
+      Hoek van Holland
+      </td>
+      <td style="text-align:left;">
+      broken_squared
+      </td>
+      <td style="text-align:left;">
+      Trend
+      </td>
+      <td style="text-align:right;">
+      2.36
+      </td>
+      <td style="text-align:right;">
+      0.09
+      </td>
+      <td style="text-align:right;">
+      26.77
+      </td>
+      <td style="text-align:right;">
+      0.00
+      </td>
+      <td style="text-align:right;">
+      0.11
+      </td>
+      </tr>
+      <tr>
+      <td style="text-align:left;">
+      Hoek van Holland
+      </td>
+      <td style="text-align:left;">
+      broken_squared
+      </td>
+      <td style="text-align:left;">
+
+      - square_trend 1960
+        </td>
+        <td style="text-align:right;">
+        0.01
+        </td>
+        <td style="text-align:right;">
+        0.00
+        </td>
+        <td style="text-align:right;">
+        2.54
+        </td>
+        <td style="text-align:right;">
+        0.01
+        </td>
+        <td style="text-align:right;">
+        0.00
+        </td>
+        </tr>
+        <tr>
+        <td style="text-align:left;">
+        Hoek van Holland
+        </td>
+        <td style="text-align:left;">
+        broken_squared
+        </td>
+        <td style="text-align:left;">
+        u_nodal
+        </td>
+        <td style="text-align:right;">
+        0.82
+        </td>
+        <td style="text-align:right;">
+        2.99
+        </td>
+        <td style="text-align:right;">
+        0.27
+        </td>
+        <td style="text-align:right;">
+        0.78
+        </td>
+        <td style="text-align:right;">
+        3.69
+        </td>
+        </tr>
+        <tr>
+        <td style="text-align:left;">
+        Hoek van Holland
+        </td>
+        <td style="text-align:left;">
+        broken_squared
+        </td>
+        <td style="text-align:left;">
+        v_nodal
+        </td>
+        <td style="text-align:right;">
+        -8.11
+        </td>
+        <td style="text-align:right;">
+        2.93
+        </td>
+        <td style="text-align:right;">
+        -2.77
+        </td>
+        <td style="text-align:right;">
+        0.01
+        </td>
+        <td style="text-align:right;">
+        3.06
+        </td>
+        </tr>
+        <tr>
+        <td style="text-align:left;">
+        Den Helder
+        </td>
+        <td style="text-align:left;">
+        linear
+        </td>
+        <td style="text-align:left;">
+        Constant
+        </td>
+        <td style="text-align:right;">
+        -57.11
+        </td>
+        <td style="text-align:right;">
+        2.40
+        </td>
+        <td style="text-align:right;">
+        -23.78
+        </td>
+        <td style="text-align:right;">
+        0.00
+        </td>
+        <td style="text-align:right;">
+        2.56
+        </td>
+        </tr>
+        <tr>
+        <td style="text-align:left;">
+        Den Helder
+        </td>
+        <td style="text-align:left;">
+        linear
+        </td>
+        <td style="text-align:left;">
+        Trend
+        </td>
+        <td style="text-align:right;">
+        1.57
+        </td>
+        <td style="text-align:right;">
+        0.06
+        </td>
+        <td style="text-align:right;">
+        26.78
+        </td>
+        <td style="text-align:right;">
+        0.00
+        </td>
+        <td style="text-align:right;">
+        0.07
+        </td>
+        </tr>
+        <tr>
+        <td style="text-align:left;">
+        Den Helder
+        </td>
+        <td style="text-align:left;">
+        linear
+        </td>
+        <td style="text-align:left;">
+        u_nodal
+        </td>
+        <td style="text-align:right;">
+        4.82
+        </td>
+        <td style="text-align:right;">
+        3.25
+        </td>
+        <td style="text-align:right;">
+        1.49
+        </td>
+        <td style="text-align:right;">
+        0.14
+        </td>
+        <td style="text-align:right;">
+        3.24
+        </td>
+        </tr>
+        <tr>
+        <td style="text-align:left;">
+        Den Helder
+        </td>
+        <td style="text-align:left;">
+        linear
+        </td>
+        <td style="text-align:left;">
+        v_nodal
+        </td>
+        <td style="text-align:right;">
+        -13.54
+        </td>
+        <td style="text-align:right;">
+        3.17
+        </td>
+        <td style="text-align:right;">
+        -4.27
+        </td>
+        <td style="text-align:right;">
+        0.00
+        </td>
+        <td style="text-align:right;">
+        4.02
+        </td>
+        </tr>
+        <tr>
+        <td style="text-align:left;">
+        Den Helder
+        </td>
+        <td style="text-align:left;">
+        broken_linear
+        </td>
+        <td style="text-align:left;">
+        Constant
+        </td>
+        <td style="text-align:right;">
+        -64.75
+        </td>
+        <td style="text-align:right;">
+        3.02
+        </td>
+        <td style="text-align:right;">
+        -21.41
+        </td>
+        <td style="text-align:right;">
+        0.00
+        </td>
+        <td style="text-align:right;">
+        3.07
+        </td>
+        </tr>
+        <tr>
+        <td style="text-align:left;">
+        Den Helder
+        </td>
+        <td style="text-align:left;">
+        broken_linear
+        </td>
+        <td style="text-align:left;">
+        Trend
+        </td>
+        <td style="text-align:right;">
+        1.38
+        </td>
+        <td style="text-align:right;">
+        0.07
+        </td>
+        <td style="text-align:right;">
+        18.46
+        </td>
+        <td style="text-align:right;">
+        0.00
+        </td>
+        <td style="text-align:right;">
+        0.09
+        </td>
+        </tr>
+        <tr>
+        <td style="text-align:left;">
+        Den Helder
+        </td>
+        <td style="text-align:left;">
+        broken_linear
+        </td>
+        <td style="text-align:left;">
+
+        - trend 1993
+          </td>
+          <td style="text-align:right;">
+          1.47
+          </td>
+          <td style="text-align:right;">
+          0.38
+          </td>
+          <td style="text-align:right;">
+          3.85
+          </td>
+          <td style="text-align:right;">
+          0.00
+          </td>
+          <td style="text-align:right;">
+          0.33
+          </td>
+          </tr>
+          <tr>
+          <td style="text-align:left;">
+          Den Helder
+          </td>
+          <td style="text-align:left;">
+          broken_linear
+          </td>
+          <td style="text-align:left;">
+          u_nodal
+          </td>
+          <td style="text-align:right;">
+          5.29
+          </td>
+          <td style="text-align:right;">
+          3.09
+          </td>
+          <td style="text-align:right;">
+          1.71
+          </td>
+          <td style="text-align:right;">
+          0.09
+          </td>
+          <td style="text-align:right;">
+          3.02
+          </td>
+          </tr>
+          <tr>
+          <td style="text-align:left;">
+          Den Helder
+          </td>
+          <td style="text-align:left;">
+          broken_linear
+          </td>
+          <td style="text-align:left;">
+          v_nodal
+          </td>
+          <td style="text-align:right;">
+          -12.23
+          </td>
+          <td style="text-align:right;">
+          3.04
+          </td>
+          <td style="text-align:right;">
+          -4.03
+          </td>
+          <td style="text-align:right;">
+          0.00
+          </td>
+          <td style="text-align:right;">
+          3.83
+          </td>
+          </tr>
+          <tr>
+          <td style="text-align:left;">
+          Den Helder
+          </td>
+          <td style="text-align:left;">
+          broken_squared
+          </td>
+          <td style="text-align:left;">
+          Constant
+          </td>
+          <td style="text-align:right;">
+          -70.00
+          </td>
+          <td style="text-align:right;">
+          3.79
+          </td>
+          <td style="text-align:right;">
+          -18.48
+          </td>
+          <td style="text-align:right;">
+          0.00
+          </td>
+          <td style="text-align:right;">
+          4.05
+          </td>
+          </tr>
+          <tr>
+          <td style="text-align:left;">
+          Den Helder
+          </td>
+          <td style="text-align:left;">
+          broken_squared
+          </td>
+          <td style="text-align:left;">
+          Trend
+          </td>
+          <td style="text-align:right;">
+          1.27
+          </td>
+          <td style="text-align:right;">
+          0.09
+          </td>
+          <td style="text-align:right;">
+          14.12
+          </td>
+          <td style="text-align:right;">
+          0.00
+          </td>
+          <td style="text-align:right;">
+          0.11
+          </td>
+          </tr>
+          <tr>
+          <td style="text-align:left;">
+          Den Helder
+          </td>
+          <td style="text-align:left;">
+          broken_squared
+          </td>
+          <td style="text-align:left;">
+
+          - square_trend 1960
+            </td>
+            <td style="text-align:right;">
+            0.01
+            </td>
+            <td style="text-align:right;">
+            0.00
+            </td>
+            <td style="text-align:right;">
+            4.24
+            </td>
+            <td style="text-align:right;">
+            0.00
+            </td>
+            <td style="text-align:right;">
+            0.00
+            </td>
+            </tr>
+            <tr>
+            <td style="text-align:left;">
+            Den Helder
+            </td>
+            <td style="text-align:left;">
+            broken_squared
+            </td>
+            <td style="text-align:left;">
+            u_nodal
+            </td>
+            <td style="text-align:right;">
+            5.11
+            </td>
+            <td style="text-align:right;">
+            3.06
+            </td>
+            <td style="text-align:right;">
+            1.67
+            </td>
+            <td style="text-align:right;">
+            0.10
+            </td>
+            <td style="text-align:right;">
+            2.94
+            </td>
+            </tr>
+            <tr>
+            <td style="text-align:left;">
+            Den Helder
+            </td>
+            <td style="text-align:left;">
+            broken_squared
+            </td>
+            <td style="text-align:left;">
+            v_nodal
+            </td>
+            <td style="text-align:right;">
+            -12.33
+            </td>
+            <td style="text-align:right;">
+            3.00
+            </td>
+            <td style="text-align:right;">
+            -4.12
+            </td>
+            <td style="text-align:right;">
+            0.00
+            </td>
+            <td style="text-align:right;">
+            3.80
+            </td>
+            </tr>
+            <tr>
+            <td style="text-align:left;">
+            Delfzijl
+            </td>
+            <td style="text-align:left;">
+            linear
+            </td>
+            <td style="text-align:left;">
+            Constant
+            </td>
+            <td style="text-align:right;">
+            23.22
+            </td>
+            <td style="text-align:right;">
+            2.95
+            </td>
+            <td style="text-align:right;">
+            7.87
+            </td>
+            <td style="text-align:right;">
+            0.00
+            </td>
+            <td style="text-align:right;">
+            3.25
+            </td>
+            </tr>
+            <tr>
+            <td style="text-align:left;">
+            Delfzijl
+            </td>
+            <td style="text-align:left;">
+            linear
+            </td>
+            <td style="text-align:left;">
+            Trend
+            </td>
+            <td style="text-align:right;">
+            1.92
+            </td>
+            <td style="text-align:right;">
+            0.07
+            </td>
+            <td style="text-align:right;">
+            26.60
+            </td>
+            <td style="text-align:right;">
+            0.00
+            </td>
+            <td style="text-align:right;">
+            0.09
+            </td>
+            </tr>
+            <tr>
+            <td style="text-align:left;">
+            Delfzijl
+            </td>
+            <td style="text-align:left;">
+            linear
+            </td>
+            <td style="text-align:left;">
+            u_nodal
+            </td>
+            <td style="text-align:right;">
+            2.26
+            </td>
+            <td style="text-align:right;">
+            3.99
+            </td>
+            <td style="text-align:right;">
+            0.57
+            </td>
+            <td style="text-align:right;">
+            0.57
+            </td>
+            <td style="text-align:right;">
+            4.72
+            </td>
+            </tr>
+            <tr>
+            <td style="text-align:left;">
+            Delfzijl
+            </td>
+            <td style="text-align:left;">
+            linear
+            </td>
+            <td style="text-align:left;">
+            v_nodal
+            </td>
+            <td style="text-align:right;">
+            -14.05
+            </td>
+            <td style="text-align:right;">
+            3.90
+            </td>
+            <td style="text-align:right;">
+            -3.60
+            </td>
+            <td style="text-align:right;">
+            0.00
+            </td>
+            <td style="text-align:right;">
+            4.28
+            </td>
+            </tr>
+            <tr>
+            <td style="text-align:left;">
+            Delfzijl
+            </td>
+            <td style="text-align:left;">
+            broken_linear
+            </td>
+            <td style="text-align:left;">
+            Constant
+            </td>
+            <td style="text-align:right;">
+            12.18
+            </td>
+            <td style="text-align:right;">
+            3.63
+            </td>
+            <td style="text-align:right;">
+            3.35
+            </td>
+            <td style="text-align:right;">
+            0.00
+            </td>
+            <td style="text-align:right;">
+            3.30
+            </td>
+            </tr>
+            <tr>
+            <td style="text-align:left;">
+            Delfzijl
+            </td>
+            <td style="text-align:left;">
+            broken_linear
+            </td>
+            <td style="text-align:left;">
+            Trend
+            </td>
+            <td style="text-align:right;">
+            1.64
+            </td>
+            <td style="text-align:right;">
+            0.09
+            </td>
+            <td style="text-align:right;">
+            18.27
+            </td>
+            <td style="text-align:right;">
+            0.00
+            </td>
+            <td style="text-align:right;">
+            0.10
+            </td>
+            </tr>
+            <tr>
+            <td style="text-align:left;">
+            Delfzijl
+            </td>
+            <td style="text-align:left;">
+            broken_linear
+            </td>
+            <td style="text-align:left;">
+
+            - trend 1993
+              </td>
+              <td style="text-align:right;">
+              2.12
+              </td>
+              <td style="text-align:right;">
+              0.46
+              </td>
+              <td style="text-align:right;">
+              4.63
+              </td>
+              <td style="text-align:right;">
+              0.00
+              </td>
+              <td style="text-align:right;">
+              0.38
+              </td>
+              </tr>
+              <tr>
+              <td style="text-align:left;">
+              Delfzijl
+              </td>
+              <td style="text-align:left;">
+              broken_linear
+              </td>
+              <td style="text-align:left;">
+              u_nodal
+              </td>
+              <td style="text-align:right;">
+              2.94
+              </td>
+              <td style="text-align:right;">
+              3.71
+              </td>
+              <td style="text-align:right;">
+              0.79
+              </td>
+              <td style="text-align:right;">
+              0.43
+              </td>
+              <td style="text-align:right;">
+              4.47
+              </td>
+              </tr>
+              <tr>
+              <td style="text-align:left;">
+              Delfzijl
+              </td>
+              <td style="text-align:left;">
+              broken_linear
+              </td>
+              <td style="text-align:left;">
+              v_nodal
+              </td>
+              <td style="text-align:right;">
+              -12.16
+              </td>
+              <td style="text-align:right;">
+              3.65
+              </td>
+              <td style="text-align:right;">
+              -3.34
+              </td>
+              <td style="text-align:right;">
+              0.00
+              </td>
+              <td style="text-align:right;">
+              3.75
+              </td>
+              </tr>
+              <tr>
+              <td style="text-align:left;">
+              Delfzijl
+              </td>
+              <td style="text-align:left;">
+              broken_squared
+              </td>
+              <td style="text-align:left;">
+              Constant
+              </td>
+              <td style="text-align:right;">
+              6.76
+              </td>
+              <td style="text-align:right;">
+              4.63
+              </td>
+              <td style="text-align:right;">
+              1.46
+              </td>
+              <td style="text-align:right;">
+              0.15
+              </td>
+              <td style="text-align:right;">
+              4.39
+              </td>
+              </tr>
+              <tr>
+              <td style="text-align:left;">
+              Delfzijl
+              </td>
+              <td style="text-align:left;">
+              broken_squared
+              </td>
+              <td style="text-align:left;">
+              Trend
+              </td>
+              <td style="text-align:right;">
+              1.54
+              </td>
+              <td style="text-align:right;">
+              0.11
+              </td>
+              <td style="text-align:right;">
+              13.95
+              </td>
+              <td style="text-align:right;">
+              0.00
+              </td>
+              <td style="text-align:right;">
+              0.13
+              </td>
+              </tr>
+              <tr>
+              <td style="text-align:left;">
+              Delfzijl
+              </td>
+              <td style="text-align:left;">
+              broken_squared
+              </td>
+              <td style="text-align:left;">
+
+              - square_trend 1960
+                </td>
+                <td style="text-align:right;">
+                0.02
+                </td>
+                <td style="text-align:right;">
+                0.00
+                </td>
+                <td style="text-align:right;">
+                4.43
+                </td>
+                <td style="text-align:right;">
+                0.00
+                </td>
+                <td style="text-align:right;">
+                0.00
+                </td>
+                </tr>
+                <tr>
+                <td style="text-align:left;">
+                Delfzijl
+                </td>
+                <td style="text-align:left;">
+                broken_squared
+                </td>
+                <td style="text-align:left;">
+                u_nodal
+                </td>
+                <td style="text-align:right;">
+                2.63
+                </td>
+                <td style="text-align:right;">
+                3.73
+                </td>
+                <td style="text-align:right;">
+                0.70
+                </td>
+                <td style="text-align:right;">
+                0.48
+                </td>
+                <td style="text-align:right;">
+                4.55
+                </td>
+                </tr>
+                <tr>
+                <td style="text-align:left;">
+                Delfzijl
+                </td>
+                <td style="text-align:left;">
+                broken_squared
+                </td>
+                <td style="text-align:left;">
+                v_nodal
+                </td>
+                <td style="text-align:right;">
+                -12.51
+                </td>
+                <td style="text-align:right;">
+                3.66
+                </td>
+                <td style="text-align:right;">
+                -3.42
+                </td>
+                <td style="text-align:right;">
+                0.00
+                </td>
+                <td style="text-align:right;">
+                3.72
+                </td>
+                </tr>
+                <tr>
+                <td style="text-align:left;">
+                Harlingen
+                </td>
+                <td style="text-align:left;">
+                linear
+                </td>
+                <td style="text-align:left;">
+                Constant
+                </td>
+                <td style="text-align:right;">
+                4.76
+                </td>
+                <td style="text-align:right;">
+                2.76
+                </td>
+                <td style="text-align:right;">
+                1.73
+                </td>
+                <td style="text-align:right;">
+                0.09
+                </td>
+                <td style="text-align:right;">
+                3.36
+                </td>
+                </tr>
+                <tr>
+                <td style="text-align:left;">
+                Harlingen
+                </td>
+                <td style="text-align:left;">
+                linear
+                </td>
+                <td style="text-align:left;">
+                Trend
+                </td>
+                <td style="text-align:right;">
+                1.23
+                </td>
+                <td style="text-align:right;">
+                0.07
+                </td>
+                <td style="text-align:right;">
+                18.18
+                </td>
+                <td style="text-align:right;">
+                0.00
+                </td>
+                <td style="text-align:right;">
+                0.09
+                </td>
+                </tr>
+                <tr>
+                <td style="text-align:left;">
+                Harlingen
+                </td>
+                <td style="text-align:left;">
+                linear
+                </td>
+                <td style="text-align:left;">
+                u_nodal
+                </td>
+                <td style="text-align:right;">
+                1.00
+                </td>
+                <td style="text-align:right;">
+                3.73
+                </td>
+                <td style="text-align:right;">
+                0.27
+                </td>
+                <td style="text-align:right;">
+                0.79
+                </td>
+                <td style="text-align:right;">
+                4.26
+                </td>
+                </tr>
+                <tr>
+                <td style="text-align:left;">
+                Harlingen
+                </td>
+                <td style="text-align:left;">
+                linear
+                </td>
+                <td style="text-align:left;">
+                v_nodal
+                </td>
+                <td style="text-align:right;">
+                -11.13
+                </td>
+                <td style="text-align:right;">
+                3.64
+                </td>
+                <td style="text-align:right;">
+                -3.06
+                </td>
+                <td style="text-align:right;">
+                0.00
+                </td>
+                <td style="text-align:right;">
+                4.41
+                </td>
+                </tr>
+                <tr>
+                <td style="text-align:left;">
+                Harlingen
+                </td>
+                <td style="text-align:left;">
+                broken_linear
+                </td>
+                <td style="text-align:left;">
+                Constant
+                </td>
+                <td style="text-align:right;">
+                -8.50
+                </td>
+                <td style="text-align:right;">
+                3.20
+                </td>
+                <td style="text-align:right;">
+                -2.65
+                </td>
+                <td style="text-align:right;">
+                0.01
+                </td>
+                <td style="text-align:right;">
+                3.23
+                </td>
+                </tr>
+                <tr>
+                <td style="text-align:left;">
+                Harlingen
+                </td>
+                <td style="text-align:left;">
+                broken_linear
+                </td>
+                <td style="text-align:left;">
+                Trend
+                </td>
+                <td style="text-align:right;">
+                0.89
+                </td>
+                <td style="text-align:right;">
+                0.08
+                </td>
+                <td style="text-align:right;">
+                11.26
+                </td>
+                <td style="text-align:right;">
+                0.00
+                </td>
+                <td style="text-align:right;">
+                0.09
+                </td>
+                </tr>
+                <tr>
+                <td style="text-align:left;">
+                Harlingen
+                </td>
+                <td style="text-align:left;">
+                broken_linear
+                </td>
+                <td style="text-align:left;">
+
+                - trend 1993
+                  </td>
+                  <td style="text-align:right;">
+                  2.54
+                  </td>
+                  <td style="text-align:right;">
+                  0.40
+                  </td>
+                  <td style="text-align:right;">
+                  6.30
+                  </td>
+                  <td style="text-align:right;">
+                  0.00
+                  </td>
+                  <td style="text-align:right;">
+                  0.36
+                  </td>
+                  </tr>
+                  <tr>
+                  <td style="text-align:left;">
+                  Harlingen
+                  </td>
+                  <td style="text-align:left;">
+                  broken_linear
+                  </td>
+                  <td style="text-align:left;">
+                  u_nodal
+                  </td>
+                  <td style="text-align:right;">
+                  1.81
+                  </td>
+                  <td style="text-align:right;">
+                  3.27
+                  </td>
+                  <td style="text-align:right;">
+                  0.55
+                  </td>
+                  <td style="text-align:right;">
+                  0.58
+                  </td>
+                  <td style="text-align:right;">
+                  3.70
+                  </td>
+                  </tr>
+                  <tr>
+                  <td style="text-align:left;">
+                  Harlingen
+                  </td>
+                  <td style="text-align:left;">
+                  broken_linear
+                  </td>
+                  <td style="text-align:left;">
+                  v_nodal
+                  </td>
+                  <td style="text-align:right;">
+                  -8.87
+                  </td>
+                  <td style="text-align:right;">
+                  3.22
+                  </td>
+                  <td style="text-align:right;">
+                  -2.76
+                  </td>
+                  <td style="text-align:right;">
+                  0.01
+                  </td>
+                  <td style="text-align:right;">
+                  3.65
+                  </td>
+                  </tr>
+                  <tr>
+                  <td style="text-align:left;">
+                  Harlingen
+                  </td>
+                  <td style="text-align:left;">
+                  broken_squared
+                  </td>
+                  <td style="text-align:left;">
+                  Constant
+                  </td>
+                  <td style="text-align:right;">
+                  -13.62
+                  </td>
+                  <td style="text-align:right;">
+                  4.18
+                  </td>
+                  <td style="text-align:right;">
+                  -3.26
+                  </td>
+                  <td style="text-align:right;">
+                  0.00
+                  </td>
+                  <td style="text-align:right;">
+                  4.52
+                  </td>
+                  </tr>
+                  <tr>
+                  <td style="text-align:left;">
+                  Harlingen
+                  </td>
+                  <td style="text-align:left;">
+                  broken_squared
+                  </td>
+                  <td style="text-align:left;">
+                  Trend
+                  </td>
+                  <td style="text-align:right;">
+                  0.80
+                  </td>
+                  <td style="text-align:right;">
+                  0.10
+                  </td>
+                  <td style="text-align:right;">
+                  8.01
+                  </td>
+                  <td style="text-align:right;">
+                  0.00
+                  </td>
+                  <td style="text-align:right;">
+                  0.12
+                  </td>
+                  </tr>
+                  <tr>
+                  <td style="text-align:left;">
+                  Harlingen
+                  </td>
+                  <td style="text-align:left;">
+                  broken_squared
+                  </td>
+                  <td style="text-align:left;">
+
+                  - square_trend 1960
+                    </td>
+                    <td style="text-align:right;">
+                    0.02
+                    </td>
+                    <td style="text-align:right;">
+                    0.00
+                    </td>
+                    <td style="text-align:right;">
+                    5.48
+                    </td>
+                    <td style="text-align:right;">
+                    0.00
+                    </td>
+                    <td style="text-align:right;">
+                    0.00
+                    </td>
+                    </tr>
+                    <tr>
+                    <td style="text-align:left;">
+                    Harlingen
+                    </td>
+                    <td style="text-align:left;">
+                    broken_squared
+                    </td>
+                    <td style="text-align:left;">
+                    u_nodal
+                    </td>
+                    <td style="text-align:right;">
+                    1.41
+                    </td>
+                    <td style="text-align:right;">
+                    3.37
+                    </td>
+                    <td style="text-align:right;">
+                    0.42
+                    </td>
+                    <td style="text-align:right;">
+                    0.68
+                    </td>
+                    <td style="text-align:right;">
+                    3.85
+                    </td>
+                    </tr>
+                    <tr>
+                    <td style="text-align:left;">
+                    Harlingen
+                    </td>
+                    <td style="text-align:left;">
+                    broken_squared
+                    </td>
+                    <td style="text-align:left;">
+                    v_nodal
+                    </td>
+                    <td style="text-align:right;">
+                    -9.41
+                    </td>
+                    <td style="text-align:right;">
+                    3.31
+                    </td>
+                    <td style="text-align:right;">
+                    -2.85
+                    </td>
+                    <td style="text-align:right;">
+                    0.00
+                    </td>
+                    <td style="text-align:right;">
+                    3.78
+                    </td>
+                    </tr>
+                    <tr>
+                    <td style="text-align:left;">
+                    IJmuiden
+                    </td>
+                    <td style="text-align:left;">
+                    linear
+                    </td>
+                    <td style="text-align:left;">
+                    Constant
+                    </td>
+                    <td style="text-align:right;">
+                    -42.72
+                    </td>
+                    <td style="text-align:right;">
+                    2.63
+                    </td>
+                    <td style="text-align:right;">
+                    -16.22
+                    </td>
+                    <td style="text-align:right;">
+                    0.00
+                    </td>
+                    <td style="text-align:right;">
+                    2.61
+                    </td>
+                    </tr>
+                    <tr>
+                    <td style="text-align:left;">
+                    IJmuiden
+                    </td>
+                    <td style="text-align:left;">
+                    linear
+                    </td>
+                    <td style="text-align:left;">
+                    Trend
+                    </td>
+                    <td style="text-align:right;">
+                    2.14
+                    </td>
+                    <td style="text-align:right;">
+                    0.06
+                    </td>
+                    <td style="text-align:right;">
+                    33.28
+                    </td>
+                    <td style="text-align:right;">
+                    0.00
+                    </td>
+                    <td style="text-align:right;">
+                    0.08
+                    </td>
+                    </tr>
+                    <tr>
+                    <td style="text-align:left;">
+                    IJmuiden
+                    </td>
+                    <td style="text-align:left;">
+                    linear
+                    </td>
+                    <td style="text-align:left;">
+                    u_nodal
+                    </td>
+                    <td style="text-align:right;">
+                    10.05
+                    </td>
+                    <td style="text-align:right;">
+                    3.56
+                    </td>
+                    <td style="text-align:right;">
+                    2.82
+                    </td>
+                    <td style="text-align:right;">
+                    0.01
+                    </td>
+                    <td style="text-align:right;">
+                    4.34
+                    </td>
+                    </tr>
+                    <tr>
+                    <td style="text-align:left;">
+                    IJmuiden
+                    </td>
+                    <td style="text-align:left;">
+                    linear
+                    </td>
+                    <td style="text-align:left;">
+                    v_nodal
+                    </td>
+                    <td style="text-align:right;">
+                    -11.95
+                    </td>
+                    <td style="text-align:right;">
+                    3.48
+                    </td>
+                    <td style="text-align:right;">
+                    -3.43
+                    </td>
+                    <td style="text-align:right;">
+                    0.00
+                    </td>
+                    <td style="text-align:right;">
+                    4.03
+                    </td>
+                    </tr>
+                    <tr>
+                    <td style="text-align:left;">
+                    IJmuiden
+                    </td>
+                    <td style="text-align:left;">
+                    broken_linear
+                    </td>
+                    <td style="text-align:left;">
+                    Constant
+                    </td>
+                    <td style="text-align:right;">
+                    -43.87
+                    </td>
+                    <td style="text-align:right;">
+                    3.50
+                    </td>
+                    <td style="text-align:right;">
+                    -12.54
+                    </td>
+                    <td style="text-align:right;">
+                    0.00
+                    </td>
+                    <td style="text-align:right;">
+                    3.44
+                    </td>
+                    </tr>
+                    <tr>
+                    <td style="text-align:left;">
+                    IJmuiden
+                    </td>
+                    <td style="text-align:left;">
+                    broken_linear
+                    </td>
+                    <td style="text-align:left;">
+                    Trend
+                    </td>
+                    <td style="text-align:right;">
+                    2.12
+                    </td>
+                    <td style="text-align:right;">
+                    0.09
+                    </td>
+                    <td style="text-align:right;">
+                    24.43
+                    </td>
+                    <td style="text-align:right;">
+                    0.00
+                    </td>
+                    <td style="text-align:right;">
+                    0.11
+                    </td>
+                    </tr>
+                    <tr>
+                    <td style="text-align:left;">
+                    IJmuiden
+                    </td>
+                    <td style="text-align:left;">
+                    broken_linear
+                    </td>
+                    <td style="text-align:left;">
+
+                    - trend 1993
+                      </td>
+                      <td style="text-align:right;">
+                      0.22
+                      </td>
+                      <td style="text-align:right;">
+                      0.44
+                      </td>
+                      <td style="text-align:right;">
+                      0.50
+                      </td>
+                      <td style="text-align:right;">
+                      0.62
+                      </td>
+                      <td style="text-align:right;">
+                      0.39
+                      </td>
+                      </tr>
+                      <tr>
+                      <td style="text-align:left;">
+                      IJmuiden
+                      </td>
+                      <td style="text-align:left;">
+                      broken_linear
+                      </td>
+                      <td style="text-align:left;">
+                      u_nodal
+                      </td>
+                      <td style="text-align:right;">
+                      10.12
+                      </td>
+                      <td style="text-align:right;">
+                      3.58
+                      </td>
+                      <td style="text-align:right;">
+                      2.83
+                      </td>
+                      <td style="text-align:right;">
+                      0.00
+                      </td>
+                      <td style="text-align:right;">
+                      4.37
+                      </td>
+                      </tr>
+                      <tr>
+                      <td style="text-align:left;">
+                      IJmuiden
+                      </td>
+                      <td style="text-align:left;">
+                      broken_linear
+                      </td>
+                      <td style="text-align:left;">
+                      v_nodal
+                      </td>
+                      <td style="text-align:right;">
+                      -11.75
+                      </td>
+                      <td style="text-align:right;">
+                      3.51
+                      </td>
+                      <td style="text-align:right;">
+                      -3.35
+                      </td>
+                      <td style="text-align:right;">
+                      0.00
+                      </td>
+                      <td style="text-align:right;">
+                      4.02
+                      </td>
+                      </tr>
+                      <tr>
+                      <td style="text-align:left;">
+                      IJmuiden
+                      </td>
+                      <td style="text-align:left;">
+                      broken_squared
+                      </td>
+                      <td style="text-align:left;">
+                      Constant
+                      </td>
+                      <td style="text-align:right;">
+                      -43.57
+                      </td>
+                      <td style="text-align:right;">
+                      4.43
+                      </td>
+                      <td style="text-align:right;">
+                      -9.83
+                      </td>
+                      <td style="text-align:right;">
+                      0.00
+                      </td>
+                      <td style="text-align:right;">
+                      4.74
+                      </td>
+                      </tr>
+                      <tr>
+                      <td style="text-align:left;">
+                      IJmuiden
+                      </td>
+                      <td style="text-align:left;">
+                      broken_squared
+                      </td>
+                      <td style="text-align:left;">
+                      Trend
+                      </td>
+                      <td style="text-align:right;">
+                      2.12
+                      </td>
+                      <td style="text-align:right;">
+                      0.10
+                      </td>
+                      <td style="text-align:right;">
+                      20.16
+                      </td>
+                      <td style="text-align:right;">
+                      0.00
+                      </td>
+                      <td style="text-align:right;">
+                      0.14
+                      </td>
+                      </tr>
+                      <tr>
+                      <td style="text-align:left;">
+                      IJmuiden
+                      </td>
+                      <td style="text-align:left;">
+                      broken_squared
+                      </td>
+                      <td style="text-align:left;">
+
+                      - square_trend 1960
+                        </td>
+                        <td style="text-align:right;">
+                        0.00
+                        </td>
+                        <td style="text-align:right;">
+                        0.00
+                        </td>
+                        <td style="text-align:right;">
+                        0.24
+                        </td>
+                        <td style="text-align:right;">
+                        0.81
+                        </td>
+                        <td style="text-align:right;">
+                        0.00
+                        </td>
+                        </tr>
+                        <tr>
+                        <td style="text-align:left;">
+                        IJmuiden
+                        </td>
+                        <td style="text-align:left;">
+                        broken_squared
+                        </td>
+                        <td style="text-align:left;">
+                        u_nodal
+                        </td>
+                        <td style="text-align:right;">
+                        10.07
+                        </td>
+                        <td style="text-align:right;">
+                        3.58
+                        </td>
+                        <td style="text-align:right;">
+                        2.82
+                        </td>
+                        <td style="text-align:right;">
+                        0.01
+                        </td>
+                        <td style="text-align:right;">
+                        4.37
+                        </td>
+                        </tr>
+                        <tr>
+                        <td style="text-align:left;">
+                        IJmuiden
+                        </td>
+                        <td style="text-align:left;">
+                        broken_squared
+                        </td>
+                        <td style="text-align:left;">
+                        v_nodal
+                        </td>
+                        <td style="text-align:right;">
+                        -11.87
+                        </td>
+                        <td style="text-align:right;">
+                        3.51
+                        </td>
+                        <td style="text-align:right;">
+                        -3.38
+                        </td>
+                        <td style="text-align:right;">
+                        0.00
+                        </td>
+                        <td style="text-align:right;">
+                        4.00
+                        </td>
+                        </tr>
+                        <tr>
+                        <td style="text-align:left;">
+                        Netherlands
+                        </td>
+                        <td style="text-align:left;">
+                        linear
+                        </td>
+                        <td style="text-align:left;">
+                        Constant
+                        </td>
+                        <td style="text-align:right;">
+                        -22.42
+                        </td>
+                        <td style="text-align:right;">
+                        2.02
+                        </td>
+                        <td style="text-align:right;">
+                        -11.12
+                        </td>
+                        <td style="text-align:right;">
+                        0.00
+                        </td>
+                        <td style="text-align:right;">
+                        2.12
+                        </td>
+                        </tr>
+                        <tr>
+                        <td style="text-align:left;">
+                        Netherlands
+                        </td>
+                        <td style="text-align:left;">
+                        linear
+                        </td>
+                        <td style="text-align:left;">
+                        Trend
+                        </td>
+                        <td style="text-align:right;">
+                        1.97
+                        </td>
+                        <td style="text-align:right;">
+                        0.05
+                        </td>
+                        <td style="text-align:right;">
+                        39.89
+                        </td>
+                        <td style="text-align:right;">
+                        0.00
+                        </td>
+                        <td style="text-align:right;">
+                        0.06
+                        </td>
+                        </tr>
+                        <tr>
+                        <td style="text-align:left;">
+                        Netherlands
+                        </td>
+                        <td style="text-align:left;">
+                        linear
+                        </td>
+                        <td style="text-align:left;">
+                        u_nodal
+                        </td>
+                        <td style="text-align:right;">
+                        4.00
+                        </td>
+                        <td style="text-align:right;">
+                        2.73
+                        </td>
+                        <td style="text-align:right;">
+                        1.47
+                        </td>
+                        <td style="text-align:right;">
+                        0.14
+                        </td>
+                        <td style="text-align:right;">
+                        2.94
+                        </td>
+                        </tr>
+                        <tr>
+                        <td style="text-align:left;">
+                        Netherlands
+                        </td>
+                        <td style="text-align:left;">
+                        linear
+                        </td>
+                        <td style="text-align:left;">
+                        v_nodal
+                        </td>
+                        <td style="text-align:right;">
+                        -12.04
+                        </td>
+                        <td style="text-align:right;">
+                        2.66
+                        </td>
+                        <td style="text-align:right;">
+                        -4.52
+                        </td>
+                        <td style="text-align:right;">
+                        0.00
+                        </td>
+                        <td style="text-align:right;">
+                        3.06
+                        </td>
+                        </tr>
+                        <tr>
+                        <td style="text-align:left;">
+                        Netherlands
+                        </td>
+                        <td style="text-align:left;">
+                        broken_linear
+                        </td>
+                        <td style="text-align:left;">
+                        Constant
+                        </td>
+                        <td style="text-align:right;">
+                        -29.10
+                        </td>
+                        <td style="text-align:right;">
+                        2.53
+                        </td>
+                        <td style="text-align:right;">
+                        -11.52
+                        </td>
+                        <td style="text-align:right;">
+                        0.00
+                        </td>
+                        <td style="text-align:right;">
+                        2.33
+                        </td>
+                        </tr>
+                        <tr>
+                        <td style="text-align:left;">
+                        Netherlands
+                        </td>
+                        <td style="text-align:left;">
+                        broken_linear
+                        </td>
+                        <td style="text-align:left;">
+                        Trend
+                        </td>
+                        <td style="text-align:right;">
+                        1.80
+                        </td>
+                        <td style="text-align:right;">
+                        0.06
+                        </td>
+                        <td style="text-align:right;">
+                        28.78
+                        </td>
+                        <td style="text-align:right;">
+                        0.00
+                        </td>
+                        <td style="text-align:right;">
+                        0.07
+                        </td>
+                        </tr>
+                        <tr>
+                        <td style="text-align:left;">
+                        Netherlands
+                        </td>
+                        <td style="text-align:left;">
+                        broken_linear
+                        </td>
+                        <td style="text-align:left;">
+
+                        - trend 1993
+                          </td>
+                          <td style="text-align:right;">
+                          1.28
+                          </td>
+                          <td style="text-align:right;">
+                          0.32
+                          </td>
+                          <td style="text-align:right;">
+                          4.03
+                          </td>
+                          <td style="text-align:right;">
+                          0.00
+                          </td>
+                          <td style="text-align:right;">
+                          0.26
+                          </td>
+                          </tr>
+                          <tr>
+                          <td style="text-align:left;">
+                          Netherlands
+                          </td>
+                          <td style="text-align:left;">
+                          broken_linear
+                          </td>
+                          <td style="text-align:left;">
+                          u_nodal
+                          </td>
+                          <td style="text-align:right;">
+                          4.40
+                          </td>
+                          <td style="text-align:right;">
+                          2.58
+                          </td>
+                          <td style="text-align:right;">
+                          1.71
+                          </td>
+                          <td style="text-align:right;">
+                          0.09
+                          </td>
+                          <td style="text-align:right;">
+                          2.76
+                          </td>
+                          </tr>
+                          <tr>
+                          <td style="text-align:left;">
+                          Netherlands
+                          </td>
+                          <td style="text-align:left;">
+                          broken_linear
+                          </td>
+                          <td style="text-align:left;">
+                          v_nodal
+                          </td>
+                          <td style="text-align:right;">
+                          -10.89
+                          </td>
+                          <td style="text-align:right;">
+                          2.54
+                          </td>
+                          <td style="text-align:right;">
+                          -4.30
+                          </td>
+                          <td style="text-align:right;">
+                          0.00
+                          </td>
+                          <td style="text-align:right;">
+                          2.85
+                          </td>
+                          </tr>
+                          <tr>
+                          <td style="text-align:left;">
+                          Netherlands
+                          </td>
+                          <td style="text-align:left;">
+                          broken_squared
+                          </td>
+                          <td style="text-align:left;">
+                          Constant
+                          </td>
+                          <td style="text-align:right;">
+                          -31.99
+                          </td>
+                          <td style="text-align:right;">
+                          3.23
+                          </td>
+                          <td style="text-align:right;">
+                          -9.91
+                          </td>
+                          <td style="text-align:right;">
+                          0.00
+                          </td>
+                          <td style="text-align:right;">
+                          3.12
+                          </td>
+                          </tr>
+                          <tr>
+                          <td style="text-align:left;">
+                          Netherlands
+                          </td>
+                          <td style="text-align:left;">
+                          broken_squared
+                          </td>
+                          <td style="text-align:left;">
+                          Trend
+                          </td>
+                          <td style="text-align:right;">
+                          1.74
+                          </td>
+                          <td style="text-align:right;">
+                          0.08
+                          </td>
+                          <td style="text-align:right;">
+                          22.72
+                          </td>
+                          <td style="text-align:right;">
+                          0.00
+                          </td>
+                          <td style="text-align:right;">
+                          0.09
+                          </td>
+                          </tr>
+                          <tr>
+                          <td style="text-align:left;">
+                          Netherlands
+                          </td>
+                          <td style="text-align:left;">
+                          broken_squared
+                          </td>
+                          <td style="text-align:left;">
+
+                          - square_trend 1960
+                            </td>
+                            <td style="text-align:right;">
+                            0.01
+                            </td>
+                            <td style="text-align:right;">
+                            0.00
+                            </td>
+                            <td style="text-align:right;">
+                            3.69
+                            </td>
+                            <td style="text-align:right;">
+                            0.00
+                            </td>
+                            <td style="text-align:right;">
+                            0.00
+                            </td>
+                            </tr>
+                            <tr>
+                            <td style="text-align:left;">
+                            Netherlands
+                            </td>
+                            <td style="text-align:left;">
+                            broken_squared
+                            </td>
+                            <td style="text-align:left;">
+                            u_nodal
+                            </td>
+                            <td style="text-align:right;">
+                            4.21
+                            </td>
+                            <td style="text-align:right;">
+                            2.60
+                            </td>
+                            <td style="text-align:right;">
+                            1.62
+                            </td>
+                            <td style="text-align:right;">
+                            0.11
+                            </td>
+                            <td style="text-align:right;">
+                            2.80
+                            </td>
+                            </tr>
+                            <tr>
+                            <td style="text-align:left;">
+                            Netherlands
+                            </td>
+                            <td style="text-align:left;">
+                            broken_squared
+                            </td>
+                            <td style="text-align:left;">
+                            v_nodal
+                            </td>
+                            <td style="text-align:right;">
+                            -11.14
+                            </td>
+                            <td style="text-align:right;">
+                            2.55
+                            </td>
+                            <td style="text-align:right;">
+                            -4.36
+                            </td>
+                            <td style="text-align:right;">
+                            0.00
+                            </td>
+                            <td style="text-align:right;">
+                            2.87
+                            </td>
+                            </tr>
+                            <tr>
+                            <td style="text-align:left;">
+                            Netherlands (without Delfzijl)
+                            </td>
+                            <td style="text-align:left;">
+                            linear
+                            </td>
+                            <td style="text-align:left;">
+                            Constant
+                            </td>
+                            <td style="text-align:right;">
+                            -31.54
+                            </td>
+                            <td style="text-align:right;">
+                            1.94
+                            </td>
+                            <td style="text-align:right;">
+                            -16.26
+                            </td>
+                            <td style="text-align:right;">
+                            0.00
+                            </td>
+                            <td style="text-align:right;">
+                            2.01
+                            </td>
+                            </tr>
+                            <tr>
+                            <td style="text-align:left;">
+                            Netherlands (without Delfzijl)
+                            </td>
+                            <td style="text-align:left;">
+                            linear
+                            </td>
+                            <td style="text-align:left;">
+                            Trend
+                            </td>
+                            <td style="text-align:right;">
+                            1.98
+                            </td>
+                            <td style="text-align:right;">
+                            0.05
+                            </td>
+                            <td style="text-align:right;">
+                            41.65
+                            </td>
+                            <td style="text-align:right;">
+                            0.00
+                            </td>
+                            <td style="text-align:right;">
+                            0.05
+                            </td>
+                            </tr>
+                            <tr>
+                            <td style="text-align:left;">
+                            Netherlands (without Delfzijl)
+                            </td>
+                            <td style="text-align:left;">
+                            linear
+                            </td>
+                            <td style="text-align:left;">
+                            u_nodal
+                            </td>
+                            <td style="text-align:right;">
+                            4.34
+                            </td>
+                            <td style="text-align:right;">
+                            2.62
+                            </td>
+                            <td style="text-align:right;">
+                            1.66
+                            </td>
+                            <td style="text-align:right;">
+                            0.10
+                            </td>
+                            <td style="text-align:right;">
+                            2.83
+                            </td>
+                            </tr>
+                            <tr>
+                            <td style="text-align:left;">
+                            Netherlands (without Delfzijl)
+                            </td>
+                            <td style="text-align:left;">
+                            linear
+                            </td>
+                            <td style="text-align:left;">
+                            v_nodal
+                            </td>
+                            <td style="text-align:right;">
+                            -11.63
+                            </td>
+                            <td style="text-align:right;">
+                            2.56
+                            </td>
+                            <td style="text-align:right;">
+                            -4.54
+                            </td>
+                            <td style="text-align:right;">
+                            0.00
+                            </td>
+                            <td style="text-align:right;">
+                            2.96
+                            </td>
+                            </tr>
+                            <tr>
+                            <td style="text-align:left;">
+                            Netherlands (without Delfzijl)
+                            </td>
+                            <td style="text-align:left;">
+                            broken_linear
+                            </td>
+                            <td style="text-align:left;">
+                            Constant
+                            </td>
+                            <td style="text-align:right;">
+                            -37.35
+                            </td>
+                            <td style="text-align:right;">
+                            2.46
+                            </td>
+                            <td style="text-align:right;">
+                            -15.19
+                            </td>
+                            <td style="text-align:right;">
+                            0.00
+                            </td>
+                            <td style="text-align:right;">
+                            2.30
+                            </td>
+                            </tr>
+                            <tr>
+                            <td style="text-align:left;">
+                            Netherlands (without Delfzijl)
+                            </td>
+                            <td style="text-align:left;">
+                            broken_linear
+                            </td>
+                            <td style="text-align:left;">
+                            Trend
+                            </td>
+                            <td style="text-align:right;">
+                            1.83
+                            </td>
+                            <td style="text-align:right;">
+                            0.06
+                            </td>
+                            <td style="text-align:right;">
+                            30.08
+                            </td>
+                            <td style="text-align:right;">
+                            0.00
+                            </td>
+                            <td style="text-align:right;">
+                            0.07
+                            </td>
+                            </tr>
+                            <tr>
+                            <td style="text-align:left;">
+                            Netherlands (without Delfzijl)
+                            </td>
+                            <td style="text-align:left;">
+                            broken_linear
+                            </td>
+                            <td style="text-align:left;">
+
+                            - trend 1993
+                              </td>
+                              <td style="text-align:right;">
+                              1.11
+                              </td>
+                              <td style="text-align:right;">
+                              0.31
+                              </td>
+                              <td style="text-align:right;">
+                              3.60
+                              </td>
+                              <td style="text-align:right;">
+                              0.00
+                              </td>
+                              <td style="text-align:right;">
+                              0.26
+                              </td>
+                              </tr>
+                              <tr>
+                              <td style="text-align:left;">
+                              Netherlands (without Delfzijl)
+                              </td>
+                              <td style="text-align:left;">
+                              broken_linear
+                              </td>
+                              <td style="text-align:left;">
+                              u_nodal
+                              </td>
+                              <td style="text-align:right;">
+                              4.70
+                              </td>
+                              <td style="text-align:right;">
+                              2.51
+                              </td>
+                              <td style="text-align:right;">
+                              1.87
+                              </td>
+                              <td style="text-align:right;">
+                              0.06
+                              </td>
+                              <td style="text-align:right;">
+                              2.68
+                              </td>
+                              </tr>
+                              <tr>
+                              <td style="text-align:left;">
+                              Netherlands (without Delfzijl)
+                              </td>
+                              <td style="text-align:left;">
+                              broken_linear
+                              </td>
+                              <td style="text-align:left;">
+                              v_nodal
+                              </td>
+                              <td style="text-align:right;">
+                              -10.64
+                              </td>
+                              <td style="text-align:right;">
+                              2.47
+                              </td>
+                              <td style="text-align:right;">
+                              -4.31
+                              </td>
+                              <td style="text-align:right;">
+                              0.00
+                              </td>
+                              <td style="text-align:right;">
+                              2.82
+                              </td>
+                              </tr>
+                              <tr>
+                              <td style="text-align:left;">
+                              Netherlands (without Delfzijl)
+                              </td>
+                              <td style="text-align:left;">
+                              broken_squared
+                              </td>
+                              <td style="text-align:left;">
+                              Constant
+                              </td>
+                              <td style="text-align:right;">
+                              -39.74
+                              </td>
+                              <td style="text-align:right;">
+                              3.14
+                              </td>
+                              <td style="text-align:right;">
+                              -12.66
+                              </td>
+                              <td style="text-align:right;">
+                              0.00
+                              </td>
+                              <td style="text-align:right;">
+                              3.12
+                              </td>
+                              </tr>
+                              <tr>
+                              <td style="text-align:left;">
+                              Netherlands (without Delfzijl)
+                              </td>
+                              <td style="text-align:left;">
+                              broken_squared
+                              </td>
+                              <td style="text-align:left;">
+                              Trend
+                              </td>
+                              <td style="text-align:right;">
+                              1.78
+                              </td>
+                              <td style="text-align:right;">
+                              0.07
+                              </td>
+                              <td style="text-align:right;">
+                              23.91
+                              </td>
+                              <td style="text-align:right;">
+                              0.00
+                              </td>
+                              <td style="text-align:right;">
+                              0.09
+                              </td>
+                              </tr>
+                              <tr>
+                              <td style="text-align:left;">
+                              Netherlands (without Delfzijl)
+                              </td>
+                              <td style="text-align:left;">
+                              broken_squared
+                              </td>
+                              <td style="text-align:left;">
+
+                              - square_trend 1960
+                                </td>
+                                <td style="text-align:right;">
+                                0.01
+                                </td>
+                                <td style="text-align:right;">
+                                0.00
+                                </td>
+                                <td style="text-align:right;">
+                                3.25
+                                </td>
+                                <td style="text-align:right;">
+                                0.00
+                                </td>
+                                <td style="text-align:right;">
+                                0.00
+                                </td>
+                                </tr>
+                                <tr>
+                                <td style="text-align:left;">
+                                Netherlands (without Delfzijl)
+                                </td>
+                                <td style="text-align:left;">
+                                broken_squared
+                                </td>
+                                <td style="text-align:left;">
+                                u_nodal
+                                </td>
+                                <td style="text-align:right;">
+                                4.53
+                                </td>
+                                <td style="text-align:right;">
+                                2.53
+                                </td>
+                                <td style="text-align:right;">
+                                1.79
+                                </td>
+                                <td style="text-align:right;">
+                                0.08
+                                </td>
+                                <td style="text-align:right;">
+                                2.72
+                                </td>
+                                </tr>
+                                <tr>
+                                <td style="text-align:left;">
+                                Netherlands (without Delfzijl)
+                                </td>
+                                <td style="text-align:left;">
+                                broken_squared
+                                </td>
+                                <td style="text-align:left;">
+                                v_nodal
+                                </td>
+                                <td style="text-align:right;">
+                                -10.87
+                                </td>
+                                <td style="text-align:right;">
+                                2.48
+                                </td>
+                                <td style="text-align:right;">
+                                -4.37
+                                </td>
+                                <td style="text-align:right;">
+                                0.00
+                                </td>
+                                <td style="text-align:right;">
+                                2.85
+                                </td>
+                                </tr>
+                                </tbody>
+                                </table>
+                                </div>
 
 ## Which model is the preferred model?
 
@@ -959,3 +3791,5 @@ Based on the above analysis, the following conclusions are drawn:
 Based on variance analysis the broken linear model is significantly
 better than the linear model. the broken linear model is accepted as the
 preferred model.
+
+</div>

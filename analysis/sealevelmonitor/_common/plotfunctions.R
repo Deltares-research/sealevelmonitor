@@ -8,6 +8,55 @@ fitstyle =   theme_light() %+replace%
     legend.position = "bottom"
   ) 
 
+plotResidualDistribution <- function(models) {
+  
+  models %>%
+    unnest(c(data, augment), names_sep = "_") %>% 
+    mutate(
+      surge_correction = case_when(
+        params$wind_or_surge_type == "GTSM" ~ ifelse(data_year >= 1950, params$wind_or_surge_type, "none")
+      )
+    ) %>%
+    ggplot(aes(x = augment_.resid)) +
+    geom_density(
+      aes(
+        fill = surge_correction,
+        color = surge_correction),
+      # position = position_identity(), 
+      alpha = 0.5, size = 1
+    ) +
+    facet_grid(station ~ modeltype) +
+    geom_vline(xintercept = 0, alpha = 0.5) +
+    theme(
+      strip.text.y = element_text(angle = 0), 
+      legend.position = "bottom"
+    )
+}
+
+plot_ACF <- function(models) {
+  models %>%
+    mutate(
+      ACF = map(augment, function(x) fortify(acf(x$.resid, plot = F)))
+    ) %>%
+    unnest(ACF) %>%
+    mutate(ACF_pass = (ACF >= lower & ACF <= upper)) %>%
+    filter(Lag >= 1) %>%
+    ggplot(aes(Lag, ACF)) +
+    geom_col(width = 0.4, aes(fill = ACF_pass)) +
+    geom_vline(xintercept = 8.9, linetype = 3) +
+    geom_vline(xintercept = 18.6, linetype = 3) +
+    geom_line(aes(y = lower), linetype = "dotdash", linewidth = 0.5) +
+    geom_line(aes(y = upper), linetype = "dotdash", linewidth = 0.5) +
+    scale_x_continuous(
+      breaks = scales::breaks_pretty(10)
+    )+
+    facet_grid(station ~ modeltype) +
+    theme_minimal() +
+    theme(
+      strip.text.y = element_text(angle = 0),
+      legend.position = "bottom"
+    )
+}
 
 plot_station <- function(
     stationi = "Netherlands (without Delfzijl)", 
@@ -49,7 +98,7 @@ plot_station <- function(
                aes(x = data_year, y = data_height/10, color = "zeespiegel"), 
                size = symboolgrootte, 
                alpha = 0.8) +
-    geom_line(data = predictions_all2 %>% filter(preds_year >= startyear),
+    geom_point(data = predictions_all2 %>% filter(preds_year >= startyear),
               aes(x = data_year, y = (data_height - nodal_tide)/10, color = "zeespiegel (- nodaal getij)"),
               size = symboolgrootte, 
               alpha = 0.5) +
@@ -57,7 +106,7 @@ plot_station <- function(
     #           aes(x = data_year, y = (`data_height-surge_anomaly` - nodal_tide)/10, color = "zeespiegel (-opzetanomalie -nodaal getij)"),
     #           size = symboolgrootte, 
     #           alpha = 0.6) +
-    geom_line(data = predictions_all2 %>% filter(preds_year >= startyear), 
+    geom_point(data = predictions_all2 %>% filter(preds_year >= startyear), 
               aes(x = preds_year, y = (`data_height-surge_anomaly` - nodal_tide)/10, color = "zeespiegel (-opzetanomalie -nodaal getij)"), 
               size = symboolgrootte, 
               alpha = 0.5) +

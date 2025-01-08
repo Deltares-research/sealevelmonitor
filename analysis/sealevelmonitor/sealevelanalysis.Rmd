@@ -3,11 +3,11 @@ title: "Zeespiegelmonitor analyse"
 author: "Willem Stolte, Nathalie Dees"
 date: "2024-03-12"
 output:
-  github_document: null
   html_document:
     df_print: paged
     code_folding: hide
     outputdir: ../../docs
+  github_document: null
   pdf_document: default
 always_allow_html: true
 params:
@@ -220,7 +220,7 @@ gtsm <- read_yearly_gtsm(filename = "../../data/deltares/gtsm/gtsm_surge_annual_
 
 ### Compare with previous years analysis data 
 
-```{r vergelijk-oud-en-nieuw}
+```{r vergelijk-oud-en-nieuw, fig.cap = "Comparison of measured sea level with previous year."}
 
 # previous year did not include gtsm for year 1950.
 # Therefore comparison of surge is done for years > 1950
@@ -237,7 +237,7 @@ ggplot() +
     shape = "+"
   ) +
   geom_point(
-    data = refreshed_df_filter, 
+    data = refreshed_df, 
     aes(x = year, y = height), 
     color = "blue", 
     shape = 21, 
@@ -245,24 +245,39 @@ ggplot() +
     size = 1
   ) +
   facet_wrap(c("station"), ncol = 3)
+```
 
+
+```{r compare-gtsm, fig.cap="Comparison of GTSM surge anomaly with previous year. "}
+
+# previous year did not include gtsm for year 1950.
+# Therefore comparison of surge is done for years > 1950
+
+# range(df$surge_anomaly)
+# range(refreshed_df$surge_anomaly, na.rm = T)
+
+refreshed_df_filter <- refreshed_df %>% filter(year > 1950 & year < 2023)
 
 ggplot() +
   geom_point(
     data = previous_df, 
-    aes(x = year, y = surge_anomaly)
+    aes(x = year, y = surge_anomaly, color = as.character(params$monitoryear-1))
     ) +
   geom_point(
-    data = refreshed_df_filter, 
-    aes(x = year, y = surge_anomaly), 
-    color = "blue", 
+    data = refreshed_df, 
+    aes(x = year, y = surge_anomaly, color = as.character(params$monitoryear)), 
     shape = 21, 
     fill = "transparent",
     size = 1
     ) +
-  facet_wrap(c("station"), ncol = 3)
+  facet_wrap(c("station"), ncol = 3) +
+  coord_cartesian(xlim = c(1950, params$monitoryear)) +
+  labs(color = "monitor year")
 
 ```
+
+The difference between the gtsm surge anomalies between the years is caused by the addition of two additional years, 1950 and 2023. The mean surge for some stations has changed due to this addition, causing the surge anomaly to move up or down. This has no consequences for the determination of the sea level trend, but it has effect on the corrected sea level. 
+
 
 ## Locations of the main stations
 
@@ -398,7 +413,7 @@ models <- byStation %>%
     AIC    = glance %>% map_dbl("AIC"),
     tidy   = map(model, broom::tidy),
     augment = map(model, broom::augment),
-    equation = map(model, function(x) equatiomatic::extract_eq(x))
+    equation = map(model, function(x) equatiomatic::extract_eq(x, ital_vars = TRUE))
   )
 
 ```
@@ -407,7 +422,7 @@ models <- byStation %>%
 ```{r, results="asis"}
 eq <- models %>% 
   distinct(modeltype, equation) %>%
-  mutate(equation = paste0("$", equation, "$"))
+  mutate(equation = paste0("$`", equation, "`$"))
 
 knitr::kable(eq, escape = F)
 
@@ -421,28 +436,8 @@ Autocorrelation with previous year(s) can sometimes explain part of the otherwis
 
 ```{r acf-plot, fig.height=nstations*2+1, fig.width=nmodels*3+1, fig.cap="Autocorrelation plot for selected stations and models. "}
 
-models %>%
-  mutate(
-    ACF = map(augment, function(x) fortify(acf(x$.resid, plot = F)))
-  ) %>%
-  unnest(ACF) %>%
-  mutate(ACF_pass = (ACF >= lower & ACF <= upper)) %>%
-  filter(Lag >= 1) %>%
-  ggplot(aes(Lag, ACF)) +
-  geom_col(width = 0.4, aes(fill = ACF_pass)) +
-  geom_vline(xintercept = 8.9, linetype = 3) +
-  geom_vline(xintercept = 18.6, linetype = 3) +
-  geom_line(aes(y = lower), linetype = "dotdash", linewidth = 0.5) +
-  geom_line(aes(y = upper), linetype = "dotdash", linewidth = 0.5) +
-  scale_x_continuous(
-    breaks = scales::breaks_pretty(10)
-    )+
-  facet_grid(station ~ modeltype) +
-  theme_minimal() +
-  theme(
-    strip.text.y = element_text(angle = 0),
-    legend.position = "bottom"
-        )
+plot_ACF(models)
+
 ```
 
 There appears to be a consistent autocorrelation for all stations and models with a 'lag' of one year. The autocorrelation does not influence the value of the calculated trend parameters, but needs to be taken into account when calculating standard errors. The [Newey West autocorrelatie term](https://search.r-project.org/CRAN/refmans/sandwich/html/NeweyWest.html) is used to correctly calculate the standard errors.
@@ -453,37 +448,10 @@ There is no apparent autocorrelation with a 'lag' of 18.6 years, the 'nodal tide
 
 
 ```{r add-HAC}
-# Using NeweyWest():
+
 require(sandwich)
 
-models <- models %>%
-  mutate(
-    tidy.HAC = map(
-      model, 
-      function(x) broom::tidy(
-        sqrt(
-          diag(
-            NeweyWest(
-              x, 
-              lag = 1, 
-              prewhite = F, 
-              adjust = T
-            )
-          )
-        )
-      )
-    )
-  )
-    
-  models$tidy.HAC <- lapply(models$tidy.HAC,
-       function(x) {
-         x %>%
-           rename(
-             term.HAC = names,
-             st.err.HAC = x
-           )
-       }
-)
+models <- addHACterms(models)
 
 ```
 
@@ -494,27 +462,10 @@ models <- models %>%
 The distribution of residuals resembles a normal distribution for most stations and model variants. Station Harlingen is an example where the distribution is out of centre when using the linear model. The width of the residuals distribution is narrower when measurements are corrected for surge prior to application of the models.
 
 ```{r, fig.height=nstations*1.5+1, fig.width=nmodels*2+1, out.width="100%"}
-models %>%
-  unnest(c(data, augment), names_sep = "_") %>% 
-  mutate(
-    surge_correction = case_when(
-      params$wind_or_surge_type == "GTSM" ~ ifelse(data_year >= 1950, params$wind_or_surge_type, "none")
-    )
-  ) %>%
- ggplot(aes(x = augment_.resid)) +
-  geom_density(
-    aes(
-      fill = surge_correction,
-      color = surge_correction),
-    # position = position_identity(), 
-    alpha = 0.5, size = 1
-  ) +
-  facet_grid(station ~ modeltype) +
-  geom_vline(xintercept = 0, alpha = 0.5) +
-  theme(
-    strip.text.y = element_text(angle = 0), 
-    legend.position = "bottom"
-  )
+
+
+plotResidualDistribution(models)
+
 
 ```
 
@@ -524,12 +475,10 @@ Distribution of residuals should not reveal a clear deviation from a horizontal 
 
 ```{r, fig.height=nstations*1.5+1, fig.width=nmodels*2+1}
 models %>%
-  # filter(!grepl("Netherlands", station)) %>%
-  # filter(station == "IJmuiden") %>%
-  unnest(c(data, augment), names_sep = "_") %>% #str(max.level = 2)
-ggplot(aes(data_year, augment_.resid)) +
+  unnest(c(data, augment), names_sep = "_") %>%
+  ggplot(aes(data_year, augment_.resid)) +
   geom_point(alpha = 0.4) +
-  facet_grid(station ~ modeltype) #+
+  facet_grid(station ~ modeltype)
 ```
 
 ## Sea level rise
@@ -537,75 +486,16 @@ ggplot(aes(data_year, augment_.resid)) +
 ```{r}
 
 lookup <- c(
-   Constant = "(Intercept)",
-    Trend = "I(year - epoch)",
-    u_nodal = "I(cos(2 * pi * (year - epoch)/(18.613)))",
-    v_nodal = "I(sin(2 * pi * (year - epoch)/(18.613)))",
-    `+ trend 1993` = "from1993",
-    `+ square_trend 1960` = "from1960_square",
-    AR_term = "previousYearHeight"
-  )
+  Constant = "(Intercept)",
+  Trend = "I(year - epoch)",
+  u_nodal = "I(cos(2 * pi * (year - epoch)/(18.613)))",
+  v_nodal = "I(sin(2 * pi * (year - epoch)/(18.613)))",
+  `+ trend 1993` = "from1993",
+  `+ square_trend 1960` = "from1960_square",
+  AR_term = "previousYearHeight"
+)
 
-# data wrangling. move to functions.R
-
-all_predictions <- models %>%
-  mutate(
-    preds = map2(data, model, add_predictions)
-  ) %>%
-  dplyr::select(
-    station,
-    modeltype, 
-    data, 
-    tidy, 
-    preds) %>%
-  tidyr::unnest(c(data, preds), names_sep = "_") %>% 
-  tidyr::unnest(tidy) %>%
-    # str(max.level = 2)
-
-  dplyr::select(-std.error, -statistic, -p.value) %>% # clean up
-  tidyr::pivot_wider(
-    names_from = term, 
-    values_from = estimate
-  ) %>%
-  mutate(`data_height-surge_anomaly` = data_height - `preds_surge_anomaly`) %>%
-  mutate(`preds_height-surge_anomaly` = preds_pred - `preds_surge_anomaly`) %>%
-  rename(any_of(lookup)) %>%
-  # str(max.level = 2)
-  mutate(
-    nodal_tide = 
-      u_nodal * cos(2*pi*(data_year-epoch)/18.613) + 
-      v_nodal * sin(2*pi*(data_year-epoch)/18.613),
-    prediction_recalc = case_when(
-      if("linear" %in% params$modeltype){
-        modeltype == "linear" ~ 
-          Constant + 
-          Trend * (data_year - epoch)# + 
-          # AR_term * data_previousYearHeight
-      },
-      if("broken_linear" %in% params$modeltype){
-        modeltype == "broken_linear" ~ 
-          Constant + 
-          Trend * (data_year - epoch) +
-          # AR_term * data_previousYearHeight +
-          (data_year >= 1993) * `+ trend 1993` * (data_year - 1993)
-      },
-      # if("broken_quadratic" %in% params$modeltype){
-      #   modeltype == "broken_quadratic" ~ Constant + Trend * (data_year - epoch) +
-      #     ifelse(data_year >= 1960, from1960_square * (data_year - 1960) * (data_year - 1960), 0)
-      # }
-    )
-    ) %>%
-  select(
-    station,
-    modeltype,
-    data_year,
-    data_height,
-    preds_year,
-    prediction_recalc,
-    `data_height-surge_anomaly`,
-    `preds_height-surge_anomaly`,
-    nodal_tide
-  )
+all_predictions <- makePredictionTable(models, lookup)
 
 ```
 
@@ -615,7 +505,7 @@ ggplot(
   all_predictions,
   aes(x = data_year)
 ) +
-  geom_point(aes(y = data_height)) +
+  geom_point(aes(y = data_height), alpha = 0.15) +
   geom_line(aes(y = prediction_recalc)) +
   facet_grid(station ~ modeltype)
 
@@ -651,11 +541,10 @@ ggplot(
 ```{r}
 
 ## gebruik DT in plaats van kableextra
+# library(DT)
 
 lookup.df <- data.frame(long_term = unname(lookup),
                         short_term = names(lookup))
-
-library(DT)
 
 parametertable <- models %>%
   select(station, modeltype, tidy) %>% 
@@ -674,21 +563,17 @@ parametertable <- models %>%
   select(-term, term = short_term) %>%
   relocate(term, .after = modeltype)
 
-parametertable %>%
-  DT::datatable(
-    options = list(
-      "digits" = 3
-    )
-  )
+# parametertable %>%
+#   DT::datatable(
+#     options = list(
+#       "digits" = 3
+#     )
+#   )
 
-
-  # kableExtra::kable(
-  #   caption = "Coefficients for all models and stations.",digits = 2
-  #   ) %>% 
-  # kableExtra::scroll_box(height = "500px")
-
-
-
+  kableExtra::kable(parametertable,
+    caption = "Coefficients for all models and stations.",digits = 2
+    ) %>%
+  kableExtra::scroll_box(height = "500px")
 
 ```
 
@@ -701,7 +586,7 @@ acc_broken_linear <- parametertable %>%
   filter(modeltype == "broken_linear") %>%
   filter(term == "+ trend 1993") %>%
   select(station, p.value )
-knitr::kable(acc_broken_linear, caption = "Significance for the acceleration term in the broken linear model for all stations. ")
+knitr::kable(acc_broken_linear, caption = "p-values for the acceleration term in the broken linear model for all stations. ")
 ```
 
 For the broken linear model, there is a significant acceleration starting in the year 1993 when fitting the average sea level combined for all stations without Delfzijl. For individual stations, the acceleration is not significant for the stations Vlissingen, Hoek van Holland and IJmuiden.
@@ -711,7 +596,7 @@ acc_broken_linear <- parametertable %>%
   filter(modeltype == "broken_squared") %>%
   filter(term == "+ square_trend 1960") %>%
   select(station, p.value )
-knitr::kable(acc_broken_linear, caption = "Significance for the acceleration term in the broken squared model for all stations. ")
+knitr::kable(acc_broken_linear, caption = "p-vallues for the acceleration term in the broken squared model for all stations. ")
 ```
 
 For the broken squared model, there is a significant acceleration starting in the year 1960 when fitting the average sea level combined for all stations without Delfzijl. For individual stations, the acceleration is not significant for the stations Vlissingen, Hoek van Holland and IJmuiden.
@@ -748,30 +633,24 @@ Considering all stations, the broken linear and the broken squared model describ
 The broken linear model is chosen as the preferred candidate because it gave a better explanation of the observation, corrected for the degrees of freedom of the model (AIC criterion). Here, it is tested whether the broken linear model is *significantly* better model that the most simple model, the broken linear model.  
 
 ```{r}
-
+# extract models to compare
 bl <- models %>% 
   filter(
     station == "Netherlands (without Delfzijl)",
     modeltype == "broken_linear"
   ) %>%
-  select(model) %>%
-  unlist(recursive = F) %>%
-  unname()
+  select(model) %>% unlist(recursive = F) %>% unname()
 
 l <- models %>% 
   filter(
     station == "Netherlands (without Delfzijl)",
     modeltype == "linear"
   ) %>%
-  select(model) %>%
-  unlist(recursive = F) %>%
-  unname()
+  select(model) %>% unlist(recursive = F) %>% unname()
 
+# create anova table
 t <- anova(l[[1]], bl[[1]])
-
-# broom::tidy(t) %>% 
-#   select(term, rss, p.value)
-
+# extract p value from table
 p_value <- t$`Pr(>F)`[2]
 
 if(p_value<0.01) {
@@ -784,24 +663,15 @@ The Anova table for model comparison is shown below.
 
 ```{r, results='asis'}
 
-# stargazer::stargazer(
-#   t, 
-#   type = 'html',
-#   column.sep.width = '20pt'
-#   )
-
-t
+makePrettyAnovaTable(t, 3)
 
 ```
 
-The acceleration model (broken linear) has one more degree of freedom as the linear model. The broken linear model is significantly better than the linear model (p \< 0.001).
+The acceleration model (broken linear) has one more degree of freedom than the linear model. The broken linear model is significantly better than the linear model (p \< 0.001).
 
 ## Conclusions
 
 Based on the above analysis, the following conclusions are drawn:
-
-
-
 
 ```{r conditional_block, echo=FALSE, results='asis', eval=alternativemodelaccepted}
 
