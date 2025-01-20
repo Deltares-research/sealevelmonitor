@@ -3,9 +3,11 @@ date: "2024-09-12"
 params:
   monitoryear: 2024
 output:
+  github_document:
   html_document:
     df_print: paged
     code_folding: hide
+always_allow_html: true
 ---
 
 # Compare GTSM and wind measurements and reanalyases
