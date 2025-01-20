@@ -106,7 +106,11 @@ readDDLwaterhoogte2 <- function(ddlmetadata, startyear, endyear, outDir = "data/
   }
 }
 
-
+readYrAvgWaterhoogteDDL <- function(dir = "data\\rijkswaterstaat\\ddl\\annual_means"){
+  files = list.files(dir)  
+  lapply(files, \(x) read_delim(file.path(dir, x), delim = ";")) %>%
+    bind_rows()
+}
 
 
 addPreviousYearHeight <- function(df){
@@ -383,13 +387,26 @@ read_yearly_gtsm <- function(filename = "data/deltares/gtsm/gtsm_surge_annual_me
 
 
 
-read_tidal_components_csv <- function(filesdir = "p:/11202493--systeemrap-grevelingen/1_data/Wadden/ddl/calculated/TA_filtersurge") {
+read_tidal_components_csv <- function(files = NA, filesdir = "p:/11202493--systeemrap-grevelingen/1_data/Wadden/ddl/calculated/TA_filtersurge") {
   
-  filelist <- list.files(filesdir, pattern = "component", full.names = T)
-  # get names of stations and year from filenames in filelistShort
-  filelistShort <- list.files(filesdir, pattern = "component", full.names = F)
+  if(any(is.na(files))){
+    filelist <- list.files(filesdir, pattern = "component", full.names = T)
+    # get names of stations and year from filenames in filelistShort
+    filelistShort <- list.files(filesdir, pattern = "component", full.names = F)
+  } else{
+    filelist <- file.path(files)
+    filelistShort <- basename(files)
+  }  
   
-  df <- lapply(filelist, function(x) read_csv(x, col_types = cols(), progress = FALSE))
+  df <- lapply(filelist, 
+               function(x) {
+                 read_csv(x, col_types = cols(), progress = FALSE) %>%
+                   mutate(verticalreference = case_when(
+                     grepl("MSL", x) ~ "MSL",
+                     !grepl("MSL", x) ~ "NAP"
+                   ))
+                 }
+               )
   dfs <- dplyr::bind_rows(df)
   
   names <- tibble(name = str_replace(filelistShort, pattern = "_UTC\\+1.csv", replacement = "")) %>%
@@ -529,6 +546,34 @@ broken_squared_model <- function(df){
       height ~ wind_anomaly +
         I(year - epoch) +
         from1960_square + 
+        I(cos(2 * pi * (year - epoch)/(18.613))) +
+        I(sin(2 * pi * (year - epoch)/(18.613))),
+      data = df
+    )
+  }
+}
+
+# experimental 
+
+broken_jerk_model <- function(df){
+  
+  if(use_gtsm()){
+    lm(
+      height ~ offset(surge_anomaly) + 
+        I(year - epoch) + 
+        from1960_square + 
+        from1960_third +
+        I(cos(2 * pi * (year - epoch)/(18.613))) + 
+        I(sin(2 * pi * (year - epoch)/(18.613))),
+      data = df
+    )
+    
+  } else {
+    lm(
+      height ~ wind_anomaly +
+        I(year - epoch) +
+        from1960_square + 
+        from1960_third +
         I(cos(2 * pi * (year - epoch)/(18.613))) +
         I(sin(2 * pi * (year - epoch)/(18.613))),
       data = df

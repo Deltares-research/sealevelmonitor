@@ -3,15 +3,11 @@ title: "Zeespiegelmonitor"
 author: "Willem Stolte, Nathalie Dees"
 date: "2024-03-12"
 output:
+  github_document:
   html_document:
     df_print: paged
     code_folding: hide
-  github_document:
-    code_folding: hide
 params:
-  monitoryear: 2024
-  wind_or_surge_type: GTSM
-  station:
   # - Delfzijl
   # - Harlingen
   # - Den Helder
@@ -19,11 +15,14 @@ params:
   # - Hoek van Holland
   # - Vlissingen
   # - Netherlands
+  # - linear
+   # - broken_squared
+  monitoryear: 2024
+  wind_or_surge_type: GTSM
+  station:
   - Netherlands (without Delfzijl)
   modeltype:
-  # - linear
    - broken_linear
-   # - broken_squared
 ---
 
 
@@ -206,14 +205,11 @@ ggplot(aes(x = augment_.resid)) +
 
 Bij een geschikt model verwachten we een regelmatige verdeling van residuen over de tijd. Wanneer deze sterk afwijkt dan kan dat een aanwijzing zijn dat het model niet geschikt is, of dat bepaalde correcties niet goed zijn uitgevoerd. 
 
-```{r, fig.height=nstations*1.5+1, fig.width=nmodels*2+1, fig.cap="De verdeling van residuwaarden uitgezet tegen de tijd in jaren. "}
+```{r, fig.height=nstations*0.5+1, fig.width=nmodels*2+1, fig.cap="De verdeling van residuwaarden uitgezet tegen de tijd in jaren. "}
 models %>%
-  # filter(!grepl("Netherlands", station)) %>%
-  # filter(station == "IJmuiden") %>%
   unnest(c(data, augment), names_sep = "_") %>% #str(max.level = 2)
 ggplot(aes(data_year, augment_.resid)) +
   geom_point(alpha = 0.4) +
-  # geom_smooth(span = 0.3) +
   facet_grid(station ~ modeltype) #+
 ```
 

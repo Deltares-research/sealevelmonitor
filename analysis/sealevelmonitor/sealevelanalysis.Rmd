@@ -11,7 +11,7 @@ output:
   pdf_document: default
 always_allow_html: true
 params:
-  monitoryear: 2024
+  monitoryear: 2025
   startyear: 1890
   wind_or_surge_type: GTSM
   station:
@@ -134,7 +134,10 @@ if(max(rlr_df$year) == params$monitoryear-1){
     required_file <- file.path("../../data/rijkswaterstaat/ddl/annual_means/", paste0(params$monitoryear-1, ".csv"))
     
     if(file.exists(required_file)){
-      ddl_datayear <- read_csv2(required_file)
+      ddl_datayear <- read_csv2(required_file) %>%
+        filter(
+          locatie.naam %in% mainstations_df$name
+        )
       
     } else{
       cat("DDL data for year", params$monitoryear-1, "is not available", sep = " ")
