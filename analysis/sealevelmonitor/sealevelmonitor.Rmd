@@ -8,6 +8,10 @@ output:
     df_print: paged
     code_folding: hide
 params:
+  monitoryear: 2024
+  wind_or_surge_type: GTSM
+  station:
+  - Netherlands (without Delfzijl)
   # - Delfzijl
   # - Harlingen
   # - Den Helder
@@ -15,14 +19,10 @@ params:
   # - Hoek van Holland
   # - Vlissingen
   # - Netherlands
-  # - linear
-   # - broken_squared
-  monitoryear: 2024
-  wind_or_surge_type: GTSM
-  station:
-  - Netherlands (without Delfzijl)
   modeltype:
+  # - linear
    - broken_linear
+  # - broken_squared
 ---
 
 
@@ -397,7 +397,7 @@ if(params$modeltype == "broken_linear"){
           "mm/jaar."),
     paste("Na 1993 is de totale trend verhoogd en bedraagt", 
           round(parameterTable$estimate[parameterTable$short_term == "Trend"], 1) +
-            round(parameterTable$st.err.HAC[parameterTable$short_term == "Trend"], 1), 
+            round(parameterTable$estimate[parameterTable$short_term == "+ trend 1993"], 1),
           " +/- ", 
           round(parameterTable$st.err.HAC[parameterTable$short_term == "Trend"], 1) +
             round(parameterTable$st.err.HAC[parameterTable$short_term == "+ trend 1993"], 1), 
@@ -406,8 +406,6 @@ if(params$modeltype == "broken_linear"){
   )
 }
 
-
-print(trend_message)
 
 ```
 

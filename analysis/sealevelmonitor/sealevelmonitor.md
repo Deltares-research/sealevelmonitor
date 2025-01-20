@@ -477,12 +477,6 @@ De extra trend na 1993 bedraagt 1.1 +/- 0.3 mm/jaar.
 
 Na 1993 is de totale trend verhoogd en bedraagt 2.9 +/- 0.4 mm/jaar.
 
-``` r
-print(trend_message)
-```
-
-NULL
-
 <!-- ### Uitspraken over de stand van de zeespiegel in 2023. -->
 <!-- In 2023 was de gemiddelde zeespiegel 152.8 cm tov NAP (2005). -->
 <!-- Gecorrigeerd voor de afwijking van een gemiddeld nodaal getij en windopzet was de zeespiegel in 2023 12 cm tov NAP (2005).  -->
