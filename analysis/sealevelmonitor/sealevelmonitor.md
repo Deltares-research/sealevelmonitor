@@ -459,7 +459,7 @@ if(params$modeltype == "broken_linear"){
           "mm/jaar."),
     paste("Na 1993 is de totale trend verhoogd en bedraagt", 
           round(parameterTable$estimate[parameterTable$short_term == "Trend"], 1) +
-            round(parameterTable$st.err.HAC[parameterTable$short_term == "Trend"], 1), 
+            round(parameterTable$estimate[parameterTable$short_term == "+ trend 1993"], 1),
           " +/- ", 
           round(parameterTable$st.err.HAC[parameterTable$short_term == "Trend"], 1) +
             round(parameterTable$st.err.HAC[parameterTable$short_term == "+ trend 1993"], 1), 
@@ -475,7 +475,7 @@ De lineaire trend tot 1993 bedraagt 1.8 +/- 0.1 mm/jaar.
 
 De extra trend na 1993 bedraagt 1.1 +/- 0.3 mm/jaar.
 
-Na 1993 is de totale trend verhoogd en bedraagt 1.9 +/- 0.4 mm/jaar.
+Na 1993 is de totale trend verhoogd en bedraagt 2.9 +/- 0.4 mm/jaar.
 
 ``` r
 print(trend_message)
