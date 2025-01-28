@@ -3,9 +3,11 @@ require(ncdf4)
 require(tidyverse)
 require(scales)
 
-replacement_year = 2023
+added_year = 2024
 
 gtsm_dir <- "data/deltares/gtsm"
+gtsm_source <- "p:\\11210221-gtsm-reanalysis\\GTSM-ERA5-E_dataset\\SeaLevelMonitor"
+currentfile <- "era5_reanalysis_surge_2024_v1_monthly_mean.nc"
 
 #== read station information =================================
 
@@ -21,11 +23,8 @@ selectedstations = mainstations_df$gtsm_id_2023
 
 gtsm_replacementyear <- read_gtsm_nc(
   nc = file.path(
-    "data", 
-    "deltares", 
-    "gtsm", 
-    "gtsm_nc", 
-    paste0("era5_reanalysis_surge_", replacement_year, "_v1_monthly_mean.nc")
+    gtsm_source, 
+    paste0("era5_reanalysis_surge_", added_year, "_v1_monthly_mean.nc")
   ), 
   stations_selected = selectedstations
   ) %>%
@@ -59,7 +58,7 @@ leaflet(gtsm_replacementyear) %>%
 
 gtsm_replacementyear_monthly_add <- gtsm_replacementyear %>%
   mutate(
-    t = as.Date(paste(replacement_year, str_pad(as.character(month), 2, "left", "0"), "01", sep = "-")),
+    t = as.Date(paste(added_year, str_pad(as.character(month), 2, "left", "0"), "01", sep = "-")),
     psmsl_id = as.numeric(psmsl_id)
   ) %>% 
   select(
@@ -89,7 +88,7 @@ gtsm_replacementyear_monthly_add <- gtsm_replacementyear %>%
 
 gtsm_replacementyear_annual_add <- gtsm_replacementyear %>% 
   mutate(
-    date = as.Date(paste(replacement_year, str_pad(as.character(month), 2, "left", "0"), "01", sep = "-")),
+    date = as.Date(paste(added_year, str_pad(as.character(month), 2, "left", "0"), "01", sep = "-")),
     year = year(date),
     daysInMonth = lubridate::days_in_month(date)
     ) %>% 

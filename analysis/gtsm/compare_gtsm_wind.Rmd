@@ -1,7 +1,7 @@
 ---
 date: "2024-09-12"
 params:
-  monitoryear: 2024
+  monitoryear: 2025
 output:
   github_document:
   html_document:
@@ -66,7 +66,7 @@ KNMI daily average wind observations were downloaded via https://www.knmi.nl/ned
 list.files("../../data/knmi/metingen")
 
 # daggemiddelden (alleen gebruikt voor het berekenen van jaargemiddelden)
-kooy_raw = read_delim("../../data/knmi/metingen/dekooy_wind.txt", comment = "#", trim_ws = T)
+kooy_raw = read_delim("../../data/knmi/metingen/etmgeg_235.txt", comment = "#", trim_ws = T)
 
 # uurgemiddelden voor gebruik in windrozen
 kooy_uur_raw = read_delim("../../data/knmi/metingen/dekooy_uurgeg_wind.txt", comment = "#", trim_ws = T) %>%
@@ -110,7 +110,7 @@ Windroses for the last four years show that there is considerable variation in a
 
 yearsToPlot <-  seq(params$monitoryear - 4, params$monitoryear-1)
 
-kooy_raw_2020_2023 = kooy_uur_raw %>% 
+kooy_raw_last_4_years = kooy_uur_raw %>% 
   mutate(
     year = YYYYMMDD %/% 10000,
     spd = as.numeric(FHVEC) / 10,
@@ -121,7 +121,7 @@ kooy_raw_2020_2023 = kooy_uur_raw %>%
   group_by(year) %>%
   nest()
 
-walk(1:length(kooy_raw_2020_2023$data), 
+walk(1:length(kooy_raw_last_4_years$data), 
      function(x) {
        plot.windrose(
          spd = kooy_raw_2020_2023$data[[x]]$spd, 
@@ -215,7 +215,7 @@ gtsm %>%
   filter(name == "Den Helder") %>%
   mutate(surge_cm = surge_mm / 10) %>%
   left_join(kooy) %>%
-  filter(year < 2024) %>%
+  filter(year < params$monitoryear) %>%
   select(year, u2, v2, surge_cm) %>%
   pivot_longer(c(u2, v2, surge_cm), names_to = "factor", values_to = "value") %>%
   ggplot() +

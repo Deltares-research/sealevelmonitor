@@ -283,7 +283,7 @@ readMainStationInfo <- function(filepath = "") {
     )
     
   ) %>%
-  purrr::map_df(~ unlist(.[1:15]))
+  purrr::map_df(~ unlist(.[1:16]))
 }
 
 readMainStationLocations <- function(path = ""){

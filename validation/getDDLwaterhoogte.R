@@ -6,16 +6,19 @@
 
 source("analysis/sealevelmonitor/_common/functions.R")
 
-datayear = 1920:2024
+datayear = 2016:2023
 
 ddlrawdir <- "P:/11202493--systeemrap-grevelingen/1_data/Noordzee/ddl/raw/wathte"
 ddlmeandir <- "data/rijkswaterstaat/ddl/annual_means"
 mainstations_df <- readMainStationInfo(filepath = "")
 mainstationnames <- mainstations_df$name
+correcties <- read_csv("data/Deltares/coastalstationscorrections2005.csv")
 
 # readDDLwaterhoogte(station = mainstationcodes, startyear = min(datayear), endyear = max(datayear), outDir = ddlrawdir)
 
 # calculate annual means
+
+waterhoogtes <- list()
 
 for(myyear in datayear){
   
@@ -24,52 +27,35 @@ for(myyear in datayear){
   files <- list.files(ddlrawdir, pattern = as.character(myyear))
   
   waterhoogtes_myyear <- lapply(
-    files, function(x){
+    files, 
+    function(x){
       read_delim(paste0(ddlrawdir, "/", x),
                  delim = ";", 
                  escape_double = FALSE, 
                  locale = locale(), 
                  col_types = cols(),
                  trim_ws = TRUE, 
-                 na = "-999999999") %>%
-        filter(!grepl("HW", waardebepalingsmethode.omschrijving)) %>%
-        filter(!grepl("LW", waardebepalingsmethode.omschrijving))
-    }
-  )
-
-  waterhoogtes_myyear <- waterhoogtes_myyear %>%
+                 na = "-999999999")
+    } 
+  ) %>%
     map(function(x) x %>% mutate(kwaliteitswaarde.code = as.character(kwaliteitswaarde.code))) %>%
     list_rbind() %>%
-    mutate(locatie.naam = case_when(
-      locatie.naam == "IJmuiden buitenhaven" ~ "IJmuiden",
-      locatie.naam != "IJmuiden buitenhaven" ~ locatie.naam
-    )) %>%
-    select(
-      locatie.code,
-      locatie.naam,
-      coordinatenstelsel,
-      geometriepunt.x,
-      geometriepunt.y,
-      tijdstip,
-      statuswaarde,
-      kwaliteitswaarde.code,
-      bemonsteringssoort.omschrijving,
-      eenheid.code,
-      grootheid.omschrijving,
-      hoedanigheid.code,
-      groepering.code,
-      meetapparaat.omschrijving,
-      waardebepalingsmethode.omschrijving,
-      numeriekewaarde
-    )
-  
-  annual_means <- waterhoogtes_myyear %>%
-    filter(as.numeric(kwaliteitswaarde.code) < 50,
-           groepering.code == "NVT"
+    mutate(
+      locatie.naam = case_when(
+        locatie.naam == "IJmuiden buitenhaven" ~ "IJmuiden",
+        locatie.naam != "IJmuiden buitenhaven" ~ locatie.naam
+      )
     ) %>%
-    group_by(locatie.naam,
-             locatie.code,
-             grootheid.omschrijving
+    filter(as.numeric(kwaliteitswaarde.code) < 50
+    ) %>%
+    group_by(
+      locatie.naam,
+      locatie.code,
+      meetapparaat.omschrijving,
+      grootheid.omschrijving,
+      eenheid.code,
+      groepering.code,
+      hoedanigheid.code
     ) %>%
     summarise(
       annual_mean_mm = mean(numeriekewaarde, na.rm = T) %/% 0.1,
@@ -80,23 +66,41 @@ for(myyear in datayear){
       year = myyear,
       source = "rws_ddl"
     ) %>%
-    select(
-      year,
-      height = annual_mean_mm,
-      station = locatie.naam,
-      n_per_year = n,
-      source
-    )
-
-  if(nrow(annual_means) > 0){
-    write_delim(
-      annual_means, delim = ";",
-      file = file.path(ddlmeandir, paste0(myyear, ".csv")
+    left_join(
+      correcties %>% 
+        select(Station, `verschil [mm]`),
+      by = c(locatie.naam = "Station")
+    ) %>%
+    mutate(
+      annual_mean_mm_corrected = case_when(
+        year >= 2005 ~ annual_mean_mm,
+        year < 2005 & !is.na(`verschil [mm]`) ~ annual_mean_mm + `verschil [mm]`,
+        year < 2005 & is.na(`verschil [mm]`) ~ NA_real_
       )
     )
-  }  
   
+
+  if(nrow(waterhoogtes_myyear) > 0){
+    write_delim(
+      waterhoogtes_myyear, delim = ";",
+      file = file.path(ddlmeandir, paste0(myyear, ".csv"))
+    )
+  }
 }
+
+
+
+waterhoogtes_myyear %>%
+  filter() %>% # filter out unwanted combinations of hoedanigheid, groepering
+  select(
+    year,
+    height = annual_mean_mm,
+    station = locatie.naam,
+    n_per_year = n,
+    source
+  )
+  
+  
 
 waterhoogtes_myyear %>%
   filter(kwaliteitswaarde.code < 50) %>%
@@ -133,8 +137,8 @@ waterhoogtes_myyear %>%
   sample_n(100000) %>%
   filter(kwaliteitswaarde.code < 50) %>%
   ggplot(aes(tijdstip, numeriekewaarde)) +
-  # geom_line(alpha = 0.1) +
-  geom_smooth() +
+  geom_line(alpha = 0.1) +
+  # geom_smooth() +
   scale_x_datetime(date_breaks = "2 month", date_labels = "%h") +
   facet_wrap("locatie.code")
 

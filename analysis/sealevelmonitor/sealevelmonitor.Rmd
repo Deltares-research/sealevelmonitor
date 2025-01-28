@@ -170,7 +170,7 @@ models <- df %>%
 
 Autocorrelatie is de kruiscorrelatie van een functie of signaal met zichzelf ([wikipedia](https://nl.wikipedia.org/wiki/Autocorrelatie)). In het zeespiegelsignaal voor alle hoofdstations is een consistente autocorrelatie met een 'lag' van 1 jaar gevonden (zie rekendocument [Sealevelanalysis](https://github.com/Deltares-research/sealevelmonitor/blob/main/analysis/sealevelmonitor/sealevelanalysis.md)). Dit is niet ongebruikelijk voor lange tijdseries die een trend vertonen. Hierdoor kan niet alle variatie worden toegekend aan het model zelf, en moet de standaardfout van de modelparameters worden gecorrigeerd voor de autocorrelatie. Dit gebeurt met een [Newey West autocorrelatieterm](https://search.r-project.org/CRAN/refmans/sandwich/html/NeweyWest.html).
 
-```{r autocorrelatie, fig.width=5, fig.height=3, fig.cap="Autocorrelatiediagram voor de gebruikte meetreeks. De rode kolommen geven een significante autocorrelatie aan. Autocorrelatie met een lag van 1 jaar is de enige die consistent is over alle stations en modellen."}
+```{r autocorrelatie, fig.width=6, fig.height=4, fig.cap="Autocorrelatiediagram voor de gebruikte meetreeks. De rode kolommen geven een significante autocorrelatie aan. Autocorrelatie met een lag van 1 jaar is de enige die consistent is over alle stations en modellen."}
 plot_ACF(models)
 ```
 
@@ -190,7 +190,7 @@ Er wordt gecontroleerd of de verdeling van de residuen regelmatig is verdeeld ov
 
 ### Residuals distribution
 
-```{r, fig.height=nstations*1.5+1, fig.width=nmodels*2+1, fig.align='center', fig.cap="De verdeling (histogram) van de residuen. "}
+```{r, fig.height=nstations*3+1, fig.width=nmodels*2.5+1, fig.align='center', fig.cap="De verdeling (histogram) van de residuen. "}
 
 models %>%
   unnest(c(data, augment), names_sep = "_") %>%
@@ -205,12 +205,12 @@ ggplot(aes(x = augment_.resid)) +
 
 Bij een geschikt model verwachten we een regelmatige verdeling van residuen over de tijd. Wanneer deze sterk afwijkt dan kan dat een aanwijzing zijn dat het model niet geschikt is, of dat bepaalde correcties niet goed zijn uitgevoerd. 
 
-```{r, fig.height=nstations*0.5+1, fig.width=nmodels*2+1, fig.cap="De verdeling van residuwaarden uitgezet tegen de tijd in jaren. "}
+```{r, fig.height=nstations*2+1, fig.width=nmodels*2.5+1, fig.cap="De verdeling van residuwaarden uitgezet tegen de tijd in jaren. "}
 models %>%
   unnest(c(data, augment), names_sep = "_") %>% #str(max.level = 2)
 ggplot(aes(data_year, augment_.resid)) +
   geom_point(alpha = 0.4) +
-  facet_grid(station ~ modeltype) #+
+  facet_grid(station ~ modeltype)
 ```
 
 
