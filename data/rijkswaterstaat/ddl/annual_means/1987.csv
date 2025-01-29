@@ -1,6 +1,38 @@
-year;height;station;n_per_year;source
-1987;31;Delfzijl;105002;rws_ddl
-1987;-40;Den Helder;52501;rws_ddl
-1987;-4;Harlingen;52501;rws_ddl
-1987;55;Hoek van Holland;52501;rws_ddl
-1987;-42;Vlissingen;52501;rws_ddl
+locatie.naam;locatie.code;meetapparaat.omschrijving;grootheid.omschrijving;eenheid.code;groepering.code;hoedanigheid.code;annual_mean_mm;n;year;source;verschil [mm];annual_mean_mm_corrected
+Cadzand;CADZD;Vlotter;Waterhoogte;cm;GETETM2;NAP;102;1408;1987;rws_ddl;-27.4;74.6
+Cadzand;CADZD;Vlotter;Waterhoogte;cm;NVT;NAP;-40;52501;1987;rws_ddl;-27.4;-67.4
+Delfzijl;DELFZL;Vlotter;Waterhoogte;cm;GETETM2;NAP;-186;1409;1987;rws_ddl;-8.2;-194.2
+Delfzijl;DELFZL;Vlotter;Waterhoogte;cm;NVT;NAP;31;105002;1987;rws_ddl;-8.2;22.8
+Den Helder;DENHDR;Vlotter;Waterhoogte;cm;GETETM2;NAP;-142;1409;1987;rws_ddl;-16.8;-158.8
+Den Helder;DENHDR;Vlotter;Waterhoogte;cm;NVT;NAP;-40;52501;1987;rws_ddl;-16.8;-56.8
+Den Oever buiten;DENOVBTN;Vlotter;Waterhoogte;cm;GETETM2;NAP;-53;1409;1987;rws_ddl;NA;NA
+Harlingen;HARLGN;Vlotter;Waterhoogte;cm;GETETM2;NAP;-66;1409;1987;rws_ddl;-6.5;-72.5
+Harlingen;HARLGN;Vlotter;Waterhoogte;cm;NVT;NAP;-4;52501;1987;rws_ddl;-6.5;-10.5
+Hoek van Holland;HOEKVHLD;Vlotter;Waterhoogte;cm;GETETM2;NAP;33;1866;1987;rws_ddl;-27.7;5.300000000000001
+Hoek van Holland;HOEKVHLD;Vlotter;Waterhoogte;cm;NVT;NAP;55;52501;1987;rws_ddl;-27.7;27.3
+Holwerd;HOLWD;Vlotter;Waterhoogte;cm;GETETM2;NAP;-182;1409;1987;rws_ddl;NA;NA
+Huibertgat;HUIBGT;Vlotter;Waterhoogte;cm;GETETM2;NAP;-188;1409;1987;rws_ddl;-16.8;-204.8
+Huibertgat;HUIBGT;Vlotter;Waterhoogte;cm;NVT;NAP;22;69179;1987;rws_ddl;-16.8;5.199999999999999
+IJmuiden;IJMDBTHVN;Vlotter;Waterhoogte;cm;GETETM2;NAP;92;1409;1987;rws_ddl;-21.8;70.2
+Kornwerderzand buiten;KORNWDZBTN;Vlotter;Waterhoogte;cm;GETETM2;NAP;-55;1409;1987;rws_ddl;NA;NA
+Lauwersoog;LAUWOG;Vlotter;Waterhoogte;cm;GETETM2;NAP;-163;1409;1987;rws_ddl;-12.5;-175.5
+Lauwersoog;LAUWOG;Vlotter;Waterhoogte;cm;NVT;NAP;69;17496;1987;rws_ddl;-12.5;56.5
+Lichteiland Goeree;LICHTELGRE;Stappenbaak;Waterhoogte;cm;GETETMSL2;MSL;131;1408;1987;rws_ddl;NA;NA
+Lichteiland Goeree;LICHTELGRE;Stappenbaak;Waterhoogte;cm;NVT;MSL;-32;52501;1987;rws_ddl;NA;NA
+Maassluis;MAASSS;Vlotter;Waterhoogte;cm;GETETM2;NAP;185;1598;1987;rws_ddl;NA;NA
+Nes;NES;Vlotter;Waterhoogte;cm;GETETM2;NAP;-96;1409;1987;rws_ddl;-11.1;-107.1
+Nes;NES;Vlotter;Waterhoogte;cm;NVT;NAP;99;26491;1987;rws_ddl;-11.1;87.9
+Nieuwe Statenzijl;NIEUWSTZL;Vlotter;Waterhoogte;cm;GETETM2;NAP;24;1409;1987;rws_ddl;-3.2;20.8
+Oosterschelde 11;OOSTSDE11;Vlotter;Waterhoogte;cm;GETETM2;NAP;76;1387;1987;rws_ddl;NA;NA
+Oosterschelde 11;OOSTSDE11;Vlotter;Waterhoogte;cm;NVT;NAP;-68;60488;1987;rws_ddl;NA;NA
+Oosterschelde 14;OOSTSDE14;Vlotter;Waterhoogte;cm;GETETM2;NAP;127;1393;1987;rws_ddl;NA;NA
+Oosterschelde 14;OOSTSDE14;Vlotter;Waterhoogte;cm;NVT;NAP;-39;60723;1987;rws_ddl;NA;NA
+Oudeschild;OUDSD;Vlotter;Waterhoogte;cm;GETETM2;NAP;-100;1409;1987;rws_ddl;-20.3;-120.3
+Scheveningen;SCHEVNGN;Vlotter;Waterhoogte;cm;GETETM2;NAP;0;1810;1987;rws_ddl;-12.2;-12.2
+Scheveningen;SCHEVNGN;Vlotter;Waterhoogte;cm;NVT;NAP;-18;52501;1987;rws_ddl;-12.2;-30.2
+Schiermonnikoog;SCHIERMNOG;Vlotter;Waterhoogte;cm;GETETM2;NAP;-144;1409;1987;rws_ddl;-9.7;-153.7
+Stellendam buiten;STELLDBTN;Vlotter;Waterhoogte;cm;GETETM2;NAP;-63;2203;1987;rws_ddl;NA;NA
+Vlieland haven;VLIELHVN;Vlotter;Waterhoogte;cm;GETETM2;NAP;-120;1409;1987;rws_ddl;-21.7;-141.7
+Vlissingen;VLISSGN;Vlotter;Waterhoogte;cm;GETETM2;NAP;93;1409;1987;rws_ddl;-29.7;63.3
+Vlissingen;VLISSGN;Vlotter;Waterhoogte;cm;NVT;NAP;-42;52501;1987;rws_ddl;-29.7;-71.7
+West-Terschelling;WESTTSLG;Vlotter;Waterhoogte;cm;GETETM2;NAP;-110;1409;1987;rws_ddl;-21.4;-131.4

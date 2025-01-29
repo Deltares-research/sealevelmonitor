@@ -1,2 +1,13 @@
-year;height;station;n_per_year;source
-1904;-122;Delfzijl;2925;rws_ddl
+locatie.naam;locatie.code;meetapparaat.omschrijving;grootheid.omschrijving;eenheid.code;groepering.code;hoedanigheid.code;annual_mean_mm;n;year;source;verschil [mm];annual_mean_mm_corrected
+Cadzand;CADZD;Vlotter;Waterhoogte;cm;GETETM2;NAP;1786;707;1904;rws_ddl;-27.4;1758.6
+Delfzijl;DELFZL;Vlotter;Waterhoogte;cm;GETETM2;NAP;-309;1413;1904;rws_ddl;-8.2;-317.2
+Delfzijl;DELFZL;Vlotter;Waterhoogte;cm;NVT;NAP;-122;2925;1904;rws_ddl;-8.2;-130.2
+Den Helder;DENHDR;Vlotter;Waterhoogte;cm;GETETM2;NAP;-220;1413;1904;rws_ddl;-16.8;-236.8
+Den Oever buiten;DENOVBTN;Peilschaal;Waterhoogte;cm;GETETM2;NAP;-111;736;1904;rws_ddl;NA;NA
+Harlingen;HARLGN;Vlotter;Waterhoogte;cm;GETETM2;NAP;-105;1413;1904;rws_ddl;-6.5;-111.5
+Hoek van Holland;HOEKVHLD;Vlotter;Waterhoogte;cm;GETETM2;NAP;-183;2051;1904;rws_ddl;-27.7;-210.7
+Maassluis;MAASSS;Vlotter;Waterhoogte;cm;GETETM2;NAP;88;1413;1904;rws_ddl;NA;NA
+Nieuwe Statenzijl;NIEUWSTZL;Vlotter;Waterhoogte;cm;GETETM2;NAP;1233;707;1904;rws_ddl;-3.2;1229.8
+Scheveningen;SCHEVNGN;Vlotter;Waterhoogte;cm;GETETM2;NAP;91;1413;1904;rws_ddl;-12.2;78.8
+Vlieland haven;VLIELHVN;Vlotter;Waterhoogte;cm;GETETM2;NAP;-197;1412;1904;rws_ddl;-21.7;-218.7
+Vlissingen;VLISSGN;Vlotter;Waterhoogte;cm;GETETM2;NAP;-55;1413;1904;rws_ddl;-29.7;-84.7

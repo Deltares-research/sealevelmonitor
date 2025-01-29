@@ -1,3 +1,6 @@
-year;height;station;n_per_year;source
-1931;-18;Delfzijl;2917;rws_ddl
-1931;-103;Vlissingen;2917;rws_ddl
+locatie.naam;locatie.code;meetapparaat.omschrijving;grootheid.omschrijving;eenheid.code;groepering.code;hoedanigheid.code;annual_mean_mm;n;year;source;verschil [mm];annual_mean_mm_corrected
+Delfzijl;DELFZL;Vlotter;Waterhoogte;cm;GETETM2;NAP;-188;1409;1931;rws_ddl;-8.2;-196.2
+Delfzijl;DELFZL;Vlotter;Waterhoogte;cm;NVT;NAP;-18;2917;1931;rws_ddl;-8.2;-26.2
+Harlingen;HARLGN;Vlotter;Waterhoogte;cm;GETETM2;NAP;-35;1409;1931;rws_ddl;-6.5;-41.5
+Vlissingen;VLISSGN;Vlotter;Waterhoogte;cm;GETETM2;NAP;3;1409;1931;rws_ddl;-29.7;-26.7
+Vlissingen;VLISSGN;Vlotter;Waterhoogte;cm;NVT;NAP;-103;2917;1931;rws_ddl;-29.7;-132.7

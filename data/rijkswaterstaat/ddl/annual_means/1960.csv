@@ -1,6 +1,22 @@
-year;height;station;n_per_year;source
-1960;-4;Delfzijl;2924;rws_ddl
-1960;-68;Den Helder;2924;rws_ddl
-1960;-17;Harlingen;2924;rws_ddl
-1960;-51;Hoek van Holland;2924;rws_ddl
-1960;-54;Vlissingen;2924;rws_ddl
+locatie.naam;locatie.code;meetapparaat.omschrijving;grootheid.omschrijving;eenheid.code;groepering.code;hoedanigheid.code;annual_mean_mm;n;year;source;verschil [mm];annual_mean_mm_corrected
+Cadzand;CADZD;Peilschaal;Waterhoogte;cm;GETETM2;NAP;167;704;1960;rws_ddl;-27.4;139.6
+Delfzijl;DELFZL;Vlotter;Waterhoogte;cm;GETETM2;NAP;-191;1412;1960;rws_ddl;-8.2;-199.2
+Delfzijl;DELFZL;Vlotter;Waterhoogte;cm;NVT;NAP;-4;2924;1960;rws_ddl;-8.2;-12.2
+Den Helder;DENHDR;Vlotter;Waterhoogte;cm;GETETM2;NAP;-167;1413;1960;rws_ddl;-16.8;-183.8
+Den Helder;DENHDR;Vlotter;Waterhoogte;cm;NVT;NAP;-68;2924;1960;rws_ddl;-16.8;-84.8
+Den Oever buiten;DENOVBTN;Vlotter;Waterhoogte;cm;GETETM2;NAP;-129;1413;1960;rws_ddl;NA;NA
+Harlingen;HARLGN;Vlotter;Waterhoogte;cm;GETETM2;NAP;-71;1413;1960;rws_ddl;-6.5;-77.5
+Harlingen;HARLGN;Vlotter;Waterhoogte;cm;NVT;NAP;-17;2924;1960;rws_ddl;-6.5;-23.5
+Hoek van Holland;HOEKVHLD;Vlotter;Waterhoogte;cm;GETETM2;NAP;-128;2077;1960;rws_ddl;-27.7;-155.7
+Hoek van Holland;HOEKVHLD;Vlotter;Waterhoogte;cm;NVT;NAP;-51;2924;1960;rws_ddl;-27.7;-78.7
+Kornwerderzand buiten;KORNWDZBTN;Vlotter;Waterhoogte;cm;GETETM2;NAP;-80;1413;1960;rws_ddl;NA;NA
+Kornwerderzand buiten;KORNWDZBTN;Vlotter;Waterhoogte;cm;NVT;NAP;-1;2924;1960;rws_ddl;NA;NA
+Maassluis;MAASSS;Vlotter;Waterhoogte;cm;GETETM2;NAP;176;1413;1960;rws_ddl;NA;NA
+Nieuwe Statenzijl;NIEUWSTZL;Vlotter;Waterhoogte;cm;GETETM2;NAP;1314;706;1960;rws_ddl;-3.2;1310.8
+Oudeschild;OUDSD;Vlotter;Waterhoogte;cm;GETETM2;NAP;-129;1413;1960;rws_ddl;-20.3;-149.3
+Vlieland haven;VLIELHVN;Vlotter;Waterhoogte;cm;GETETM2;NAP;-117;1413;1960;rws_ddl;-21.7;-138.7
+Vlieland haven;VLIELHVN;Vlotter;Waterhoogte;cm;NVT;NAP;-43;2924;1960;rws_ddl;-21.7;-64.7
+Vlissingen;VLISSGN;Vlotter;Waterhoogte;cm;GETETM2;NAP;70;1413;1960;rws_ddl;-29.7;40.3
+Vlissingen;VLISSGN;Vlotter;Waterhoogte;cm;NVT;NAP;-54;2924;1960;rws_ddl;-29.7;-83.7
+West-Terschelling;WESTTSLG;Vlotter;Waterhoogte;cm;GETETM2;NAP;-124;1413;1960;rws_ddl;-21.4;-145.4
+West-Terschelling;WESTTSLG;Vlotter;Waterhoogte;cm;NVT;NAP;-43;2924;1960;rws_ddl;-21.4;-64.4

@@ -1,7 +1,44 @@
-year;height;station;n_per_year;source
-1988;120;Delfzijl;105290;rws_ddl
-1988;46;Den Helder;52645;rws_ddl
-1988;94;Harlingen;52645;rws_ddl
-1988;114;Hoek van Holland;52645;rws_ddl
-1988;49;IJmuiden buitenhaven;52645;rws_ddl
-1988;19;Vlissingen;52645;rws_ddl
+locatie.naam;locatie.code;meetapparaat.omschrijving;grootheid.omschrijving;eenheid.code;groepering.code;hoedanigheid.code;annual_mean_mm;n;year;source;verschil [mm];annual_mean_mm_corrected
+Cadzand;CADZD;Vlotter;Waterhoogte;cm;GETETM2;NAP;132;1413;1988;rws_ddl;-27.4;104.6
+Cadzand;CADZD;Vlotter;Waterhoogte;cm;NVT;NAP;9;52645;1988;rws_ddl;-27.4;-18.4
+Delfzijl;DELFZL;Vlotter;Waterhoogte;cm;GETETM2;NAP;-92;1414;1988;rws_ddl;-8.2;-100.2
+Delfzijl;DELFZL;Vlotter;Waterhoogte;cm;NVT;NAP;120;105290;1988;rws_ddl;-8.2;111.8
+Den Helder;DENHDR;Vlotter;Waterhoogte;cm;GETETM2;NAP;-56;1413;1988;rws_ddl;-16.8;-72.8
+Den Helder;DENHDR;Vlotter;Waterhoogte;cm;NVT;NAP;46;52645;1988;rws_ddl;-16.8;29.2
+Den Oever buiten;DENOVBTN;Vlotter;Waterhoogte;cm;GETETM2;NAP;17;1413;1988;rws_ddl;NA;NA
+Den Oever buiten;DENOVBTN;Vlotter;Waterhoogte;cm;NVT;NAP;117;50899;1988;rws_ddl;NA;NA
+Haringvliet 10;HARVT10;Vlotter;Waterhoogte;cm;GETETM2;NAP;232;486;1988;rws_ddl;-21;211
+Harlingen;HARLGN;Vlotter;Waterhoogte;cm;GETETM2;NAP;33;1413;1988;rws_ddl;-6.5;26.5
+Harlingen;HARLGN;Vlotter;Waterhoogte;cm;NVT;NAP;94;52645;1988;rws_ddl;-6.5;87.5
+Hoek van Holland;HOEKVHLD;Vlotter;Waterhoogte;cm;GETETM2;NAP;90;1873;1988;rws_ddl;-27.7;62.3
+Hoek van Holland;HOEKVHLD;Vlotter;Waterhoogte;cm;NVT;NAP;114;52645;1988;rws_ddl;-27.7;86.3
+Holwerd;HOLWD;Vlotter;Waterhoogte;cm;GETETM2;NAP;-109;1413;1988;rws_ddl;NA;NA
+Huibertgat;HUIBGT;Vlotter;Waterhoogte;cm;GETETM2;NAP;-104;1413;1988;rws_ddl;-16.8;-120.8
+Huibertgat;HUIBGT;Vlotter;Waterhoogte;cm;NVT;NAP;-16;52645;1988;rws_ddl;-16.8;-32.8
+IJmuiden;IJMDBTHVN;Vlotter;Waterhoogte;cm;GETETM2;NAP;151;1414;1988;rws_ddl;-21.8;129.2
+IJmuiden;IJMDBTHVN;Vlotter;Waterhoogte;cm;NVT;NAP;49;52645;1988;rws_ddl;-21.8;27.2
+Kornwerderzand buiten;KORNWDZBTN;Vlotter;Waterhoogte;cm;GETETM2;NAP;32;1413;1988;rws_ddl;NA;NA
+Kornwerderzand buiten;KORNWDZBTN;Vlotter;Waterhoogte;cm;NVT;NAP;69;40684;1988;rws_ddl;NA;NA
+Lauwersoog;LAUWOG;Vlotter;Waterhoogte;cm;GETETM2;NAP;-87;1413;1988;rws_ddl;-12.5;-99.5
+Lauwersoog;LAUWOG;Vlotter;Waterhoogte;cm;NVT;NAP;48;52645;1988;rws_ddl;-12.5;35.5
+Lichteiland Goeree;LICHTELGRE;Stappenbaak;Waterhoogte;cm;GETETMSL2;MSL;188;1413;1988;rws_ddl;NA;NA
+Lichteiland Goeree;LICHTELGRE;Stappenbaak;Waterhoogte;cm;NVT;MSL;22;52645;1988;rws_ddl;NA;NA
+Maassluis;MAASSS;Vlotter;Waterhoogte;cm;GETETM2;NAP;227;1634;1988;rws_ddl;NA;NA
+Nes;NES;Vlotter;Waterhoogte;cm;GETETM2;NAP;-33;1413;1988;rws_ddl;-11.1;-44.1
+Nes;NES;Vlotter;Waterhoogte;cm;NVT;NAP;91;52645;1988;rws_ddl;-11.1;79.9
+Nieuwe Statenzijl;NIEUWSTZL;Vlotter;Waterhoogte;cm;GETETM2;NAP;68;1413;1988;rws_ddl;-3.2;64.8
+Nieuwe Statenzijl;NIEUWSTZL;Vlotter;Waterhoogte;cm;NVT;NAP;212;51780;1988;rws_ddl;-3.2;208.8
+Oosterschelde 11;OOSTSDE11;Vlotter;Waterhoogte;cm;NVT;NAP;-5;60109;1988;rws_ddl;NA;NA
+Oosterschelde 14;OOSTSDE14;Vlotter;Waterhoogte;cm;NVT;NAP;31;59308;1988;rws_ddl;NA;NA
+Oudeschild;OUDSD;Vlotter;Waterhoogte;cm;GETETM2;NAP;-28;1413;1988;rws_ddl;-20.3;-48.3
+Oudeschild;OUDSD;Vlotter;Waterhoogte;cm;NVT;NAP;69;50904;1988;rws_ddl;-20.3;48.7
+Scheveningen;SCHEVNGN;Vlotter;Waterhoogte;cm;GETETM2;NAP;65;1807;1988;rws_ddl;-12.2;52.8
+Scheveningen;SCHEVNGN;Vlotter;Waterhoogte;cm;NVT;NAP;47;52645;1988;rws_ddl;-12.2;34.8
+Schiermonnikoog;SCHIERMNOG;Vlotter;Waterhoogte;cm;GETETM2;NAP;-49;1413;1988;rws_ddl;-9.7;-58.7
+Stellendam buiten;STELLDBTN;Vlotter;Waterhoogte;cm;GETETM2;NAP;68;2033;1988;rws_ddl;NA;NA
+Vlieland haven;VLIELHVN;Vlotter;Waterhoogte;cm;GETETM2;NAP;-48;1413;1988;rws_ddl;-21.7;-69.7
+Vlieland haven;VLIELHVN;Vlotter;Waterhoogte;cm;NVT;NAP;-10;40684;1988;rws_ddl;-21.7;-31.7
+Vlissingen;VLISSGN;Vlotter;Waterhoogte;cm;GETETM2;NAP;157;1413;1988;rws_ddl;-29.7;127.3
+Vlissingen;VLISSGN;Vlotter;Waterhoogte;cm;NVT;NAP;19;52645;1988;rws_ddl;-29.7;-10.7
+West-Terschelling;WESTTSLG;Vlotter;Waterhoogte;cm;GETETM2;NAP;-32;1413;1988;rws_ddl;-21.4;-53.4
+West-Terschelling;WESTTSLG;Vlotter;Waterhoogte;cm;NVT;NAP;10;40684;1988;rws_ddl;-21.4;-11.399999999999999

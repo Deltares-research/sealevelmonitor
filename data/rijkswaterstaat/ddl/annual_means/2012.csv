@@ -1,7 +1,56 @@
-year;height;station;n_per_year;source
-2012;84;Delfzijl;52645;rws_ddl
-2012;1;Den Helder;52645;rws_ddl
-2012;82;Harlingen;52645;rws_ddl
-2012;85;Hoek van Holland;52645;rws_ddl
-2012;27;IJmuiden buitenhaven;52645;rws_ddl
-2012;0;Vlissingen;52645;rws_ddl
+locatie.naam;locatie.code;meetapparaat.omschrijving;grootheid.omschrijving;eenheid.code;groepering.code;hoedanigheid.code;annual_mean_mm;n;year;source;verschil [mm];annual_mean_mm_corrected
+Cadzand;CADZD;Vlotter;Waterhoogte;cm;GETETM2;NAP;102;1413;2012;rws_ddl;-27.4;102
+Cadzand;CADZD;Vlotter;Waterhoogte;cm;NVT;NAP;-25;52645;2012;rws_ddl;-27.4;-25
+Delfzijl;DELFZL;Vlotter;Waterhoogte;cm;GETETM2;NAP;-155;1413;2012;rws_ddl;-8.2;-155
+Delfzijl;DELFZL;Vlotter;Waterhoogte;cm;NVT;NAP;84;52645;2012;rws_ddl;-8.2;84
+Den Helder;DENHDR;Vlotter;Waterhoogte;cm;GETETM2;NAP;-109;1413;2012;rws_ddl;-16.8;-109
+Den Helder;DENHDR;Vlotter;Waterhoogte;cm;NVT;NAP;1;52645;2012;rws_ddl;-16.8;1
+Den Oever buiten;DENOVBTN;Vlotter;Waterhoogte;cm;GETETM2;NAP;-17;1412;2012;rws_ddl;NA;-17
+Den Oever buiten;DENOVBTN;Vlotter;Waterhoogte;cm;NVT;NAP;95;52645;2012;rws_ddl;NA;95
+Haringvliet 10;HARVT10;Vlotter;Waterhoogte;cm;GETETM2;NAP;208;1413;2012;rws_ddl;-21;208
+Haringvliet 10;HARVT10;Vlotter;Waterhoogte;cm;NVT;NAP;12;52645;2012;rws_ddl;-21;12
+Harlingen;HARLGN;Vlotter;Waterhoogte;cm;GETETM2;NAP;-3;1413;2012;rws_ddl;-6.5;-3
+Harlingen;HARLGN;Vlotter;Waterhoogte;cm;NVT;NAP;82;52645;2012;rws_ddl;-6.5;82
+Hoek van Holland;HOEKVHLD;Vlotter;Waterhoogte;cm;GETETM2;NAP;45;1988;2012;rws_ddl;-27.7;45
+Hoek van Holland;HOEKVHLD;Vlotter;Waterhoogte;cm;NVT;NAP;85;52645;2012;rws_ddl;-27.7;85
+Holwerd;HOLWD;Radar;Waterhoogte;cm;GETETM2;NAP;-238;1201;2012;rws_ddl;NA;-238
+Holwerd;HOLWD;Radar;Waterhoogte;cm;NVT;NAP;-15;50537;2012;rws_ddl;NA;-15
+Huibertgat;HUIBGT;Vlotter;Waterhoogte;cm;GETETM2;NAP;-60;1413;2012;rws_ddl;-16.8;-60
+Huibertgat;HUIBGT;Vlotter;Waterhoogte;cm;NVT;NAP;28;52645;2012;rws_ddl;-16.8;28
+IJmuiden;IJMDBTHVN;Vlotter;Waterhoogte;cm;GETETM2;NAP;131;1412;2012;rws_ddl;-21.8;131
+IJmuiden;IJMDBTHVN;Vlotter;Waterhoogte;cm;NVT;NAP;27;52645;2012;rws_ddl;-21.8;27
+K14 platform;K14PFM;Radar;Waterhoogte;cm;NVT;MSL;-15;43712;2012;rws_ddl;NA;-15
+Kornwerderzand buiten;KORNWDZBTN;Vlotter;Waterhoogte;cm;GETETM2;NAP;-5;1412;2012;rws_ddl;NA;-5
+Kornwerderzand buiten;KORNWDZBTN;Vlotter;Waterhoogte;cm;NVT;NAP;78;52645;2012;rws_ddl;NA;78
+L9 platform;L9PFM;Radar;Waterhoogte;cm;NVT;MSL;-41;44246;2012;rws_ddl;NA;-41
+Lauwersoog;LAUWOG;Vlotter;Waterhoogte;cm;GETETM2;NAP;-117;1413;2012;rws_ddl;-12.5;-117
+Lauwersoog;LAUWOG;Vlotter;Waterhoogte;cm;NVT;NAP;29;52645;2012;rws_ddl;-12.5;29
+Lichteiland Goeree;LICHTELGRE;Radar;Waterhoogte;cm;GETETM2;NAP;167;1416;2012;rws_ddl;NA;167
+Lichteiland Goeree;LICHTELGRE;Radar;Waterhoogte;cm;NVT;MSL;6;52645;2012;rws_ddl;NA;6
+Lichteiland Goeree;LICHTELGRE;Radar;Waterhoogte;cm;NVT;NAP;6;52645;2012;rws_ddl;NA;6
+Maassluis;MAASSS;Vlotter;Waterhoogte;cm;GETETM2;NAP;196;1665;2012;rws_ddl;NA;196
+Nes;NES;Vlotter;Waterhoogte;cm;GETETM2;NAP;-88;1413;2012;rws_ddl;-11.1;-88
+Nes;NES;Vlotter;Waterhoogte;cm;NVT;NAP;48;52645;2012;rws_ddl;-11.1;48
+Nieuwe Statenzijl;NIEUWSTZL;Radar;Waterhoogte;cm;GETETM2;NAP;143;3;2012;rws_ddl;-3.2;143
+Nieuwe Statenzijl;NIEUWSTZL;Radar;Waterhoogte;cm;NVT;NAP;151;35018;2012;rws_ddl;-3.2;151
+Nieuwe Statenzijl;NIEUWSTZL;Vlotter;Waterhoogte;cm;GETETM2;NAP;-100;1413;2012;rws_ddl;-3.2;-100
+Nieuwe Statenzijl;NIEUWSTZL;Vlotter;Waterhoogte;cm;NVT;NAP;111;17628;2012;rws_ddl;-3.2;111
+Oosterschelde 11;OOSTSDE11;Vlotter;Waterhoogte;cm;NVT;NAP;-20;52645;2012;rws_ddl;NA;-20
+Oosterschelde 14;OOSTSDE14;Vlotter;Waterhoogte;cm;NVT;NAP;-18;52645;2012;rws_ddl;NA;-18
+Oudeschild;OUDSD;Vlotter;Waterhoogte;cm;GETETM2;NAP;-77;1413;2012;rws_ddl;-20.3;-77
+Oudeschild;OUDSD;Vlotter;Waterhoogte;cm;NVT;NAP;31;52645;2012;rws_ddl;-20.3;31
+Scheveningen;SCHEVNGN;Vlotter;Waterhoogte;cm;GETETM2;NAP;34;1806;2012;rws_ddl;-12.2;34
+Scheveningen;SCHEVNGN;Vlotter;Waterhoogte;cm;NVT;NAP;14;52645;2012;rws_ddl;-12.2;14
+Schiermonnikoog;SCHIERMNOG;Vlotter;Waterhoogte;cm;GETETM2;NAP;-125;1413;2012;rws_ddl;-9.7;-125
+Schiermonnikoog;SCHIERMNOG;Vlotter;Waterhoogte;cm;NVT;NAP;19;52645;2012;rws_ddl;-9.7;19
+Stellendam buiten;STELLDBTN;Vlotter;Waterhoogte;cm;NVT;NAP;52;105290;2012;rws_ddl;NA;52
+Terschelling Noordzee;TERSLNZE;Vlotter;Waterhoogte;cm;GETETM2;NAP;-104;1413;2012;rws_ddl;-24.3;-104
+Terschelling Noordzee;TERSLNZE;Vlotter;Waterhoogte;cm;NVT;NAP;-11;52645;2012;rws_ddl;-24.3;-11
+Texel Noordzee;TEXNZE;Vlotter;Waterhoogte;cm;GETETM2;NAP;-94;1413;2012;rws_ddl;-18.7;-94
+Texel Noordzee;TEXNZE;Vlotter;Waterhoogte;cm;NVT;NAP;7;52645;2012;rws_ddl;-18.7;7
+Vlieland haven;VLIELHVN;Vlotter;Waterhoogte;cm;GETETM2;NAP;-94;1413;2012;rws_ddl;-21.7;-94
+Vlieland haven;VLIELHVN;Vlotter;Waterhoogte;cm;NVT;NAP;-21;52645;2012;rws_ddl;-21.7;-21
+Vlissingen;VLISSGN;Vlotter;Waterhoogte;cm;GETETM2;NAP;131;1413;2012;rws_ddl;-29.7;131
+Vlissingen;VLISSGN;Vlotter;Waterhoogte;cm;NVT;NAP;0;52645;2012;rws_ddl;-29.7;0
+West-Terschelling;WESTTSLG;Vlotter;Waterhoogte;cm;GETETM2;NAP;-83;1412;2012;rws_ddl;-21.4;-83
+West-Terschelling;WESTTSLG;Vlotter;Waterhoogte;cm;NVT;NAP;13;52645;2012;rws_ddl;-21.4;13

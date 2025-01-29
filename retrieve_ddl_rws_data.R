@@ -8,7 +8,7 @@ source("analysis/sealevelmonitor/_common/functions.R")
 require(tidyverse)
 require(rwsapi)
 
-datayear = 2024:2024
+datayear = 1900:2024
 
 # for all RWS North Sea stations
 stationlist <- read_delim("data/rijkswaterstaat/stationlist.csv", 
@@ -26,27 +26,27 @@ mainstationcodes <- mainstations_df$ddl_id
 
 mijnmetadata <- get_selected_metadata(compartiment = "OW", grootheid = "WATHTE", locatie = stationlist)
 
-mijnmetadata %>% 
-  distinct(coordinatenstelsel, x, y, locatie.naam, locatie.code) %>%
-  sf::st_as_sf(coords = c("x","y"), crs = unique(.$coordinatenstelsel)) %>%
-  sf::st_write("data/rijkswaterstaat/waterhoogtestations.geojson")
-mijnmetadata %>% 
-  distinct(coordinatenstelsel, x, y, locatie.naam, locatie.code) %>%
-  write_csv2("data/rijkswaterstaat/waterhoogtestations.csv")
+# mijnmetadata %>% 
+#   distinct(coordinatenstelsel, x, y, locatie.naam, locatie.code) %>%
+#   sf::st_as_sf(coords = c("x","y"), crs = unique(.$coordinatenstelsel)) %>%
+#   sf::st_write("data/rijkswaterstaat/waterhoogtestations.geojson")
+# mijnmetadata %>% 
+#   distinct(coordinatenstelsel, x, y, locatie.naam, locatie.code) %>%
+#   write_csv2("data/rijkswaterstaat/waterhoogtestations.csv")
 
-newStationList <- mijnmetadata %>% 
-  distinct(grootheid.code,
-           hoedanigheid.code,
-           locatie.naam,
-           locatie.code)
-write_csv(newStationList, "data/rijkswaterstaat/newStationList_0.csv")
+# newStationList <- mijnmetadata %>% 
+#   distinct(grootheid.code,
+#            hoedanigheid.code,
+#            locatie.naam,
+#            locatie.code)
+# write_csv(newStationList, "data/rijkswaterstaat/newStationList_0.csv")
 
 #  missing in earlier retrievals. 
-mijnmetadata <- mijnmetadata %>% filter(grepl("IJ", locatie.code, ignore.case = T))
+mijnmetadata <- mijnmetadata %>% filter(grepl("Euro", locatie.naam, ignore.case = T))
 
 readDDLwaterhoogte2(
   ddlmetadata = mijnmetadata, 
   startyear = min(datayear), 
   endyear = max(datayear), 
   outDir = ddlrawdir
-  )
+)

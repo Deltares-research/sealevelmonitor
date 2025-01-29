@@ -1,7 +1,53 @@
-year;height;station;n_per_year;source
-2023;222;Delfzijl;52496;rws_ddl
-2023;121;Den Helder;52501;rws_ddl
-2023;203;Harlingen;52498;rws_ddl
-2023;194;Hoek van Holland;52501;rws_ddl
-2023;125;IJmuiden;52450;rws_ddl
-2023;116;Vlissingen;52501;rws_ddl
+locatie.naam;locatie.code;meetapparaat.omschrijving;grootheid.omschrijving;eenheid.code;groepering.code;hoedanigheid.code;annual_mean_mm;n;year;source;verschil [mm];annual_mean_mm_corrected
+Cadzand;CADZD;Vlotter;Waterhoogte;cm;GETETM2;NAP;-1590;1;2023;rws_ddl;-27.4;-1590
+Cadzand;CADZD;Vlotter;Waterhoogte;cm;NVT;NAP;93;50606;2023;rws_ddl;-27.4;93
+Delfzijl;DELFZL;Vlotter;Waterhoogte;cm;GETETM2;NAP;-850;1;2023;rws_ddl;-8.2;-850
+Delfzijl;DELFZL;Vlotter;Waterhoogte;cm;NVT;NAP;222;52496;2023;rws_ddl;-8.2;222
+Den Helder;DENHDR;Vlotter;Waterhoogte;cm;GETETM2;NAP;659;1;2023;rws_ddl;-16.8;659
+Den Helder;DENHDR;Vlotter;Waterhoogte;cm;NVT;NAP;121;52501;2023;rws_ddl;-16.8;121
+Den Oever buiten;DENOVBTN;Vlotter;Waterhoogte;cm;GETETM2;NAP;249;2;2023;rws_ddl;NA;249
+Den Oever buiten;DENOVBTN;Vlotter;Waterhoogte;cm;NVT;NAP;208;52412;2023;rws_ddl;NA;208
+Haringvliet 10;HARVT10;Vlotter;Waterhoogte;cm;GETETM2;NAP;184;2;2023;rws_ddl;-21;184
+Haringvliet 10;HARVT10;Vlotter;Waterhoogte;cm;NVT;NAP;103;103817;2023;rws_ddl;-21;103
+Harlingen;HARLGN;Vlotter;Waterhoogte;cm;GETETM2;NAP;114;2815;2023;rws_ddl;-6.5;114
+Harlingen;HARLGN;Vlotter;Waterhoogte;cm;NVT;NAP;203;52498;2023;rws_ddl;-6.5;203
+Hoek van Holland;HOEKVHLD;Vlotter;Waterhoogte;cm;NVT;NAP;194;52501;2023;rws_ddl;-27.7;194
+Holwerd;HOLWD;Radar;Waterhoogte;cm;GETETM2;NAP;259;2;2023;rws_ddl;NA;259
+Holwerd;HOLWD;Radar;Waterhoogte;cm;NVT;NAP;170;49439;2023;rws_ddl;NA;170
+Huibertgat;HUIBGT;Vlotter;Waterhoogte;cm;GETETM2;NAP;274;2;2023;rws_ddl;-16.8;274
+Huibertgat;HUIBGT;Vlotter;Waterhoogte;cm;NVT;NAP;170;52360;2023;rws_ddl;-16.8;170
+IJmuiden;IJMDBTHVN;Radar;Waterhoogte;cm;GETETM2;NAP;220;1409;2023;rws_ddl;-21.8;220
+IJmuiden;IJMDBTHVN;Radar;Waterhoogte;cm;NVT;NAP;125;52450;2023;rws_ddl;-21.8;125
+IJmuiden;IJMDBTHVN;Vlotter;Waterhoogte;cm;GETETM2;NAP;220;1408;2023;rws_ddl;-21.8;220
+K14 platform;K14PFM;Radar;Waterhoogte;cm;NVT;MSL;611107;52373;2023;rws_ddl;NA;611107
+Kornwerderzand buiten;KORNWDZBTN;Vlotter;Waterhoogte;cm;GETETM2;NAP;349;2;2023;rws_ddl;NA;349
+Kornwerderzand buiten;KORNWDZBTN;Vlotter;Waterhoogte;cm;NVT;NAP;196;52498;2023;rws_ddl;NA;196
+L9 platform;L9PFM;Radar;Waterhoogte;cm;NVT;MSL;248119;52424;2023;rws_ddl;NA;248119
+Lauwersoog;LAUWOG;Vlotter;Waterhoogte;cm;GETETM2;NAP;194;2;2023;rws_ddl;-12.5;194
+Lauwersoog;LAUWOG;Vlotter;Waterhoogte;cm;NVT;NAP;151;52491;2023;rws_ddl;-12.5;151
+Lichteiland Goeree;LICHTELGRE;Radar;Waterhoogte;cm;GETETM2;NAP;144;2;2023;rws_ddl;NA;144
+Lichteiland Goeree;LICHTELGRE;Radar;Waterhoogte;cm;NVT;MSL;90;43441;2023;rws_ddl;NA;90
+Lichteiland Goeree;LICHTELGRE;Radar;Waterhoogte;cm;NVT;NAP;71;52318;2023;rws_ddl;NA;71
+Maassluis;MAASSS;Vlotter;Waterhoogte;cm;NVT;NAP;251;52372;2023;rws_ddl;NA;251
+Nes;NES;Vlotter;Waterhoogte;cm;GETETM2;NAP;269;2;2023;rws_ddl;-11.1;269
+Nes;NES;Vlotter;Waterhoogte;cm;NVT;NAP;164;52416;2023;rws_ddl;-11.1;164
+Nieuwe Statenzijl;NIEUWSTZL;Radar;Waterhoogte;cm;GETETM2;NAP;149;1;2023;rws_ddl;-3.2;149
+Nieuwe Statenzijl;NIEUWSTZL;Radar;Waterhoogte;cm;NVT;NAP;457;52470;2023;rws_ddl;-3.2;457
+Oosterschelde 14;OOSTSDE14;Vlotter;Waterhoogte;cm;NVT;NAP;170;52465;2023;rws_ddl;NA;170
+Oudeschild;OUDSD;Vlotter;Waterhoogte;cm;GETETM2;NAP;269;2;2023;rws_ddl;-20.3;269
+Oudeschild;OUDSD;Vlotter;Waterhoogte;cm;NVT;NAP;144;52391;2023;rws_ddl;-20.3;144
+Scheveningen;SCHEVNGN;Vlotter;Waterhoogte;cm;NVT;NAP;127;52386;2023;rws_ddl;-12.2;127
+Schiermonnikoog;SCHIERMNOG;Vlotter;Waterhoogte;cm;GETETM2;NAP;224;2;2023;rws_ddl;-9.7;224
+Schiermonnikoog;SCHIERMNOG;Vlotter;Waterhoogte;cm;NVT;NAP;164;52414;2023;rws_ddl;-9.7;164
+Stellendam buiten;STELLDBTN;Vlotter;Waterhoogte;cm;NVT;NAP;174;52319;2023;rws_ddl;NA;174
+Terschelling Noordzee;TERSLNZE;Vlotter;Waterhoogte;cm;GETETM2;NAP;159;2;2023;rws_ddl;-24.3;159
+Terschelling Noordzee;TERSLNZE;Vlotter;Waterhoogte;cm;NVT;NAP;98;52369;2023;rws_ddl;-24.3;98
+Texel Noordzee;TEXNZE;Vlotter;Waterhoogte;cm;GETETM2;NAP;669;1;2023;rws_ddl;-18.7;669
+Texel Noordzee;TEXNZE;Vlotter;Waterhoogte;cm;NVT;NAP;120;51711;2023;rws_ddl;-18.7;120
+Vlieland haven;VLIELHVN;Vlotter;Waterhoogte;cm;GETETM2;NAP;229;2;2023;rws_ddl;-21.7;229
+Vlieland haven;VLIELHVN;Vlotter;Waterhoogte;cm;NVT;NAP;105;52388;2023;rws_ddl;-21.7;105
+Vlissingen;VLIS;Vlotter;Waterhoogte;cm;NVT;NAP;-41;295;2023;rws_ddl;-29.7;-41
+Vlissingen;VLISSGN;Vlotter;Waterhoogte;cm;GETETM2;NAP;240;1410;2023;rws_ddl;-29.7;240
+Vlissingen;VLISSGN;Vlotter;Waterhoogte;cm;NVT;NAP;116;52501;2023;rws_ddl;-29.7;116
+West-Terschelling;WESTTSLG;Vlotter;Waterhoogte;cm;GETETM2;NAP;304;2;2023;rws_ddl;-21.4;304
+West-Terschelling;WESTTSLG;Vlotter;Waterhoogte;cm;NVT;NAP;139;52414;2023;rws_ddl;-21.4;139

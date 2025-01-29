@@ -1,6 +1,5 @@
 
 require(tidyverse)
-
 require(stringr)
 source("analysis/sealevelmonitor/_common/functions.R")
 
@@ -9,13 +8,15 @@ stationLocations <- sf::st_read("data/rijkswaterstaat/waterhoogtestations.geojso
 
 #=== plot map ==============================================================
 
-sf::st_crs(stationLocations)
-
 stationLocations %>%
   sf::st_transform(4326) %>%
 leaflet::leaflet() %>%
   leaflet::addTiles() %>%
-  leaflet::addCircleMarkers(radius = 2, label = ~paste(locatie.code, locatie.naam), labelOptions = leaflet::labelOptions(noHide = T))
+  leaflet::addCircleMarkers(
+    radius = 2, 
+    label = ~paste(locatie.code, locatie.naam), 
+    labelOptions = leaflet::labelOptions(noHide = T)
+  )
 
 #=== read sea level data - takes time ======================================
 

@@ -22,7 +22,7 @@ require(tidyverse)
 list.files()
 source("../../analysis/sealevelmonitor/_common/functions.R")
 source("../../analysis/sealevelmonitor/_common/plotfunctions.R")
-
+mainstations_df <- readMainStationInfo(filepath = "../../")
 ```
 
 ```{r}
@@ -40,57 +40,63 @@ df_psmsl <- readSeaLevelData(file.path("../../data/deltares/results/dutch-sea-le
 ddl_y_files <- list.files("../../data/rijkswaterstaat/ddl/annual_means", full.names = T)
 
 ddl_y_means <- lapply(ddl_y_files, function(x) read_delim(x, delim = ";", col_types = cols())) %>%
-  list_rbind()
+  list_rbind() %>%
+  filter(annual_mean_mm_corrected > -1000)
 
-# correctie NAP 2005
-
-ddl_y_means <- ddl_y_means %>%
-  mutate(
-    height = case_when(
-      year >= 2005 ~ height,
-      year < 2005 ~ height - 25
-    )
-  )
 
 ```
 
 
-```{r}
-ggplot(ddl_y_means, aes(year,height)) +
-  geom_col(aes(year, n_per_year/1e3, fill = station), position = position_dodge())# +
+```{r, fig.width=8, fig.height=3}
+ddl_y_means %>%
+  filter(
+    locatie.naam %in% mainstations_df$name,
+    # year > 1986,
+    groepering.code == "NVT"
+  ) %>%
+ggplot(aes(x = year)) +
+  geom_col(aes(y = n/1e3, fill = locatie.naam), position = position_dodge())# +
   # coord_cartesian(xlim = c(1987, 1995))
 ```
 
 ```{r}
 ddl_y_means %>%
-  filter(year > 1986) %>%
-ggplot(aes(year,height)) +
-  geom_path(aes(color = station), size = 1) +
+  filter(
+    locatie.naam %in% mainstations_df$name,
+    year > 1986,
+    groepering.code == "NVT"
+  ) %>%
+  ggplot(aes(year,annual_mean_mm_corrected)) +
+  geom_line(aes(color = locatie.naam), size = 1) +
   theme(legend.position = "bottom")
 ```
 
 ```{r}
 ddl_y_means_av <- ddl_y_means %>%
+    filter(
+    locatie.naam %in% mainstations_df$name,
+    groepering.code == "NVT"
+  ) %>%
   bind_rows(
     . |>
       group_by(year) |>
       summarise(
-        height = mean(height, na.rm = T)
+        annual_mean_mm_corrected = mean(annual_mean_mm_corrected)
       ) |>
       mutate(
-        station = "Netherlands",
+        locatie.naam = "Netherlands",
         source = "rws_ddl_mean"
       )
   ) %>%
   bind_rows(
     . |>
-      filter(station %in% c("Vlissingen", "Hoek van Holland", "Den Helder", "Harlingen", "IJmuiden")) |>
+      filter(locatie.naam %in% c("Vlissingen", "Hoek van Holland", "Den Helder", "Harlingen", "IJmuiden")) |>
       group_by(year) |>
       summarise(
-        height = mean(height, na.rm = T)
+        annual_mean_mm_corrected = mean(annual_mean_mm_corrected)
       ) |>
       mutate(
-        station = "Netherlands (without Delfzijl)",
+        locatie.naam = "Netherlands (without Delfzijl)",
         source = "rws_ddl_mean"
       )
   )
@@ -100,16 +106,50 @@ ddl_y_means_av <- ddl_y_means %>%
 ```{r}
 
 ddl_y_means_av %>%
-  select(year, height, station, source) %>%
+  ggplot(aes(x = year)) +
+  geom_point(aes(y = annual_mean_mm_corrected, color = locatie.naam))
+
+ddl_y_means_av %>%
+  select(
+    year, 
+    height = annual_mean_mm_corrected, 
+    station = locatie.naam, 
+    source
+    ) %>%
   bind_rows(
     df_psmsl %>% 
-      select(year, height, station) %>%
+      select(
+        year, 
+        height, 
+        station) %>%
       mutate(source = "psmsl")) %>%
   # filter(station == "Netherlands (without Delfzijl)") %>%
   filter(year > 1900 & year < 2023) %>%
   ggplot(aes(year, height)) +
-  geom_point(aes(color = source), size = 1) +
-  geom_smooth(method = "lm", aes(color = source), alpha = 0) +
+  geom_point(aes(shape = source, color = source), size = 1) +
+  # geom_smooth(method = "lm", aes(color = source), alpha = 0) +
+  coord_cartesian(xlim = c(1900, NA)) +
+  facet_wrap("station")
+
+ddl_y_means_av %>%
+  select(
+    year, 
+    height_ddl = annual_mean_mm_corrected, 
+    station = locatie.naam
+    ) %>%
+  left_join(
+    df_psmsl %>% 
+      select(
+        year, 
+        height_psmsl = height, 
+        station)
+    ) %>%
+  # filter(station == "Netherlands (without Delfzijl)") %>%
+  filter(year > 1900 & year < 2023) %>%
+  ggplot(aes(year, height_ddl)) +
+  geom_point(aes(color = "ddl"), size = 2, shape = 21, fill = "transparent") +
+  geom_point(aes(y = height_psmsl, color = "psmsl"), size = 1) +
+  # geom_smooth(method = "lm", aes(color = source), alpha = 0) +
   coord_cartesian(xlim = c(1900, NA)) +
   facet_wrap("station")
 

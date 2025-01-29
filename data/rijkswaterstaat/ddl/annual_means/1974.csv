@@ -1,0 +1,20 @@
+locatie.naam;locatie.code;meetapparaat.omschrijving;grootheid.omschrijving;eenheid.code;groepering.code;hoedanigheid.code;annual_mean_mm;n;year;source;verschil [mm];annual_mean_mm_corrected
+Cadzand;CADZD;Vlotter;Waterhoogte;cm;GETETM2;NAP;78;1409;1974;rws_ddl;-27.4;50.6
+Delfzijl;DELFZL;Vlotter;Waterhoogte;cm;GETETM2;NAP;-164;1409;1974;rws_ddl;-8.2;-172.2
+Den Helder;DENHDR;Vlotter;Waterhoogte;cm;GETETM2;NAP;-172;1409;1974;rws_ddl;-16.8;-188.8
+Den Oever buiten;DENOVBTN;Vlotter;Waterhoogte;cm;GETETM2;NAP;-115;1409;1974;rws_ddl;NA;NA
+Harlingen;HARLGN;Vlotter;Waterhoogte;cm;GETETM2;NAP;-6;1409;1974;rws_ddl;-6.5;-12.5
+Hoek van Holland;HOEKVHLD;Vlotter;Waterhoogte;cm;GETETM2;NAP;-46;2042;1974;rws_ddl;-27.7;-73.7
+Holwerd;HOLWD;Vlotter;Waterhoogte;cm;GETETM2;NAP;-161;1409;1974;rws_ddl;NA;NA
+Huibertgat;HUIBGT;Vlotter;Waterhoogte;cm;GETETM2;NAP;-182;1408;1974;rws_ddl;-16.8;-198.8
+Kornwerderzand buiten;KORNWDZBTN;Vlotter;Waterhoogte;cm;GETETM2;NAP;-44;1408;1974;rws_ddl;NA;NA
+Lauwersoog;LAUWOG;Vlotter;Waterhoogte;cm;GETETM2;NAP;-139;1408;1974;rws_ddl;-12.5;-151.5
+Maassluis;MAASSS;Vlotter;Waterhoogte;cm;GETETM2;NAP;171;1630;1974;rws_ddl;NA;NA
+Nes;NES;Vlotter;Waterhoogte;cm;GETETM2;NAP;-94;1408;1974;rws_ddl;-11.1;-105.1
+Nieuwe Statenzijl;NIEUWSTZL;Vlotter;Waterhoogte;cm;GETETM2;NAP;-7;1409;1974;rws_ddl;-3.2;-10.2
+Oudeschild;OUDSD;Vlotter;Waterhoogte;cm;GETETM2;NAP;-106;1409;1974;rws_ddl;-20.3;-126.3
+Scheveningen;SCHEVNGN;Vlotter;Waterhoogte;cm;GETETM2;NAP;-9;1840;1974;rws_ddl;-12.2;-21.2
+Schiermonnikoog;SCHIERMNOG;Vlotter;Waterhoogte;cm;GETETM2;NAP;-139;1408;1974;rws_ddl;-9.7;-148.7
+Vlieland haven;VLIELHVN;Vlotter;Waterhoogte;cm;GETETM2;NAP;-117;1409;1974;rws_ddl;-21.7;-138.7
+Vlissingen;VLISSGN;Vlotter;Waterhoogte;cm;GETETM2;NAP;91;1409;1974;rws_ddl;-29.7;61.3
+West-Terschelling;WESTTSLG;Vlotter;Waterhoogte;cm;GETETM2;NAP;-121;1408;1974;rws_ddl;-21.4;-142.4

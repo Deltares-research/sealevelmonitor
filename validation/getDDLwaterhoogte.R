@@ -1,10 +1,13 @@
 
 ## Get DDL sea level data for main stations. 
-## 
+## Calculate yearly means per year for all stations and write to file
 ## 
 ## to do: connect station code to station name (ijmuiden is not correct) and gtsm_id
 
 source("analysis/sealevelmonitor/_common/functions.R")
+
+## make list of stationcodes
+mijnmetadata <- get_selected_metadata(compartiment = "OW", grootheid = "WATHTE", locatie = stationlist)
 
 datayear = 2016:2023
 
@@ -13,6 +16,18 @@ ddlmeandir <- "data/rijkswaterstaat/ddl/annual_means"
 mainstations_df <- readMainStationInfo(filepath = "")
 mainstationnames <- mainstations_df$name
 correcties <- read_csv("data/Deltares/coastalstationscorrections2005.csv")
+ codes <- read_csv("data/rijkswaterstaat/station_year_list.csv") |>
+   distinct(locatie.naam, locatie.code) %>% 
+   left_join(
+     read_csv("data/rijkswaterstaat/station_year_list.csv") %>%
+       filter(year < 2023) %>%
+       distinct(locatie.naam, locatie.code) %>%
+       rename(mwtl_code = locatie.code),
+     by = c(locatie.naam = "locatie.naam")
+   ) %>%
+   drop_na(mwtl_code) %>%
+   arrange(locatie.naam) 
+ 
 
 # readDDLwaterhoogte(station = mainstationcodes, startyear = min(datayear), endyear = max(datayear), outDir = ddlrawdir)
 
@@ -46,8 +61,9 @@ for(myyear in datayear){
         locatie.naam != "IJmuiden buitenhaven" ~ locatie.naam
       )
     ) %>%
-    filter(as.numeric(kwaliteitswaarde.code) < 50
-    ) %>%
+    filter(
+      as.numeric(kwaliteitswaarde.code) < 50,
+      groepering.code == "NVT") %>%
     group_by(
       locatie.naam,
       locatie.code,
@@ -94,7 +110,7 @@ waterhoogtes_myyear %>%
   filter() %>% # filter out unwanted combinations of hoedanigheid, groepering
   select(
     year,
-    height = annual_mean_mm,
+    height = annual_mean_mm_corrected,
     station = locatie.naam,
     n_per_year = n,
     source

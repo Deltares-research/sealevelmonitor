@@ -1,3 +1,14 @@
-year;height;station;n_per_year;source
-1925;-7;Delfzijl;2917;rws_ddl
-1925;-122;Vlissingen;2917;rws_ddl
+locatie.naam;locatie.code;meetapparaat.omschrijving;grootheid.omschrijving;eenheid.code;groepering.code;hoedanigheid.code;annual_mean_mm;n;year;source;verschil [mm];annual_mean_mm_corrected
+Cadzand;CADZD;Vlotter;Waterhoogte;cm;GETETM2;NAP;26;1409;1925;rws_ddl;-27.4;-1.3999999999999986
+Delfzijl;DELFZL;Vlotter;Waterhoogte;cm;GETETM2;NAP;-179;1409;1925;rws_ddl;-8.2;-187.2
+Delfzijl;DELFZL;Vlotter;Waterhoogte;cm;NVT;NAP;-7;2917;1925;rws_ddl;-8.2;-15.2
+Den Helder;DENHDR;Vlotter;Waterhoogte;cm;GETETM2;NAP;-184;1409;1925;rws_ddl;-16.8;-200.8
+Den Oever buiten;DENOVBTN;Vlotter;Waterhoogte;cm;GETETM2;NAP;-60;1409;1925;rws_ddl;NA;NA
+Harlingen;HARLGN;Vlotter;Waterhoogte;cm;GETETM2;NAP;2;1409;1925;rws_ddl;-6.5;-4.5
+Hoek van Holland;HOEKVHLD;Vlotter;Waterhoogte;cm;GETETM2;NAP;-99;1936;1925;rws_ddl;-27.7;-126.7
+Maassluis;MAASSS;Vlotter;Waterhoogte;cm;GETETM2;NAP;137;1409;1925;rws_ddl;NA;NA
+Nieuwe Statenzijl;NIEUWSTZL;Vlotter;Waterhoogte;cm;GETETM2;NAP;1359;704;1925;rws_ddl;-3.2;1355.8
+Scheveningen;SCHEVNGN;Vlotter;Waterhoogte;cm;GETETM2;NAP;167;1408;1925;rws_ddl;-12.2;154.8
+Vlissingen;VLISSGN;Vlotter;Waterhoogte;cm;GETETM2;NAP;-17;1409;1925;rws_ddl;-29.7;-46.7
+Vlissingen;VLISSGN;Vlotter;Waterhoogte;cm;NVT;NAP;-122;2917;1925;rws_ddl;-29.7;-151.7
+West-Terschelling;WESTTSLG;Vlotter;Waterhoogte;cm;GETETM2;NAP;-138;1409;1925;rws_ddl;-21.4;-159.4

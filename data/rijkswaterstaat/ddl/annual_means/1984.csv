@@ -1,0 +1,30 @@
+locatie.naam;locatie.code;meetapparaat.omschrijving;grootheid.omschrijving;eenheid.code;groepering.code;hoedanigheid.code;annual_mean_mm;n;year;source;verschil [mm];annual_mean_mm_corrected
+Cadzand;CADZD;Vlotter;Waterhoogte;cm;GETETM2;NAP;76;1413;1984;rws_ddl;-27.4;48.6
+Delfzijl;DELFZL;Vlotter;Waterhoogte;cm;GETETM2;NAP;-177;1413;1984;rws_ddl;-8.2;-185.2
+Den Helder;DENHDR;Vlotter;Waterhoogte;cm;GETETM2;NAP;-131;1413;1984;rws_ddl;-16.8;-147.8
+Den Oever buiten;DENOVBTN;Vlotter;Waterhoogte;cm;GETETM2;NAP;-78;1413;1984;rws_ddl;NA;NA
+Haringvliet 10;HARVT10;Vlotter;Waterhoogte;cm;GETETM2;NAP;144;1413;1984;rws_ddl;-21;123
+Harlingen;HARLGN;Vlotter;Waterhoogte;cm;GETETM2;NAP;-41;1413;1984;rws_ddl;-6.5;-47.5
+Hoek van Holland;HOEKVHLD;Vlotter;Waterhoogte;cm;GETETM2;NAP;-19;2043;1984;rws_ddl;-27.7;-46.7
+Holwerd;HOLWD;Vlotter;Waterhoogte;cm;GETETM2;NAP;-186;1413;1984;rws_ddl;NA;NA
+Huibertgat;HUIBGT;Vlotter;Waterhoogte;cm;GETETM2;NAP;-174;1413;1984;rws_ddl;-16.8;-190.8
+Huibertgat;HUIBGT;Vlotter;Waterhoogte;cm;NVT;NAP;-82;51758;1984;rws_ddl;-16.8;-98.8
+IJmuiden;IJMDBTHVN;Vlotter;Waterhoogte;cm;GETETM2;NAP;87;1413;1984;rws_ddl;-21.8;65.2
+Kornwerderzand buiten;KORNWDZBTN;Vlotter;Waterhoogte;cm;GETETM2;NAP;-65;1413;1984;rws_ddl;NA;NA
+Lauwersoog;LAUWOG;Vlotter;Waterhoogte;cm;GETETM2;NAP;-169;1413;1984;rws_ddl;-12.5;-181.5
+Lichteiland Goeree;LICHTELGRE;Stappenbaak;Waterhoogte;cm;GETETMSL2;MSL;147;1413;1984;rws_ddl;NA;NA
+Lichteiland Goeree;LICHTELGRE;Stappenbaak;Waterhoogte;cm;NVT;MSL;-16;8775;1984;rws_ddl;NA;NA
+Maassluis;MAASSS;Vlotter;Waterhoogte;cm;GETETM2;NAP;153;1614;1984;rws_ddl;NA;NA
+Nes;NES;Vlotter;Waterhoogte;cm;GETETM2;NAP;-87;1413;1984;rws_ddl;-11.1;-98.1
+Nieuwe Statenzijl;NIEUWSTZL;Vlotter;Waterhoogte;cm;GETETM2;NAP;99;1413;1984;rws_ddl;-3.2;95.8
+Oosterschelde 11;OOSTSDE11;Vlotter;Waterhoogte;cm;GETETM2;NAP;81;1413;1984;rws_ddl;NA;NA
+Oosterschelde 11;OOSTSDE11;Vlotter;Waterhoogte;cm;NVT;NAP;-48;61331;1984;rws_ddl;NA;NA
+Oosterschelde 14;OOSTSDE14;Vlotter;Waterhoogte;cm;GETETM2;NAP;142;1413;1984;rws_ddl;NA;NA
+Oosterschelde 14;OOSTSDE14;Vlotter;Waterhoogte;cm;NVT;NAP;-44;61257;1984;rws_ddl;NA;NA
+Oudeschild;OUDSD;Vlotter;Waterhoogte;cm;GETETM2;NAP;-117;1413;1984;rws_ddl;-20.3;-137.3
+Scheveningen;SCHEVNGN;Vlotter;Waterhoogte;cm;GETETM2;NAP;10;1796;1984;rws_ddl;-12.2;-2.1999999999999993
+Schiermonnikoog;SCHIERMNOG;Vlotter;Waterhoogte;cm;GETETM2;NAP;-154;1413;1984;rws_ddl;-9.7;-163.7
+Stellendam buiten;STELLDBTN;Vlotter;Waterhoogte;cm;GETETM2;NAP;-5;832;1984;rws_ddl;NA;NA
+Vlieland haven;VLIELHVN;Vlotter;Waterhoogte;cm;GETETM2;NAP;-141;1413;1984;rws_ddl;-21.7;-162.7
+Vlissingen;VLISSGN;Vlotter;Waterhoogte;cm;GETETM2;NAP;99;1413;1984;rws_ddl;-29.7;69.3
+West-Terschelling;WESTTSLG;Vlotter;Waterhoogte;cm;GETETM2;NAP;-121;1413;1984;rws_ddl;-21.4;-142.4

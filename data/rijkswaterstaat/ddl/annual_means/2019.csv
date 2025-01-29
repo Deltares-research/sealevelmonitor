@@ -1,7 +1,54 @@
-year;height;station;n_per_year;source
-2019;154;Delfzijl;52501;rws_ddl
-2019;70;Den Helder;52501;rws_ddl
-2019;139;Harlingen;52501;rws_ddl
-2019;137;Hoek van Holland;52501;rws_ddl
-2019;59;IJmuiden buitenhaven;52501;rws_ddl
-2019;51;Vlissingen;52501;rws_ddl
+locatie.naam;locatie.code;meetapparaat.omschrijving;grootheid.omschrijving;eenheid.code;groepering.code;hoedanigheid.code;annual_mean_mm;n;year;source;verschil [mm];annual_mean_mm_corrected
+Cadzand;CADZD;Vlotter;Waterhoogte;cm;GETETM2;NAP;171;1409;2019;rws_ddl;-27.4;171
+Cadzand;CADZD;Vlotter;Waterhoogte;cm;NVT;NAP;39;52501;2019;rws_ddl;-27.4;39
+Delfzijl;DELFZL;Vlotter;Waterhoogte;cm;GETETM2;NAP;-64;1409;2019;rws_ddl;-8.2;-64
+Delfzijl;DELFZL;Vlotter;Waterhoogte;cm;NVT;NAP;154;52501;2019;rws_ddl;-8.2;154
+Den Helder;DENHDR;Vlotter;Waterhoogte;cm;GETETM2;NAP;-41;1410;2019;rws_ddl;-16.8;-41
+Den Helder;DENHDR;Vlotter;Waterhoogte;cm;NVT;NAP;70;52501;2019;rws_ddl;-16.8;70
+Den Oever buiten;DENOVBTN;Vlotter;Waterhoogte;cm;GETETM2;NAP;22;1409;2019;rws_ddl;NA;22
+Den Oever buiten;DENOVBTN;Vlotter;Waterhoogte;cm;NVT;NAP;134;52501;2019;rws_ddl;NA;134
+Haringvliet 10;HARVT10;Vlotter;Waterhoogte;cm;GETETM2;NAP;230;1409;2019;rws_ddl;-21;230
+Haringvliet 10;HARVT10;Vlotter;Waterhoogte;cm;NVT;NAP;41;42316;2019;rws_ddl;-21;41
+Harlingen;HARLGN;Vlotter;Waterhoogte;cm;GETETM2;NAP;48;1409;2019;rws_ddl;-6.5;48
+Harlingen;HARLGN;Vlotter;Waterhoogte;cm;NVT;NAP;139;52501;2019;rws_ddl;-6.5;139
+Hoek van Holland;HOEKVHLD;Vlotter;Waterhoogte;cm;GETETM2;NAP;105;2035;2019;rws_ddl;-27.7;105
+Hoek van Holland;HOEKVHLD;Vlotter;Waterhoogte;cm;NVT;NAP;137;52501;2019;rws_ddl;-27.7;137
+Holwerd;HOLWD;Radar;Waterhoogte;cm;GETETM2;NAP;-106;1409;2019;rws_ddl;NA;-106
+Holwerd;HOLWD;Radar;Waterhoogte;cm;NVT;NAP;95;52501;2019;rws_ddl;NA;95
+Huibertgat;HUIBGT;Vlotter;Waterhoogte;cm;GETETM2;NAP;17;1409;2019;rws_ddl;-16.8;17
+Huibertgat;HUIBGT;Vlotter;Waterhoogte;cm;NVT;NAP;102;52501;2019;rws_ddl;-16.8;102
+IJmuiden;IJMDBTHVN;Radar;Waterhoogte;cm;GETETM2;NAP;166;1409;2019;rws_ddl;-21.8;166
+IJmuiden;IJMDBTHVN;Radar;Waterhoogte;cm;NVT;NAP;59;52501;2019;rws_ddl;-21.8;59
+K14 platform;K14PFM;Radar;Waterhoogte;cm;NVT;MSL;1;47371;2019;rws_ddl;NA;1
+Kornwerderzand buiten;KORNWDZBTN;Vlotter;Waterhoogte;cm;GETETM2;NAP;45;1409;2019;rws_ddl;NA;45
+Kornwerderzand buiten;KORNWDZBTN;Vlotter;Waterhoogte;cm;NVT;NAP;129;52501;2019;rws_ddl;NA;129
+L9 platform;L9PFM;Radar;Waterhoogte;cm;NVT;MSL;47;52227;2019;rws_ddl;NA;47
+Lauwersoog;LAUWOG;Vlotter;Waterhoogte;cm;GETETM2;NAP;-45;1409;2019;rws_ddl;-12.5;-45
+Lauwersoog;LAUWOG;Vlotter;Waterhoogte;cm;NVT;NAP;95;52501;2019;rws_ddl;-12.5;95
+Lichteiland Goeree;LICHTELGRE;Radar;Waterhoogte;cm;GETETM2;NAP;192;1409;2019;rws_ddl;NA;192
+Lichteiland Goeree;LICHTELGRE;Radar;Waterhoogte;cm;NVT;MSL;32;52501;2019;rws_ddl;NA;32
+Lichteiland Goeree;LICHTELGRE;Radar;Waterhoogte;cm;NVT;NAP;32;52501;2019;rws_ddl;NA;32
+Maassluis;MAASSS;Vlotter;Waterhoogte;cm;GETETM2;NAP;233;1731;2019;rws_ddl;NA;233
+Nes;NES;Vlotter;Waterhoogte;cm;GETETM2;NAP;-21;1409;2019;rws_ddl;-11.1;-21
+Nes;NES;Vlotter;Waterhoogte;cm;NVT;NAP;101;52501;2019;rws_ddl;-11.1;101
+Nieuwe Statenzijl;NIEUWSTZL;Radar;Waterhoogte;cm;GETETM2;NAP;90;1409;2019;rws_ddl;-3.2;90
+Nieuwe Statenzijl;NIEUWSTZL;Radar;Waterhoogte;cm;NVT;NAP;335;52501;2019;rws_ddl;-3.2;335
+Oosterschelde 11;OOSTSDE11;Vlotter;Waterhoogte;cm;NVT;NAP;38;52501;2019;rws_ddl;NA;38
+Oosterschelde 14;OOSTSDE14;Vlotter;Waterhoogte;cm;NVT;NAP;91;52501;2019;rws_ddl;NA;91
+Oudeschild;OUDSD;Vlotter;Waterhoogte;cm;GETETM2;NAP;-22;1409;2019;rws_ddl;-20.3;-22
+Oudeschild;OUDSD;Vlotter;Waterhoogte;cm;NVT;NAP;86;52501;2019;rws_ddl;-20.3;86
+Scheveningen;SCHEVNGN;Vlotter;Waterhoogte;cm;GETETM2;NAP;95;1815;2019;rws_ddl;-12.2;95
+Scheveningen;SCHEVNGN;Vlotter;Waterhoogte;cm;NVT;NAP;66;52501;2019;rws_ddl;-12.2;66
+Schiermonnikoog;SCHIERMNOG;Vlotter;Waterhoogte;cm;GETETM2;NAP;-101;1409;2019;rws_ddl;-9.7;-101
+Schiermonnikoog;SCHIERMNOG;Vlotter;Waterhoogte;cm;NVT;NAP;39;52501;2019;rws_ddl;-9.7;39
+Stellendam buiten;STELLDBTN;Vlotter;Waterhoogte;cm;NVT;NAP;83;105002;2019;rws_ddl;NA;83
+Terschelling Noordzee;TERSLNZE;Vlotter;Waterhoogte;cm;GETETM2;NAP;-49;1409;2019;rws_ddl;-24.3;-49
+Terschelling Noordzee;TERSLNZE;Vlotter;Waterhoogte;cm;NVT;NAP;44;52501;2019;rws_ddl;-24.3;44
+Texel Noordzee;TEXNZE;Vlotter;Waterhoogte;cm;GETETM2;NAP;-46;1410;2019;rws_ddl;-18.7;-46
+Texel Noordzee;TEXNZE;Vlotter;Waterhoogte;cm;NVT;NAP;71;52501;2019;rws_ddl;-18.7;71
+Vlieland haven;VLIELHVN;Vlotter;Waterhoogte;cm;GETETM2;NAP;-32;1409;2019;rws_ddl;-21.7;-32
+Vlieland haven;VLIELHVN;Vlotter;Waterhoogte;cm;NVT;NAP;41;52501;2019;rws_ddl;-21.7;41
+Vlissingen;VLISSGN;Vlotter;Waterhoogte;cm;GETETM2;NAP;181;1409;2019;rws_ddl;-29.7;181
+Vlissingen;VLISSGN;Vlotter;Waterhoogte;cm;NVT;NAP;51;52501;2019;rws_ddl;-29.7;51
+West-Terschelling;WESTTSLG;Vlotter;Waterhoogte;cm;GETETM2;NAP;-12;1409;2019;rws_ddl;-21.4;-12
+West-Terschelling;WESTTSLG;Vlotter;Waterhoogte;cm;NVT;NAP;74;52501;2019;rws_ddl;-21.4;74

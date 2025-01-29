@@ -1,6 +1,26 @@
-year;height;station;n_per_year;source
-1968;45;Delfzijl;2925;rws_ddl
-1968;-41;Den Helder;2925;rws_ddl
-1968;5;Harlingen;2925;rws_ddl
-1968;7;Hoek van Holland;2925;rws_ddl
-1968;-51;Vlissingen;2925;rws_ddl
+locatie.naam;locatie.code;meetapparaat.omschrijving;grootheid.omschrijving;eenheid.code;groepering.code;hoedanigheid.code;annual_mean_mm;n;year;source;verschil [mm];annual_mean_mm_corrected
+Cadzand;CADZD;Vlotter;Waterhoogte;cm;GETETM2;NAP;74;1412;1968;rws_ddl;-27.4;46.6
+Delfzijl;DELFZL;Vlotter;Waterhoogte;cm;GETETM2;NAP;-159;1413;1968;rws_ddl;-8.2;-167.2
+Delfzijl;DELFZL;Vlotter;Waterhoogte;cm;NVT;NAP;45;2925;1968;rws_ddl;-8.2;36.8
+Den Helder;DENHDR;Vlotter;Waterhoogte;cm;GETETM2;NAP;-139;1412;1968;rws_ddl;-16.8;-155.8
+Den Helder;DENHDR;Vlotter;Waterhoogte;cm;NVT;NAP;-41;2925;1968;rws_ddl;-16.8;-57.8
+Den Oever buiten;DENOVBTN;Vlotter;Waterhoogte;cm;GETETM2;NAP;-122;1413;1968;rws_ddl;NA;NA
+Harlingen;HARLGN;Vlotter;Waterhoogte;cm;GETETM2;NAP;-40;1413;1968;rws_ddl;-6.5;-46.5
+Harlingen;HARLGN;Vlotter;Waterhoogte;cm;NVT;NAP;5;2925;1968;rws_ddl;-6.5;-1.5
+Hoek van Holland;HOEKVHLD;Vlotter;Waterhoogte;cm;GETETM2;NAP;-77;2078;1968;rws_ddl;-27.7;-104.7
+Hoek van Holland;HOEKVHLD;Vlotter;Waterhoogte;cm;NVT;NAP;7;2925;1968;rws_ddl;-27.7;-20.7
+Kornwerderzand buiten;KORNWDZBTN;Vlotter;Waterhoogte;cm;GETETM2;NAP;-57;1413;1968;rws_ddl;NA;NA
+Kornwerderzand buiten;KORNWDZBTN;Vlotter;Waterhoogte;cm;NVT;NAP;12;2925;1968;rws_ddl;NA;NA
+Maassluis;MAASSS;Vlotter;Waterhoogte;cm;GETETM2;NAP;172;1413;1968;rws_ddl;NA;NA
+Nes;NES;Vlotter;Waterhoogte;cm;GETETM2;NAP;-138;1413;1968;rws_ddl;-11.1;-149.1
+Nieuwe Statenzijl;NIEUWSTZL;Vlotter;Waterhoogte;cm;GETETM2;NAP;1387;707;1968;rws_ddl;-3.2;1383.8
+Oudeschild;OUDSD;Vlotter;Waterhoogte;cm;GETETM2;NAP;-111;1413;1968;rws_ddl;-20.3;-131.3
+Scheveningen;SCHEVNGN;Vlotter;Waterhoogte;cm;GETETM2;NAP;142;1413;1968;rws_ddl;-12.2;129.8
+Scheveningen;SCHEVNGN;Vlotter;Waterhoogte;cm;NVT;NAP;-6;2925;1968;rws_ddl;-12.2;-18.2
+Schiermonnikoog;SCHIERMNOG;Vlotter;Waterhoogte;cm;GETETM2;NAP;-194;1413;1968;rws_ddl;-9.7;-203.7
+Vlieland haven;VLIELHVN;Vlotter;Waterhoogte;cm;GETETM2;NAP;-176;1413;1968;rws_ddl;-21.7;-197.7
+Vlieland haven;VLIELHVN;Vlotter;Waterhoogte;cm;NVT;NAP;-110;2925;1968;rws_ddl;-21.7;-131.7
+Vlissingen;VLISSGN;Vlotter;Waterhoogte;cm;GETETM2;NAP;66;1413;1968;rws_ddl;-29.7;36.3
+Vlissingen;VLISSGN;Vlotter;Waterhoogte;cm;NVT;NAP;-51;2925;1968;rws_ddl;-29.7;-80.7
+West-Terschelling;WESTTSLG;Vlotter;Waterhoogte;cm;GETETM2;NAP;-160;1413;1968;rws_ddl;-21.4;-181.4
+West-Terschelling;WESTTSLG;Vlotter;Waterhoogte;cm;NVT;NAP;-85;2922;1968;rws_ddl;-21.4;-106.4

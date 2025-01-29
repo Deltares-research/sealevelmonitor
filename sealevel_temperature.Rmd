@@ -1,0 +1,58 @@
+
+## Sea level change variability
+
+```{r setup}
+require(tidyverse)
+datadir <- "data"
+```
+
+
+## Data sets used
+
+The following datasets are used:
+
+- Sea level averaged for the Dutch coast (Deltares/Rijkswaterstaat/PSMSL)
+- Global yearly average temperature (NOAA)
+
+```{r getData}
+
+df_sealevel <- read_csv2(
+  file.path(
+    datadir, "deltares", "results", "dutch-sea-level-monitor-export-stations-latest.csv")
+)
+
+df_globaltemp <- read_csv(
+  file.path(
+    datadir, "noaa/globaltimeseries/yearlyTemperature.csv"),
+  comment = "#"
+)
+
+```
+
+```{r}
+
+df_sealevel %>% 
+  filter(year > 1980) %>%
+  filter(station == "Netherlands (without Delfzijl)") %>%
+  mutate(`height-surgeanomaly` = height - surge_anomaly) %>%
+  left_join(df_globaltemp, by = c(year = "Year")) %>%
+  select(year, station, `height-surgeanomaly`, Anomaly) %>%
+  ggplot(aes(year, `height-surgeanomaly`, color = "height")) +
+  geom_line() +
+  geom_line(aes(year, Anomaly*50, color = "temperature anomaly x 100"))
+
+
+df_sealevel %>%
+  # filter(year > 1980) %>%
+  filter(station == "Netherlands (without Delfzijl)") %>%
+  left_join(df_globaltemp, by = c(year = "Year")) %>%
+  ggplot(aes(height, Anomaly)) +
+  geom_path(aes(color = year)) +
+    geom_point(aes(color = year)) +
+  geom_text(data = . %>% slice_sample(prop = 0.25), aes(height, Anomaly, label = year)) + 
+  geom_smooth(method = "lm") +
+  coord_flip()
+  
+
+```
+
