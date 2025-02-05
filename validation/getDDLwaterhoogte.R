@@ -7,27 +7,29 @@
 source("analysis/sealevelmonitor/_common/functions.R")
 
 ## make list of stationcodes
+
+stationlist <- read_csv("data/rijkswaterstaat/stationlist.csv")
 mijnmetadata <- get_selected_metadata(compartiment = "OW", grootheid = "WATHTE", locatie = stationlist)
 
-datayear = 2016:2023
+datayear = 1900:2023
 
 ddlrawdir <- "P:/11202493--systeemrap-grevelingen/1_data/Noordzee/ddl/raw/wathte"
 ddlmeandir <- "data/rijkswaterstaat/ddl/annual_means"
 mainstations_df <- readMainStationInfo(filepath = "")
 mainstationnames <- mainstations_df$name
 correcties <- read_csv("data/Deltares/coastalstationscorrections2005.csv")
- codes <- read_csv("data/rijkswaterstaat/station_year_list.csv") |>
-   distinct(locatie.naam, locatie.code) %>% 
-   left_join(
-     read_csv("data/rijkswaterstaat/station_year_list.csv") %>%
-       filter(year < 2023) %>%
-       distinct(locatie.naam, locatie.code) %>%
-       rename(mwtl_code = locatie.code),
-     by = c(locatie.naam = "locatie.naam")
-   ) %>%
-   drop_na(mwtl_code) %>%
-   arrange(locatie.naam) 
- 
+codes <- read_csv("data/rijkswaterstaat/station_year_list.csv") |>
+  distinct(locatie.naam, locatie.code) %>% 
+  left_join(
+    read_csv("data/rijkswaterstaat/station_year_list.csv") %>%
+      filter(year < 2023) %>%
+      distinct(locatie.naam, locatie.code) %>%
+      rename(mwtl_code = locatie.code),
+    by = c(locatie.naam = "locatie.naam")
+  ) %>%
+  drop_na(mwtl_code) %>%
+  arrange(locatie.naam) 
+
 
 # readDDLwaterhoogte(station = mainstationcodes, startyear = min(datayear), endyear = max(datayear), outDir = ddlrawdir)
 
@@ -44,44 +46,60 @@ for(myyear in datayear){
   waterhoogtes_myyear <- lapply(
     files, 
     function(x){
-      read_delim(paste0(ddlrawdir, "/", x),
-                 delim = ";", 
-                 escape_double = FALSE, 
-                 locale = locale(), 
-                 col_types = cols(),
-                 trim_ws = TRUE, 
-                 na = "-999999999")
-    } 
+      read_delim(
+        paste0(ddlrawdir, "/", x),
+        delim = ";", 
+        escape_double = FALSE, 
+        locale = locale(), 
+        col_types = cols(),
+        trim_ws = TRUE, 
+        na = c("-999999999", "999999999", "")
+      ) %>% 
+        select(
+          kwaliteitswaarde.code, 
+          locatie.naam,
+          locatie.code,
+          meetapparaat.omschrijving,
+          grootheid.omschrijving,
+          groepering.code,
+          eenheid.code,
+          hoedanigheid.code,
+          numeriekewaarde
+        ) %>% 
+        mutate(
+          kwaliteitswaarde.code = as.character(kwaliteitswaarde.code)
+        ) %>%
+        mutate(
+          locatie.naam = case_when(
+            locatie.naam == "IJmuiden buitenhaven" ~ "IJmuiden",
+            locatie.naam != "IJmuiden buitenhaven" ~ locatie.naam
+          )
+        ) %>%
+        filter(
+          as.numeric(kwaliteitswaarde.code) < 50,
+          groepering.code == "NVT"
+        ) %>%
+        group_by(
+          locatie.naam,
+          locatie.code,
+          meetapparaat.omschrijving,
+          grootheid.omschrijving,
+          eenheid.code,
+          groepering.code,
+          hoedanigheid.code
+        ) %>%
+        summarise(
+          annual_mean_mm = mean(numeriekewaarde, na.rm = T) %/% 0.1,
+          n = n(),
+          .groups = "drop"
+        ) %>%
+        mutate(
+          year = myyear,
+          source = "rws_ddl"
+        )      
+    }
   ) %>%
-    map(function(x) x %>% mutate(kwaliteitswaarde.code = as.character(kwaliteitswaarde.code))) %>%
     list_rbind() %>%
-    mutate(
-      locatie.naam = case_when(
-        locatie.naam == "IJmuiden buitenhaven" ~ "IJmuiden",
-        locatie.naam != "IJmuiden buitenhaven" ~ locatie.naam
-      )
-    ) %>%
-    filter(
-      as.numeric(kwaliteitswaarde.code) < 50,
-      groepering.code == "NVT") %>%
-    group_by(
-      locatie.naam,
-      locatie.code,
-      meetapparaat.omschrijving,
-      grootheid.omschrijving,
-      eenheid.code,
-      groepering.code,
-      hoedanigheid.code
-    ) %>%
-    summarise(
-      annual_mean_mm = mean(numeriekewaarde, na.rm = T) %/% 0.1,
-      n = n(),
-      .groups = "drop"
-    ) %>%
-    mutate(
-      year = myyear,
-      source = "rws_ddl"
-    ) %>%
     left_join(
       correcties %>% 
         select(Station, `verschil [mm]`),
@@ -95,13 +113,29 @@ for(myyear in datayear){
       )
     )
   
-
   if(nrow(waterhoogtes_myyear) > 0){
     write_delim(
       waterhoogtes_myyear, delim = ";",
-      file = file.path(ddlmeandir, paste0(myyear, ".csv"))
+      file = file.path(paste(ddlmeandir, "all", sep = "_"), paste0(myyear, ".csv"))
     )
   }
+  
+  if(nrow(waterhoogtes_myyear) > 0){
+    waterhoogtes_myyear %>%
+      filter() %>% # filter out unwanted combinations of hoedanigheid, groepering
+      select(
+        year,
+        height = annual_mean_mm_corrected,
+        station = locatie.naam,
+        n_per_year = n,
+        source
+      ) %>%
+      write_delim(
+        delim = ";",
+        file = file.path(ddlmeandir, paste0(myyear, ".csv"))
+      )
+  }
+  
 }
 
 
