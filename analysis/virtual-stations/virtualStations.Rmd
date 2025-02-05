@@ -65,7 +65,7 @@ slrData2 <- slrData %>%
     by = c(psmsl_id = "id")
   )
 
-DT::datatable(slrData2)
+slrData2 %>% arrange(-year) %>% head(18) %>% knitr::kable(caption = "PSMSL RLR sea level data for all Dutch stations on the latest 2 years." )
 
 ```
 

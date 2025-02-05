@@ -49,10 +49,31 @@ slrData2 <- slrData %>%
     by = c(psmsl_id = "id")
   )
 
-DT::datatable(slrData2)
+slrData2 %>% arrange(-year) %>% head(18) %>% knitr::kable(caption = "PSMSL RLR sea level data for all Dutch stations on the latest 2 years." )
 ```
 
-![](virtualStations_files/figure-gfm/readPSMSLdata-1.png)<!-- -->
+| year | rlr_height_mm | psmsl_id | name              |
+|-----:|--------------:|:---------|:------------------|
+| 2023 |          7046 | 20       | Vlissingen        |
+| 2023 |          7068 | 22       | Hoek van Holland  |
+| 2023 |          7069 | 23       | Den Helder        |
+| 2023 |          7046 | 24       | Delfzijl          |
+| 2023 |          7118 | 25       | Harlingen         |
+| 2023 |          7076 | 32       | IJmuiden          |
+| 2023 |          7090 | 1551     | Roompot Buiten    |
+| 2023 |          7050 | 9        | Maassluis         |
+| 2023 |          7098 | 236      | West-Terschelling |
+| 2022 |          6990 | 20       | Vlissingen        |
+| 2022 |          7008 | 22       | Hoek van Holland  |
+| 2022 |          7013 | 23       | Den Helder        |
+| 2022 |          6988 | 24       | Delfzijl          |
+| 2022 |          7056 | 25       | Harlingen         |
+| 2022 |          7019 | 32       | IJmuiden          |
+| 2022 |          7039 | 1551     | Roompot Buiten    |
+| 2022 |          6978 | 9        | Maassluis         |
+| 2022 |          7041 | 236      | West-Terschelling |
+
+PSMSL RLR sea level data for all Dutch stations on the latest 2 years.
 
 ### Data selection
 
