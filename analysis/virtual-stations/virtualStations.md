@@ -37,7 +37,7 @@ this moment only an anlysis of the relative change of sea level.
 # get all Dutch PSMSL stations
 ids <- c(mainstations_df$psmsl_id, 1551, 9, 236)
 names <- c(mainstations_df$name, "Roompot Buiten", "Maassluis", "West-Terschelling")
-slrData <- read_yearly_psmsl_csv(station_nr = ids, filepath = "../")
+slrData <- read_yearly_psmsl_csv(station_nr = ids, filepath = "../../")
 slrData2 <- slrData %>%
   select(
     year,
@@ -86,7 +86,7 @@ of this analysis, GTSM output for the 6 main stations was available.
 
 ``` r
 # Get GTSM data from local file
-gtsm <- read_yearly_gtsm(filename = "../data/deltares/gtsm/gtsm_surge_annual_mean_main_stations.csv") |>
+gtsm <- read_yearly_gtsm(filename = "../../data/deltares/gtsm/gtsm_surge_annual_mean_main_stations.csv") |>
   mutate(year = year(ymd(t)))
 ```
 

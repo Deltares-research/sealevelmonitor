@@ -25,16 +25,15 @@ knitr::opts_chunk$set(
 require(leaflet)
 require(plotly)
 require(tidyverse)
-# require(reticulate)
+path_to_common <- "../sealevelmonitor/_common"
 
-list.files("")
-config <- RcppTOML::parseToml("sealevelmonitor/_common/configuration.TOML")
+config <- RcppTOML::parseToml(file.path(path_to_common, "configuration.TOML"))
 config_flat <- list_flatten(config)
-source("sealevelmonitor/_common/functions.R")
-source("sealevelmonitor/_common/plotfunctions.R")
+source(file.path(path_to_common, "functions.R"))
+source(file.path(path_to_common, "plotfunctions.R"))
 epoch = config$constants$epoch
-mainstations_df <- readMainStationInfo(filepath = "../")
-mainstations_locs <- readMainStationLocations(path = "../")
+mainstations_df <- readMainStationInfo(filepath = "../../")
+mainstations_locs <- readMainStationLocations(path = "../../")
 ```
 
 ## Introduction
@@ -54,7 +53,7 @@ In order to better estimate the sea level changes along the coast, we are testin
 # get all Dutch PSMSL stations
 ids <- c(mainstations_df$psmsl_id, 1551, 9, 236)
 names <- c(mainstations_df$name, "Roompot Buiten", "Maassluis", "West-Terschelling")
-slrData <- read_yearly_psmsl_csv(station_nr = ids, filepath = "../")
+slrData <- read_yearly_psmsl_csv(station_nr = ids, filepath = "../../")
 slrData2 <- slrData %>%
   select(
     year,
@@ -92,7 +91,7 @@ GTSM surge values for each year is added to the dataframe. At the moment of this
 ```{r getGTSM}
 
 # Get GTSM data from local file
-gtsm <- read_yearly_gtsm(filename = "../data/deltares/gtsm/gtsm_surge_annual_mean_main_stations.csv") |>
+gtsm <- read_yearly_gtsm(filename = "../../data/deltares/gtsm/gtsm_surge_annual_mean_main_stations.csv") |>
   mutate(year = year(ymd(t)))
 
 ```
