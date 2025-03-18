@@ -177,20 +177,28 @@ plot_station_website <- function(
     printNumbers = FALSE, 
     plotVline = TRUE,
     datayear = 2023, 
-    startyear = 1900
+    startyear = 1900,
+    accellerationyear = 1993,
+    base_logo_path = "../../"
 ) {
   
   zoomyear = 2010
   
-  pal <- hue_pal()(3)
+  pal <- hue_pal()(4)
+  path = file.path(base_logo_path, "rapportage\\2026\\navbar\\images\\Deltares_logo_D-blauw_RGB\\Deltares_logo_D-blauw_RGB.svg")
+  rlogo     <- svgparser::read_svg(path)
+  
   
   plotColors = c(
     "gemeten zeespiegel" = "darkgrey",
     # "zeespiegel (- nodaal getij)" = pal[1],
     # "zeespiegel (-opzet)" = pal[2],
-    "gecorrigeerde zeespiegel" = "darkorange", #pal[1],
-    "gecorrigeerde zeespiegel (gemiddelde windopzet)" = pal[3],
-    "trend" = pal[2]
+    # "gecorrigeerde zeespiegel" = "darkorange", #pal[1],
+    "meting gecorrigeerd voor getij en wind in het specifieke jaar" = "darkorange",
+    # "gecorrigeerde zeespiegel (gemiddelde windopzet)" = pal[3],
+    "meting gecorrigeerd voor vaste variatie in getij (18,6 jaar)" = pal[3],
+    "eerste 100 jaar: 1,8 mm/jr" = "darkblue",
+    "laatste 30 jaar: 2,9 mm/jr" = "darkgreen"
   )
 
   plotFills = c(
@@ -205,22 +213,38 @@ plot_station_website <- function(
   
   symboolgrootte = 2
   
+  # add pre_accelleration and post_accelleration lines under other layers
+  
   q <- ggplot() +
     geom_point(data = predictions_all2 %>% filter(data_year >= startyear), 
                aes(x = data_year, y = data_height/10, color = "gemeten zeespiegel"), 
                size = symboolgrootte, 
                alpha = 0.7) +
     geom_point(data = predictions_all2 %>% filter(preds_year >= 1950),
-              aes(x = data_year, y = (`data_height-surge_anomaly` - nodal_tide)/10, color = "gecorrigeerde zeespiegel"),
+              aes(x = data_year, y = (`data_height-surge_anomaly` - nodal_tide)/10, color = "meting gecorrigeerd voor getij en wind in het specifieke jaar"),
               size = symboolgrootte, 
               alpha = 1) +
     geom_point(data = predictions_all2 %>% filter(preds_year >= startyear & preds_year < 1950), 
-              aes(x = preds_year, y = (`data_height-surge_anomaly` - nodal_tide)/10, color = "gecorrigeerde zeespiegel (gemiddelde windopzet)"), 
+              aes(x = preds_year, y = (`data_height-surge_anomaly` - nodal_tide)/10, color = "meting gecorrigeerd voor vaste variatie in getij (18,6 jaar)"), 
               size = symboolgrootte, 
               alpha = 1) +
+    geom_line(data = predictions_all2 %>% filter(preds_year >= accellerationyear),
+              aes(x = preds_year, y = pre_accelleration/10, color = ifelse(preds_year>=1993, "eerste 100 jaar: 1,8 mm/jr", "Laatste 30 jaar: 2,9 mm/jr")),
+              linetype = 2,
+              size = symboolgrootte/2, 
+              alpha = 1
+              ) +
+    geom_line(data = predictions_all2 %>% filter(preds_year < accellerationyear),
+              aes(x = preds_year, y = post_accelleration/10, color = ifelse(preds_year>=1993, "eerste 100 jaar: 1,8 mm/jr", "laatste 30 jaar: 2,9 mm/jr")),
+              linetype = 2,
+              size = symboolgrootte/2, 
+              alpha = 1) +
     geom_line(data = predictions_all2 %>% filter(preds_year >= startyear),
-              aes(x = preds_year, y = prediction_recalc/10, color = "trend", linetype = preds_year<1993),
-              size = symboolgrootte, alpha = 1) +
+              aes(x = preds_year, y = prediction_recalc/10, color = ifelse(preds_year<1993, "eerste 100 jaar: 1,8 mm/jr", "laatste 30 jaar: 2,9 mm/jr")),
+              linetype = 1,
+              size = symboolgrootte, 
+              alpha = 1) +
+    annotation_custom(rlogo, xmin = 1993, xmax = 2015, ymin = -30, ymax = -25) +
     coord_cartesian(ylim = c(NA, NA)) +
     xlab("jaar") +
     ylab("zeespiegel in cm tov NAP") +

@@ -201,9 +201,6 @@ makePrettyAnovaTable <- function(output, digits) {
 
 makePredictionTable <- function(models, lookup = lookup) {
   
-  
-  # data wrangling. move to functions.R
-  
   all_predictions <- models %>%
     mutate(
       preds = map2(data, model, add_predictions)
@@ -248,6 +245,40 @@ makePredictionTable <- function(models, lookup = lookup) {
             Trend * (data_year - epoch) +
             (data_year >= 1960) * `+ square_trend 1960` * (data_year - 1960) * (data_year - 1960)
         }
+      ),
+      pre_accelleration = case_when(
+        if("linear" %in% params$modeltype){
+          modeltype == "linear" ~ 
+            Constant + 
+            Trend * (data_year - epoch)
+        },
+        if("broken_linear" %in% params$modeltype){
+          modeltype == "broken_linear" ~ 
+            Constant + 
+            Trend * (data_year - epoch)
+        },
+        if("broken_squared" %in% params$modeltype){
+          modeltype == "broken_squared" ~ Constant + 
+            Trend * (data_year - epoch)
+        }
+      ),
+      post_accelleration = case_when(
+        if("linear" %in% params$modeltype){
+          modeltype == "linear" ~ 
+            Constant + 
+            Trend * (data_year - epoch)
+        },
+        if("broken_linear" %in% params$modeltype){
+          modeltype == "broken_linear" ~ 
+            Constant + 
+            Trend * (data_year - epoch) +
+            `+ trend 1993` * (data_year - 1993)
+        },
+        if("broken_squared" %in% params$modeltype){
+          modeltype == "broken_squared" ~ Constant + 
+            Trend * (data_year - epoch) +
+            `+ square_trend 1960` * (data_year - 1960) * (data_year - 1960)
+        }
       )
     ) %>%
     select(
@@ -259,7 +290,9 @@ makePredictionTable <- function(models, lookup = lookup) {
       prediction_recalc,
       `data_height-surge_anomaly`,
       `preds_height-surge_anomaly`,
-      nodal_tide
+      nodal_tide,
+      pre_accelleration,
+      post_accelleration
     )
   
   return(all_predictions)

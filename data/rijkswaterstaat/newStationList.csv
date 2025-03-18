@@ -1,4 +1,4 @@
-grootheid.code,hoedanigheid.code,locatie.naam,locatie.code,
+grootheid.code,hoedanigheid.code,locatie.naam,locatie.code,gebied
 WATHTE,MSL,D15 platform,D15,Noordzee
 WATHTE,MSL,K13 Alpha,K13,Noordzee
 WATHTE,MSL,J6 platform,J6,Noordzee
@@ -71,3 +71,4 @@ WATHTE,NAP,IJmuiden buitenhaven,IJMDBTHVN,Noordzee
 WATHTE,NAP,Texel Noordzee,TEXE,Noordzee
 WATHTE,NAP,Den Oever buiten,DENOVBTN,Waddenzee
 WATHTE,NAP,Schiermonnikoog,SCHI,Waddenzee
+WATHTE,NAP,IJmuiden,IJMDN,Noordzee

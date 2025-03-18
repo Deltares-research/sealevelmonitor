@@ -24,7 +24,10 @@ df_sealevel <- read_delim("data/deltares/results/dutch-sea-level-monitor-export-
 
 whdir <- ("data\\rijkswaterstaat\\ddl\\annual_means")
 df_ddl_y_avg_height <- readYrAvgWaterhoogteDDL(whdir)
-name_codes <- df_ddl_y_avg_height %>% distinct(locatie.code, locatie.naam) %>% arrange(locatie.code)
+newStationList <- read_csv("data/rijkswaterstaat/newStationList.csv")
+name_codes <- df_ddl_y_avg_height %>% distinct(station) %>% arrange(station) %>%
+  left_join(newStationList %>% select(locatie.naam, locatie.code, gebied), 
+            by = c(station = "locatie.naam"))
 # df_ddl_y_avg_height %>% 
 #   arrange(locatie.code, year) %>%
 #   distinct(year, locatie.code, locatie.naam ) %>%
@@ -38,7 +41,7 @@ componentfiles[grepl("LICHTEL", componentfiles)]
 componentfiles <- componentfiles[!(grepl("LICHTEL", componentfiles) & grepl("MSL", componentfiles))]
 
 df_tidal <- read_tidal_components_csv(componentfiles, dir)
-df_tidal$name <- name_codes$locatie.naam[match(df_tidal$station, name_codes$locatie.code)]
+df_tidal$name <- name_codes$station[match(df_tidal$station, name_codes$locatie.code)]
 
 #==== Plot time course of components ============================================
 
@@ -48,23 +51,25 @@ Wadden_west = c("DENHDR", "DENH", "OUDSD", "OUDE", "DENOVBTN", "OEBU", "VLIELHVN
 
 
 # make stationlist sorted by geography
-sortedStations <- df_ddl_y_avg_height %>% distinct(locatie.naam, locatie.code) %>%
+sortedStations <- df_ddl_y_avg_height %>% distinct(station) %>%
+  left_join(name_codes, by = c(station = "station")) %>%
   left_join(
     read_csv2("data/rijkswaterstaat/waterhoogtestations.csv") %>%
       mutate(locatie.naam = case_when(
         locatie.naam == "IJmuiden buitenhaven" ~ "IJmuiden",
         locatie.naam != "IJmuiden buitenhaven" ~ locatie.naam
       )), 
-    by = c(locatie.naam = "locatie.naam")
+    by = c(station = "locatie.naam")
   )  %>%
   filter(locatie.code.x == locatie.code.y) %>%
   select(-locatie.code.y) %>% rename(locatie.code = locatie.code.x) %>%
   arrange(-y-x) %>%
-  select(locatie.naam) %>% distinct() %>% unlist %>% unname
+  select(station) %>% distinct() %>% unlist %>% unname
 
 # relation M4:M2 with sea level rise
 df_tidal_height <- df_tidal %>%
-  unnest(data) %>% 
+  mutate(station = replace(station, station == "IJMDBTHVN", "IJMDN")) %>% 
+  unnest(data) %>%
   filter(comp %in% c("M2", "M4")) %>%
   # filter(station %in% c("DELFZL", "DENHDR", "EEMSHVN", "HARLGN", "HOEKVHLD", "IJMDBTHVN", "HOLWD", "HUIBGT")) %>%
   pivot_longer(
@@ -86,21 +91,10 @@ df_tidal_height <- df_tidal %>%
     )
   ) %>%
   left_join(
-    df_ddl_y_avg_height %>% 
-      mutate(
-        annual_mean_mm_corrected = case_when(
-          !is.na(annual_mean_mm_corrected) ~ annual_mean_mm_corrected,
-          is.na(annual_mean_mm_corrected) & hoedanigheid.code == "MSL"  ~ annual_mean_mm,
-          is.na(annual_mean_mm_corrected) & hoedanigheid.code == "NAP"  ~ annual_mean_mm + mean(`verschil [mm]`, na.rm = T)
-        )
-      ) %>%
-      filter(
-        groepering.code == "NVT",
-        annual_mean_mm_corrected < 5000   # a small number (4) of very high unexplained values are filtered out
-      ), 
-    by = c(name = "locatie.naam", jaar = "year")
+    df_ddl_y_avg_height,
+    by = c(name = "station", jaar = "year")
   ) %>%
-  drop_na(annual_mean_mm_corrected) %>%
+  drop_na(height) %>%
   mutate(wanneer = ifelse(jaar < 1993, "voor", "na")) %>%
   group_by(name, variable) %>%
   filter(n() > 10) %>% 
@@ -115,12 +109,12 @@ df_tidal_height %>%
   # geom_boxplot(aes(group = wanneer), fill = "transparent") +
   geom_vline(xintercept = c(1993, 2007, 2016), 
              linewidth = 0.5) +
-  coord_cartesian(xlim = c(1980, NA), ylim = c(NA,NA)) +
-  facet_wrap("name", scales = "free_y")
+  coord_cartesian(xlim = c(1932, NA), ylim = c(NA,NA)) +
+  facet_wrap("name", scales = "free_y", ncol = 3)
 
 dir.create("results")
 dir.create("results/tidal_analysis")
-ggsave("results/tidal_analysis/M4_wadden.png", height = 7, width = 12)
+ggsave("results/tidal_analysis/M4_wadden.png", height = 10, width = 14)
 
 df_tidal_height %>%
   filter(variable == "A") %>%
@@ -129,10 +123,10 @@ df_tidal_height %>%
   # geom_boxplot(aes(group = wanneer), fill = "transparent") +
   geom_vline(xintercept = c(1993, 2007, 2016), 
              linewidth = 0.5) +
-  coord_cartesian(xlim = c(1980, NA), ylim = c(NA,NA)) +
-  facet_wrap("name", scales = "free_y")
+  coord_cartesian(xlim = c(1932, NA), ylim = c(NA,NA)) +
+  facet_wrap("name", scales = "free_y", ncol = 3)
 
-ggsave("results/tidal_analysis/M2_wadden.png", height = 7, width = 12)
+ggsave("results/tidal_analysis/M2_wadden.png", height = 10, width = 14)
 
 df_tidal_height %>%
   filter(variable == "A") %>%
@@ -142,15 +136,54 @@ df_tidal_height %>%
   # geom_boxplot(aes(group = wanneer), fill = "transparent") +
   geom_vline(xintercept = c(1993, 2007, 2016), 
              linewidth = 0.5) +
-  coord_cartesian(xlim = c(1980, NA), ylim = c(NA,NA)) +
-  facet_wrap("name", scales = "free_y")
+  coord_cartesian(xlim = c(1932, NA), ylim = c(NA,NA)) +
+  facet_wrap("name", scales = "free_y", ncol = 3)
 
-ggsave("results/tidal_analysis/M4_M2_wadden.png", height = 7, width = 12)
+ggsave("results/tidal_analysis/M4_M2_wadden.png", height = 10, width = 14)
 
 
 # genormaliseerde componenten in de tijd
 
 p <- df_tidal_height %>%
+  left_join(newStationList, by = c(name = "locatie.naam")) %>%
+  mutate(
+    gebied = case_when(
+      locatie.code %in% Wadden_oost ~"Wadden_oost",
+      locatie.code %in% Wadden_west ~ "Wadden_west",
+      !locatie.code %in% c(Wadden_oost, Wadden_west) ~"outside Wadden",
+    )
+  ) %>%
+  filter(variable == "A") %>%
+  select(-variable) %>%
+  pivot_longer(
+    cols = c(M2, M4, M4_M2), 
+    names_to = "comp", 
+    values_to = "A"
+  ) %>%
+  group_by(name, comp, gebied) %>%
+  filter(jaar >= 1900) %>%
+  mutate(Anorm = A/mean(A)) %>%
+  ungroup() %>% 
+  ggplot(aes(x = jaar, y = Anorm)) +
+  geom_point(aes(color = locatie.code), size = 1, alpha = 0.5) +
+  geom_line(aes(color = locatie.code), linewidth = 0.8, alpha = 0.6) +
+  # geom_smooth(
+  #   data = . %>% filter(jaar > 1993), 
+  #   method = "lm", 
+  #   alpha = 0.1,
+  #   aes(color = locatie.code)) +
+  # geom_boxplot(aes(group = wanneer), fill = "transparent") +
+  geom_vline(xintercept = c(2010, 2016, 1993)) +
+  coord_cartesian(xlim = c(1932, NA), ylim = c(0.8,1.2)) +
+  facet_grid(comp ~ gebied, scales = "free_y") +
+  xlab("year") + ylab("normalized amplitude in m") +
+  ggplot2::theme(legend.position = "none")
+p
+ggsave("results/tidal_analysis/normalized_A_wadden.png", height = 7, width = 10)
+plotly::ggplotly(p)
+
+p <- df_tidal_height %>%
+  left_join(newStationList, by = c(name = "locatie.naam")) %>%
   mutate(
     gebied = case_when(
       locatie.code %in% Wadden_oost ~"Wadden_oost",
@@ -179,35 +212,35 @@ p <- df_tidal_height %>%
   #   aes(color = locatie.code)) +
   # geom_boxplot(aes(group = wanneer), fill = "transparent") +
   geom_vline(xintercept = c(2010, 2016, 1993)) +
-  coord_cartesian(xlim = c(1980, NA), ylim = c(NA,NA)) +
+  coord_cartesian(xlim = c(NA, NA), ylim = c(0.8,1.2)) +
   facet_grid(comp ~ gebied, scales = "free_y") +
   xlab("year") + ylab("normalized amplitude in m") +
   ggplot2::theme(legend.position = "none")
 p
-ggsave("results/tidal_analysis/normalized_A_wadden.png", height = 5, width = 7)
+ggsave("results/tidal_analysis/normalized_A_wadden_1980-now.png", height = 7, width = 10)
 plotly::ggplotly(p)
+
 
 colors = colorRamps::magenta2green(2)
 
 df_tidal_height %>%
   filter(variable == "A") %>%
-  ggplot(aes(x = M4_M2, y = annual_mean_mm_corrected)) +
+  ggplot(aes(x = M4_M2, y = height)) +
   geom_point(aes(color = wanneer), size = 2, alpha = 0.5) +
   geom_path(aes(color = wanneer), size = 0.5) +
   geom_smooth(method = "lm", color = colors[1], alpha = 0.2, size = 1) +
   # geom_boxplot(aes(group = wanneer), fill = "transparent") +
   # geom_vline(xintercept = 1993) +
-  # coord_flip() +
-  facet_wrap(vars(name), scales = "free", nrow = 4) +
   coord_cartesian(ylim = c(NA,NA)) +
-  ggtitle("Amplitude M4/M2 vs mean sea level per year") +
-  ylab("M4/M2 amplitude")
+  coord_flip() +
+  facet_wrap(vars(name), scales = "free", nrow = 4) +
+  ggtitle("Amplitude M4/M2 vs mean sea level per year")
 ggsave("results/tidal_analysis/tide_amplitude_height_wadden.png", height = 8, width = 12)
 
 # relation M4:M2 with sea level rise
 df_tidal_height %>%
   filter(variable != "A") %>%
-  ggplot(aes(x = M4_M2, y = annual_mean_mm_corrected)) +
+  ggplot(aes(x = M4_M2, y = height)) +
   geom_path(aes(color = wanneer), size = 1) +
   geom_smooth(method = "lm", color = colors[1], alpha = 0.2, size = 1) +
   # geom_boxplot(aes(group = wanneer), fill = "transparent") +
@@ -215,32 +248,30 @@ df_tidal_height %>%
   coord_cartesian(ylim = c(NA,NA)) +
   coord_flip() +
   facet_wrap(vars(name), scales = "free", nrow = 4) +
-  ggtitle("Phase difference M4 - M2 vs mean sea level per year") +
-  ylab("M4 - M2 phase")
+  ggtitle("Phase difference M4 - M2 vs mean sea level per year")
 ggsave("results/tidal_analysis/tide_phase_height_wadden.png", height = 8, width = 12)
 
 
 df_tidal_height %>%
   filter(jaar >= 1980) %>% 
   filter(variable == "A") %>%
-  ggplot(aes(x = M4_M2, y = annual_mean_mm_corrected)) +
+  ggplot(aes(x = M4_M2, y = height)) +
   geom_point(aes(color = wanneer), size = 2, alpha = 0.5) +
   geom_path(aes(color = wanneer), size = 0.5) +
   geom_smooth(method = "lm", color = colors[1], alpha = 0.2, size = 1) +
   # geom_boxplot(aes(group = wanneer), fill = "transparent") +
   # geom_vline(xintercept = 1993) +
-  # coord_flip() +
   facet_wrap(vars(name), scales = "free", nrow = 4) +
   coord_cartesian(ylim = c(NA,NA)) +
-  ggtitle("Amplitude M4/M2 vs mean sea level per year (>1980)") +
-  ylab("M4/M2 amplitude")
+  coord_flip() +
+  ggtitle("Amplitude M4/M2 vs mean sea level per year (>1980)")
 ggsave("results/tidal_analysis/tide_amplitude_height_wadden_1980_now.png", height = 8, width = 12)
 
 # relation M4:M2 with sea level rise
 df_tidal_height %>%
   filter(jaar >= 1980) %>% 
   filter(variable != "A") %>%
-  ggplot(aes(x = M4_M2, y = annual_mean_mm_corrected)) +
+  ggplot(aes(x = M4_M2, y = height)) +
   geom_path(aes(color = wanneer), size = 1) +
   geom_smooth(method = "lm", color = colors[1], alpha = 0.2, size = 1) +
   # geom_boxplot(aes(group = wanneer), fill = "transparent") +
@@ -248,8 +279,7 @@ df_tidal_height %>%
   coord_cartesian(ylim = c(NA,NA)) +
   coord_flip() +
   facet_wrap(vars(name), scales = "free", nrow = 4) +
-  ggtitle("Phase difference M4 - M2 vs mean sea level per year (>1980)") +
-  ylab("M4 - M2 phase")
+  ggtitle("Phase difference M4 - M2 vs mean sea level per year (>1980)")
 ggsave("results/tidal_analysis/tide_phase_height_wadden_1980_now.png", height = 8, width = 12)
 
 #==== sea level for all stations ===========================================================
@@ -264,13 +294,14 @@ ggsave("results/tidal_analysis/tide_phase_height_wadden_1980_now.png", height = 
 # )
 
 p <- df_ddl_y_avg_height %>%
+  left_join(newStationList, by = c(station = "locatie.naam")) %>%
   filter(
-    year >= 1940,
-    groepering.code == "NVT",
-    annual_mean_mm_corrected < 500,
-    annual_mean_mm_corrected > -500
+    year >= 1993,
+    # groepering.code == "NVT",
+    height < 500,
+    height > -500
   ) %>% 
-  group_by(locatie.naam) %>%
+  group_by(station) %>%
   filter(n() > 20) %>% ungroup() %>%
   mutate(
     gebied = case_when(
@@ -279,8 +310,8 @@ p <- df_ddl_y_avg_height %>%
       !locatie.code %in% c(Wadden_oost, Wadden_west) ~"outside Wadden",
     )
   ) %>%
-  mutate(locatie.naam = factor(locatie.naam, levels = sortedStations)) %>%
-  ggplot(aes(year, annual_mean_mm_corrected)) +
+  mutate(station = factor(station, levels = sortedStations)) %>%
+  ggplot(aes(year, height)) +
   geom_point(aes(color = gebied)) +
   # geom_line(aes(color = name)) +
   geom_smooth(
@@ -289,8 +320,8 @@ p <- df_ddl_y_avg_height %>%
     aes(color = gebied), 
     alpha = 0) +
   geom_vline(xintercept = 1993, linewidth = 0.5) +
-  facet_wrap("locatie.naam", nrow = 3) +
-ggtitle("mean sea level per year (>1980)")
+  # facet_wrap("locatie.naam", nrow = 3) +
+ggtitle("mean sea level per year")
   
 p
 

@@ -1,51 +1,65 @@
-stationname,stationcode,tov,Gebied
-Cadzand,,NAP,Noordzee
-Vlakte v/d Raan,,NAP,Noordzee
-Westcapelle,,NAP,Noordzee
-Borssele Alpha,,MSL,Noordzee
-Oosterschelde 11,,NAP,Noordzee
-Roompotsluis (SVKO),,NAP,Noordzee
-Oosterschelde 4,,NAP,Noordzee
-Oosterschelde 14,,NAP,Noordzee
-Brouwershavensegat 2,,NAP,Noordzee
-Brouwershavensegat 8,,NAP,Noordzee
-Haringvliet 10,,NAP,Noordzee
-Stellendam buiten,,NAP,Noordzee
-Lichteiland Goeree,,NAP,Noordzee
-Europlatform 2,,NAP,Noordzee
-Hoek van Holland,,NAP,Noordzee
-Maassluis,,NAP,Noordzee
-Scheveningen,,NAP,Noordzee
-Platform HKZA,,MSL,Noordzee
-Hollandse Kust West Alpha,,MSL,Noordzee
-IJmuiden buitenhaven,,NAP,Noordzee
-Den Helder,,NAP,Noordzee
-Texel Noordzee,,NAP,Noordzee
-K13 Alpha,,MSL,Noordzee
-K14 platform,,MSL,Noordzee
-L9 platform,,MSL,Noordzee
-J6 platform,,MSL,Noordzee
-D15 platform,,MSL,Noordzee
-Terschelling Noordzee,,NAP,Noordzee
-AWG platform,,MSL,Noordzee
-Wieringengronden,,NAP,Noordzee
-Huibertgat,,NAP,Noordzee
-Oudeschild,,NAP,Waddenzee
-Den Oever buiten,,NAP,Waddenzee
-Kornwerderzand buiten,,NAP,Waddenzee
-Vlieland haven,,NAP,Waddenzee
-West-Terschelling,,NAP,Waddenzee
-Nes,,NAP,Waddenzee
-Holwerd,,NAP,Waddenzee
-Schiermonnikoog,,NAP,Waddenzee
-Lauwersoog,,NAP,Waddenzee
-Uithuizerwad 2,,NAP,Waddenzee
-Stroommeetpaal Eemshaven,,NAP,Waddenzee
-Delfzijl,,NAP,Waddenzee
-Termunterzijl,,NAP,Waddenzee
-Nieuwe Statenzijl,,NAP,Waddenzee
-Vlissingen,,NAP,Noordzee
-IJmuiden,,NAP,Noordzee
-IJmuiden Buitenhaven,,NAP,Noordzee
-IJmuiden stroommeetpaal,,NAP,Noordzee
-Harlingen,,NAP,Noordzee
+stationname,Gebied
+Cadzand,Noordzee
+Vlakte v/d Raan,Noordzee
+Westcapelle,Noordzee
+Borssele Alpha,Noordzee
+Borssele Alpha platform,Noordzee
+Borssele,Noordzee
+Borssele,Noordzee
+Gat van Borssele,Noordzee
+Oosterschelde 11,Zuidwestelijke delta
+Roompotsluis (SVKO),Zuidwestelijke delta
+Oosterschelde 04,Zuidwestelijke delta
+Oosterschelde 4,Zuidwestelijke delta
+Oosterschelde 4 (b),Zuidwestelijke delta
+Oosterschelde 14,Zuidwestelijke delta
+Brouwershavensegat 2,Zuidwestelijke delta
+Brouwershavensegat 8,Zuidwestelijke delta
+"Brouwershavensche Gat, punt 02",Zuidwestelijke delta
+Brouwershavensche Gat 08,Zuidwestelijke delta
+Haringvliet 10,Zuidwestelijke delta
+Stellendam buiten,Zuidwestelijke delta
+Lichteiland Goeree,Noordzee
+Europlatform 2,Noordzee
+Europlatform,Noordzee
+Hoek van Holland,Noordzee
+Maassluis,Noordzee
+Scheveningen,Noordzee
+Platform HKZA,Noordzee
+Hollandse Kust West Alpha,Noordzee
+IJmuiden buitenhaven,Noordzee
+Den Helder,Noordzee
+Texel Noordzee,Noordzee
+K13 Alpha,Noordzee
+K13a platform,Noordzee
+K14 platform,Noordzee
+L9 platform,Noordzee
+J6 platform,Noordzee
+Platform J6,Noordzee
+D15 platform,Noordzee
+Platform D15-A,Noordzee
+Terschelling Noordzee,Noordzee
+AWG platform,Noordzee
+Wierumergronden,Noordzee
+Huibertgat,Noordzee
+Oudeschild,Waddenzee
+Den Oever buiten,Waddenzee
+Kornwerderzand buiten,Waddenzee
+Vlieland haven,Waddenzee
+West-Terschelling,Waddenzee
+Nes,Waddenzee
+Holwerd,Waddenzee
+Schiermonnikoog,Waddenzee
+Lauwersoog,Waddenzee
+Uithuizerwad 2,Waddenzee
+Stroommeetpaal Eemshaven,Waddenzee
+Eemshaven stroommeetpaal,Noordzee
+Delfzijl,Waddenzee
+Termunterzijl,Waddenzee
+Nieuwe Statenzijl,Waddenzee
+Vlissingen,Noordzee
+IJmuiden,Noordzee
+IJmuiden Buitenhaven,Noordzee
+IJmuiden buitenhaven,Noordzee
+IJmuiden stroommeetpaal,Noordzee
+Harlingen,Noordzee

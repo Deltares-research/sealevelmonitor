@@ -3,15 +3,15 @@ title: "Zeespiegelmonitor analyse"
 author: "Willem Stolte, Nathalie Dees"
 date: "2024-03-12"
 output:
+  github_document: null
   html_document:
     df_print: paged
     code_folding: hide
     outputdir: ../../docs
-  github_document: null
   pdf_document: default
 always_allow_html: true
 params:
-  monitoryear: 2025
+  monitoryear: 2024
   startyear: 1890
   wind_or_surge_type: GTSM
   station:
@@ -213,10 +213,10 @@ gtsm <- read_yearly_gtsm(filename = "../../data/deltares/gtsm/gtsm_surge_annual_
             station = "Netherlands (without Delfzijl)"
           )
       ) |>
-      addBreakPoints() %T>% 
+      addBreakPoints() %T>%
       write_csv2("../../data/deltares/results/dutch-sea-level-monitor-export-stations-latest.csv") %>%
       filter(year >= params$startyear)
-
+    
 ```
 
 
@@ -372,6 +372,7 @@ ggplot(aes(year, surge_anomaly)) +
 p
 ```
 
+
 ## Trend analysis
 
 The sea level trend is calculated using generalized linear regression. the following models are tested (Deltares 2018 and Deltares 2023):
@@ -514,9 +515,9 @@ ggplot(
 
 ```
 
-```{r, eval=TRUE, fig.height=nstations*2+1, fig.width=nmodels*2.5+2}
+```{r, eval=TRUE, fig.height=nstations*3+1, fig.width=nmodels*2.5+2}
 
-  p <- plot_station( 
+  p <- plot_station_website( 
     predictions_all = all_predictions,
     stationi = unique(all_predictions$station),
     correctionVariant = "GTSM", 
@@ -530,6 +531,31 @@ ggplot(
     # legend.box = "horizontal",
     legend.position = "bottom", #c(0.975, 0.025),
     # legend.justification = c(1, 0),
+    legend.title = element_blank()
+  ) +
+  theme(strip.text.y = element_text(angle = 90)) 
+
+  
+  # ggplotly(p) %>% layout(legend = list(x = 0.05, y = 0.95))
+  p
+```
+
+
+### individual stations
+
+```{r, eval=TRUE, fig.height=10, fig.width=10}
+
+  p <- plot_station_website(
+    predictions_all = all_predictions,
+    stationi = unique(all_predictions$station)[!grepl("Netherlands", unique(all_predictions$station))],
+    correctionVariant = "GTSM", 
+    modelVariant = "broken_linear", 
+    printNumbers = F, 
+    startyear = 1890
+  ) +
+  facet_wrap("station", ncol = 3) +
+  theme(
+    legend.position = "bottom",
     legend.title = element_blank()
   ) +
   theme(strip.text.y = element_text(angle = 90)) 
@@ -623,7 +649,7 @@ models %>%
   facet_wrap("station")
 ```
 
-For the combined stations Netherlands and Netherlands (without Delfzijl), the non linear model has the lowest AIC, and is therefore the first candidate for the preferred model. In the next section, it is tested whether the non-linear model explains the observed variation significantly better than the simplest model, the linear model.
+For the combined stations Netherlands and Netherlands (without Delfzijl), the non-linear model has the lowest AIC, and is therefore the first candidate for the preferred model. In the next section, it is tested whether the non-linear model explains the observed variation significantly better than the simplest model, the linear model.
 
 For stations Den Helder and Hoek van Holland, the broken squared model is the model with lowest AIC.
 

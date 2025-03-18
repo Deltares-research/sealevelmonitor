@@ -137,7 +137,7 @@ ggplot(
 For each station and year, the change of water level (corrected for surge) relative to the previous year is calculated. 
 
 
-```{r plotDiff, fig.width=8, fig.height=3, fig.cap="Changes in sea level (surge corrected) per station and year (mm) for all available stations."}
+```{r plotDiff, fig.width=10, fig.height=5, fig.cap="Changes in sea level (surge corrected) per station and year (mm) for all available stations."}
 
 # Met GTSM correctie
 slrDiff2 <- slrData3 %>%
@@ -148,8 +148,11 @@ slrDiff2 <- slrData3 %>%
   ) %>% ungroup()
 
 ggplot(slrDiff2, aes(year, diff)) +
-  geom_line(aes(color = name)) +
-   theme(legend.position = "bottom")
+  geom_line(aes(color = name), linewidth = 1) +
+  geom_boxplot(aes(group = year), fill = "white", alpha = 0.4) +
+   theme(legend.position = "bottom") +
+  scale_x_continuous(breaks = pretty_breaks(20)) +
+  coord_cartesian(xlim = c(1930, 1960))
 ```
 
 
@@ -187,6 +190,67 @@ cat("The mean value of the median slope over all stations and years is",
 
 ```
 
+<!-- ### Find anomalies per station -->
+
+<!-- The bias per station and year from the median value shows relatively high values for stations Delfzijl and Harlingen, especially several years after the closure of the Zuiderzee. -->
+
+
+```{r}
+
+p <- slrMedian %>%
+  pivot_longer(
+    cols = c(-year, -n, -median), 
+    names_to = "station", 
+    values_to = "per_station"
+  ) %>%
+  ggplot(aes(x = per_station - median)) +
+  geom_histogram()
+p
+
+```
+
+
+
+```{r, fig.width=10, fig.height=8, fig.show='hold', fig.cap="Deviation from the median per station and year (stacked bars) over the whole period (top) and over the last decades (bottom).", eval=FALSE}
+
+colors = c(
+  "TRUE" = "red",
+  "diff_per_station" = "blue"
+)
+
+fills = c(
+  "diff-median" = "orange"
+)
+
+
+p <- slrMedian %>%
+  pivot_longer(
+    cols = c(-year, -n, -median), 
+    names_to = "station", 
+    values_to = "per_station"
+  ) %>%
+  mutate(
+    deviant = case_when(
+      year >= 1950 ~ abs(per_station) > 20,
+      year < 1950 ~ abs(per_station) > 40
+    )
+  ) %>%
+  ggplot(aes(year, per_station - median)) +
+  geom_col(linewidth = 1, aes(fill = "diff-median"), position = "dodge") +
+  geom_line(aes(y = per_station, color = "diff_per_station")) +
+  theme(legend.position = "bottom") +
+  geom_vline(xintercept = 1932, linewidth = 1, color = "green", alpha = 0.5) +
+  annotate("text", x = 1933, y = 70, label = "1932") +
+  scale_x_continuous(breaks = pretty_breaks(20)) +
+  scale_color_manual(values = colors) +
+  coord_cartesian(ylim = c(-80, 80)) +
+  facet_wrap("station", ncol = 1)
+p
+
+p +
+  coord_cartesian(xlim = c(1986, NA), ylim = c(-50, 50))
+```
+
 
 
 ### Results with linear model fit
@@ -195,9 +259,22 @@ cat("The mean value of the median slope over all stations and years is",
 ```{r linear-with-tides}
 
 slrMedian %>%
+  distinct(year, median) %>%
   mutate(`relative_median_height (mm)` = cumsum(median)) %>%
   ggplot(aes(year, `relative_median_height (mm)`)) +
   geom_line(aes()) +
+  geom_line(
+    data = slrMedian %>% 
+      pivot_longer(
+        cols = c(-year, -n, -median), 
+        names_to = "station", 
+        values_to = "per_station"
+      ) %>%
+      group_by(station) %>%
+      mutate(`relative_height (mm)` = cumsum(per_station)) %>%
+      ungroup(), 
+    aes(year, `relative_height (mm)`, color = station)
+  ) +
   geom_smooth(method = "lm", formula = 
                 y ~ I(x - 1970) #+ 
         # I(cos(2 * pi * (x - 1970)/(18.613))) + 
@@ -211,8 +288,21 @@ slrMedian %>%
 ```{r brokenlinear}
 
 slrMedian %>%
+  distinct(year, median) %>%
   mutate(`relative_median_height (mm)` = cumsum(median)) %>%
   ggplot(aes(year, `relative_median_height (mm)`)) +
+  geom_line(
+    data = slrMedian %>% 
+      pivot_longer(
+        cols = c(-year, -n, -median), 
+        names_to = "station", 
+        values_to = "per_station"
+      ) %>%
+      group_by(station) %>%
+      mutate(`relative_height (mm)` = cumsum(per_station)) %>%
+      ungroup(), 
+    aes(year, `relative_height (mm)`, color = station)
+  ) +
   geom_line(aes()) +
   geom_smooth(method = "lm", formula = 
                 y ~ x +
@@ -229,8 +319,21 @@ slrMedian %>%
 ```{r}
 
 slrMedian %>%
+    distinct(year, median) %>%
   mutate(`relative_median_height (mm)` = cumsum(median)) %>%
   ggplot(aes(year, `relative_median_height (mm)`)) +
+  geom_line(
+    data = slrMedian %>% 
+      pivot_longer(
+        cols = c(-year, -n, -median), 
+        names_to = "station", 
+        values_to = "per_station"
+      ) %>%
+      group_by(station) %>%
+      mutate(`relative_height (mm)` = cumsum(per_station)) %>%
+      ungroup(), 
+    aes(year, `relative_height (mm)`, color = station)
+  ) +
   geom_line(aes()) +
   geom_smooth(method = "lm", formula = 
                 y ~ x +
