@@ -7,6 +7,7 @@ added_year = 2024
 
 gtsm_dir <- "data/deltares/gtsm"
 gtsm_source <- "p:\\11210221-gtsm-reanalysis\\GTSM-ERA5-E_dataset\\SeaLevelMonitor"
+allfiles <- list.files(gtsm_source)
 currentfile <- "era5_reanalysis_surge_2024_v1_monthly_mean.nc"
 
 #== read station information =================================
@@ -168,10 +169,10 @@ gtsm_allyears_monthly <- gtsm_monthly %>%
 gtsm_allyears_annual %>%
   filter(name !="NL") %>%
   ggplot(aes(t, surge)) +
-  geom_point(aes(color = name), linewidth = 1) +
+  geom_point(linewidth = 1) +
   scale_x_date(breaks = scales::breaks_pretty(10), date_labels = "%Y") +
-  geom_smooth(span = 0.3) +
-  scale_x_date(breaks = scales::breaks_pretty(20), minor_breaks = "1 year", date_labels = "%Y") +
+  geom_smooth(method = "lm") +
+  scale_x_date(breaks = scales::breaks_pretty(10), minor_breaks = "1 year", date_labels = "%Y") +
   facet_wrap("name")
 
 

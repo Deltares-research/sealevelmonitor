@@ -44,7 +44,9 @@ spec <- spec.ar(df.t)
 
 # next step, download read data from psmsl and try again
 
-HvHData <- read_monthly_psmsl_csv(22)
+HvHData <- read_monthly_psmsl_csv(22) %>%
+  filter(decimal_year >= 1890)
+
 HvH.t <- zoo::zoo(HvHData$rlr_height_mm, order.by = HvHData$decimal_year)
 
 HvHData %>%
@@ -52,6 +54,7 @@ HvHData %>%
   summarize(x_avg = mean(rlr_height_mm)) %>%
   ggplot(aes(year,x_avg)) +
   geom_line() +
+  geom_smooth(method = "lm") +
   geom_point()
 
 HvHData %>%
@@ -69,6 +72,8 @@ HvHData %>%
   ggplot(aes(decimal_year,rlr_height_mm)) +
   geom_line() +
   geom_point() +
-  geom_smooth(method = "loess", span = 0.3)
+  geom_smooth(method = "loess", span = 0.3) +
+  scale_x_continuous(breaks = pretty_breaks(20))
 
 spechvh <- spec.ar(HvH.t)
+

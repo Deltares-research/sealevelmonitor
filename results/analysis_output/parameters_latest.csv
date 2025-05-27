@@ -1,0 +1,113 @@
+station,modeltype,term,estimate,std.error,statistic,p.value,st.err.HAC
+Vlissingen,linear,Constant,-62.804,2.251,-27.905,0,2.41
+Vlissingen,linear,Trend,2.426,0.055,44.222,0,0.067
+Vlissingen,linear,u_nodal,5.874,3.051,1.925,0.056,3.505
+Vlissingen,linear,v_nodal,-13.087,2.993,-4.372,0,3.751
+Vlissingen,broken_linear,Constant,-66.658,2.965,-22.485,0,3.018
+Vlissingen,broken_linear,Trend,2.329,0.073,31.696,0,0.097
+Vlissingen,broken_linear,+ trend 1993,0.71,0.361,1.969,0.051,0.356
+Vlissingen,broken_linear,u_nodal,5.924,3.018,1.963,0.052,3.409
+Vlissingen,broken_linear,v_nodal,-12.357,2.984,-4.141,0,3.792
+Vlissingen,broken_squared,Constant,-65.465,3.78,-17.319,0,4.332
+Vlissingen,broken_squared,Trend,2.364,0.09,26.227,0,0.123
+Vlissingen,broken_squared,+ square_trend 1960,0.003,0.003,0.876,0.382,0.004
+Vlissingen,broken_squared,u_nodal,5.859,3.054,1.918,0.057,3.494
+Vlissingen,broken_squared,v_nodal,-12.803,3.013,-4.249,0,3.792
+Hoek van Holland,linear,Constant,1.641,2.258,0.727,0.469,2.343
+Hoek van Holland,linear,Trend,2.553,0.055,46.383,0,0.06
+Hoek van Holland,linear,u_nodal,1.323,3.061,0.432,0.666,3.869
+Hoek van Holland,linear,v_nodal,-9.179,3.003,-3.057,0.003,3.077
+Hoek van Holland,broken_linear,Constant,-3.288,2.946,-1.116,0.266,3.222
+Hoek van Holland,broken_linear,Trend,2.428,0.073,33.257,0,0.086
+Hoek van Holland,broken_linear,+ trend 1993,0.908,0.358,2.534,0.012,0.354
+Hoek van Holland,broken_linear,u_nodal,1.388,2.999,0.463,0.644,3.752
+Hoek van Holland,broken_linear,v_nodal,-8.246,2.965,-2.781,0.006,3.097
+Hoek van Holland,broken_squared,Constant,-7.065,3.682,-1.919,0.057,4.257
+Hoek van Holland,broken_squared,Trend,2.348,0.088,26.743,0,0.111
+Hoek van Holland,broken_squared,+ square_trend 1960,0.009,0.003,2.944,0.004,0.003
+Hoek van Holland,broken_squared,u_nodal,1.273,2.975,0.428,0.669,3.665
+Hoek van Holland,broken_squared,v_nodal,-8.252,2.935,-2.811,0.006,3.075
+Den Helder,linear,Constant,-56.162,2.428,-23.128,0,2.704
+Den Helder,linear,Trend,1.599,0.059,27.016,0,0.071
+Den Helder,linear,u_nodal,5.732,3.292,1.741,0.084,3.411
+Den Helder,linear,v_nodal,-14.03,3.229,-4.344,0,4.053
+Den Helder,broken_linear,Constant,-64.924,3.03,-21.426,0,3.102
+Den Helder,broken_linear,Trend,1.378,0.075,18.345,0,0.085
+Den Helder,broken_linear,+ trend 1993,1.614,0.368,4.379,0,0.358
+Den Helder,broken_linear,u_nodal,5.847,3.085,1.895,0.06,3.051
+Den Helder,broken_linear,v_nodal,-12.372,3.05,-4.056,0,3.839
+Den Helder,broken_squared,Constant,-70.514,3.778,-18.664,0,4.083
+Den Helder,broken_squared,Trend,1.261,0.09,14.003,0,0.106
+Den Helder,broken_squared,+ square_trend 1960,0.015,0.003,4.731,0,0.003
+Den Helder,broken_squared,u_nodal,5.65,3.052,1.851,0.066,2.982
+Den Helder,broken_squared,v_nodal,-12.501,3.012,-4.151,0,3.807
+Delfzijl,linear,Constant,24.038,2.946,8.16,0,3.303
+Delfzijl,linear,Trend,1.943,0.072,27.051,0,0.089
+Delfzijl,linear,u_nodal,3.024,3.994,0.757,0.45,4.756
+Delfzijl,linear,v_nodal,-14.457,3.918,-3.69,0,4.306
+Delfzijl,broken_linear,Constant,12.213,3.611,3.382,0.001,3.295
+Delfzijl,broken_linear,Trend,1.644,0.089,18.364,0,0.102
+Delfzijl,broken_linear,+ trend 1993,2.178,0.439,4.959,0,0.361
+Delfzijl,broken_linear,u_nodal,3.179,3.676,0.865,0.389,4.412
+Delfzijl,broken_linear,v_nodal,-12.219,3.634,-3.362,0.001,3.753
+Delfzijl,broken_squared,Constant,6.584,4.581,1.437,0.153,4.362
+Delfzijl,broken_squared,Trend,1.532,0.109,14.022,0,0.129
+Delfzijl,broken_squared,+ square_trend 1960,0.018,0.004,4.744,0,0.004
+Delfzijl,broken_squared,u_nodal,2.924,3.701,0.79,0.431,4.51
+Delfzijl,broken_squared,v_nodal,-12.597,3.652,-3.449,0.001,3.72
+Harlingen,linear,Constant,6.025,2.82,2.137,0.034,3.573
+Harlingen,linear,Trend,1.261,0.069,18.343,0,0.092
+Harlingen,linear,u_nodal,2.288,3.823,0.598,0.551,4.526
+Harlingen,linear,v_nodal,-11.834,3.75,-3.156,0.002,4.499
+Harlingen,broken_linear,Constant,-8.751,3.218,-2.719,0.007,3.25
+Harlingen,broken_linear,Trend,0.887,0.08,11.123,0,0.093
+Harlingen,broken_linear,+ trend 1993,2.721,0.391,6.954,0,0.397
+Harlingen,broken_linear,u_nodal,2.482,3.276,0.757,0.45,3.731
+Harlingen,broken_linear,v_nodal,-9.038,3.239,-2.79,0.006,3.669
+Harlingen,broken_squared,Constant,-14.439,4.191,-3.445,0.001,4.611
+Harlingen,broken_squared,Trend,0.779,0.1,7.797,0,0.124
+Harlingen,broken_squared,+ square_trend 1960,0.022,0.004,6.081,0,0.004
+Harlingen,broken_squared,u_nodal,2.17,3.386,0.641,0.523,3.916
+Harlingen,broken_squared,v_nodal,-9.654,3.341,-2.89,0.005,3.807
+IJmuiden,linear,Constant,-42.372,2.605,-16.267,0,2.605
+IJmuiden,linear,Trend,2.153,0.064,33.9,0,0.077
+IJmuiden,linear,u_nodal,10.264,3.531,2.907,0.004,4.304
+IJmuiden,linear,v_nodal,-12.05,3.464,-3.479,0.001,4.023
+IJmuiden,broken_linear,Constant,-43.778,3.477,-12.592,0,3.424
+IJmuiden,broken_linear,Trend,2.117,0.086,24.569,0,0.11
+IJmuiden,broken_linear,+ trend 1993,0.259,0.423,0.613,0.541,0.373
+IJmuiden,broken_linear,u_nodal,10.282,3.54,2.905,0.004,4.323
+IJmuiden,broken_linear,v_nodal,-11.784,3.499,-3.367,0.001,4.019
+IJmuiden,broken_squared,Constant,-43.596,4.385,-9.941,0,4.685
+IJmuiden,broken_squared,Trend,2.124,0.105,20.31,0,0.138
+IJmuiden,broken_squared,+ square_trend 1960,0.001,0.004,0.348,0.729,0.004
+IJmuiden,broken_squared,u_nodal,10.257,3.543,2.895,0.004,4.325
+IJmuiden,broken_squared,v_nodal,-11.919,3.496,-3.41,0.001,3.999
+Netherlands,linear,Constant,-21.606,2.036,-10.611,0,2.246
+Netherlands,linear,Trend,1.989,0.05,40.072,0,0.06
+Netherlands,linear,u_nodal,4.751,2.76,1.721,0.088,3.06
+Netherlands,linear,v_nodal,-12.439,2.708,-4.594,0,3.095
+Netherlands,broken_linear,Constant,-29.198,2.528,-11.549,0,2.349
+Netherlands,broken_linear,Trend,1.797,0.063,28.682,0,0.071
+Netherlands,broken_linear,+ trend 1993,1.398,0.307,4.548,0,0.285
+Netherlands,broken_linear,u_nodal,4.85,2.574,1.884,0.062,2.769
+Netherlands,broken_linear,v_nodal,-11.003,2.544,-4.324,0,2.862
+Netherlands,broken_squared,Constant,-32.416,3.22,-10.067,0,3.172
+Netherlands,broken_squared,Trend,1.735,0.077,22.592,0,0.09
+Netherlands,broken_squared,+ square_trend 1960,0.011,0.003,4.181,0,0.003
+Netherlands,broken_squared,u_nodal,4.689,2.602,1.802,0.074,2.826
+Netherlands,broken_squared,v_nodal,-11.288,2.567,-4.397,0,2.882
+Netherlands (without Delfzijl),linear,Constant,-30.734,1.963,-15.655,0,2.146
+Netherlands (without Delfzijl),linear,Trend,1.999,0.048,41.756,0,0.057
+Netherlands (without Delfzijl),linear,u_nodal,5.096,2.661,1.915,0.058,2.961
+Netherlands (without Delfzijl),linear,v_nodal,-12.036,2.611,-4.61,0,2.999
+Netherlands (without Delfzijl),broken_linear,Constant,-37.48,2.467,-15.195,0,2.327
+Netherlands (without Delfzijl),broken_linear,Trend,1.828,0.061,29.9,0,0.07
+Netherlands (without Delfzijl),broken_linear,+ trend 1993,1.242,0.3,4.142,0,0.293
+Netherlands (without Delfzijl),broken_linear,u_nodal,5.185,2.511,2.065,0.041,2.706
+Netherlands (without Delfzijl),broken_linear,v_nodal,-10.759,2.483,-4.334,0,2.833
+Netherlands (without Delfzijl),broken_squared,Constant,-40.216,3.141,-12.806,0,3.191
+Netherlands (without Delfzijl),broken_squared,Trend,1.775,0.075,23.707,0,0.089
+Netherlands (without Delfzijl),broken_squared,+ square_trend 1960,0.01,0.003,3.76,0,0.003
+Netherlands (without Delfzijl),broken_squared,u_nodal,5.042,2.537,1.987,0.049,2.753
+Netherlands (without Delfzijl),broken_squared,v_nodal,-11.026,2.503,-4.404,0,2.859

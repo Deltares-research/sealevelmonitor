@@ -11,7 +11,7 @@ source("analysis/sealevelmonitor/_common/functions.R")
 stationlist <- read_csv("data/rijkswaterstaat/stationlist.csv")
 mijnmetadata <- get_selected_metadata(compartiment = "OW", grootheid = "WATHTE", locatie = stationlist)
 
-datayear = 1900:2023
+datayear = 2024
 
 ddlrawdir <- "P:/11202493--systeemrap-grevelingen/1_data/Noordzee/ddl/raw/wathte"
 ddlmeandir <- "data/rijkswaterstaat/ddl/annual_means"
@@ -78,14 +78,17 @@ for(myyear in datayear){
         filter(
           as.numeric(kwaliteitswaarde.code) < 50,
           groepering.code == "NVT"
-        ) %>%
-        group_by(
-          locatie.naam,
-          locatie.code,
-          meetapparaat.omschrijving,
+        )
+    }
+  ) %>%
+    list_rbind() %>%
+    group_by(
+      locatie.naam,
+      # locatie.code,
+          # meetapparaat.omschrijving,
           grootheid.omschrijving,
           eenheid.code,
-          groepering.code,
+          # groepering.code,
           hoedanigheid.code
         ) %>%
         summarise(
@@ -96,10 +99,7 @@ for(myyear in datayear){
         mutate(
           year = myyear,
           source = "rws_ddl"
-        )      
-    }
-  ) %>%
-    list_rbind() %>%
+        ) %>%
     left_join(
       correcties %>% 
         select(Station, `verschil [mm]`),
@@ -128,6 +128,7 @@ for(myyear in datayear){
         height = annual_mean_mm_corrected,
         station = locatie.naam,
         n_per_year = n,
+        verticalreference = hoedanigheid.code,
         source
       ) %>%
       write_delim(
@@ -140,6 +141,8 @@ for(myyear in datayear){
 
 
 
+# checks on raw data, should move to retrieval script
+
 waterhoogtes_myyear %>%
   filter() %>% # filter out unwanted combinations of hoedanigheid, groepering
   select(
@@ -150,15 +153,7 @@ waterhoogtes_myyear %>%
     source
   )
   
-  
 
-waterhoogtes_myyear %>%
-  filter(kwaliteitswaarde.code < 50) %>%
-  ggplot(aes(x = numeriekewaarde)) +
-  geom_histogram()
-
-waterhoogtes_myyear %>%
-  count(statuswaarde, kwaliteitswaarde.code)
 
 # 25 means "In ruimte en tijd geïnterpoleerde waardeIn ruimte en tijd geïnterpoleerde waarde"
 # 99 means "Hiaat waarde"

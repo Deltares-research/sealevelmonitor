@@ -1,0 +1,254 @@
+---
+title: "Zeespiegelmonitor analyse"
+author: "Willem Stolte"
+date: "2025-01-26"
+output:
+  github_document: null
+  html_document:
+    df_print: paged
+    code_folding: hide
+    outputdir: ../../docs
+  pdf_document: default
+always_allow_html: true
+params:
+  monitoryear: 2024
+  startyear: 1900
+  wind_or_surge_type: GTSM
+  station:
+    - Bergen
+  # - Delfzijl
+  # - Harlingen
+  # - Den Helder
+  # - IJmuiden
+  # - Hoek van Holland
+  # - Vlissingen
+  # - Netherlands
+  # - Netherlands (without Delfzijl)
+  modeltype:
+  - linear
+  # - broken_linear
+  # - broken_squared
+---
+
+
+
+```{r}
+knitr::opts_chunk$set(
+  echo = TRUE,
+  comment=FALSE,
+  message=FALSE,
+  warning = FALSE
+)
+
+require(leaflet)
+require(plotly)
+require(nlme)
+require(tidyverse)
+# require(reticulate)
+
+config <- RcppTOML::parseToml("../../analysis/sealevelmonitor/_common/configuration.TOML")
+config_flat <- list_flatten(config)
+source("../../analysis/sealevelmonitor/_common/functions.R")
+source("../../analysis/sealevelmonitor/_common/plotfunctions.R")
+epoch = config$constants$epoch
+```
+
+
+```{r}
+
+get_psmsl_station_table <- function(url = "https://psmsl.org/data/obtaining/index.php") {
+  
+  df <- url %>% 
+    rvest::read_html() %>% 
+    rvest::html_nodes("table") %>% 
+    rvest::html_table(fill = T) %>%
+    rlist::list.rbind()
+  
+}
+
+getpsmsl <- function(station_nr){
+    
+    base_rlr_url = "https://psmsl.org/data/obtaining/rlr.annual.data/"
+    base_rlr_ext = ".rlrdata"
+    
+    rlr_df <- lapply(station_nr, 
+                     function(x) {
+                       read_delim(
+                         file = paste0(base_rlr_url, x, base_rlr_ext), 
+                         col_names = c("year", "rlr_height_mm", "interpolated", "flag"),
+                         col_types = c("nncc"),
+                         na = "-99999",
+                         delim = ";"
+                       ) |>
+                         mutate(psmsl_id = as.character(x))
+                     }
+    ) |>
+      bind_rows()
+    
+    return(rlr_df)
+}
+
+read_gtsm_nc <- function(nc_path, stations_selected){
+  
+  ncf <- RNetCDF::open.nc(nc_path)
+  data <- RNetCDF::read.nc(ncf)
+  stations <- tibble::tibble(
+    gtsmid = data$stations, 
+    stationname = data$station_name,
+    station_x_coordinate = data$station_x_coordinate,
+    station_y_coordinate = data$station_y_coordinate
+  )
+  df <- reshape2::melt(data$surge, value.name = "surge_m") %>%
+    dplyr::mutate(
+      gtsmid = data$stations[Var2],
+      month      = data$month[Var1]
+    ) %>%
+    dplyr::left_join(stations) %>%
+    dplyr::select(-Var1, -Var2) %>%
+    dplyr::filter(gtsmid %in% stations_selected)
+  
+  RNetCDF::close.nc(ncf)
+  
+  return(df)
+}
+
+gtsm_source <- "p:\\11210221-gtsm-reanalysis\\GTSM-ERA5-E_dataset\\SeaLevelMonitor"
+
+surge_year = 2024
+selectedstations = 39104
+
+gtsm_surge_bergen <- lapply(1950:2024, function(x) {
+  gtsm_bergen <- read_gtsm_nc(
+    nc_path = file.path(
+      gtsm_source, paste0("era5_reanalysis_surge_", x, "_v1_monthly_mean.nc")
+    ), 
+    stations_selected = selectedstations
+  ) %>%
+    summarize(y_surge_mm = mean(surge_m) * 1000) %>%
+    mutate(year = x)
+})
+
+
+stationlist <- get_psmsl_station_table()
+bergen_nr <- stationlist[tolower(stationlist$`Station Name`) == tolower(params$station),]$ID
+
+dat.bergen <- getpsmsl(station_nr = bergen_nr) 
+
+dat.bergen <- dat.bergen %>%
+  mutate(name = "Bergen",
+         surge_anomaly = 0
+         ) %>%
+  rename(
+    height = rlr_height_mm
+  ) 
+```
+
+```{r}
+dat.bergen %>%
+  ggplot(aes(year, height)) +
+  geom_point()
+
+```
+```{r}
+
+modelfunctionname = "linear_model"
+
+models <- dat.bergen %>%
+  drop_na(height) %>%
+  mutate(modeltype = modelfunctionname) %>%
+  rename(station = name) %>%
+  group_by(psmsl_id, station, modeltype) %>%
+  nest() %>%
+  mutate(modelfunctions = map(modelfunctionname, get)) %>%
+  mutate(model = pmap(
+    list(
+      data,
+      modelfunctions
+    ),
+    \(.d, .f) .f(.d)
+  )) %>%
+  mutate(
+    glance = map(model, broom::glance),
+    rsq    = glance %>% map_dbl("r.squared"),
+    adj.rsq = glance %>% map_dbl("adj.r.squared"),
+    AIC    = glance %>% map_dbl("AIC"),
+    tidy   = map(model, broom::tidy),
+    augment = map(model, broom::augment),
+    equation = map(model, function(x) equatiomatic::extract_eq(x, ital_vars = TRUE))
+  )
+
+```
+
+
+
+```{r}
+lookup <- c(
+  Constant = "(Intercept)",
+  Trend = "I(year - epoch)",
+  u_nodal = "I(cos(2 * pi * (year - epoch)/(18.613)))",
+  v_nodal = "I(sin(2 * pi * (year - epoch)/(18.613)))",
+  `+ trend 1993` = "from1993",
+  `+ square_trend 1960` = "from1960_square",
+  AR_term = "previousYearHeight"
+)
+
+all_predictions <- makePredictionTable(models, lookup)
+```
+
+```{r}
+ggplot(all_predictions, aes(data_year, nodal_tide)) +
+  geom_line()
+```
+
+```{r}
+  pal <- hue_pal()(3)
+  
+  plotColors = c(
+    "gemeten zeespiegel" = "darkgrey",
+    "zeespiegel (- nodaal getij)" = pal[1],
+    "zeespiegel (-opzet)" = pal[2],
+    "gecorrigeerde zeespiegel" = "darkorange", #pal[1],
+    "gecorrigeerde zeespiegel (gemiddelde windopzet)" = pal[3],
+    "trend" = pal[2]
+  )
+
+  plotFills = c(
+    "predictie-interval" = pal[1],
+    "betrouwbaarheids-interval" = pal[2]
+  )
+
+  
+  symboolgrootte = 2
+  
+  q <- ggplot(data = all_predictions, 
+               aes(x = data_year, y = data_height, color = "gemeten zeespiegel")) +
+    geom_point(
+      size = symboolgrootte, 
+      alpha = 0.7
+    ) +
+    geom_line(data = all_predictions,
+              aes(x = preds_year, y = `preds_height-surge_anomaly`, color = "trend"),
+              size = symboolgrootte, alpha = 1) +
+    geom_smooth(method = "loess", span = 0.2) +
+    coord_cartesian(ylim = c(NA, NA)) +
+    xlab("jaar") +
+    ylab("zeespiegel in mm tov revised local reference") +
+    labs(subtitle = "Gecorrigeerde zeespiegel (GTSM) en trends") +
+    theme_light() +
+    theme(
+      strip.text.y = element_text(angle = 0)) +
+    theme(legend.title = element_blank()) +
+    theme(legend.direction = "vertical",
+          legend.box = "horizontal",
+          legend.position = c(0.025,0.975),
+          legend.justification = c(0, 1),
+          legend.title = element_blank()
+    ) +
+    guides(linetype = F) +
+    scale_color_manual(values = plotColors, breaks = names(plotColors)) +
+    scale_fill_manual(values = plotFills) +
+    scale_x_continuous(breaks = scales::pretty_breaks(7))
+  
+  q
+```
+

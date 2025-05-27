@@ -1,0 +1,47 @@
+year;height;station;n_per_year;verticalreference;source
+2024;61;AWG platform;51592;MSL;rws_ddl
+2024;3;Borssele Alpha;46970;MSL;rws_ddl
+2024;98;Cadzand;49137;NAP;rws_ddl
+2024;330;D15 platform;51128;MSL;rws_ddl
+2024;218;Delfzijl;77843;NAP;rws_ddl
+2024;128;Den Helder;77843;NAP;rws_ddl
+2024;214;Den Oever buiten;51688;NAP;rws_ddl
+2024;74;Europlatform;25929;MSL;rws_ddl
+2024;78;Europlatform;26406;NAP;rws_ddl
+2024;88;Europlatform 2;25928;MSL;rws_ddl
+2024;92;Europlatform 2;26349;NAP;rws_ddl
+2024;110;Haringvliet 10;51563;NAP;rws_ddl
+2024;211;Harlingen;76961;NAP;rws_ddl
+2024;202;Hoek van Holland;77843;NAP;rws_ddl
+2024;169;Hollandse Kust West Alpha;34559;MSL;rws_ddl
+2024;306;Holwerd;27192;NAP;rws_ddl
+2024;177;Huibertgat;49519;NAP;rws_ddl
+2024;122;IJmuiden;26127;NAP;rws_ddl
+2024;189;J6 platform;49407;MSL;rws_ddl
+2024;160;K13 Alpha;51403;MSL;rws_ddl
+2024;122;K14 platform;51447;MSL;rws_ddl
+2024;199;Kornwerderzand buiten;51680;NAP;rws_ddl
+2024;160;L9 platform;49165;MSL;rws_ddl
+2024;164;Lauwersoog;51679;NAP;rws_ddl
+2024;82;Lichteiland Goeree;51370;NAP;rws_ddl
+2024;264;Maassluis;51567;NAP;rws_ddl
+2024;183;Nes;51642;NAP;rws_ddl
+2024;380;Nieuwe Statenzijl;51669;NAP;rws_ddl
+2024;108;Oosterschelde 11;29240;NAP;rws_ddl
+2024;188;Oosterschelde 14;51379;NAP;rws_ddl
+2024;135;Oosterschelde 4;51401;NAP;rws_ddl
+2024;154;Oudeschild;51550;NAP;rws_ddl
+2024;795;Platform HKZA;35151;MSL;rws_ddl
+2024;91;Roompotsluis (SVKO);51564;NAP;rws_ddl
+2024;137;Scheveningen;51565;NAP;rws_ddl
+2024;175;Schiermonnikoog;51642;NAP;rws_ddl
+2024;200;Stellendam buiten;51492;NAP;rws_ddl
+2024;212;Stroommeetpaal Eemshaven;51639;NAP;rws_ddl
+2024;225;Termunterzijl;49505;NAP;rws_ddl
+2024;106;Terschelling Noordzee;48843;NAP;rws_ddl
+2024;129;Texel Noordzee;50097;NAP;rws_ddl
+2024;758;Uithuizerwad 2;44279;NAP;rws_ddl
+2024;19;Vlakte v/d Raan;48353;NAP;rws_ddl
+2024;118;Vlieland haven;51564;NAP;rws_ddl
+2024;128;Vlissingen;76955;NAP;rws_ddl
+2024;150;West-Terschelling;51587;NAP;rws_ddl

@@ -28,19 +28,25 @@ DiagrammeR::grViz("digraph {
   GravRot [label = 'Gravitatatie en \nrotatie effecten']
   BodDal [label = ' Bodemdaling']
   RegZS [label = 'Regionale \n zeespiegel']
-  Wind [label = 'Wind']
+  Opzet [label = 'Opzet/afzet']
   Getij [label = 'Getij']
-  LokRelZS [label = 'Lokale \n relatieve \n zeespiegel']
+  CircDichtheid [label = 'Circulaties en \ndichtheidsvariaties']
   
   node [shape = rectangle,
       style = filled,
       color = LightSteelBlue2,
       label = '']
-  
+
+  LokRelZS [label = 'Lokale \n relatieve \n zeespiegel']
+  ZeeSpSt [label = 'Zeespiegel \n stijging']
   Glet [label =  'Gletsjers']
   OvWater [label = 'Overig \n watermassa']
-  CircDichtheid [label = 'Circulaties en \ndichtheidsvariaties']
-
+  Morf [label = 'Morfologie']
+  Tect [label = 'Tectoniek/GIA']
+  Winning [label = 'Winning']
+  Wind [label = 'Wind']
+  Zoet [label = 'Zoete afvoer']
+  
   
   # edge definitions with the node IDs
   
@@ -49,10 +55,11 @@ DiagrammeR::grViz("digraph {
   OceaanMas->OceaanVol
   Dichtheid->OceaanVol
   GravRot->RegZS  OceaanVol->RegZS  CircDichtheid->RegZS
-  RegZS->LokRelZS  BodDal->LokRelZS  Wind->LokRelZS  Getij->LokRelZS
+  RegZS->LokRelZS  Tect->BodDal Winning-> BodDal BodDal->LokRelZS  
+  Wind->Opzet Opzet->LokRelZS  Morf-> Getij Getij->LokRelZS ZeeSpSt->Getij Morf->Opzet ZeeSpSt->Opzet Zoet->Opzet
   
   }",
-  width = 650)
+  width = 650, height = "450px")
 
 ```
 

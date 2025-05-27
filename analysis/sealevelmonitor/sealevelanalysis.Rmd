@@ -3,15 +3,15 @@ title: "Zeespiegelmonitor analyse"
 author: "Willem Stolte, Nathalie Dees"
 date: "2024-03-12"
 output:
-  github_document: null
   html_document:
     df_print: paged
     code_folding: hide
     outputdir: ../../docs
+  github_document: null
   pdf_document: default
 always_allow_html: true
 params:
-  monitoryear: 2024
+  monitoryear: 2025
   startyear: 1890
   wind_or_surge_type: GTSM
   station:
@@ -136,7 +136,7 @@ if(max(rlr_df$year) == params$monitoryear-1){
     if(file.exists(required_file)){
       ddl_datayear <- read_csv2(required_file) %>%
         filter(
-          locatie.naam %in% mainstations_df$name
+          station %in% mainstations_df$name
         )
       
     } else{
@@ -515,9 +515,9 @@ ggplot(
 
 ```
 
-```{r, eval=TRUE, fig.height=nstations*3+1, fig.width=nmodels*2.5+2}
+```{r, eval=TRUE, fig.height=nstations*2+2, fig.width=nmodels*2+2}
 
-  p <- plot_station_website( 
+  p <- plot_station( 
     predictions_all = all_predictions,
     stationi = unique(all_predictions$station),
     correctionVariant = "GTSM", 
@@ -599,6 +599,10 @@ parametertable <- models %>%
 #     )
 #   )
 
+write_csv(parametertable, file = paste0("../../results/analysis_output/parameters_", today(), ".csv"))
+
+write_csv(parametertable, file = "../../results/analysis_output/parameters_latest.csv")
+
   kableExtra::kable(parametertable,
     caption = "Coefficients for all models and stations.",digits = 2
     ) %>%
@@ -621,11 +625,11 @@ knitr::kable(acc_broken_linear, caption = "p-values for the acceleration term in
 For the broken linear model, there is a significant acceleration starting in the year 1993 when fitting the average sea level combined for all stations without Delfzijl. For individual stations, the acceleration is not significant for the stations Vlissingen, Hoek van Holland and IJmuiden.
 
 ```{r}
-acc_broken_linear <- parametertable %>%
+acc_broken_squared <- parametertable %>%
   filter(modeltype == "broken_squared") %>%
   filter(term == "+ square_trend 1960") %>%
   select(station, p.value )
-knitr::kable(acc_broken_linear, caption = "p-vallues for the acceleration term in the broken squared model for all stations. ")
+knitr::kable(acc_broken_squared, caption = "p-vallues for the acceleration term in the broken squared model for all stations. ")
 ```
 
 For the broken squared model, there is a significant acceleration starting in the year 1960 when fitting the average sea level combined for all stations without Delfzijl. For individual stations, the acceleration is not significant for the stations Vlissingen, Hoek van Holland and IJmuiden.
