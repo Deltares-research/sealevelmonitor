@@ -40,8 +40,14 @@ componentfiles <- list.files(dir, pattern = "component", full.names = T)
 componentfiles[grepl("LICHTEL", componentfiles)]
 componentfiles <- componentfiles[!(grepl("LICHTEL", componentfiles) & grepl("MSL", componentfiles))]
 
-df_tidal <- read_tidal_components_csv(componentfiles, dir)
+df_tidal <- read_tidal_components_csv(componentfiles)
 df_tidal$name <- name_codes$station[match(df_tidal$station, name_codes$locatie.code)]
+
+# check number of stations
+df_tidal %>% count(jaar) %>%
+  ggplot(aes(jaar, n)) +
+  geom_line()
+
 
 #==== Plot time course of components ============================================
 
@@ -118,7 +124,7 @@ ggsave("results/tidal_analysis/M4_wadden.png", height = 10, width = 14)
 
 df_tidal_height %>%
   filter(variable == "A") %>%
-  filter(name %in% mainstations_df$name) %>%
+  # filter(name %in% mainstations_df$name) %>%
   ggplot(aes(x = jaar, y = M2)) +
   geom_line(aes(color = wanneer), linewidth = 1) +
   # geom_boxplot(aes(group = wanneer), fill = "transparent") +
@@ -181,7 +187,7 @@ p <- df_tidal_height %>%
   geom_vline(xintercept = c(2010, 2016, 1993)) +
   coord_cartesian(xlim = c(1932, NA), ylim = c(0.85,1.1)) +
   facet_grid(comp ~ gebied, scales = "free_y") +
-  xlab("year") + ylab("normalized amplitude in m") +
+  xlab("year") + ylab("normalized M2 amplitude in m") +
   ggplot2::theme(legend.position = "none")
 p
 ggsave("results/tidal_analysis/normalized_A_M2_wadden.png", height = 7, width = 10)
@@ -197,6 +203,7 @@ p <- df_tidal_height %>%
     )
   ) %>%
   filter(variable == "A") %>%
+  filter(!locatie.code %in% c("NIEUWSTZL", "NWST", "L9PFM", "L9", "K14PFM", "K14")) %>%
   select(-variable) %>%
   pivot_longer(
     cols = c(M2, M4, M4_M2), 
@@ -308,6 +315,7 @@ df_tidal_height %>%
   facet_wrap(vars(name), scales = "fixed", nrow = 3) +
   scale_color_viridis_c(option = "turbo") +
   ggtitle("Amplitude M2 vs mean sea level per year") +
+  ylab("waterhoogte in mm NAP(2005)") + xlab("M2 amplitude in meter") +
   theme_dark()
 ggsave("results/tidal_analysis/M2_amplitude_height_wadden.png", height = 7, width = 14)
 
@@ -325,7 +333,7 @@ ggsave("results/tidal_analysis/M2_amplitude_height_wadden.png", height = 7, widt
 p <- df_ddl_y_avg_height %>%
   left_join(newStationList, by = c(station = "locatie.naam")) %>%
   filter(
-    year >= 1993,
+    year >= 1950,
     # groepering.code == "NVT",
     height < 500,
     height > -500
@@ -345,7 +353,7 @@ p <- df_ddl_y_avg_height %>%
   # geom_line(aes(color = name)) +
   geom_smooth(
     method = "lm", 
-    formula = y ~ I(x - 1970) + I(x > 1993 * x *x),
+    formula = y ~ I(x - 1970) + I(x > 1993 * x * x),
     aes(color = gebied), 
     alpha = 0) +
   geom_vline(xintercept = 1993, linewidth = 0.5) +
@@ -355,4 +363,6 @@ ggtitle("mean sea level per year")
 p
 
 plotly::ggplotly(p)
+
+
 

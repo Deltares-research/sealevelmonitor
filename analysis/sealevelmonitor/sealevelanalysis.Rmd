@@ -11,7 +11,7 @@ output:
   pdf_document: default
 always_allow_html: true
 params:
-  monitoryear: 2025
+  monitoryear: 2024
   startyear: 1890
   wind_or_surge_type: GTSM
   station:
@@ -66,6 +66,7 @@ mainstations_locs <- readMainStationLocations(path = "../../")
 nstations = length(params$station)
 nmodels  = length(params$modeltype)
 nsurge  = length(params$wind_or_surge_type)
+select = dplyr::select
 
 ```
 
@@ -305,19 +306,37 @@ The rlrnap computes the rlr back to latest NAP (ignoring the undoing of the NAP 
 knitr::kable(mainstations_df[,c('name', 'psmsl_id', 'msl-rlr', 'msl-nap', 'nap-rlr')], caption = "PSMSL inforamtion on the six mains tide gauge stations in the Netherlands.")
 ```
 
-Sea level measurements for the six main stations (yearly average) are shown in figure \@ref(fig:zeespiegelmetingen).
+Sea level measurements for the six main stations (yearly average) are shown in figure \@ref(fig:zeespiegelmetingen) as deviations from the mean for each year. This way, the characteristic patterns of the stations are easier to see. 
 
-```{r zeespiegelmetingen, fig.width=8, fig.height=5, fig.cap="Jaarlijks gemiddelde zeespiegel voor de zes hoofdstations langs de Nederlandse kust."}
-p <- refreshed_df %>%
+A few things become clear
+
+- Harlingen show a negative trend as compared to the average of the stations from roughly 1930 to 1990. There is a sudden "bump" around 1970. 
+- IJmuiden shows strong fluctuations in the first decades of the series. in 2018, the signal drops a few cm. 
+
+```{r zeespiegelmetingen, fig.width=8, fig.height=8, fig.cap="Afwijking van het gemiddelde voor elk jaar voor de zes hoofdstations langs de Nederlandse kust."}
+
+# p <- refreshed_df %>%
+#   dplyr::filter(!grepl("Netherlands", station)) %>%
+# ggplot(aes(year, height)) +
+#   geom_point(alpha = 1, aes(color = station), shape = 21, fill = "white", size = 1) +
+#   geom_line(alpha = 0.5, aes(color = station), linewidth = 0.5) +
+#   xlab("jaar") + ylab("gemeten zeespiegel in mm") +
+#   theme_light() +
+#   theme(legend.position = "bottom")
+# 
+# ggplotly(p) %>% layout(legend = list(x = 0.05, y = 0.95))
+
+refreshed_df %>%
   dplyr::filter(!grepl("Netherlands", station)) %>%
-ggplot(aes(year, height)) +
-  geom_point(alpha = 1, aes(color = station), shape = 21, fill = "white", size = 1) +
-  geom_line(alpha = 0.5, aes(color = station), linewidth = 0.5) +
-  xlab("jaar") + ylab("gemeten zeespiegel in mm") +
-  theme_light() +
+  group_by(year) %>%
+  mutate(mean = mean(height)) %>% ungroup() %>%
+  mutate(norm_station_height = height - mean) %>%
+  ggplot(aes(year, norm_station_height, color = station)) +
+  geom_point(alpha = 0.5) +
+  geom_line(alpha = 0.2) +
+  facet_wrap(facets = "station", ncol = 2) +
   theme(legend.position = "bottom")
 
-ggplotly(p) %>% layout(legend = list(x = 0.05, y = 0.95))
 # p
 ```
 
@@ -337,8 +356,11 @@ ggplotly(p) %>% layout(legend = list(x = 0.05, y = 0.95))
 
 ### Sea level high years
 
+The 5 years with highest sea levels are shown in table \@ref(tab:highest5years). 
 
-```{r}
+
+```{r highest5years}
+
 refreshed_df %>%
   filter(year >= 1900) %>%
   dplyr::filter(station == "Netherlands (without Delfzijl)") %>%
@@ -500,6 +522,10 @@ lookup <- c(
 )
 
 all_predictions <- makePredictionTable(models, lookup)
+
+write_csv(all_predictions, file = paste0("../../results/analysis_output/predictions_", today(), ".csv"))
+
+write_csv(all_predictions, file = "../../results/analysis_output/predictions_latest.csv")
 
 ```
 

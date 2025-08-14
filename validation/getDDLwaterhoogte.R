@@ -11,7 +11,7 @@ source("analysis/sealevelmonitor/_common/functions.R")
 stationlist <- read_csv("data/rijkswaterstaat/stationlist.csv")
 mijnmetadata <- get_selected_metadata(compartiment = "OW", grootheid = "WATHTE", locatie = stationlist)
 
-datayear = 2024
+datayear = c(1971:1986)
 
 ddlrawdir <- "P:/11202493--systeemrap-grevelingen/1_data/Noordzee/ddl/raw/wathte"
 ddlmeandir <- "data/rijkswaterstaat/ddl/annual_means"
@@ -121,7 +121,7 @@ for(myyear in datayear){
   }
   
   if(nrow(waterhoogtes_myyear) > 0){
-    waterhoogtes_myyear %>%
+    w <- waterhoogtes_myyear %>%
       filter() %>% # filter out unwanted combinations of hoedanigheid, groepering
       select(
         year,
@@ -130,11 +130,23 @@ for(myyear in datayear){
         n_per_year = n,
         verticalreference = hoedanigheid.code,
         source
-      ) %>%
-      write_delim(
-        delim = ";",
-        file = file.path(ddlmeandir, paste0(myyear, ".csv"))
       )
+    res <- try(write_delim(
+      w,
+      delim = ";",
+      file = file.path(ddlmeandir, paste0(myyear, ".csv"))
+    ))
+    
+    if(class(res)[1] != "try-error"){
+      print(
+        paste(
+          "file is written for year ", myyear, " as ", file.path(ddlmeandir, paste0(myyear, ".csv")
+          )
+        )
+      )
+    } else{
+      print("no file was written")
+    }
   }
   
 }

@@ -1,5 +1,7 @@
 
-
+require(tidyverse)
+require(scales)
+source(r"(analysis\sealevelmonitor\_common\functions.R)")
 # generate pattern
 
 epoch = 1970
@@ -34,7 +36,7 @@ df %>%
 ggplot(aes(t,x)) +
   geom_line() +
   geom_point() +
-geom_smooth(method = "lm")
+  geom_smooth(method = "lm", formula = y ~ I(x - epoch) + I(cos(2*pi*(x-epoch)/(1.4)))) #+
 
 require("astsa")
 
@@ -62,7 +64,13 @@ HvHData %>%
   ggplot(aes(decimal_year,rlr_height_mm)) +
   geom_line(alpha = 0.2) +
   geom_point(alpha = 0.2) +
-  geom_smooth(method = "lm") +
+  # geom_smooth( method = "lm", formula = y ~ x)
+  geom_smooth(method = "lm", 
+              formula = y ~ 
+                I(x - epoch) + 
+                I(cos(2*pi*(x-epoch)/1.4)) +
+                I(sin(2*pi*(x-epoch)/1.4))
+  ) #+
   geom_boxplot(aes(group = trunc(decimal_year)), alpha = 0.6)
 
 

@@ -8,20 +8,20 @@
   require(tidyverse)
   require(rwsapi)
   
-  datayear = 2024
+  datayear = c(2004:2004)
   
   # for all RWS North Sea stations
-  # stationlist <- read_delim(
-  #   "data/rijkswaterstaat/stationlist.csv", 
-  #   locale = readr::locale(encoding = 'WINDOWS-1252'), 
-  #   delim = ",", 
-  #   escape_double = FALSE, 
-  #   trim_ws = TRUE) %>%
-  #   distinct(stationname) %>% unlist() %>% unname()
+  stationlist <- read_delim(
+    "data/rijkswaterstaat/stationlist.csv",
+    locale = readr::locale(encoding = 'WINDOWS-1252'),
+    delim = ",",
+    escape_double = FALSE,
+    trim_ws = TRUE) %>%
+    distinct(stationname) %>% unlist() %>% unname()
   
   # for 6 "hoofdstations"
-  stationlist = readMainStationInfo(filepath = "") %>%
-    distinct(ddl_id) %>% unlist %>% unname
+  # stationlist = readMainStationInfo(filepath = "") %>%
+  #   distinct(ddl_id) %>% unlist %>% unname
   
   
   ddlrawdir <- "P:/11202493--systeemrap-grevelingen/1_data/Noordzee/ddl/raw/wathte"
@@ -30,8 +30,6 @@
   
   mijnmetadata <- get_selected_metadata(grootheid = "WATHTE", locatie = stationlist)
   
-  
-
 # mijnmetadata %>% 
 #   distinct(coordinatenstelsel, x, y, locatie.naam, locatie.code) %>%
 #   sf::st_as_sf(coords = c("x","y"), crs = unique(.$coordinatenstelsel)) %>%

@@ -3,6 +3,8 @@
 
 [runparameters]
 
+monitoryear = 2025
+
 modeltypes = [
   "linear", 
   "broken_linear", 
@@ -39,6 +41,7 @@ dataExtUrl = "https://raw.githubusercontent.com/openearth/sealevel/report/data/d
 dataUrl = "../data/deltares/results/dutch-sea-level-monitor-export-stations-2023-11-20.csv"
 
 [model_terms]
+
 response_term =               "height"
 surge_anomaly =               "offset(`surge anomaly`)"
 wind_anomaly =                "`surge anomaly`"

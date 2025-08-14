@@ -359,7 +359,7 @@ read_yearly_gtsm <- function(filename = "data/deltares/gtsm/gtsm_surge_annual_me
   
 }
   
-  read_yearly_psmsl_csv  <- function(station_nr, filepath){
+  read_yearly_psmsl_csv  <- function(station_nr, mainstations.df = NULL, filepath){
     
     base_rlr_url = "https://psmsl.org/data/obtaining/rlr.annual.data/"
     base_rlr_ext = ".rlrdata"
@@ -378,8 +378,13 @@ read_yearly_gtsm <- function(filename = "data/deltares/gtsm/gtsm_surge_annual_me
     ) |>
       bind_rows()
     
-    mainStationInfo <- readMainStationInfo(filepath) |>
+    if(!is.null(mainstations.df)){
+      mainstationInfo = mainstations.df |>
       select(psmsl_id, name, `nap-rlr`, gtsm_id)
+    } else{
+      mainStationInfo <- readMainStationInfo(filepath) |>
+        select(psmsl_id, name, `nap-rlr`, gtsm_id)
+    }
     
     rlr_df <- rlr_df %>% left_join(mainStationInfo, by = c(psmsl_id = "psmsl_id"))
     
@@ -419,8 +424,7 @@ read_yearly_gtsm <- function(filename = "data/deltares/gtsm/gtsm_surge_annual_me
   
 
 
-
-read_tidal_components_csv <- function(files = NA, filesdir = "p:/11202493--systeemrap-grevelingen/1_data/Wadden/ddl/calculated/TA_filtersurge") {
+read_tidal_components_csv <- function(files = NA, filesdir = "https://watersysteemdata.deltares.nl/thredds/fileServer/watersysteemdata/Wadden/ddl/calculated/TA_filtersurge") {
   
   if(any(is.na(files))){
     filelist <- list.files(filesdir, pattern = "component", full.names = T)

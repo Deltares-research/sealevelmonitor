@@ -50,10 +50,12 @@ In order to better estimate the sea level changes along the coast, we are testin
 
 
 ```{r readPSMSLdata}
+
+list.files("../../")
 # get all Dutch PSMSL stations
 ids <- c(mainstations_df$psmsl_id, 1551, 9, 236)
 names <- c(mainstations_df$name, "Roompot Buiten", "Maassluis", "West-Terschelling")
-slrData <- read_yearly_psmsl_csv(station_nr = ids, filepath = "../../")
+slrData <- read_yearly_psmsl_csv(station_nr = ids, mainstations.df = mainstations_df)
 slrData2 <- slrData %>%
   select(
     year,
@@ -103,29 +105,29 @@ gtsm <- read_yearly_gtsm(filename = "../../data/deltares/gtsm/gtsm_surge_annual_
   slrData3 <- slrData2 |>
       left_join(gtsm, by = c(name = "name", year = "year")) |>
       mutate(
-        surge_anomaly = case_when(
+        surge_anomaly_mm = case_when(
           year >= 1950 ~ (1000 * surge - mean(1000 * surge, na.rm = T)), # meters to millimeters
           year < 1950 ~ 0
         )
       ) |>
-  mutate(`height-surge anomaly` = rlr_height_mm - surge_anomaly) |>
+  mutate(`height-surge anomaly_mm` = rlr_height_mm - surge_anomaly_mm) |>
       select(
         psmsl_id,
         year,
         rlr_height_mm,
         name,
-        surge_anomaly,
-        `height-surge anomaly`
+        surge_anomaly_mm,
+        `height-surge anomaly_mm`
       )
 
 ggplot(
   slrData3 %>% 
     group_by(name) %>% 
     filter(
-      sum(surge_anomaly)!=0,
+      sum(surge_anomaly_mm)!=0,
       year > 1940
       ), 
-  aes(year, surge_anomaly)) + 
+  aes(year, surge_anomaly_mm)) + 
   geom_line(aes(color = name))+
   theme(legend.position = "bottom")
 ```
@@ -134,17 +136,19 @@ ggplot(
 
 ### Calculate changes per year for all stations
 
-For each station and year, the change of water level (corrected for surge) relative to the previous year is calculated. 
+For each station and year, the change of water level (corrected for surge) relative to the previous year is calculated. Delfzijl is kept out of the analyses. 
 
 
 ```{r plotDiff, fig.width=10, fig.height=5, fig.cap="Changes in sea level (surge corrected) per station and year (mm) for all available stations."}
 
 # Met GTSM correctie
 slrDiff2 <- slrData3 %>%
-  filter(psmsl_id %in% mainstations_df$psmsl_id) %>%
+  filter(
+    psmsl_id %in% mainstations_df$psmsl_id[c(1,2,3,5,6)]
+    ) %>%
   group_by(psmsl_id, name) %>%
   mutate(
-    diff = `height-surge anomaly`-lag(`height-surge anomaly`, default=first(`height-surge anomaly`))
+    diff = `height-surge anomaly_mm`-lag(`height-surge anomaly_mm`, default=first(`height-surge anomaly_mm`))
   ) %>% ungroup()
 
 ggplot(slrDiff2, aes(year, diff)) +
@@ -152,7 +156,7 @@ ggplot(slrDiff2, aes(year, diff)) +
   geom_boxplot(aes(group = year), fill = "white", alpha = 0.4) +
    theme(legend.position = "bottom") +
   scale_x_continuous(breaks = pretty_breaks(20)) +
-  coord_cartesian(xlim = c(1930, 1960))
+  coord_cartesian(xlim = c(1970, 2024))
 ```
 
 
@@ -169,7 +173,7 @@ slrMedian <- slrDiff2 %>%
   ungroup()  %>% 
   filter(
     year > 1890,
-    n > 5
+    n >= 5
   )
 
 ggplot(slrMedian, aes(year, median)) +
@@ -195,7 +199,7 @@ cat("The mean value of the median slope over all stations and years is",
 <!-- The bias per station and year from the median value shows relatively high values for stations Delfzijl and Harlingen, especially several years after the closure of the Zuiderzee. -->
 
 
-```{r}
+```{r, fig.width = 4, fig.height = 6}
 
 p <- slrMedian %>%
   pivot_longer(
@@ -204,7 +208,9 @@ p <- slrMedian %>%
     values_to = "per_station"
   ) %>%
   ggplot(aes(x = per_station - median)) +
-  geom_histogram()
+  geom_histogram(aes()) +
+  facet_wrap("station", ncol = 1) +
+  ggtitle("verdeling van de afwijking van jaarlijkse verandering per station van de mediaan.")
 p
 
 ```
@@ -248,7 +254,7 @@ p <- slrMedian %>%
 p
 
 p +
-  coord_cartesian(xlim = c(1986, NA), ylim = c(-50, 50))
+  coord_cartesian(xlim = c(1970, NA), ylim = c(-50, 50))
 ```
 
 
@@ -259,7 +265,7 @@ p +
 ```{r linear-with-tides}
 
 slrMedian %>%
-  distinct(year, median) %>%
+  # distinct(year, median) %>%
   mutate(`relative_median_height (mm)` = cumsum(median)) %>%
   ggplot(aes(year, `relative_median_height (mm)`)) +
   geom_line(aes()) +
@@ -276,9 +282,9 @@ slrMedian %>%
     aes(year, `relative_height (mm)`, color = station)
   ) +
   geom_smooth(method = "lm", formula = 
-                y ~ I(x - 1970) #+ 
-        # I(cos(2 * pi * (x - 1970)/(18.613))) + 
-        # I(sin(2 * pi * (x - 1970)/(18.613)))
+                y ~ I(x - 1970) + 
+        I(cos(2 * pi * (x - 1970)/(18.613))) +
+        I(sin(2 * pi * (x - 1970)/(18.613)))
   )
   
 ```
@@ -335,11 +341,32 @@ slrMedian %>%
     aes(year, `relative_height (mm)`, color = station)
   ) +
   geom_line(aes()) +
-  geom_smooth(method = "lm", formula = 
+  geom_smooth(
+    data = slrMedian %>% 
+      pivot_longer(
+        cols = c(-year, -n, -median), 
+        names_to = "station", 
+        values_to = "per_station"
+      ) %>%
+      group_by(station) %>%
+      mutate(`relative_height (mm)` = cumsum(per_station)) %>%
+      ungroup(), 
+    aes(year, `relative_height (mm)`, color = station),
+    method = "lm", formula = 
                 y ~ x +
                   I((x-1960)*(x-1960)*(x > 1960)) #+
                 # I(cos(2 * pi * (x)/(18.613))) +
                 # I(sin(2 * pi * (x)/(18.613)))
+    , alpha = 0.2
+  ) +
+  geom_smooth(method = "lm", 
+              color = "black",
+              formula = 
+                y ~ x +
+                  I((x-1960)*(x-1960)*(x > 1960)) #+
+                # I(cos(2 * pi * (x)/(18.613))) +
+                # I(sin(2 * pi * (x)/(18.613)))
+              , alpha = 0.2
   )
 
 # lm(Value ~ Num*(Num >= 6.30) + Num*(Num < 6.30)
