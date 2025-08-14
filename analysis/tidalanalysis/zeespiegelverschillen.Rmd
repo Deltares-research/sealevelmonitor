@@ -1,0 +1,113 @@
+---
+title: "Zeespiegelmonitor analyse"
+author: "Willem Stolte"
+date: "2024-03-12"
+output:
+  github_document: null
+  html_document:
+    df_print: paged
+    code_folding: hide
+    outputdir: ../../docs
+  pdf_document: default
+always_allow_html: true
+---
+
+# Verschillen in waterhoogte tussen stations
+
+
+```{r}
+require(tidyverse)
+require(scales)
+df_sealevel <- read_csv2("../../data/deltares/results/dutch-sea-level-monitor-export-stations-latest.csv") #%>%
+  # filter(year >= 1890)
+unique(df_sealevel$station)
+```
+
+```{r, fig.height=4, fig.width=8}
+
+
+plotDifference <- function(df_sealevel, referenceStation, compareStation) {
+  
+  df_sealevel %>%
+    mutate(corrected_height = height - surge_anomaly) %>%
+    pivot_wider(id_cols = c(year), names_from = station, values_from = corrected_height) %>%
+    mutate(difference := {{ referenceStation }} - {{ compareStation }}) %>%
+    ggplot(aes(x = year)) +
+    geom_line(aes(y = {{ referenceStation }})) +
+    geom_line(aes(y = {{ compareStation }})) +
+    geom_point(aes(y = difference, color = "gecorr. metingen")) +
+    geom_point(
+      data = df_sealevel %>%
+        pivot_wider(id_cols = c(year), names_from = station, values_from = height) %>%
+        mutate(difference = {{ referenceStation }} - {{ compareStation }}),
+      aes(y = difference, color = "metingen")
+    ) +
+    # geom_smooth(method = "loess", 
+    #             aes(y = difference, color = "gecorr. metingen")
+    #             ) +
+    geom_smooth(
+      data = df_sealevel %>%
+        pivot_wider(id_cols = c(year), names_from = station, values_from = height) %>%
+        mutate(difference = Harlingen - {{ compareStation }}),
+      aes(y = difference, color = "metingen"),
+      span = 0.15
+    ) +
+    geom_vline(xintercept = 1932) +
+    xlab("year") +
+    ylab("gemiddelde zeespiegelverschil in mm") +
+    ggtitle(paste0("Verschil ", rlang::as_label(rlang::enquo(referenceStation)),"  en ", rlang::as_label(rlang::enquo(compareStation)))) +
+    coord_cartesian(ylim = c(NA, NA)) +
+    scale_x_continuous(breaks = pretty_breaks(20))
+}
+
+
+plotDifference(
+  df_sealevel = df_sealevel, 
+  referenceStation = `Harlingen`,
+  compareStation = `Den Helder`)
+
+```
+```{r, fig.height=4, fig.width=8}
+
+
+plotDifference2 <- function(df_sealevel, referenceStation, compareStation) {
+  
+  df_sealevel %>%
+    mutate(corrected_height = height - surge_anomaly) %>%
+    pivot_wider(id_cols = c(year), names_from = station, values_from = corrected_height) %>%
+    mutate(difference := {{ referenceStation }} - {{ compareStation }}) %>%
+    ggplot(aes(x = year)) +
+    geom_line(aes(y = {{ referenceStation }})) +
+    geom_line(aes(y = {{ compareStation }})) +
+    geom_point(aes(y = difference, color = "gecorr. metingen")) +
+    geom_point(
+      data = df_sealevel %>%
+        pivot_wider(id_cols = c(year), names_from = station, values_from = height) %>%
+        mutate(difference = {{ referenceStation }} - {{ compareStation }}),
+      aes(y = difference, color = "metingen")
+    ) +
+    # geom_smooth(method = "loess", 
+    #             aes(y = difference, color = "gecorr. metingen")
+    #             ) +
+    geom_smooth(
+      data = df_sealevel %>%
+        pivot_wider(id_cols = c(year), names_from = station, values_from = height) %>%
+        mutate(difference = Harlingen - {{ compareStation }}),
+      aes(y = difference, color = "metingen"),
+      span = 0.15
+    ) +
+    geom_vline(xintercept = 1932) +
+    xlab("year") +
+    ylab("gemiddelde zeespiegelverschil in mm") +
+    ggtitle(paste0("Verschil ", rlang::as_label(rlang::enquo(referenceStation)),"  en ", rlang::as_label(rlang::enquo(compareStation)))) +
+    coord_cartesian(ylim = c(NA, NA)) +
+    scale_x_continuous(breaks = pretty_breaks(20))
+}
+
+
+plotDifference(
+  df_sealevel = df_sealevel, 
+  referenceStation = `Harlingen`,
+  compareStation = `Den Helder`)
+
+```

@@ -1,0 +1,87 @@
+---
+title: "Waterwerken tijdslijn"
+author: "Willem Stolte"
+date: "2025-06-17"
+output: html_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+require(tidyverse)
+require(sf)
+require(leaflet)
+```
+
+```{r}
+ww <- read_csv2("../../data/deltares/waterwerken.csv")
+```
+
+```{r}
+ggplot(ww) +
+  geom_segment(aes(x = start, xend = end, y = project, color = functie),
+               linewidth = 2, alpha = 0.6) +
+  facet_wrap("regio", ncol = 1, scales = "free_y")
+```
+
+
+```{r, fig.width=8, fig.height=2}
+
+order = ww %>% arrange(start) %>% select(project) %>% unlist %>% unname
+
+ww %>%
+  filter(regio == "Waddenzee") %>%
+  mutate(
+    project = factor(project, levels = order),
+    regio = as.factor(regio)) %>%
+  mutate(positie = row_number()) %>%
+  ggplot() +
+  geom_segment(aes(x = start, xend = end, y = interaction(project)),
+               linewidth = 3, alpha = 0.6, arrow = grid::arrow(ends = "last", type = "open")) +   #, position = position_jitter(width = 0)
+  theme_minimal() +
+  theme(legend.position = "bottom", axis.title.y = element_blank()) +
+  coord_cartesian(xlim = c(NA, 2000))
+
+```
+
+```{r}
+ww %>%
+  filter(regio == "Waddenzee") %>%
+  mutate(
+    project = factor(project, levels = order),
+    regio = as.factor(regio)) %>%
+  mutate(positie = row_number()) %>%
+  select(project, start, end) %>% 
+  knitr::kable()
+```
+
+
+
+
+
+Kunnen we de werken koppelen aan geografische informatie? moet nog uitgewerkt worden.
+
+```{r}
+kunstwerken <- sf::read_sf(r"(c:\git_checkouts\sealevelmonitor\data\deltares\kunstwerken_2012.json)")
+
+kunstwerken %>% distinct(vb_wk_na, kd_type_om) %>% View()
+
+
+kunstwerken %>% filter(vb_wk_na == ww$project)
+
+```
+
+
+
+```{r}
+waterstaatswerken_legger <- sf::read_sf(r"(../../data\deltares\primaire_waterkering_waterstaatswerk_legger.json)")
+
+
+waterstaatswerken_legger %>%
+  st_transform(4326) %>%
+leaflet::leaflet() %>%
+  addTiles() %>%
+  addPolygons(popup= ~paste("<a href=\"", url , "\">", "click here", "</a>"))
+```
+
+
+

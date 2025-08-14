@@ -1,0 +1,172 @@
+---
+title: "NAP info"
+author: "Willem Stolte"
+date: "2025-05-19"
+output: html_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+require(tidyverse)
+require(lubridate)
+source("../sealevelmonitor/_common/functions.R")
+
+```
+
+
+## Nulpalen van de kuststations
+
+Via RWS-CIV verkregen informatie uit NAP-info wordt ingelezen en verwerkt. 
+
+
+```{r}
+historie_nulpalen <- readxl::read_excel("../../data\\rijkswaterstaat\\NAP\\Historie_nulpalen_20250530.xlsx")
+nulpalen_info <- readxl::read_excel("../../data\\rijkswaterstaat\\NAP\\Nulpalen_info_met_locatie_20250530.xlsx")
+stationLocations <- stationLocations <- sf::st_read("../../data/rijkswaterstaat/waterhoogtestations.geojson", crs= 25831)
+mainstations_df <- readMainStationInfo(filepath = "../../")
+
+# write_csv2(historie_nulpalen, "../../data\\rijkswaterstaat\\NAP\\Historie_nulpalen_20250530.csv")
+# write_csv2(nulpalen_info, "../../data\\rijkswaterstaat\\NAP\\Nulpalen_info_met_locatie_20250530.csv")
+
+```
+
+
+```{r}
+nulpalen_all <- nulpalen_info %>% 
+  filter(
+    locatie %in% stationLocations$locatie.naam
+    )
+
+historie_all <- historie_nulpalen %>%
+  dplyr::filter(puntnummer %in% nulpalen_all$puntnummer) %>%
+dplyr::left_join(nulpalen_all %>% dplyr::select(puntnummer, locatie, status))  
+
+nulpalen_main <- nulpalen_info %>% 
+  dplyr::filter((locatie %in% mainstations_df$name & puntnummer != "000A4012") | locatie == "IJmuiden buitenhaven")
+
+historie_main <- historie_nulpalen %>%
+  dplyr::filter(puntnummer %in% nulpalen_main$puntnummer) %>%
+dplyr::left_join(nulpalen_main %>% dplyr::select(puntnummer, locatie, status))  
+
+```
+
+
+
+
+```{r}
+
+plot_nap_historie <- function(naphistory.df){
+  
+  naphistory.df %>%
+    mutate(
+      status = case_when(
+        grepl("=", project_id) ~ paste(status, "herberekend"),
+        .default = paste(status, "gemeten")
+      ),
+      datum = as_date(projectdatum)  #, format = "%d-%m-%Y %H:%M:%S"
+    ) %>%
+    arrange(datum) %>%
+    group_by(locatie, puntnummer) %>%
+    mutate(norm_height = hoogte - hoogte[datum == min(datum)]) %>%
+    ggplot(aes(datum, norm_height, color = status)) +
+    # geom_line(linewidth = 1) +
+    geom_smooth(method = "lm") +
+    geom_point(size = 2) +
+    ggtitle(paste("NAP historie", "hoofdstations")) +
+    ylab("hoogte in m") +
+    facet_wrap("locatie")
+}
+
+plot_nap_historie(naphistory.df = historie_main)
+```
+
+
+```{r, fig.height=10,fig.width=10}
+
+q <- historie_main %>%
+    mutate(
+        status = case_when(
+      grepl("=", project_id) ~ paste(status, "herberekend"),
+      .default = paste(status, "gemeten")
+        ),
+      datum = as_date(projectdatum)  #, format = "%d-%m-%Y %H:%M:%S"
+  ) %>%
+  arrange(datum) %>%
+  group_by(locatie, puntnummer) %>%
+  ungroup() %>%
+  # filter(locatie != "Delfzijl") %>%
+  dplyr::select(locatie, datum, status, hoogte) %>%
+  group_by(locatie, status) %>%
+  nest(data = -c(locatie, status)) %>%
+  mutate(
+    fit = map(data, ~ lm(hoogte ~ datum, data = .x)),
+    tidied = map(fit, broom::tidy),
+    glanced = map(fit, broom::glance),
+    augmented = map(fit, broom::augment)
+  )
+
+q %>%
+    dplyr::select(
+      locatie,
+      status,
+      tidied
+    ) %>%
+    unnest(tidied) %>%
+    filter(
+      # p.value < 0.05,
+      term == "datum"
+      ) %>%
+  dplyr::select(
+    locatie, status, `verandering in mm/jaar` = estimate, p.value
+    ) %>%
+  mutate(
+    `verandering in mm/jaar` = round(1000*(`verandering in mm/jaar` * 365), 3),
+    p.value = round(p.value, 3)
+    ) %>%
+    arrange(`verandering in mm/jaar`) #%>%
+    knitr::kable()
+
+```
+
+
+
+```{r}
+p <- historie_all %>%
+    mutate(
+        status = case_when(
+      grepl("=", project_id) ~ paste(status, "herberekend"),
+      .default = paste(status, "gemeten")
+        ),
+      datum = as_date(projectdatum)  #, format = "%d-%m-%Y %H:%M:%S"
+  ) %>%
+  arrange(datum) %>%
+  group_by(locatie, puntnummer) %>%
+  mutate(norm_height = hoogte - hoogte[datum == min(datum)]) %>%
+  filter(locatie != "Delfzijl") %>%
+  ggplot(aes(datum, norm_height, color = status)) +
+  # geom_line(linewidth = 1) +
+  geom_smooth(method = "lm") +
+  geom_point(size = 2, alpha = 0.4) +
+  ggtitle(paste("NAP historie", "nulpalen kuststations", "t.o.v. eerste waarde")) +
+  ylab("hoogte in m") +
+  facet_wrap(c("locatie", "puntnummer"), ncol = 4)
+p
+```
+
+## Nulpalen en stations op de kaart
+
+```{r}
+require(sf)
+require(leaflet)
+
+nulpalen_all %>%
+  dplyr::select(puntnummer, locatie, code, x_rd, y_rd, status) %>%
+  sf::st_as_sf(coords = c("x_rd", "y_rd"), crs = 28992) %>%
+  sf::st_transform(4326) %>%
+  leaflet() %>%
+  addTiles() %>%
+  addCircleMarkers(data = stationLocations %>% st_transform(4326), radius = 5, fillColor = "transparent", stroke = 0.5, color = "red", label = ~paste(locatie.naam, locatie.code)) %>%
+    addCircleMarkers(radius = 5, stroke = 0, fillOpacity = 1, label = ~paste("np_", locatie, status))
+
+```
+
