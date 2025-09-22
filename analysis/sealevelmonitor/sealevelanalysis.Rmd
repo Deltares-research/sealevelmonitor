@@ -3,11 +3,11 @@ title: "Zeespiegelmonitor analyse"
 author: "Willem Stolte, Nathalie Dees"
 date: "2024-03-12"
 output:
+  github_document: null
   html_document:
     df_print: paged
     code_folding: hide
     outputdir: ../../docs
-  github_document: null
   pdf_document: default
 always_allow_html: true
 params:
