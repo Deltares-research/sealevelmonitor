@@ -53,7 +53,7 @@ dplyr::left_join(nulpalen_main %>% dplyr::select(puntnummer, locatie, status))
 
 
 
-```{r}
+```{r nap-historie-hoofdstations}
 
 plot_nap_historie <- function(naphistory.df){
   
@@ -83,7 +83,8 @@ plot_nap_historie(naphistory.df = historie_main)
 
 ```{r, fig.height=10,fig.width=10}
 
-q <- historie_main %>%
+q <- historie_all %>%
+  # filter(status == "ACTUEEL") %>%
     mutate(
         status = case_when(
       grepl("=", project_id) ~ paste(status, "herberekend"),
@@ -105,7 +106,7 @@ q <- historie_main %>%
     augmented = map(fit, broom::augment)
   )
 
-q %>%
+r <- q %>%
     dplyr::select(
       locatie,
       status,
@@ -117,17 +118,39 @@ q %>%
       term == "datum"
       ) %>%
   dplyr::select(
-    locatie, status, `verandering in mm/jaar` = estimate, p.value
+    locatie, 
+    status, 
+    `verandering in mm/jaar` = estimate, 
+    std.error,
+    p.value
     ) %>%
   mutate(
     `verandering in mm/jaar` = round(1000*(`verandering in mm/jaar` * 365), 3),
-    p.value = round(p.value, 3)
+    p.value = round(p.value, 3),
+    std.error = signif(std.error, 3)
     ) %>%
-    arrange(`verandering in mm/jaar`) #%>%
-    knitr::kable()
+  arrange(locatie, status)
+    # arrange(`verandering in mm/jaar`) #%>%
+
+    DT::datatable(r)
 
 ```
 
+## Wat is het verschil in verandering voor en na de NAP aanpassing?
+
+
+```{r}
+# check p values and make verandering zero when p > 0.05
+
+r %>% 
+  filter(locatie %in% mainstations_df$location | locatie == "IJmuiden buitenhaven") %>%
+  select(locatie, status, `verandering in mm/jaar`) %>%
+  pivot_wider(id_cols = "locatie", names_from = status, values_from = `verandering in mm/jaar`) %>%
+  mutate(verschil = `ACTUEEL herberekend` - `ACTUEEL gemeten`) %>%
+  arrange(-verschil)
+
+
+```
 
 
 ```{r}
@@ -159,7 +182,7 @@ p
 require(sf)
 require(leaflet)
 
-nulpalen_all %>%
+m <- nulpalen_all %>%
   dplyr::select(puntnummer, locatie, code, x_rd, y_rd, status) %>%
   sf::st_as_sf(coords = c("x_rd", "y_rd"), crs = 28992) %>%
   sf::st_transform(4326) %>%
@@ -167,6 +190,9 @@ nulpalen_all %>%
   addTiles() %>%
   addCircleMarkers(data = stationLocations %>% st_transform(4326), radius = 5, fillColor = "transparent", stroke = 0.5, color = "red", label = ~paste(locatie.naam, locatie.code)) %>%
     addCircleMarkers(radius = 5, stroke = 0, fillOpacity = 1, label = ~paste("np_", locatie, status))
+
+library(htmlwidgets)
+saveWidget(m, file="nap-map.html")
 
 ```
 
