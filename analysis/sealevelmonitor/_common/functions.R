@@ -11,100 +11,100 @@ grootheid = "Waterhoogte"
 
 # make warning if grootheid is not in list of waterhoogteparameters.  
 
-get_selected_metadata <- function(
-    compartiment = NULL, 
-    grootheid = NULL, 
-    parameter = NULL, 
-    locatie = NULL
-) {
-  
-  require(rwsapi)
-  require(tidyverse)
-  
-  md <- rwsapi::rws_metadata()
-  
-  md$content$AquoMetadataLijst %>% 
-    unnest(
-      names_sep = ".", 
-      c(Compartiment, Eenheid, Grootheid, Hoedanigheid, Parameter)) %>% 
-    filter(
-      if(is.null(grootheid)) TRUE else Grootheid.Omschrijving %in% grootheid | Grootheid.Code %in% grootheid,
-      if(is.null(parameter)) TRUE else Parameter.Omschrijving %in% parameter | Parameter.Code %in% parameter,
-      if(is.null(compartiment)) TRUE else Compartiment.Code %in% compartiment | Compartiment.Code %in% compartiment
-    ) %>%
-    left_join(
-      md$content$AquoMetadataLocatieLijst, 
-      by = c(AquoMetadata_MessageID = "AquoMetaData_MessageID")
-    ) %>%
-    left_join(md$content$LocatieLijst) %>%
-    filter(if(is.null(locatie)) TRUE else Naam %in% locatie |  Code %in% locatie) %>% 
-    rename_with(tolower) %>%
-    rename(
-      locatie.naam = naam,
-      locatie.code = code
-    )
-}
-
+# get_selected_metadata <- function(
+#     compartiment = NULL, 
+#     grootheid = NULL, 
+#     parameter = NULL, 
+#     locatie = NULL
+# ) {
+#   
+#   require(rwsapi)
+#   require(tidyverse)
+#   
+#   md <- rwsapi::rws_metadata()
+#   
+#   md$content$AquoMetadataLijst %>% 
+#     unnest(
+#       names_sep = ".", 
+#       c(Compartiment, Eenheid, Grootheid, Hoedanigheid, Parameter)) %>% 
+#     filter(
+#       if(is.null(grootheid)) TRUE else Grootheid.Omschrijving %in% grootheid | Grootheid.Code %in% grootheid,
+#       if(is.null(parameter)) TRUE else Parameter.Omschrijving %in% parameter | Parameter.Code %in% parameter,
+#       if(is.null(compartiment)) TRUE else Compartiment.Code %in% compartiment | Compartiment.Code %in% compartiment
+#     ) %>%
+#     left_join(
+#       md$content$AquoMetadataLocatieLijst, 
+#       by = c(AquoMetadata_MessageID = "AquoMetaData_MessageID")
+#     ) %>%
+#     left_join(md$content$LocatieLijst) %>%
+#     filter(if(is.null(locatie)) TRUE else Naam %in% locatie |  Code %in% locatie) %>% 
+#     rename_with(tolower) %>%
+#     rename(
+#       locatie.naam = naam,
+#       locatie.code = code
+#     )
+# }
+# 
 
 
 #== Read and prepare data ===================================================
 
 
-readDDLwaterhoogte <- function(station, startyear, endyear, grootheid = "Waterhoogte", outDir = "data/rijkswaterstaat/ddl/raw"){
-  
-  require(rwsapi)
-  require(tidyverse)
-  
-  waterhoogteparameters <- c("Waterhoogte berekend", "Waterhoogte", "Waterhoogte astronomisch", "Waterhoogte verwacht")    
-  
-  # make warning if grootheid is not in list of waterhoogteparameters.  
-  
-  md <- rwsapi::rws_metadata()
-  thisCatalogue <- md$content$AquoMetadataLijst %>% 
-    unnest(
-      names_sep = ".", 
-      c(Compartiment, Eenheid, Grootheid, Hoedanigheid, Parameter)) %>% 
-    filter(Grootheid.Omschrijving == grootheid) %>%
-    left_join(
-      md$content$AquoMetadataLocatieLijst, 
-      by = c(AquoMetadata_MessageID = "AquoMetaData_MessageID")
-    ) %>%
-    left_join(md$content$LocatieLijst) %>% 
-    filter(Code %in% station) %>%
-    rename_with(tolower) %>%
-    rename(
-      locatie.naam = naam,
-      locatie.code = code
-    )
-  
-  for(iyear in startyear:endyear){
-    rwsapi::getDDLdata( 
-      startyear = iyear,
-      endyear = iyear,
-      myCatalogue = thisCatalogue,
-      outDir = outDir
-    )
-  }
-}
-
-readDDLwaterhoogte2 <- function(ddlmetadata, startyear, endyear, outDir = "data/rijkswaterstaat/ddl/raw"){
-  
-  require(rwsapi)
-  require(tidyverse)
-  
-  waterhoogteparameters <- c("Waterhoogte berekend", "Waterhoogte", "Waterhoogte astronomisch", "Waterhoogte verwacht")    
-  
-  # make warning if grootheid is not in list of waterhoogteparameters.  
-  
-  for(iyear in startyear:endyear){
-    rwsapi::getDDLdata( 
-      startyear = iyear,
-      endyear = iyear,
-      myCatalogue = ddlmetadata,
-      outDir = outDir
-    )
-  }
-}
+# readDDLwaterhoogte <- function(station, startyear, endyear, grootheid = "Waterhoogte", outDir = "data/rijkswaterstaat/ddl/raw"){
+#   
+#   require(rwsapi)
+#   require(tidyverse)
+#   
+#   waterhoogteparameters <- c("Waterhoogte berekend", "Waterhoogte", "Waterhoogte astronomisch", "Waterhoogte verwacht")    
+#   
+#   # make warning if grootheid is not in list of waterhoogteparameters.  
+#   
+#   md <- rwsapi::rws_metadata()
+#   thisCatalogue <- md$content$AquoMetadataLijst %>% 
+#     unnest(
+#       names_sep = ".", 
+#       c(Compartiment, Eenheid, Grootheid, Hoedanigheid, Parameter)) %>% 
+#     filter(Grootheid.Omschrijving == grootheid) %>%
+#     left_join(
+#       md$content$AquoMetadataLocatieLijst, 
+#       by = c(AquoMetadata_MessageID = "AquoMetaData_MessageID")
+#     ) %>%
+#     left_join(md$content$LocatieLijst) %>% 
+#     filter(Code %in% station) %>%
+#     rename_with(tolower) %>%
+#     rename(
+#       locatie.naam = naam,
+#       locatie.code = code
+#     )
+#   
+#   for(iyear in startyear:endyear){
+#     rwsapi::getDDLdata( 
+#       startyear = iyear,
+#       endyear = iyear,
+#       myCatalogue = thisCatalogue,
+#       outDir = outDir
+#     )
+#   }
+# }
+# 
+# readDDLwaterhoogte2 <- function(ddlmetadata, startyear, endyear, outDir = "data/rijkswaterstaat/ddl/raw"){
+#   
+#   require(rwsapi)
+#   require(tidyverse)
+#   
+#   waterhoogteparameters <- c("Waterhoogte berekend", "Waterhoogte", "Waterhoogte astronomisch", "Waterhoogte verwacht")    
+#   
+#   # make warning if grootheid is not in list of waterhoogteparameters.  
+#   
+#   for(iyear in startyear:endyear){
+#     rwsapi::getDDLdata( 
+#       startyear = iyear,
+#       endyear = iyear,
+#       myCatalogue = ddlmetadata,
+#       outDir = outDir
+#     )
+#   }
+# }
 
 readYrAvgWaterhoogteDDL <- function(dir = "data\\rijkswaterstaat\\ddl\\annual_means"){
   files = list.files(dir)  
@@ -131,6 +131,27 @@ addBreakPoints = function(df){
     dplyr::mutate(from1993 = (year >= 1993) * (year - 1993)) %>%
     dplyr::mutate(from1960_square = (year >= 1960) * (year - 1960) * (year - 1960))
 }
+
+addBreakPoints2 = function(df, broken_line_breakpoint = 1993, broken_squared_breakpoint = 1960){
+  
+  stopifnot(
+    any(names(df)=="year"),
+    is.data.frame(df), 
+    broken_line_breakpoint    >  1900, 
+    broken_squared_breakpoint >  1900,
+    broken_line_breakpoint     < 2000, 
+    broken_squared_breakpoint  < 2000
+  )
+  
+  blb_name = paste0("from", broken_line_breakpoint)
+  bsb_name = paste0("from", broken_squared_breakpoint, "_square")
+  
+  df %>%
+    dplyr::mutate(!!sym(blb_name) := (year >= broken_line_breakpoint) * (year - broken_line_breakpoint)) %>%
+    dplyr::mutate(!!sym(bsb_name) := (year >= broken_squared_breakpoint) * (year - broken_squared_breakpoint) * (year - broken_squared_breakpoint))
+
+}
+
 
 selectCols <- function(df){
   df %>%
@@ -329,99 +350,99 @@ readMainStationLocations <- function(path = ""){
     delim = ";", escape_double = FALSE, trim_ws = TRUE)
 }
 
-read_gtsm_nc <- function(nc = "c:\\Temp\\era5_reanalysis_surge_2023_v1_monthly_mean.nc", stations_selected){
-  require(RNetCDF)
-  ncf <- RNetCDF::open.nc(nc)
-  
-  data <- RNetCDF::read.nc(ncf)
-  
-  stations <- tibble::tibble(
-    gtsmid = data$stations, 
-    stationname = data$station_name,
-    station_x_coordinate = data$station_x_coordinate,
-    station_y_coordinate = data$station_y_coordinate
-  )
-  df <- reshape2::melt(data$surge, value.name = "surge_m") %>%
-    dplyr::mutate(
-      gtsmid = data$stations[Var2],
-      month      = data$month[Var1]
-    ) %>%
-    dplyr::left_join(stations) %>%
-    dplyr::select(-Var1, -Var2) %>%
-    dplyr::filter(gtsmid %in% stations_selected)
-  
-  return(df)
-}
+# read_gtsm_nc <- function(nc = "c:\\Temp\\era5_reanalysis_surge_2023_v1_monthly_mean.nc", stations_selected){
+#   require(RNetCDF)
+#   ncf <- RNetCDF::open.nc(nc)
+#   
+#   data <- RNetCDF::read.nc(ncf)
+#   
+#   stations <- tibble::tibble(
+#     gtsmid = data$stations, 
+#     stationname = data$station_name,
+#     station_x_coordinate = data$station_x_coordinate,
+#     station_y_coordinate = data$station_y_coordinate
+#   )
+#   df <- reshape2::melt(data$surge, value.name = "surge_m") %>%
+#     dplyr::mutate(
+#       gtsmid = data$stations[Var2],
+#       month      = data$month[Var1]
+#     ) %>%
+#     dplyr::left_join(stations) %>%
+#     dplyr::select(-Var1, -Var2) %>%
+#     dplyr::filter(gtsmid %in% stations_selected)
+#   
+#   return(df)
+# }
+# 
+# read_yearly_gtsm <- function(filename = "data/deltares/gtsm/gtsm_surge_annual_mean_main_stations_2024.csv") {
+#   
+#   gtsm_surge_annual_mean_main_stations_2024 <- read.csv(filename, comment = "#")
+#   
+# }
 
-read_yearly_gtsm <- function(filename = "data/deltares/gtsm/gtsm_surge_annual_mean_main_stations_2024.csv") {
-  
-  gtsm_surge_annual_mean_main_stations_2024 <- read.csv(filename, comment = "#")
-  
-}
-
-read_yearly_psmsl_csv  <- function(station_nr, mainstations.df = NULL, filepath){
-  
-  base_rlr_url = "https://psmsl.org/data/obtaining/rlr.annual.data/"
-  base_rlr_ext = ".rlrdata"
-  
-  rlr_df <- lapply(station_nr, 
-                   function(x) {
-                     read_delim(
-                       file = paste0(base_rlr_url, x, base_rlr_ext), 
-                       col_names = c("year", "rlr_height_mm", "interpolated", "flag"),
-                       col_types = c("nncc"),
-                       na = "-99999",
-                       delim = ";"
-                     ) |>
-                       mutate(psmsl_id = as.character(x))
-                   }
-  ) |>
-    bind_rows()
-  
-  if(!is.null(mainstations.df)){
-    mainstationInfo = mainstations.df |>
-      select(psmsl_id, name, `nap-rlr`, gtsm_id)
-  } else{
-    mainStationInfo <- readMainStationInfo(filepath) |>
-      select(psmsl_id, name, `nap-rlr`, gtsm_id)
-  }
-  
-  rlr_df <- rlr_df %>% left_join(mainStationInfo, by = c(psmsl_id = "psmsl_id"))
-  
-  return(rlr_df)
-  
-}
-
-
-
-
-# hieronder is nog niet helemaal af, zie yearly psmsl function
-read_monthly_psmsl_csv  <- function(station_nr){
-  
-  base_rlr_url = "https://psmsl.org/data/obtaining/rlr.monthly.data/"
-  base_rlr_ext = ".rlrdata"
-  
-  rlr_df <- lapply(station_nr,
-                   function(x) {
-                     rlr_df <- read_delim(
-                       file = paste0(base_rlr_url, x, base_rlr_ext), 
-                       col_names = c("decimal_year", "rlr_height_mm", "interpolated", "flag"),
-                       col_types = "niic",
-                       delim = ";",
-                       trim_ws = T, 
-                       locale = locale(decimal_mark = "."
-                       )
-                     ) |>
-                       mutate(psmsl_id = as.character(x))
-                   }
-  ) |>
-    bind_rows()
-  
-  
-  return(rlr_df)
-  
-}
-
+# read_yearly_psmsl_csv  <- function(station_nr, mainstations.df = NULL, filepath){
+#   
+#   base_rlr_url = "https://psmsl.org/data/obtaining/rlr.annual.data/"
+#   base_rlr_ext = ".rlrdata"
+#   
+#   rlr_df <- lapply(station_nr, 
+#                    function(x) {
+#                      read_delim(
+#                        file = paste0(base_rlr_url, x, base_rlr_ext), 
+#                        col_names = c("year", "rlr_height_mm", "interpolated", "flag"),
+#                        col_types = c("nncc"),
+#                        na = "-99999",
+#                        delim = ";"
+#                      ) |>
+#                        mutate(psmsl_id = as.character(x))
+#                    }
+#   ) |>
+#     bind_rows()
+#   
+#   if(!is.null(mainstations.df)){
+#     mainstationInfo = mainstations.df |>
+#       select(psmsl_id, name, `nap-rlr`, gtsm_id)
+#   } else{
+#     mainStationInfo <- readMainStationInfo(filepath) |>
+#       select(psmsl_id, name, `nap-rlr`, gtsm_id)
+#   }
+#   
+#   rlr_df <- rlr_df %>% left_join(mainStationInfo, by = c(psmsl_id = "psmsl_id"))
+#   
+#   return(rlr_df)
+#   
+# }
+# 
+# 
+# 
+# 
+# # hieronder is nog niet helemaal af, zie yearly psmsl function
+# read_monthly_psmsl_csv  <- function(station_nr){
+#   
+#   base_rlr_url = "https://psmsl.org/data/obtaining/rlr.monthly.data/"
+#   base_rlr_ext = ".rlrdata"
+#   
+#   rlr_df <- lapply(station_nr,
+#                    function(x) {
+#                      rlr_df <- read_delim(
+#                        file = paste0(base_rlr_url, x, base_rlr_ext), 
+#                        col_names = c("decimal_year", "rlr_height_mm", "interpolated", "flag"),
+#                        col_types = "niic",
+#                        delim = ";",
+#                        trim_ws = T, 
+#                        locale = locale(decimal_mark = "."
+#                        )
+#                      ) |>
+#                        mutate(psmsl_id = as.character(x))
+#                    }
+#   ) |>
+#     bind_rows()
+#   
+#   
+#   return(rlr_df)
+#   
+# }
+# 
 
 
 read_tidal_components_csv <- function(files = NA, filesdir = "https://watersysteemdata.deltares.nl/thredds/fileServer/watersysteemdata/Wadden/ddl/calculated/TA_filtersurge") {
