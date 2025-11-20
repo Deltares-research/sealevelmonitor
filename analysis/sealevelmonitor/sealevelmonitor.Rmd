@@ -3,15 +3,11 @@ title: "Zeespiegelmonitor"
 author: "Willem Stolte, Nathalie Dees"
 date: "2024-03-12"
 output:
-  github_document:
   html_document:
     df_print: paged
     code_folding: hide
+  github_document:
 params:
-  monitoryear: 2024
-  wind_or_surge_type: GTSM
-  station:
-  - Netherlands (without Delfzijl)
   # - Delfzijl
   # - Harlingen
   # - Den Helder
@@ -19,9 +15,16 @@ params:
   # - Hoek van Holland
   # - Vlissingen
   # - Netherlands
+  # - linear
+  # - broken_linear
+  monitoryear: 2025
+  startyear: 1890
+  wind_or_surge_type: GTSM
+  station:
+  - Netherlands (without Delfzijl)
   modeltype:
   # - linear
-   - broken_linear
+  - broken_linear
   # - broken_squared
 ---
 
@@ -55,14 +58,14 @@ mainstations_locs <- readMainStationLocations(path = "../../")
 nstations = length(params$station)
 nmodels  = length(params$modeltype)
 nsurge  = length(params$wind_or_surge_type)
-
+select <- dplyr::select
 ```
 
 
 ```{r readData, comment=F, message=F}
   df <- read_csv2(file.path("../", "../data/deltares/results/dutch-sea-level-monitor-export-stations-latest.csv")) %>%
   filter(station %in% params$station) %>%
-  filter(year >= 1890)
+  filter(year >= params$startyear)
 ```
 
 ### Zeespiegelmetingen
@@ -72,10 +75,11 @@ Maandelijks en jaarlijks gemiddelde waterhoogtegegevens worden ingelezen via [PS
 ```{r metingenView}
 df %>% 
   arrange(-year) %>%
-  select(
+  dplyr::select(
     year, 
     `height in mm`  = height, 
-    station) %>%
+    station
+    ) %>%
   head(10) %>%
   kableExtra::kable(caption = "Zeespiegelhoogte in mm over de laatste 10 jaar")
 ```
@@ -89,7 +93,7 @@ Windopzet wordt berekend voor de zes hoofdstations met het Global Tide and Surge
 ```{r metingenView2}
 df %>% 
   arrange(-year) %>%
-  select(year, 
+  dplyr::select(year, 
          `opzetanomalie in mm`  = surge_anomaly, 
          station) %>%
   head(10) %>%
@@ -205,7 +209,7 @@ ggplot(aes(x = augment_.resid)) +
 
 Bij een geschikt model verwachten we een regelmatige verdeling van residuen over de tijd. Wanneer deze sterk afwijkt dan kan dat een aanwijzing zijn dat het model niet geschikt is, of dat bepaalde correcties niet goed zijn uitgevoerd. 
 
-```{r, fig.height=nstations*2+1, fig.width=nmodels*2.5+1, fig.cap="De verdeling van residuwaarden uitgezet tegen de tijd in jaren. "}
+```{r variation-model-time, fig.height=nstations*2+1, fig.width=nmodels*2.5+1, fig.cap="De verdeling van residuwaarden uitgezet tegen de tijd in jaren. "}
 models %>%
   unnest(c(data, augment), names_sep = "_") %>% #str(max.level = 2)
 ggplot(aes(data_year, augment_.resid)) +
@@ -213,6 +217,7 @@ ggplot(aes(data_year, augment_.resid)) +
   facet_grid(station ~ modeltype)
 ```
 
+Figuur \@ref(fig:variation-model-time) laat zien dat de spreiding van residuen groter is voor de jaren vóór 1950. Dit zijn de jaren waarvoor geen correctie van opzet wordt uigevoerd, omdat hiervoor geen GTSM berekeningen beschikbaar zijn. 
 
 
 ## Sea level rise
@@ -237,7 +242,7 @@ all_predictions <- makePredictionTable(models, lookup)
 
 
 
-```{r plotdatauitvoer}
+```{r plotdatauitvoer, include=FALSE}
 
 uitvoer_df <- all_predictions %>% 
   mutate(
@@ -253,25 +258,29 @@ uitvoer_df <- all_predictions %>%
      `fit`= `preds_height (-nodal -surge anomaly)`
   ) 
 
-write_csv(uitvoer_df, file = "../../results/plotdata2024.csv")
+# write_csv(uitvoer_df, file = "../../results/plotdata2024.csv")
 
 
-p = plot_station_website(
-    stationi = params$station,
-    predictions_all = all_predictions %>% 
-      filter(station == params$station) %>%
-      filter(modeltype == params$modeltype), 
-    correctionVariant = params$wind_or_surge_type, 
-    modelVariant = params$modeltype, 
-    printNumbers = F,
-    plotVline = F,
-    startyear = 1890)
-
-p
-
-ggsave(paste0("../../results/sl_web_", params$station, params$modeltype, ".png"), width = 8, height = 5)
+```
 
 
+
+
+```{r, eval=TRUE}
+# check origin of function
+p <- plot_station(
+  stationi = params$station,
+  predictions_all = all_predictions %>% 
+    filter(station == params$station) %>%
+    filter(modeltype == params$modeltype), 
+  correctionVariant = params$wind_or_surge_type, 
+  modelVariant = params$modeltype, 
+  printNumbers = F, 
+  datayear = 2024
+)
+
+  ggplotly(p) %>% layout(legend = list(x = 0.05, y = 0.95))
+  # p
 ```
 
 
@@ -279,38 +288,25 @@ ggsave(paste0("../../results/sl_web_", params$station, params$modeltype, ".png")
 
 p <- plot_station(
   stationi = params$station,
-    predictions_all = all_predictions %>% 
-      filter(station == params$station) %>%
-      filter(modeltype == params$modeltype), 
-    correctionVariant = params$wind_or_surge_type, 
-    modelVariant = params$modeltype, 
-    printNumbers = F)
+  predictions_all = all_predictions %>% 
+    filter(station == params$station) %>%
+    filter(modeltype == params$modeltype), 
+  correctionVariant = params$wind_or_surge_type, 
+  modelVariant = params$modeltype, 
+  printNumbers = T,
+  plotVline = F,
+  startyear = 2010,
+  datayear = 2024)
 
-  ggplotly(p) %>% layout(legend = list(x = 0.05, y = 0.95))
-  # p
-```
-
-
-```{r, eval=TRUE}
-
-p <- plot_station( 
-  stationi = params$station,
-    predictions_all = all_predictions %>% 
-      filter(station == params$station) %>%
-      filter(modeltype == params$modeltype), 
-    correctionVariant = params$wind_or_surge_type, 
-    modelVariant = params$modeltype, 
-    printNumbers = T,
-    plotVline = F,
-    startyear = 2010)
-
-  ggplotly(p) %>% layout(legend = list(x = 0.05, y = 0.95))
-  # p
+  # ggplotly(p) %>% layout(legend = list(x = 0.05, y = 0.95))
+  p
 ```
 
 
 ```{r, include=T}
-p = plot_station_website(
+
+if(params$modeltype == "broken_linear"){
+p = plot_station_website_broken_linear(
     stationi = params$station,
     predictions_all = all_predictions %>% 
       filter(station == params$station) %>%
@@ -320,10 +316,24 @@ p = plot_station_website(
     printNumbers = F,
     plotVline = F,
     startyear = 1890)
+}
+
+if(params$modeltype == "broken_squared"){
+p = plot_station_website_broken_squared(
+    stationi = params$station,
+    predictions_all = all_predictions %>% 
+      filter(station == params$station) %>%
+      filter(modeltype == params$modeltype), 
+    correctionVariant = params$wind_or_surge_type, 
+    modelVariant = params$modeltype, 
+    printNumbers = F,
+    plotVline = F,
+    startyear = 1890)
+}
 
 p
 
-ggsave(paste0("../../results/sl_web_", params$station, params$modeltype, ".png"), width = 8, height = 5)
+# ggsave(paste0("../../results/sl_web_", params$station, params$modeltype, ".png"), width = 8, height = 5)
 
 ```
 
@@ -335,6 +345,8 @@ ggsave(paste0("../../results/sl_web_", params$station, params$modeltype, ".png")
 For the preferred station `r params$station` and model `r params$modeltype`, the following set of parameters have been found.  
 
 ```{r}
+
+caption_text <- paste("Coefficients for the preferred model(", params$modeltype, ") and the composite station ", params$station)
 
 library(DT)
 
@@ -362,18 +374,41 @@ parameterTable <- models %>%
     p.value
   )
 
-# DT::datatable(parameterTable, caption = "Parameters en standaardfouten voor het voorkeursmodel en -station.",
-#   options = list(
-#       "digits" = 2
-#     )
-#   )
-
   kableExtra::kable(
     parameterTable,
-    caption = "Coefficients for all models and stations.",digits = 2
+    caption = caption_text, 
+    digits = 2
     )
 
 ```
+
+
+```{r}
+# internal check
+# extra ZSM after 1960
+
+square_term <- parameterTable[parameterTable$short_term == "+ square_trend 1960",]$estimate
+Trend <- parameterTable[parameterTable$short_term == "Trend",]$estimate
+
+Totaltrend_from_parameters = Trend + square_term * 2 * (2024 - 1960)
+
+# numerically fromm preidctions table
+Totaltrend_from_predictions <- all_predictions %>% 
+  mutate(ZSM = prediction_recalc - lag(prediction_recalc, n = 1, order_by = data_year)) %>% 
+  select(ZSM) %>% 
+  tail(1) %>%
+  unlist() %>% 
+  unname()
+
+print(
+  c(Totaltrend_from_parameters,  Totaltrend_from_predictions)
+)
+  
+```
+
+
+
+
 
 ```{r, results='asis'}
 
@@ -407,6 +442,46 @@ if(params$modeltype == "broken_linear"){
   )
 }
 
+if(params$modeltype == "broken_squared"){
+  
+  Trend = round(
+    parameterTable$estimate[parameterTable$short_term == "Trend"], 
+    1
+  )
+  
+  `+trend_current` = round(
+    parameterTable[parameterTable$short_term == "+ square_trend 1960",]$estimate * 2 * (params$monitoryear-1 - 1960),
+    1
+  )
+  
+  SE_trend = round(
+    parameterTable$st.err.HAC[parameterTable$short_term == "Trend"], 
+    1
+  )
+  
+  `SE_+trend_current` = round(
+    parameterTable$st.err.HAC[parameterTable$short_term == "+ square_trend 1960"] / 
+      parameterTable[parameterTable$short_term == "+ square_trend 1960",]$estimate *
+      parameterTable[parameterTable$short_term == "+ square_trend 1960",]$estimate * 2 * (params$monitoryear-1 - 1960), 
+    1
+  )
+  
+  
+  trend_message = cat(
+    
+    "## Uitspraken over de zeespiegel trend",
+    
+    paste("De lineaire trend tot 1960 bedroeg", 
+          Trend, " +/- ", SE_trend, "mm/jaar."),
+    paste("De extra trend na 1960 is stijgende en bedroeg in het jaar ", params$monitoryear - 1, 
+         `+trend_current`, " +/- ", `SE_+trend_current`, "mm/jaar."),
+    paste("Na 1960 is de totale trend ook stijgende en bedroeg in het jaar ", config$runparameters$monitoryear - 1, 
+          Trend + `+trend_current`, " +/- ", SE_trend + `SE_+trend_current`, "mm/jaar."),
+    sep = "\n\n"
+  )
+}
+
+
 
 ```
 
@@ -431,4 +506,7 @@ if(params$modeltype == "broken_linear"){
 | Netherlands (without Delfzijl) | -39.3 |	1.8 |	0.1 |	2.9 |	0.4 |
 
 
+```{r}
+
+```
 

@@ -11,9 +11,10 @@ output:
   pdf_document: default
 always_allow_html: true
 params:
-  monitoryear: 2024
+  monitoryear: 2025
   startyear: 1890
   wind_or_surge_type: GTSM
+  overwrite: FALSE
   station:
   - Delfzijl
   - Harlingen
@@ -91,197 +92,19 @@ data.frame(
 
 
 
-```{r readPreviousYearData, comment=F, message=F, echo = F}
 
-previous_df <- readSeaLevelData(file.path("../../data/deltares/results/dutch-sea-level-monitor-export-stations-2023-11-20.csv")) %>%
-  filter(station %in% params$station)
+## Get latest data from file
 
-```
-
-
-## Get data from PSMSL
-
-Annual average sea level data for the Dutch main stations is downloaded from the [Permanent Service for Mean Sea Level site](http://www.psmsl.org) and combined with the Global Tide and Surge Model (GTSM) annual average surge values. In case PSMSL data is not available for the most recent year (`r params$monitoryear`-1)
+In an other script, annual average sea level data for the Dutch main stations is downloaded from the [Permanent Service for Mean Sea Level site](http://www.psmsl.org) and combined with the Global Tide and Surge Model (GTSM) annual average surge values. 
 
 ```{r}
-# Get data from PSMSL data service
-rlr_df <- read_yearly_psmsl_csv(mainstations_df$psmsl_id, filepath = "../../") 
+
+current_df <-   read_csv2("../../data/deltares/results/dutch-sea-level-monitor-export-stations-latest.csv") %>%
+  filter(year >= params$startyear)
 
 ```
 
 In this analysis, measurements over the period `r params$startyear` to `r params$monitoryear - 1` are considered.
-
-```{r, results='asis'}
-
-if(params$monitoryear-1 == max(rlr_df$year)){
-  cat("Mean annual sea level downloaded from PSMSL are availabale up to ", max(rlr_df$year), ", the time series is up to date. ")
-} else {
-  cat("Mean annual sea level downloaded from PSMSL are only available up to ", max(rlr_df$year), " and thus incomplete for the current analysis. In order to do a preliminary analysis, measurements from Rijkswatersataat Data Distribution Layer will be used for missing year(s). ")
-}
-
-```
-
-```{r checkdata}
-
-# Check if PSMSL is up to date for analysis year
-
-if(max(rlr_df$year) == params$monitoryear-1){
-  refreshed_df <- rlr_df
-  print("PSMSL time series is up-to-date and is used for analysis")
-} else {
-  print("The PSMSL time series is not complete. An attempt is made to complete the data using RWS DDL.")
-  if(max(rlr_df$year) == params$monitoryear-2){ # robuuster maken. nu alleen check voor een ontbrekend jaar.
-    # Check if ddl data from required year exist
-    required_file <- file.path("../../data/rijkswaterstaat/ddl/annual_means/", paste0(params$monitoryear-1, ".csv"))
-    
-    if(file.exists(required_file)){
-      ddl_datayear <- read_csv2(required_file) %>%
-        filter(
-          station %in% mainstations_df$name
-        )
-      
-    } else{
-      cat("DDL data for year", params$monitoryear-1, "is not available", sep = " ")
-    }
-  }
-}
-
-```
-
-```{r getGTSM}
-
-# Get GTSM data from local file
-gtsm <- read_yearly_gtsm(filename = "../../data/deltares/gtsm/gtsm_surge_annual_mean_main_stations.csv") |>
-  mutate(year = year(ymd(t)))
-
-```
-
-
-```{r combineData}
-
-# convert rlr tot nap2005
-    refreshed_df <- rlr_df |> 
-      mutate(
-        height = rlr_height_mm - as.numeric(`nap-rlr`),
-      ) |> 
-      rename(station = name)
-
-# check if psmsl data need to be completed with ddl data
-    try(
-      if(
-        exists("ddl_datayear") & 
-        !unique(ddl_datayear$year) %in% unique(refreshed_df$year)
-      ){
-        refreshed_df <- refreshed_df |> bind_rows(ddl_datayear)
-      },
-      silent = T
-    )
-
-    refreshed_df <- refreshed_df |>
-      left_join(gtsm, by = c(station = "name", year = "year")) |>
-      mutate(
-        surge_anomaly = case_when(
-          year >= 1950 ~ (1000 * surge - mean(1000 * surge, na.rm = T)), # meters to millimeters
-          year < 1950 ~ 0
-        )
-      ) |>
-      select(
-        year,
-        height,
-        station,
-        surge_anomaly
-      ) %>%
-      bind_rows(
-        . |>
-          group_by(year) |>
-          summarise(
-            height = mean(height, na.rm = T),
-            surge_anomaly = mean(surge_anomaly, na.rm = T)
-          ) |>
-          mutate(
-            station = "Netherlands"
-          )
-      ) %>%
-      bind_rows(
-        . |>
-          filter(station %in% c("Vlissingen", "Hoek van Holland", "Den Helder", "Harlingen", "IJmuiden")) |>
-          group_by(year) |>
-          summarise(
-            height = mean(height, na.rm = T),
-            surge_anomaly = mean(surge_anomaly, na.rm = T)
-          ) |>
-          mutate(
-            station = "Netherlands (without Delfzijl)"
-          )
-      ) |>
-      addBreakPoints() %T>%
-      write_csv2("../../data/deltares/results/dutch-sea-level-monitor-export-stations-latest.csv") %>%
-      filter(year >= params$startyear)
-    
-```
-
-
-
-### Compare with previous years analysis data 
-
-```{r vergelijk-oud-en-nieuw, fig.cap = "Comparison of measured sea level with previous year."}
-
-# previous year did not include gtsm for year 1950.
-# Therefore comparison of surge is done for years > 1950
-
-# range(df$surge_anomaly)
-# range(refreshed_df$surge_anomaly, na.rm = T)
-
-refreshed_df_filter <- refreshed_df %>% filter(year > 1950 & year < 2023)
-
-ggplot() +
-  geom_point(
-    data = previous_df, 
-    aes(x = year, y = height),
-    shape = "+"
-  ) +
-  geom_point(
-    data = refreshed_df, 
-    aes(x = year, y = height), 
-    color = "blue", 
-    shape = 21, 
-    fill = "transparent",
-    size = 1
-  ) +
-  facet_wrap(c("station"), ncol = 3)
-```
-
-
-```{r compare-gtsm, fig.cap="Comparison of GTSM surge anomaly with previous year. "}
-
-# previous year did not include gtsm for year 1950.
-# Therefore comparison of surge is done for years > 1950
-
-# range(df$surge_anomaly)
-# range(refreshed_df$surge_anomaly, na.rm = T)
-
-refreshed_df_filter <- refreshed_df %>% filter(year > 1950 & year < 2023)
-
-ggplot() +
-  geom_point(
-    data = previous_df, 
-    aes(x = year, y = surge_anomaly, color = as.character(params$monitoryear-1))
-    ) +
-  geom_point(
-    data = refreshed_df, 
-    aes(x = year, y = surge_anomaly, color = as.character(params$monitoryear)), 
-    shape = 21, 
-    fill = "transparent",
-    size = 1
-    ) +
-  facet_wrap(c("station"), ncol = 3) +
-  coord_cartesian(xlim = c(1950, params$monitoryear)) +
-  labs(color = "monitor year")
-
-```
-
-The difference between the gtsm surge anomalies between the years is caused by the addition of two additional years, 1950 and 2023. The mean surge for some stations has changed due to this addition, causing the surge anomaly to move up or down. This has no consequences for the determination of the sea level trend, but it has effect on the corrected sea level. 
-
 
 ## Locations of the main stations
 
@@ -291,7 +114,7 @@ Additionally, to calculate the average sea level and sea level trend along the D
 
 ```{r selected-stations, fig.cap="Hoofdgetijstations in Nederland. Er is aangegeven welke stations zijn meegenomen in dit rekendocument. "}
 
-map_stations(df = refreshed_df, mainstations_df = mainstations_df, mainstations_locs = mainstations_locs)
+map_stations(df = current_df, mainstations_df = mainstations_df, mainstations_locs = mainstations_locs)
 
 ```
 
@@ -299,12 +122,30 @@ map_stations(df = refreshed_df, mainstations_df = mainstations_df, mainstations_
 
 In this section we look at sea level measurements. The global collection of tide gauge records at the PSMSL was used to access the data. There are two types of datasets the "Revised Local Reference" and "Metric". For the Netherlands the difference is that the "Revised Local Reference" undoes the corrections from the NAP correction in 2005, to get a consistent dataset. Here we transform the RLR back to NAP (without undoing the correction).
 
-The rlrnap computes the rlr back to latest NAP (ignoring the undoing of the NAP correction) the alpha paramater is the dominant wind direction for the stations, based on de Ronde 2013. Id's are the station ids in the PSMSL dataset. They may change from year to year as the PSMSL 0 point is arbitary. You can lookup the relevant parameters in the schematic diagram like this [LRL diagram for station Vlissingen](https://www.psmsl.org/data/obtaining/rlr.diagrams/20.php)
+The rlrnap computes the rlr back to latest NAP (ignoring the undoing of the NAP correction). Id's are the station ids in the PSMSL dataset. They may change from year to year as the PSMSL 0 point is arbitary. You can lookup the relevant parameters in the schematic diagram like this [LRL diagram for station Vlissingen](https://www.psmsl.org/data/obtaining/rlr.diagrams/20.php)
 
 
 ```{r}
-knitr::kable(mainstations_df[,c('name', 'psmsl_id', 'msl-rlr', 'msl-nap', 'nap-rlr')], caption = "PSMSL inforamtion on the six mains tide gauge stations in the Netherlands.")
+knitr::kable(mainstations_df[,c('name', 'psmsl_id', 'msl-rlr', 'msl-nap', 'nap-rlr')], caption = "PSMSL information on the six mains tide gauge stations in the Netherlands.")
 ```
+
+Sea level data for all six main station are shown below in an interactive plot.
+
+```{r zeespiegelmetingen, fig.width=8, fig.height=8, fig.cap="De gemiddelde jaarlijkse zeespiegel voor de zes hoofdstations langs de Nederlandse kust."}
+
+p <- current_df %>%
+  dplyr::filter(!grepl("Netherlands", station)) %>%
+ggplot(aes(year, height)) +
+  geom_point(alpha = 1, aes(color = station), shape = 21, fill = "white", size = 1) +
+  geom_line(alpha = 0.5, aes(color = station), linewidth = 0.5) +
+  xlab("jaar") + ylab("gemeten zeespiegel in mm") +
+  theme_light() +
+  theme(legend.position = "bottom")
+
+ggplotly(p) %>% layout(legend = list(x = 0.05, y = 0.95))
+
+```
+
 
 Sea level measurements for the six main stations (yearly average) are shown in figure \@ref(fig:zeespiegelmetingen) as deviations from the mean for each year. This way, the characteristic patterns of the stations are easier to see. 
 
@@ -313,20 +154,10 @@ A few things become clear
 - Harlingen show a negative trend as compared to the average of the stations from roughly 1930 to 1990. There is a sudden "bump" around 1970. 
 - IJmuiden shows strong fluctuations in the first decades of the series. in 2018, the signal drops a few cm. 
 
-```{r zeespiegelmetingen, fig.width=8, fig.height=8, fig.cap="Afwijking van het gemiddelde voor elk jaar voor de zes hoofdstations langs de Nederlandse kust."}
 
-# p <- refreshed_df %>%
-#   dplyr::filter(!grepl("Netherlands", station)) %>%
-# ggplot(aes(year, height)) +
-#   geom_point(alpha = 1, aes(color = station), shape = 21, fill = "white", size = 1) +
-#   geom_line(alpha = 0.5, aes(color = station), linewidth = 0.5) +
-#   xlab("jaar") + ylab("gemeten zeespiegel in mm") +
-#   theme_light() +
-#   theme(legend.position = "bottom")
-# 
-# ggplotly(p) %>% layout(legend = list(x = 0.05, y = 0.95))
+```{r zeespiegelanomalieen, fig.width=8, fig.height=8, fig.cap="Afwijking van het gemiddelde voor elk jaar voor de zes hoofdstations langs de Nederlandse kust."}
 
-refreshed_df %>%
+current_df %>%
   dplyr::filter(!grepl("Netherlands", station)) %>%
   group_by(year) %>%
   mutate(mean = mean(height)) %>% ungroup() %>%
@@ -341,7 +172,7 @@ refreshed_df %>%
 ```
 
 ```{r zeespiegelmetingenGemiddeld, fig.width=8, fig.height=5, fig.cap="Jaarlijks gemiddelde zeespiegel voor gemiddelde van stations langs de Nederlandse kust."}
-p <- refreshed_df %>%
+p <- current_df %>%
   dplyr::filter(grepl("Netherlands", station)) %>%
 ggplot(aes(year, height)) +
   geom_point(alpha = 1, aes(color = station), shape = 21, fill = "white", size = 1) +
@@ -361,8 +192,7 @@ The 5 years with highest sea levels are shown in table \@ref(tab:highest5years).
 
 ```{r highest5years}
 
-refreshed_df %>%
-  filter(year >= 1900) %>%
+current_df %>%
   dplyr::filter(station == "Netherlands (without Delfzijl)") %>%
   dplyr::arrange(-height) %>%
   dplyr::select(year, station, height_mm = height) %>%
@@ -379,7 +209,7 @@ The expected storm surge per year is determined using output of the Global Tide 
 
 ```{r gtsm-surge-anomalie, fig.width=8, fig.height=5, fig.cap="Modelled surge anomaly (deviation of storm surge from long year avearge). The yearly averages surge is calculated for 1950 - now. For earlier years, an average surge is assumed." }
 
-p <- refreshed_df %>%
+p <- current_df %>%
   # filter(!grepl("Netherlands", station)) %>%
   # filter(station == "IJmuiden") %>%
 ggplot(aes(year, surge_anomaly)) +
@@ -390,8 +220,8 @@ ggplot(aes(year, surge_anomaly)) +
   theme(legend.position = "bottom") +
   coord_cartesian(xlim = c(1945, params$monitoryear))
 
-# ggplotly(p) %>% layout(legend = list(x = 0.05, y = 0.95))
-p
+ggplotly(p) # %>% layout(legend = list(x = 0.05, y = 0.95))
+# p
 ```
 
 
@@ -408,7 +238,8 @@ The trend is calculated for all stations individually, for the mean of all stati
 In the regression equation, nodal tide is one of the components and is estimated as a sinusoid curve with a period of 18.6 years. 
 
 ```{r nest-per-station}
-byStation <- refreshed_df %>%
+byStation <- current_df %>%
+  filter(year > params$startyear) %>%
   dplyr::group_by(station) %>%
   tidyr::nest() %>%
   dplyr::ungroup()
@@ -460,7 +291,7 @@ knitr::kable(eq, escape = F)
 
 Autocorrelation with previous year(s) can sometimes explain part of the otherwise unexplained variance. Especially when a trend is detected in the data, autocorrelation with relatively short lags (1 or few years) often occurs. In case of autocorrelation, we recalculate standard errors of the estimated parameters accordingly.
 
-```{r acf-plot, fig.height=nstations*2+1, fig.width=nmodels*3+1, fig.cap="Autocorrelation plot for selected stations and models. "}
+```{r acf-plot, fig.height=nstations*1.5+1, fig.width=nmodels*3+1, fig.cap="Autocorrelation plot for selected stations and models. "}
 
 plot_ACF(models)
 
@@ -487,7 +318,7 @@ models <- addHACterms(models)
 
 The distribution of residuals resembles a normal distribution for most stations and model variants. Station Harlingen is an example where the distribution is out of centre when using the linear model. The width of the residuals distribution is narrower when measurements are corrected for surge prior to application of the models.
 
-```{r, fig.height=nstations*1.5+1, fig.width=nmodels*2+1, out.width="100%"}
+```{r, fig.height=nstations*1.5+1, fig.width=nmodels*3+1, out.width="100%"}
 
 
 plotResidualDistribution(models)
@@ -499,12 +330,13 @@ plotResidualDistribution(models)
 
 Distribution of residuals should not reveal a clear deviation from a horizontal line.
 
-```{r, fig.height=nstations*1.5+1, fig.width=nmodels*2+1}
+```{r, fig.height=nstations*1.5+1, fig.width=nmodels*3+1}
 models %>%
   unnest(c(data, augment), names_sep = "_") %>%
   ggplot(aes(data_year, augment_.resid)) +
   geom_point(alpha = 0.4) +
-  facet_grid(station ~ modeltype)
+  facet_grid(station ~ modeltype) +
+  theme(strip.text.y = element_text(angle = 0))
 ```
 
 ## Sea level rise
@@ -523,25 +355,26 @@ lookup <- c(
 
 all_predictions <- makePredictionTable(models, lookup)
 
-write_csv(all_predictions, file = paste0("../../results/analysis_output/predictions_", today(), ".csv"))
-
-write_csv(all_predictions, file = "../../results/analysis_output/predictions_latest.csv")
-
+if(params$overwrite){
+  write_csv(all_predictions, file = paste0("../../results/analysis_output/predictions_", today(), ".csv"))
+  write_csv(all_predictions, file = "../../results/analysis_output/predictions_latest.csv")
+}
 ```
 
-```{r prediction-plot, eval=F, fig.height=nstations*2+1, fig.width=nmodels*2+1, fig.cap= "Observed and predicted sea level for selected stations and models. "}
+```{r prediction-plot, eval=T, fig.height=nstations*1.3+1, fig.width=nmodels*3+1, fig.cap= "Observed and predicted sea level for selected stations and models. "}
 
 ggplot(
   all_predictions,
   aes(x = data_year)
 ) +
-  geom_point(aes(y = data_height), alpha = 0.15) +
-  geom_line(aes(y = prediction_recalc)) +
-  facet_grid(station ~ modeltype)
+  geom_point(aes(y = data_height, color = "observed"), alpha = 0.5, size = 1) +
+  geom_line(aes(y = prediction_recalc, color = "predicted"), linewidth = 1) +
+  facet_grid(station ~ modeltype) +
+  theme(strip.text.y = element_text(angle = 0))
 
 ```
 
-```{r, eval=TRUE, fig.height=nstations*2+2, fig.width=nmodels*2+2}
+```{r, eval=FALSE, fig.height=nstations*2+2, fig.width=nmodels*2+2}
 
   p <- plot_station( 
     predictions_all = all_predictions,
@@ -567,29 +400,6 @@ ggplot(
 ```
 
 
-### individual stations
-
-```{r, eval=TRUE, fig.height=10, fig.width=10}
-
-  p <- plot_station_website(
-    predictions_all = all_predictions,
-    stationi = unique(all_predictions$station)[!grepl("Netherlands", unique(all_predictions$station))],
-    correctionVariant = "GTSM", 
-    modelVariant = "broken_linear", 
-    printNumbers = F, 
-    startyear = 1890
-  ) +
-  facet_wrap("station", ncol = 3) +
-  theme(
-    legend.position = "bottom",
-    legend.title = element_blank()
-  ) +
-  theme(strip.text.y = element_text(angle = 90)) 
-
-  
-  # ggplotly(p) %>% layout(legend = list(x = 0.05, y = 0.95))
-  p
-```
 
 ## Parameters
 
@@ -625,10 +435,10 @@ parametertable <- models %>%
 #     )
 #   )
 
-write_csv(parametertable, file = paste0("../../results/analysis_output/parameters_", today(), ".csv"))
-
-write_csv(parametertable, file = "../../results/analysis_output/parameters_latest.csv")
-
+if(params$overwrite){
+  write_csv(parametertable, file = paste0("../../results/analysis_output/parameters_", today(), ".csv"))
+  write_csv(parametertable, file = "../../results/analysis_output/parameters_latest.csv")
+}
   kableExtra::kable(parametertable,
     caption = "Coefficients for all models and stations.",digits = 2
     ) %>%
@@ -644,11 +454,11 @@ write_csv(parametertable, file = "../../results/analysis_output/parameters_lates
 acc_broken_linear <- parametertable %>%
   filter(modeltype == "broken_linear") %>%
   filter(term == "+ trend 1993") %>%
-  select(station, p.value )
+  select(station, estimate, p.value )
 knitr::kable(acc_broken_linear, caption = "p-values for the acceleration term in the broken linear model for all stations. ")
 ```
 
-For the broken linear model, there is a significant acceleration starting in the year 1993 when fitting the average sea level combined for all stations without Delfzijl. For individual stations, the acceleration is not significant for the stations Vlissingen, Hoek van Holland and IJmuiden.
+For the broken linear model, there is a significant acceleration starting in the year 1993 when fitting the average sea level combined for all stations without Delfzijl. For individual stations, the acceleration is not significant for the station IJmuiden.
 
 ```{r}
 acc_broken_squared <- parametertable %>%
@@ -658,28 +468,42 @@ acc_broken_squared <- parametertable %>%
 knitr::kable(acc_broken_squared, caption = "p-vallues for the acceleration term in the broken squared model for all stations. ")
 ```
 
-For the broken squared model, there is a significant acceleration starting in the year 1960 when fitting the average sea level combined for all stations without Delfzijl. For individual stations, the acceleration is not significant for the stations Vlissingen, Hoek van Holland and IJmuiden.
+For the broken squared model, there is a significant acceleration starting in the year 1960 when fitting the average sea level combined for all stations without Delfzijl. For individual stations, the acceleration is not significant for the stations Vlissingen and IJmuiden.
 
 ### Which model has the lowest Akaike Information Criterion (AIC)?
 
 Of the two models with an acceleration term, the model with lowest AIC is the preferred model.
 
 ```{r}
-models %>%
-  # filter(station == "Netherlands (without Delfzijl)") |>
+colors <- c(lowest = "orange")
+
+AIC_df <- models %>%
   mutate(station = as.character(station)) %>%
   select(station, modeltype, AIC) %>%
-  # unite(`modeltype x station`, modeltype, station) %>%
   arrange(-AIC) %>% 
   mutate(modeltype = factor(modeltype, levels=config$runparameters$modeltype)) %>%
   mutate(station = factor(station, levels=config$runparameters$station)) %>%
-  ggplot(aes(x = modeltype, y = AIC)) +
-  geom_point(size = 3, shape = "|") +
+  group_by(station) %>%
+  mutate(AIC_score = ifelse(AIC == min(AIC), "lowest", ""))
+
+AIC_df %>%
+  ggplot(aes(x = modeltype, y = AIC, color = AIC_score)) +
+  geom_point(size = 6, shape = "|") +
   coord_flip() +
+  scale_color_manual(values = colors) +
   facet_wrap("station")
 ```
 
-For the combined stations Netherlands and Netherlands (without Delfzijl), the non-linear model has the lowest AIC, and is therefore the first candidate for the preferred model. In the next section, it is tested whether the non-linear model explains the observed variation significantly better than the simplest model, the linear model.
+!!!!!! Automate and change
+
+```{r}
+
+linModStations <- AIC_df %>% filter(AIC_score == "lowest") %>% arrange(modeltype) %>% select(station, `lowest AIC model` = modeltype)
+
+```
+
+
+For the combined stations Netherlands and Netherlands (without Delfzijl), the broken-linear model has the lowest AIC, and is therefore the first candidate for the preferred model. In the next section, it is tested whether the broken-linear model explains the observed variation significantly better than the simplest model, the linear model.
 
 For stations Den Helder and Hoek van Holland, the broken squared model is the model with lowest AIC.
 

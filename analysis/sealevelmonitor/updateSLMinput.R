@@ -27,7 +27,7 @@ rlr_df <- read_yearly_psmsl_csv(mainstations_df$psmsl_id, filepath = "")
 rlr_df <- rlr_df %>% 
   mutate(
     source = "psmsl",
-    ophaaldatum = today()
+    fetch_date = today()
   )
 
 # compare years.. 
@@ -36,7 +36,7 @@ range(current_df[current_df$source == "psmsl",]$year)
 range(rlr_df$year)
 
 if(config_flat$runparameters_monitoryear - 1 == max(rlr_df$year)){
-  cat("Mean annual sea level downloaded from PSMSL are availabale up to ", max(rlr_df$year), ", the time series is up to date. ")
+  cat("Mean annual sea level downloaded from PSMSL are availabale up to ", max(rlr_df$year), ", the PSMSL time series is up to date. ")
 } else {
   cat("Mean annual sea level downloaded from PSMSL are only available up to ", max(rlr_df$year), " and thus incomplete for the current analysis. In order to do a preliminary analysis, measurements from Rijkswatersataat Data Distribution Layer will be used for missing year(s). ")
 }
@@ -68,7 +68,7 @@ if(max(rlr_df$year) == config$runparameters$monitoryear-1){
 
 
 # Get GTSM data from local file
-gtsm <- read_yearly_gtsm(filename = "../../data/deltares/gtsm/gtsm_surge_annual_mean_main_stations.csv") |>
+gtsm <- read_yearly_gtsm(filename = "data/deltares/gtsm/gtsm_surge_annual_mean_main_stations.csv") |>
   mutate(year = year(ymd(t)))
 
 # convert rlr tot nap2005
@@ -77,6 +77,20 @@ refreshed_df <- rlr_df |>
     height = rlr_height_mm - as.numeric(`nap-rlr`),
   ) |> 
   rename(station = name)
+
+# check current heights with previous heights
+
+refreshed_df %>%
+  select(year, station, height_psmsl = height) %>%
+  full_join(
+    current_df %>%
+      select(year, station, height_ddl = height), 
+    by = c(year = "year", station = "station")
+  ) %>% 
+  mutate(verschil_met_vorig = height_psmsl - height_ddl) %>%
+  View()
+
+# small changes with respect to the temporary data from DDL
 
 # check if psmsl data need to be completed with ddl data
 try(
@@ -89,7 +103,7 @@ try(
   silent = T
 )
 
-refreshed_df <- refreshed_df |>
+refreshed_df_with_surge <- refreshed_df |>
   left_join(gtsm, by = c(station = "name", year = "year")) |>
   mutate(
     surge_anomaly = case_when(
@@ -101,7 +115,8 @@ refreshed_df <- refreshed_df |>
     year,
     height,
     station,
-    surge_anomaly
+    surge_anomaly,
+    surge_m = surge
   ) %>%
   bind_rows(
     . |>
@@ -127,6 +142,6 @@ refreshed_df <- refreshed_df |>
       )
   ) |>
   addBreakPoints() %T>%
-  # write_csv2("../../data/deltares/results/dutch-sea-level-monitor-export-stations-latest.csv") %>%
-  filter(year >= params$startyear)
+  write_csv2("data/deltares/results/dutch-sea-level-monitor-export-stations-latest.csv") %T>%
+  write_delim(paste0("data/deltares/results/dutch-sea-level-monitor-export-stations-", today(), ".csv"), delim = ";")
 

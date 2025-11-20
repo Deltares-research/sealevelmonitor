@@ -56,7 +56,7 @@ readDDLwaterhoogte <- function(station, startyear, endyear, grootheid = "Waterho
   require(tidyverse)
   
   waterhoogteparameters <- c("Waterhoogte berekend", "Waterhoogte", "Waterhoogte astronomisch", "Waterhoogte verwacht")    
-
+  
   # make warning if grootheid is not in list of waterhoogteparameters.  
   
   md <- rwsapi::rws_metadata()
@@ -95,7 +95,7 @@ readDDLwaterhoogte2 <- function(ddlmetadata, startyear, endyear, outDir = "data/
   waterhoogteparameters <- c("Waterhoogte berekend", "Waterhoogte", "Waterhoogte astronomisch", "Waterhoogte verwacht")    
   
   # make warning if grootheid is not in list of waterhoogteparameters.  
-
+  
   for(iyear in startyear:endyear){
     rwsapi::getDDLdata( 
       startyear = iyear,
@@ -316,7 +316,7 @@ readMainStationInfo <- function(filepath = "") {
     )
     
   ) %>%
-  purrr::map_df(~ unlist(.[1:16]))
+    purrr::map_df(~ unlist(.[1:16]))
 }
 
 readMainStationLocations <- function(path = ""){
@@ -334,7 +334,7 @@ read_gtsm_nc <- function(nc = "c:\\Temp\\era5_reanalysis_surge_2023_v1_monthly_m
   ncf <- RNetCDF::open.nc(nc)
   
   data <- RNetCDF::read.nc(ncf)
-
+  
   stations <- tibble::tibble(
     gtsmid = data$stations, 
     stationname = data$station_name,
@@ -358,70 +358,70 @@ read_yearly_gtsm <- function(filename = "data/deltares/gtsm/gtsm_surge_annual_me
   gtsm_surge_annual_mean_main_stations_2024 <- read.csv(filename, comment = "#")
   
 }
+
+read_yearly_psmsl_csv  <- function(station_nr, mainstations.df = NULL, filepath){
   
-  read_yearly_psmsl_csv  <- function(station_nr, mainstations.df = NULL, filepath){
-    
-    base_rlr_url = "https://psmsl.org/data/obtaining/rlr.annual.data/"
-    base_rlr_ext = ".rlrdata"
-    
-    rlr_df <- lapply(station_nr, 
-                     function(x) {
-                       read_delim(
-                         file = paste0(base_rlr_url, x, base_rlr_ext), 
-                         col_names = c("year", "rlr_height_mm", "interpolated", "flag"),
-                         col_types = c("nncc"),
-                         na = "-99999",
-                         delim = ";"
-                       ) |>
-                         mutate(psmsl_id = as.character(x))
-                     }
-    ) |>
-      bind_rows()
-    
-    if(!is.null(mainstations.df)){
-      mainstationInfo = mainstations.df |>
+  base_rlr_url = "https://psmsl.org/data/obtaining/rlr.annual.data/"
+  base_rlr_ext = ".rlrdata"
+  
+  rlr_df <- lapply(station_nr, 
+                   function(x) {
+                     read_delim(
+                       file = paste0(base_rlr_url, x, base_rlr_ext), 
+                       col_names = c("year", "rlr_height_mm", "interpolated", "flag"),
+                       col_types = c("nncc"),
+                       na = "-99999",
+                       delim = ";"
+                     ) |>
+                       mutate(psmsl_id = as.character(x))
+                   }
+  ) |>
+    bind_rows()
+  
+  if(!is.null(mainstations.df)){
+    mainstationInfo = mainstations.df |>
       select(psmsl_id, name, `nap-rlr`, gtsm_id)
-    } else{
-      mainStationInfo <- readMainStationInfo(filepath) |>
-        select(psmsl_id, name, `nap-rlr`, gtsm_id)
-    }
-    
-    rlr_df <- rlr_df %>% left_join(mainStationInfo, by = c(psmsl_id = "psmsl_id"))
-    
-    return(rlr_df)
-        
+  } else{
+    mainStationInfo <- readMainStationInfo(filepath) |>
+      select(psmsl_id, name, `nap-rlr`, gtsm_id)
   }
   
+  rlr_df <- rlr_df %>% left_join(mainStationInfo, by = c(psmsl_id = "psmsl_id"))
+  
+  return(rlr_df)
+  
+}
 
-  
-  
-  # hieronder is nog niet helemaal af, zie yearly psmsl function
-  read_monthly_psmsl_csv  <- function(station_nr){
-    
-    base_rlr_url = "https://psmsl.org/data/obtaining/rlr.monthly.data/"
-    base_rlr_ext = ".rlrdata"
 
-    rlr_df <- lapply(station_nr,
-                     function(x) {
-                       rlr_df <- read_delim(
-                         file = paste0(base_rlr_url, x, base_rlr_ext), 
-                         col_names = c("decimal_year", "rlr_height_mm", "interpolated", "flag"),
-                         col_types = "niic",
-                         delim = ";",
-                         trim_ws = T, 
-                         locale = locale(decimal_mark = "."
-                         )
-                       ) |>
-                         mutate(psmsl_id = as.character(x))
-                     }
-    ) |>
-      bind_rows()
-    
-    
-    return(rlr_df)
-    
-  }
+
+
+# hieronder is nog niet helemaal af, zie yearly psmsl function
+read_monthly_psmsl_csv  <- function(station_nr){
   
+  base_rlr_url = "https://psmsl.org/data/obtaining/rlr.monthly.data/"
+  base_rlr_ext = ".rlrdata"
+  
+  rlr_df <- lapply(station_nr,
+                   function(x) {
+                     rlr_df <- read_delim(
+                       file = paste0(base_rlr_url, x, base_rlr_ext), 
+                       col_names = c("decimal_year", "rlr_height_mm", "interpolated", "flag"),
+                       col_types = "niic",
+                       delim = ";",
+                       trim_ws = T, 
+                       locale = locale(decimal_mark = "."
+                       )
+                     ) |>
+                       mutate(psmsl_id = as.character(x))
+                   }
+  ) |>
+    bind_rows()
+  
+  
+  return(rlr_df)
+  
+}
+
 
 
 read_tidal_components_csv <- function(files = NA, filesdir = "https://watersysteemdata.deltares.nl/thredds/fileServer/watersysteemdata/Wadden/ddl/calculated/TA_filtersurge") {
@@ -442,8 +442,8 @@ read_tidal_components_csv <- function(files = NA, filesdir = "https://watersyste
                      grepl("MSL", x) ~ "MSL",
                      !grepl("MSL", x) ~ "NAP"
                    ))
-                 }
-               )
+               }
+  )
   dfs <- dplyr::bind_rows(df)
   
   names <- tibble(name = str_replace(filelistShort, pattern = "_UTC\\+1.csv", replacement = "")) %>%
@@ -460,7 +460,7 @@ read_tidal_components_csv <- function(files = NA, filesdir = "https://watersyste
 #==== NOT TESTED AT THE MOMENT, THIS IS A CONCEPT ==============
 
 use_gtsm <- function(){
-    params$wind_or_surge_type == "GTSM"
+  params$wind_or_surge_type == "GTSM"
 }
 
 
