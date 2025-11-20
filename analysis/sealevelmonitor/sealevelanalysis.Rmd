@@ -1,7 +1,7 @@
 ---
 title: "Zeespiegelmonitor analyse"
 author: "Willem Stolte, Nathalie Dees"
-date: "2024-03-12"
+date: "`r format(Sys.time(), '%d %B, %Y')`"
 output:
   github_document: null
   html_document:
@@ -465,7 +465,7 @@ acc_broken_squared <- parametertable %>%
   filter(modeltype == "broken_squared") %>%
   filter(term == "+ square_trend 1960") %>%
   select(station, p.value )
-knitr::kable(acc_broken_squared, caption = "p-vallues for the acceleration term in the broken squared model for all stations. ")
+knitr::kable(acc_broken_squared, caption = "p-values for the acceleration term in the broken squared model for all stations. ")
 ```
 
 For the broken squared model, there is a significant acceleration starting in the year 1960 when fitting the average sea level combined for all stations without Delfzijl. For individual stations, the acceleration is not significant for the stations Vlissingen and IJmuiden.
@@ -546,7 +546,9 @@ The Anova table for model comparison is shown below.
 
 ```{r, results='asis'}
 
-makePrettyAnovaTable(t, 3)
+# makePrettyAnovaTable(t, 3)
+
+print(t)
 
 ```
 
