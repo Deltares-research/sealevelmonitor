@@ -17,12 +17,15 @@ config <- RcppTOML::parseToml(file.path(configDir, "_common/configuration.TOML")
 config_flat <- list_flatten(config)
 source(file.path(configDir, "_common/functions.R"))
 epoch = config$constants$epoch
-mainstations_df <- readMainStationInfo(filepath = "")
-mainstations_locs <- readMainStationLocations(path = "")
+mainstations_df <- rsealevel::readMainStationInfo(filepath = "")
+mainstations_locs <- rsealevel::readMainStationLocations(path = "")
 
-current_df <-   read_csv2("data/deltares/results/dutch-sea-level-monitor-export-stations-latest.csv")
+current_df <-   read_delim("data/deltares/results/dutch-sea-level-monitor-export-stations-latest.csv", delim = ";")
+# watch out, change to read_delim when possible
 
-rlr_df <- read_yearly_psmsl_csv(mainstations_df$psmsl_id, filepath = "")
+
+rlr_df <- rsealevel::read_yearly_psmsl_csv(mainstations_df$psmsl_id) %>%
+  left_join(mainstations_df, by = c(psmsl_id = "id"))
 
 rlr_df <- rlr_df %>% 
   mutate(
@@ -142,6 +145,6 @@ refreshed_df_with_surge <- refreshed_df |>
       )
   ) |>
   addBreakPoints() %T>%
-  write_csv2("data/deltares/results/dutch-sea-level-monitor-export-stations-latest.csv") %T>%
+  write_delim("data/deltares/results/dutch-sea-level-monitor-export-stations-latest.csv", delim = ";") %T>%
   write_delim(paste0("data/deltares/results/dutch-sea-level-monitor-export-stations-", today(), ".csv"), delim = ";")
 

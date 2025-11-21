@@ -374,45 +374,45 @@ readMainStationLocations <- function(path = ""){
 #   return(df)
 # }
 # 
-# read_yearly_gtsm <- function(filename = "data/deltares/gtsm/gtsm_surge_annual_mean_main_stations_2024.csv") {
-#   
-#   gtsm_surge_annual_mean_main_stations_2024 <- read.csv(filename, comment = "#")
-#   
-# }
+read_yearly_gtsm <- function(filename = "data/deltares/gtsm/gtsm_surge_annual_mean_main_stations_2024.csv") {
 
-# read_yearly_psmsl_csv  <- function(station_nr, mainstations.df = NULL, filepath){
-#   
-#   base_rlr_url = "https://psmsl.org/data/obtaining/rlr.annual.data/"
-#   base_rlr_ext = ".rlrdata"
-#   
-#   rlr_df <- lapply(station_nr, 
-#                    function(x) {
-#                      read_delim(
-#                        file = paste0(base_rlr_url, x, base_rlr_ext), 
-#                        col_names = c("year", "rlr_height_mm", "interpolated", "flag"),
-#                        col_types = c("nncc"),
-#                        na = "-99999",
-#                        delim = ";"
-#                      ) |>
-#                        mutate(psmsl_id = as.character(x))
-#                    }
-#   ) |>
-#     bind_rows()
-#   
-#   if(!is.null(mainstations.df)){
-#     mainstationInfo = mainstations.df |>
-#       select(psmsl_id, name, `nap-rlr`, gtsm_id)
-#   } else{
-#     mainStationInfo <- readMainStationInfo(filepath) |>
-#       select(psmsl_id, name, `nap-rlr`, gtsm_id)
-#   }
-#   
-#   rlr_df <- rlr_df %>% left_join(mainStationInfo, by = c(psmsl_id = "psmsl_id"))
-#   
-#   return(rlr_df)
-#   
-# }
-# 
+  gtsm_surge_annual_mean_main_stations_2024 <- read.csv(filename, comment = "#")
+
+}
+
+read_yearly_psmsl_csv  <- function(station_nr, mainstations.df = NULL, filepath){
+
+  base_rlr_url = "https://psmsl.org/data/obtaining/rlr.annual.data/"
+  base_rlr_ext = ".rlrdata"
+
+  rlr_df <- lapply(station_nr,
+                   function(x) {
+                     read_delim(
+                       file = paste0(base_rlr_url, x, base_rlr_ext),
+                       col_names = c("year", "rlr_height_mm", "interpolated", "flag"),
+                       col_types = c("nncc"),
+                       na = "-99999",
+                       delim = ";"
+                     ) |>
+                       mutate(psmsl_id = as.character(x))
+                   }
+  ) |>
+    bind_rows()
+
+  if(!is.null(mainstations.df)){
+    mainstationInfo = mainstations.df |>
+      select(psmsl_id, name, `nap-rlr`, gtsm_id)
+  } else{
+    mainStationInfo <- readMainStationInfo(filepath) |>
+      select(psmsl_id, name, `nap-rlr`, gtsm_id)
+  }
+
+  rlr_df <- rlr_df %>% left_join(mainStationInfo, by = c(psmsl_id = "psmsl_id"))
+
+  return(rlr_df)
+
+}
+
 # 
 # 
 # 

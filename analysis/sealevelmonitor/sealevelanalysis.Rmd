@@ -3,11 +3,11 @@ title: "Zeespiegelmonitor analyse"
 author: "Willem Stolte, Nathalie Dees"
 date: "`r format(Sys.time(), '%d %B, %Y')`"
 output:
-  github_document: null
   html_document:
     df_print: paged
     code_folding: hide
     outputdir: ../../docs
+  github_document: null
   pdf_document: default
 always_allow_html: true
 params:
@@ -55,6 +55,8 @@ require(leaflet)
 require(plotly)
 require(nlme)
 require(tidyverse)
+require(rsealevel)
+
 # require(reticulate)
 
 config <- RcppTOML::parseToml("_common/configuration.TOML")
@@ -548,7 +550,9 @@ The Anova table for model comparison is shown below.
 
 # makePrettyAnovaTable(t, 3)
 
-print(t)
+# print(t)
+print(broom::tidy(t))
+
 
 ```
 

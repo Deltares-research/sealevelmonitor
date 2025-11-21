@@ -48,13 +48,14 @@ knitr::opts_chunk$set(
 require(leaflet)
 require(plotly)
 require(nlme)
+require(rsealevel)
 
 config <- RcppTOML::parseToml("_common/configuration.TOML")
 source("_common/functions.R")
 source("_common/plotfunctions.R")
 epoch = config$constants$epoch
-mainstations_df <- readMainStationInfo(filepath = "../../")
-mainstations_locs <- readMainStationLocations(path = "../../")
+mainstations_df <- rsealevel::readMainStationInfo(filepath = "../../")
+mainstations_locs <- rsealevel::readMainStationLocations(path = "../../")
 nstations = length(params$station)
 nmodels  = length(params$modeltype)
 nsurge  = length(params$wind_or_surge_type)
@@ -63,7 +64,10 @@ select <- dplyr::select
 
 
 ```{r readData, comment=F, message=F}
-  df <- read_csv2(file.path("../", "../data/deltares/results/dutch-sea-level-monitor-export-stations-latest.csv")) %>%
+  df <- read_delim(
+    file.path(
+      "../", "../data/deltares/results/dutch-sea-level-monitor-export-stations-latest.csv"),
+    delim = ";") %>%
   filter(station %in% params$station) %>%
   filter(year >= params$startyear)
 ```
@@ -383,31 +387,6 @@ parameterTable <- models %>%
 ```
 
 
-```{r}
-# internal check
-# extra ZSM after 1960
-
-square_term <- parameterTable[parameterTable$short_term == "+ square_trend 1960",]$estimate
-Trend <- parameterTable[parameterTable$short_term == "Trend",]$estimate
-
-Totaltrend_from_parameters = Trend + square_term * 2 * (2024 - 1960)
-
-# numerically fromm preidctions table
-Totaltrend_from_predictions <- all_predictions %>% 
-  mutate(ZSM = prediction_recalc - lag(prediction_recalc, n = 1, order_by = data_year)) %>% 
-  select(ZSM) %>% 
-  tail(1) %>%
-  unlist() %>% 
-  unname()
-
-print(
-  c(Totaltrend_from_parameters,  Totaltrend_from_predictions)
-)
-  
-```
-
-
-
 
 
 ```{r, results='asis'}
@@ -418,9 +397,12 @@ zeespiegel_gem_getij_gem_opzet_cm <- all_predictions %>%
   mutate(zsp_nod_surge = (`data_height-surge_anomaly` - nodal_tide)/10) %>%
   select(zsp_nod_surge) %>% unlist %>% unname
 
+cat("## Uitspraken over de zeespiegel trend \n\n" )
+
+cat("De volgende uitspraken gelden voor berekeningen gedaan aan het virtuele station ", params$station, "en het voorkeursmodel ", params$modeltype, ".", "De analyse houdt rekening met wind en nodaal getij. \n\n")
+
 if(params$modeltype == "broken_linear"){
   trend_message = cat(
-    "## Uitspraken over de zeespiegel trend",
     paste("De lineaire trend tot 1993 bedraagt", 
           round(parameterTable$estimate[parameterTable$short_term == "Trend"], 1), 
           " +/- ", 
@@ -441,6 +423,8 @@ if(params$modeltype == "broken_linear"){
     sep = "\n\n"
   )
 }
+
+
 
 if(params$modeltype == "broken_squared"){
   
@@ -498,15 +482,15 @@ if(params$modeltype == "broken_squared"){
 
 
 
-## Vergelijking met de analyse van vorig jaar.
+<!-- ## Vergelijking met de analyse van vorig jaar. -->
 
 
-| station | zeespiegel (1970) | trend (voor 1993) | se | trend (vanaf 1993)|
-|------:|:------:|:---------:|:-----------:|:----------:|:----------:|
-| Netherlands (without Delfzijl) | -39.3 |	1.8 |	0.1 |	2.9 |	0.4 |
+<!-- | station | zeespiegel (1970) | trend (voor 1993) | se | trend (vanaf 1993)| -->
+<!-- |------:|:------:|:---------:|:-----------:|:----------:|:----------:| -->
+<!-- | Netherlands (without Delfzijl) | -39.3 |	1.8 |	0.1 |	2.9 |	0.4 | -->
 
 
-```{r}
+<!-- ```{r} -->
 
-```
+<!-- ``` -->
 
