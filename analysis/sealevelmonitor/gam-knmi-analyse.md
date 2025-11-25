@@ -1,7 +1,7 @@
 GAM model estimation of Dutch Sea Level
 ================
 Willem Stolte
-2025-10-27
+2025-11-25
 
 ## Introduction
 
@@ -9,7 +9,7 @@ Full documentation will follow
 
 The Dutch Sea Level Monitor uses linear model variants to describe the
 sea level at the Dutch coastal tidal stations. In literature, other
-models are use. For example, GAM was used by Keijzer et al., () to
+models are use. For example, GAM was used by Keizer et al., (2023) to
 detect changes in sea level rise. Although GAM is at the moment not
 included in the official product, in this document we test this method
 in order to visualize patterns of sea level (rise).
@@ -39,7 +39,16 @@ df <- df %>%
   )
 ```
 
-## Define GAM model
+## Define GAM
+
+The GAM model used here is using 4 components:
+
+- smooth term
+- nodal cosine term
+- nodal sine term
+- surge anomaly term
+
+No further fine tuning of the GAM model has been done so far
 
 ``` r
 gam_model <- function(df, epoch = 1970){
@@ -62,6 +71,9 @@ gam_model <- function(df, epoch = 1970){
 ```
 
 ## Apply GAM model to sea level data for all stations
+
+The GAM model was applied to all six main stations and the composite
+stations according to the code below.
 
 ``` r
 selected_model = "gam"
@@ -103,28 +115,138 @@ by_station_model = df %>%
   )
 ```
 
-## Sea level development in time
+## Outcome of the model
+
+``` r
+library(mgcv)
+library(broom)
+library(dplyr)
+
+# Example GAM
+# gam_model <- gam(y ~ s(x1) + s(x2) + z, data = mydata, method = "REML")
+
+# Tidy coefficients
+param_table <- broom::tidy(by_station_model$model[[1]])
+
+# Extract goodness-of-fit from summary
+gam_summary <- summary(by_station_model$model[[1]])
+
+fit_stats <- tibble(
+  deviance_explained = gam_summary$dev.expl,
+  aic = AIC(by_station_model$model[[1]]),
+  gcv_score = gam_summary$sp.criterion,  # Only if method = "GCV"
+  n = gam_summary$n
+)
+
+# Combine
+summary_table <- param_table %>%
+  mutate(
+    deviance_explained = fit_stats$deviance_explained,
+    aic = fit_stats$aic,
+    n = fit_stats$n
+  )
+
+summary_table
+```
+
+# A tibble: 1 × 8
+
+term edf ref.df statistic p.value deviance_explained aic n <chr> <dbl>
+<dbl> <dbl> <dbl> <dbl> <dbl> <int> 1 s(year) 5.52 6.85 259. 0 0.942
+1242. 135
+
+``` r
+## still need to implement into tidy workflow below
+
+summary_table <- by_station_model %>%
+  select(station, glance, tidy) %>%
+  unnest(c(glance, tidy)) %>%
+  select(
+    station,
+    AIC,
+    adj.r.squared,
+    npar,
+    p.value
+  )
+
+summary_table
+```
+
+# A tibble: 8 × 5
+
+station AIC adj.r.squared npar p.value <chr> <dbl> <dbl> <int> <dbl> 1
+Vlissingen 1242. 0.938 23 0 2 Hoek van Holland 1239. 0.949 23 0 3 Den
+Helder 1262. 0.882 23 0 4 Delfzijl 1306. 0.897 23 0 5 Harlingen 1253.
+0.884 23 0 6 IJmuiden 1298. 0.899 23 0 7 Netherlands 1212. 0.940 23 0 8
+Netherlands (without Delfzijl) 1206. 0.941 23 0
+
+### Skill assessment
 
 ``` r
 by_station_model %>%
-  unnest(sm_predict) %>%
-  ggplot() +
-  geom_point(
-    data = by_station_model %>%
-      unnest(c(data)), 
+  select(
+    station, 
+    glance
+  ) %>%
+  unnest(glance)
+```
+
+### Parameters
+
+``` r
+by_station_model %>%
+  select(
+    station, 
+    tidy
+  ) %>%
+  unnest(tidy)
+```
+
+    FALSE # A tibble: 8 × 6
+    FALSE   station                        term      edf ref.df statistic p.value
+    FALSE   <chr>                          <chr>   <dbl>  <dbl>     <dbl>   <dbl>
+    FALSE 1 Vlissingen                     s(year)  5.52   6.85     259.        0
+    FALSE 2 Hoek van Holland               s(year)  5.10   6.34     390.        0
+    FALSE 3 Den Helder                     s(year)  3.45   4.31     199.        0
+    FALSE 4 Delfzijl                       s(year)  4.57   5.69     149.        0
+    FALSE 5 Harlingen                      s(year)  7.26   8.94      64.8       0
+    FALSE 6 IJmuiden                       s(year)  1.00   1.00    1137.        0
+    FALSE 7 Netherlands                    s(year)  4.20   5.24     365.        0
+    FALSE 8 Netherlands (without Delfzijl) s(year)  4.00   4.98     403.        0
+
+## Sea level development in time
+
+The comparison between observed and (GAM) modelled sea level for the 6
+stations, and the composite stations is shown below. The variation in
+observations from 1950 to now is lower than in the period before. this
+is related to the wind-surge corrections derived from the GTSM model.
+Because of a lack of GTSM output for the years before 1950, for those
+years only a correction with the mean surge has been made.
+
+``` r
+by_station_model %>%
+  unnest(data) %>%
+  ggplot(
     aes(
       x = year, 
       y = height - surge_anomaly
     )
   ) +
+  geom_point(
+    alpha = 0.6,
+    aes(
+      color = "observations"
+    )) +
   geom_line(
     data = by_station_model %>%
       unnest(c(smoother, Intercept)),
     aes(
       x = year, 
-      y = .estimate + Intercept
+      y = .estimate + Intercept,
+      color = "gam"
     ),
-    linewidth = 2
+    linewidth = 2,
+    alpha = 0.6
   ) +
   # geom_ribbon(aes(ymin = .lower_ci, ymax = .upper_ci), alpha = 0.3) +
   labs(x = "Year", y = "Estimated sea-level (mm)",
@@ -132,7 +254,12 @@ by_station_model %>%
   facet_wrap("station")
 ```
 
-![](gam-knmi-analyse_files/figure-gfm/unnamed-chunk-4-1.png)<!-- -->
+<figure>
+<img src="gam-knmi-analyse_files/figure-gfm/unnamed-chunk-7-1.png"
+alt="Relative sea level from the six Dutch main stations." />
+<figcaption aria-hidden="true">Relative sea level from the six Dutch
+main stations.</figcaption>
+</figure>
 
 ## Sea level rate development in time
 
@@ -150,7 +277,14 @@ by_station_model %>%
   facet_wrap("station")
 ```
 
-![](gam-knmi-analyse_files/figure-gfm/unnamed-chunk-5-1.png)<!-- -->
+<figure>
+<img src="gam-knmi-analyse_files/figure-gfm/unnamed-chunk-8-1.png"
+alt="Relative sea level change rate from the six Dutch main stations. The horizontal line is the current calculated sea level change rate as calculated by a broken-linear model in the Sea Level Monitor." />
+<figcaption aria-hidden="true">Relative sea level change rate from the
+six Dutch main stations. The horizontal line is the current calculated
+sea level change rate as calculated by a broken-linear model in the Sea
+Level Monitor.</figcaption>
+</figure>
 
 <!-- ## Experimental and work in progress -->
 
@@ -647,3 +781,10 @@ by_station_model %>%
 <!--   theme_minimal(base_size = 14) -->
 
 <!-- ``` -->
+
+## References
+
+Keizer, Iris, Dewi Le Bars, Cees De Valk, André Jüling, Roderik Van De
+Wal, and Sybren Drijfhout. 2023. “The Acceleration of Sea-Level Rise
+along the Coast of the Netherlands Started in the 1960s.” Ocean Science
+19 (4): 991–1007. <https://doi.org/10.5194/os-19-991-2023>.
