@@ -60,7 +60,7 @@ gam_model <- function(df, epoch = 1970){
     )
   
   mgcv::gam(
-    height ~ s(year, k = 20)   # smooth term on year
+    height ~ s(year, k = 5)   # smooth term on year
     +     nodal_cos
     +     nodal_sin
     + surge_anomaly,
@@ -152,8 +152,8 @@ summary_table
 # A tibble: 1 × 8
 
 term edf ref.df statistic p.value deviance_explained aic n <chr> <dbl>
-<dbl> <dbl> <dbl> <dbl> <dbl> <int> 1 s(year) 5.52 6.85 259. 0 0.942
-1242. 135
+<dbl> <dbl> <dbl> <dbl> <dbl> <int> 1 s(year) 3.66 3.93 436. 0 0.939
+1244. 135
 
 ``` r
 ## still need to implement into tidy workflow below
@@ -175,10 +175,10 @@ summary_table
 # A tibble: 8 × 5
 
 station AIC adj.r.squared npar p.value <chr> <dbl> <dbl> <int> <dbl> 1
-Vlissingen 1242. 0.938 23 0 2 Hoek van Holland 1239. 0.949 23 0 3 Den
-Helder 1262. 0.882 23 0 4 Delfzijl 1306. 0.897 23 0 5 Harlingen 1253.
-0.884 23 0 6 IJmuiden 1298. 0.899 23 0 7 Netherlands 1212. 0.940 23 0 8
-Netherlands (without Delfzijl) 1206. 0.941 23 0
+Vlissingen 1244. 0.936 8 0 2 Hoek van Holland 1240. 0.948 8 0 3 Den
+Helder 1262. 0.881 8 0 4 Delfzijl 1307. 0.895 8 0 5 Harlingen 1274.
+0.861 8 0 6 IJmuiden 1298. 0.899 8 0 7 Netherlands 1212. 0.939 8 0 8
+Netherlands (without Delfzijl) 1206. 0.940 8 0
 
 ### Skill assessment
 
@@ -205,14 +205,14 @@ by_station_model %>%
     FALSE # A tibble: 8 × 6
     FALSE   station                        term      edf ref.df statistic p.value
     FALSE   <chr>                          <chr>   <dbl>  <dbl>     <dbl>   <dbl>
-    FALSE 1 Vlissingen                     s(year)  5.52   6.85     259.        0
-    FALSE 2 Hoek van Holland               s(year)  5.10   6.34     390.        0
-    FALSE 3 Den Helder                     s(year)  3.45   4.31     199.        0
-    FALSE 4 Delfzijl                       s(year)  4.57   5.69     149.        0
-    FALSE 5 Harlingen                      s(year)  7.26   8.94      64.8       0
-    FALSE 6 IJmuiden                       s(year)  1.00   1.00    1137.        0
-    FALSE 7 Netherlands                    s(year)  4.20   5.24     365.        0
-    FALSE 8 Netherlands (without Delfzijl) s(year)  4.00   4.98     403.        0
+    FALSE 1 Vlissingen                     s(year)  3.66   3.93      436.       0
+    FALSE 2 Hoek van Holland               s(year)  3.49   3.85      614.       0
+    FALSE 3 Den Helder                     s(year)  2.96   3.46      246.       0
+    FALSE 4 Delfzijl                       s(year)  3.44   3.82      217.       0
+    FALSE 5 Harlingen                      s(year)  3.68   3.94      117.       0
+    FALSE 6 IJmuiden                       s(year)  1.00   1.00     1137.       0
+    FALSE 7 Netherlands                    s(year)  3.37   3.78      500.       0
+    FALSE 8 Netherlands (without Delfzijl) s(year)  3.29   3.73      534.       0
 
 ## Sea level development in time
 

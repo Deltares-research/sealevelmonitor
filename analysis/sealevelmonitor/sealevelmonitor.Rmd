@@ -3,29 +3,21 @@ title: "Zeespiegelmonitor"
 author: "Willem Stolte, Nathalie Dees"
 date: "`r format(Sys.time(), '%d %B, %Y')`"
 output:
+  github_document:
   html_document:
     df_print: paged
     code_folding: hide
-  github_document:
 params:
-  # - Delfzijl
-  # - Harlingen
-  # - Den Helder
-  # - IJmuiden
-  # - Hoek van Holland
-  # - Vlissingen
   # - Netherlands
   # - linear
-  # - broken_linear
+  # - broken_squared
   monitoryear: 2025
   startyear: 1890
   wind_or_surge_type: GTSM
   station:
   - Netherlands (without Delfzijl)
   modeltype:
-  # - linear
   - broken_linear
-  # - broken_squared
 ---
 
 
@@ -134,13 +126,13 @@ De keuze voor model wordt gedaan op basis van 3 criteria:
 
 Uit het analysedocument is gebleken:
 
-```{r preferedModel, results='asis'}
+```{r preferredModel, results='asis'}
 selectedmodel <- params$modeltype
 cat("Het voorkeursmodel voor de bepaling van de huidige zeespiegelstijging is het ", selectedmodel, " model.")
 ```
 In voorliggend rekendocument wordt daarom gerekend met het `r params$modeltype` modeltype en gegevens van het (virtuele) station `r params$station`. 
 
-```{r nest-per-station}
+```{r build-model}
 selectedmodel <- params$modeltype
 
 models <- df %>%
@@ -176,12 +168,11 @@ models <- df %>%
 
 ### Omgaan met autocorrelatie
 
-Autocorrelatie is de kruiscorrelatie van een functie of signaal met zichzelf ([wikipedia](https://nl.wikipedia.org/wiki/Autocorrelatie)). In het zeespiegelsignaal voor alle hoofdstations is een consistente autocorrelatie met een 'lag' van 1 jaar gevonden (zie rekendocument [Sealevelanalysis](https://github.com/Deltares-research/sealevelmonitor/blob/main/analysis/sealevelmonitor/sealevelanalysis.md)). Dit is niet ongebruikelijk voor lange tijdseries die een trend vertonen. Hierdoor kan niet alle variatie worden toegekend aan het model zelf, en moet de standaardfout van de modelparameters worden gecorrigeerd voor de autocorrelatie. Dit gebeurt met een [Newey West autocorrelatieterm](https://search.r-project.org/CRAN/refmans/sandwich/html/NeweyWest.html).
-
 ```{r autocorrelatie, fig.width=6, fig.height=4, fig.cap="Autocorrelatiediagram voor de gebruikte meetreeks. De rode kolommen geven een significante autocorrelatie aan. Autocorrelatie met een lag van 1 jaar is de enige die consistent is over alle stations en modellen."}
 plot_ACF(models)
 ```
 
+Autocorrelatie is de kruiscorrelatie van een functie of signaal met zichzelf ([wikipedia](https://nl.wikipedia.org/wiki/Autocorrelatie)). In het zeespiegelsignaal voor alle hoofdstations is een consistente autocorrelatie met een 'lag' van 1 jaar gevonden (zie rekendocument [Sealevelanalysis](https://github.com/Deltares-research/sealevelmonitor/blob/main/analysis/sealevelmonitor/sealevelanalysis.md)). Dit is niet ongebruikelijk voor lange tijdseries die een trend vertonen. Hierdoor kan niet alle variatie worden toegekend aan het model zelf, en moet de standaardfout van de modelparameters worden gecorrigeerd voor de autocorrelatie. Dit gebeurt met een [Newey West autocorrelatieterm](https://search.r-project.org/CRAN/refmans/sandwich/html/NeweyWest.html).
 
 
 ```{r add-HAC}
@@ -194,9 +185,11 @@ models <- addHACterms(models)
 
 ## Heteroskedasticity
 
-Er wordt gecontroleerd of de verdeling van de residuen regelmatig is verdeeld over de tijd en over de te schatten waarde. 
+In dit deel wordt gecontroleerd of de verdeling van de residuen regelmatig is verdeeld over de tijd en over de te schatten waarde. 
 
-### Residuals distribution
+### Verdeling van residuen.
+
+De verdeling van resituen uitgezet tegen de verwachte waarde levert bij benadering een normale verdeling op. 
 
 ```{r, fig.height=nstations*3+1, fig.width=nmodels*2.5+1, fig.align='center', fig.cap="De verdeling (histogram) van de residuen. "}
 
@@ -209,11 +202,11 @@ ggplot(aes(x = augment_.resid)) +
 ```
 
 
-## Variation of residuals over time
+## Verdeling van residuen over de tijd
 
 Bij een geschikt model verwachten we een regelmatige verdeling van residuen over de tijd. Wanneer deze sterk afwijkt dan kan dat een aanwijzing zijn dat het model niet geschikt is, of dat bepaalde correcties niet goed zijn uitgevoerd. 
 
-```{r variation-model-time, fig.height=nstations*2+1, fig.width=nmodels*2.5+1, fig.cap="De verdeling van residuwaarden uitgezet tegen de tijd in jaren. "}
+```{r variation-model-time, fig.height=3, fig.width=6, fig.cap="De verdeling van residuwaarden uitgezet tegen de tijd in jaren. "}
 models %>%
   unnest(c(data, augment), names_sep = "_") %>% #str(max.level = 2)
 ggplot(aes(data_year, augment_.resid)) +
@@ -221,13 +214,15 @@ ggplot(aes(data_year, augment_.resid)) +
   facet_grid(station ~ modeltype)
 ```
 
-Figuur \@ref(fig:variation-model-time) laat zien dat de spreiding van residuen groter is voor de jaren vóór 1950. Dit zijn de jaren waarvoor geen correctie van opzet wordt uigevoerd, omdat hiervoor geen GTSM berekeningen beschikbaar zijn. 
+Bovenstaande figuur laat zien dat de spreiding van residuen groter is voor de jaren vóór 1950. Dit zijn de jaren waarvoor geen correctie van opzet wordt uigevoerd, omdat hiervoor geen GTSM berekeningen beschikbaar zijn. Er is geen systematische afwijking van residuen in de loop van de tijd. 
 
 
-## Sea level rise
+## Zeespiegelstijging
 
 
 ```{r}
+
+# vertaaltabel voor presentatie van parameters
 
 lookup <- c(
   Constant = "(Intercept)",
@@ -247,6 +242,8 @@ all_predictions <- makePredictionTable(models, lookup)
 
 
 ```{r plotdatauitvoer, include=FALSE}
+
+# uitvoer van resultaten als tabel
 
 uitvoer_df <- all_predictions %>% 
   mutate(
@@ -271,7 +268,7 @@ uitvoer_df <- all_predictions %>%
 
 
 ```{r, eval=TRUE}
-# check origin of function
+
 p <- plot_station(
   stationi = params$station,
   predictions_all = all_predictions %>% 
@@ -283,12 +280,12 @@ p <- plot_station(
   datayear = 2024
 )
 
-  ggplotly(p) %>% layout(legend = list(x = 0.05, y = 0.95))
-  # p
+  # ggplotly(p) %>% layout(legend = list(x = 0.05, y = 0.95)) # voor interactieve plot
+  p
 ```
 
 
-```{r, eval=TRUE}
+```{r, eval=TRUE, fig.width=4, fig.height=3}
 
 p <- plot_station(
   stationi = params$station,
@@ -468,29 +465,4 @@ if(params$modeltype == "broken_squared"){
 
 
 ```
-
-
-<!-- ### Uitspraken over de stand van de zeespiegel in `r params$monitoryear - 1`. -->
-
-<!-- In 2023 was de gemiddelde zeespiegel `r df$height[df$year==params$monitoryear-1]` cm tov NAP (2005). -->
-
-<!-- Gecorrigeerd voor de afwijking van een gemiddeld nodaal getij en windopzet was de zeespiegel in 2023 `r round(zeespiegel_gem_getij_gem_opzet_cm, 0)` cm tov NAP (2005).  -->
-
-<!-- Gerekend met het voorkeursmodel, `r params$modeltype` en station `r params$station` zijn de volgende trends vastgesteld:  -->
-
-
-
-
-
-<!-- ## Vergelijking met de analyse van vorig jaar. -->
-
-
-<!-- | station | zeespiegel (1970) | trend (voor 1993) | se | trend (vanaf 1993)| -->
-<!-- |------:|:------:|:---------:|:-----------:|:----------:|:----------:| -->
-<!-- | Netherlands (without Delfzijl) | -39.3 |	1.8 |	0.1 |	2.9 |	0.4 | -->
-
-
-<!-- ```{r} -->
-
-<!-- ``` -->
 

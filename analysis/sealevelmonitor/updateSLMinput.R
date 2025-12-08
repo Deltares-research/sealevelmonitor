@@ -10,6 +10,7 @@
 
 require(tidyverse)
 require(lubridate)
+require(rsealevel)
 
 configDir <- "analysis/sealevelmonitor"
 
@@ -87,10 +88,10 @@ refreshed_df %>%
   select(year, station, height_psmsl = height) %>%
   full_join(
     current_df %>%
-      select(year, station, height_ddl = height), 
+      select(year, station, height_current = height), 
     by = c(year = "year", station = "station")
   ) %>% 
-  mutate(verschil_met_vorig = height_psmsl - height_ddl) %>%
+  mutate(verschil_met_vorig = height_psmsl - height_current) %>%
   View()
 
 # small changes with respect to the temporary data from DDL

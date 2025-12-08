@@ -1,7 +1,7 @@
-Zeespiegelmonitor analyse
+Zeespiegelmonitor analysis
 ================
 Willem Stolte, Nathalie Dees
-2024-03-12
+08 December, 2025
 
 # Sea Level Monitor analysis
 
@@ -39,9 +39,10 @@ data.frame(
 
 | name               | value                          |
 |:-------------------|:-------------------------------|
-| monitoryear        | 2024                           |
+| monitoryear        | 2025                           |
 | startyear          | 1890                           |
 | wind_or_surge_type | GTSM                           |
+| overwrite          | FALSE                          |
 | station1           | Delfzijl                       |
 | station2           | Harlingen                      |
 | station3           | Den Helder                     |
@@ -56,202 +57,22 @@ data.frame(
 
 Values of document parameters
 
-## Get data from PSMSL
+## Get latest data from file
 
-Annual average sea level data for the Dutch main stations is downloaded
-from the [Permanent Service for Mean Sea Level
+In an other script, annual average sea level data for the Dutch main
+stations is downloaded from the [Permanent Service for Mean Sea Level
 site](http://www.psmsl.org) and combined with the Global Tide and Surge
-Model (GTSM) annual average surge values. In case PSMSL data is not
-available for the most recent year (2024-1)
+Model (GTSM) annual average surge values.
 
 ``` r
-# Get data from PSMSL data service
-rlr_df <- read_yearly_psmsl_csv(mainstations_df$psmsl_id, filepath = "../../") 
+current_df <-   read_delim(
+  "../../data/deltares/results/dutch-sea-level-monitor-export-stations-latest.csv", 
+  delim = ";") %>%
+  filter(year >= params$startyear)
 ```
 
-In this analysis, measurements over the period 1890 to 2023 are
+In this analysis, measurements over the period 1890 to 2024 are
 considered.
-
-``` r
-if(params$monitoryear-1 == max(rlr_df$year)){
-  cat("Mean annual sea level downloaded from PSMSL are availabale up to ", max(rlr_df$year), ", the time series is up to date. ")
-} else {
-  cat("Mean annual sea level downloaded from PSMSL are only available up to ", max(rlr_df$year), " and thus incomplete for the current analysis. In order to do a preliminary analysis, measurements from Rijkswatersataat Data Distribution Layer will be used for missing year(s). ")
-}
-```
-
-Mean annual sea level downloaded from PSMSL are availabale up to 2023 ,
-the time series is up to date.
-
-``` r
-# Check if PSMSL is up to date for analysis year
-
-if(max(rlr_df$year) == params$monitoryear-1){
-  refreshed_df <- rlr_df
-  print("PSMSL time series is up-to-date and is used for analysis")
-} else {
-  print("The PSMSL time series is not complete. An attempt is made to complete the data using RWS DDL.")
-  if(max(rlr_df$year) == params$monitoryear-2){ # robuuster maken. nu alleen check voor een ontbrekend jaar.
-    # Check if ddl data from required year exist
-    required_file <- file.path("../../data/rijkswaterstaat/ddl/annual_means/", paste0(params$monitoryear-1, ".csv"))
-    
-    if(file.exists(required_file)){
-      ddl_datayear <- read_csv2(required_file) %>%
-        filter(
-          station %in% mainstations_df$name
-        )
-      
-    } else{
-      cat("DDL data for year", params$monitoryear-1, "is not available", sep = " ")
-    }
-  }
-}
-```
-
-    FALSE [1] "PSMSL time series is up-to-date and is used for analysis"
-
-``` r
-# Get GTSM data from local file
-gtsm <- read_yearly_gtsm(filename = "../../data/deltares/gtsm/gtsm_surge_annual_mean_main_stations.csv") |>
-  mutate(year = year(ymd(t)))
-```
-
-``` r
-# convert rlr tot nap2005
-    refreshed_df <- rlr_df |> 
-      mutate(
-        height = rlr_height_mm - as.numeric(`nap-rlr`),
-      ) |> 
-      rename(station = name)
-
-# check if psmsl data need to be completed with ddl data
-    try(
-      if(
-        exists("ddl_datayear") & 
-        !unique(ddl_datayear$year) %in% unique(refreshed_df$year)
-      ){
-        refreshed_df <- refreshed_df |> bind_rows(ddl_datayear)
-      },
-      silent = T
-    )
-
-    refreshed_df <- refreshed_df |>
-      left_join(gtsm, by = c(station = "name", year = "year")) |>
-      mutate(
-        surge_anomaly = case_when(
-          year >= 1950 ~ (1000 * surge - mean(1000 * surge, na.rm = T)), # meters to millimeters
-          year < 1950 ~ 0
-        )
-      ) |>
-      select(
-        year,
-        height,
-        station,
-        surge_anomaly
-      ) %>%
-      bind_rows(
-        . |>
-          group_by(year) |>
-          summarise(
-            height = mean(height, na.rm = T),
-            surge_anomaly = mean(surge_anomaly, na.rm = T)
-          ) |>
-          mutate(
-            station = "Netherlands"
-          )
-      ) %>%
-      bind_rows(
-        . |>
-          filter(station %in% c("Vlissingen", "Hoek van Holland", "Den Helder", "Harlingen", "IJmuiden")) |>
-          group_by(year) |>
-          summarise(
-            height = mean(height, na.rm = T),
-            surge_anomaly = mean(surge_anomaly, na.rm = T)
-          ) |>
-          mutate(
-            station = "Netherlands (without Delfzijl)"
-          )
-      ) |>
-      addBreakPoints() %T>%
-      write_csv2("../../data/deltares/results/dutch-sea-level-monitor-export-stations-latest.csv") %>%
-      filter(year >= params$startyear)
-```
-
-### Compare with previous years analysis data
-
-``` r
-# previous year did not include gtsm for year 1950.
-# Therefore comparison of surge is done for years > 1950
-
-# range(df$surge_anomaly)
-# range(refreshed_df$surge_anomaly, na.rm = T)
-
-refreshed_df_filter <- refreshed_df %>% filter(year > 1950 & year < 2023)
-
-ggplot() +
-  geom_point(
-    data = previous_df, 
-    aes(x = year, y = height),
-    shape = "+"
-  ) +
-  geom_point(
-    data = refreshed_df, 
-    aes(x = year, y = height), 
-    color = "blue", 
-    shape = 21, 
-    fill = "transparent",
-    size = 1
-  ) +
-  facet_wrap(c("station"), ncol = 3)
-```
-
-<figure>
-<img
-src="sealevelanalysis_files/figure-gfm/vergelijk-oud-en-nieuw-1.png"
-alt="Comparison of measured sea level with previous year." />
-<figcaption aria-hidden="true">Comparison of measured sea level with
-previous year.</figcaption>
-</figure>
-
-``` r
-# previous year did not include gtsm for year 1950.
-# Therefore comparison of surge is done for years > 1950
-
-# range(df$surge_anomaly)
-# range(refreshed_df$surge_anomaly, na.rm = T)
-
-refreshed_df_filter <- refreshed_df %>% filter(year > 1950 & year < 2023)
-
-ggplot() +
-  geom_point(
-    data = previous_df, 
-    aes(x = year, y = surge_anomaly, color = as.character(params$monitoryear-1))
-    ) +
-  geom_point(
-    data = refreshed_df, 
-    aes(x = year, y = surge_anomaly, color = as.character(params$monitoryear)), 
-    shape = 21, 
-    fill = "transparent",
-    size = 1
-    ) +
-  facet_wrap(c("station"), ncol = 3) +
-  coord_cartesian(xlim = c(1950, params$monitoryear)) +
-  labs(color = "monitor year")
-```
-
-<figure>
-<img src="sealevelanalysis_files/figure-gfm/compare-gtsm-1.png"
-alt="Comparison of GTSM surge anomaly with previous year." />
-<figcaption aria-hidden="true">Comparison of GTSM surge anomaly with
-previous year.</figcaption>
-</figure>
-
-The difference between the gtsm surge anomalies between the years is
-caused by the addition of two additional years, 1950 and 2023. The mean
-surge for some stations has changed due to this addition, causing the
-surge anomaly to move up or down. This has no consequences for the
-determination of the sea level trend, but it has effect on the corrected
-sea level.
 
 ## Locations of the main stations
 
@@ -268,7 +89,7 @@ consider a variant in which Delfzijl is omitted from the main analysis
 selection (“Netherlands (without Delfzijl)”).
 
 ``` r
-map_stations(df = refreshed_df, mainstations_df = mainstations_df, mainstations_locs = mainstations_locs)
+map_stations(df = current_df, mainstations_df = mainstations_df, mainstations_locs = mainstations_locs)
 ```
 
 <figure>
@@ -290,15 +111,14 @@ consistent dataset. Here we transform the RLR back to NAP (without
 undoing the correction).
 
 The rlrnap computes the rlr back to latest NAP (ignoring the undoing of
-the NAP correction) the alpha paramater is the dominant wind direction
-for the stations, based on de Ronde 2013. Id’s are the station ids in
-the PSMSL dataset. They may change from year to year as the PSMSL 0
-point is arbitary. You can lookup the relevant parameters in the
-schematic diagram like this [LRL diagram for station
+the NAP correction). Id’s are the station ids in the PSMSL dataset. They
+may change from year to year as the PSMSL 0 point is arbitary. You can
+lookup the relevant parameters in the schematic diagram like this [LRL
+diagram for station
 Vlissingen](https://www.psmsl.org/data/obtaining/rlr.diagrams/20.php)
 
 ``` r
-knitr::kable(mainstations_df[,c('name', 'psmsl_id', 'msl-rlr', 'msl-nap', 'nap-rlr')], caption = "PSMSL inforamtion on the six mains tide gauge stations in the Netherlands.")
+knitr::kable(mainstations_df[,c('name', 'psmsl_id', 'msl-rlr', 'msl-nap', 'nap-rlr')], caption = "PSMSL information on the six mains tide gauge stations in the Netherlands.")
 ```
 
 | name             | psmsl_id | msl-rlr | msl-nap | nap-rlr |
@@ -310,8 +130,35 @@ knitr::kable(mainstations_df[,c('name', 'psmsl_id', 'msl-rlr', 'msl-nap', 'nap-r
 | Harlingen        | 25       | 7024    | 110     | 6914    |
 | IJmuiden         | 32       | 7014    | 64      | 6950    |
 
-PSMSL inforamtion on the six mains tide gauge stations in the
+PSMSL information on the six mains tide gauge stations in the
 Netherlands.
+
+Sea level data for all six main station are shown below in an
+interactive plot.
+
+``` r
+p <- current_df %>%
+  dplyr::filter(!grepl("Netherlands", station)) %>%
+ggplot(aes(year, height)) +
+  geom_point(alpha = 1, aes(color = station), shape = 21, fill = "white", size = 1) +
+  geom_line(alpha = 0.5, aes(color = station), linewidth = 0.5) +
+  xlab("jaar") + ylab("gemeten zeespiegel in mm") +
+  theme_light() +
+  theme(legend.position = "bottom")
+
+p
+```
+
+<figure>
+<img src="sealevelanalysis_files/figure-gfm/zeespiegelmetingen-1.png"
+alt="Yearly averaged sea level for the six main tidal stations in the Netherlands." />
+<figcaption aria-hidden="true">Yearly averaged sea level for the six
+main tidal stations in the Netherlands.</figcaption>
+</figure>
+
+``` r
+# ggplotly(p) %>% layout(legend = list(x = 0.05, y = 0.95))
+```
 
 Sea level measurements for the six main stations (yearly average) are
 shown in figure @ref(fig:zeespiegelmetingen) as deviations from the mean
@@ -320,25 +167,15 @@ easier to see.
 
 A few things become clear
 
-- Harlingen show a negative trend as compared to the average of the
-  stations from roughly 1930 to 1990. There is a sudden “bump” around
-  1970.
-- IJmuiden shows strong fluctuations in the first decades of the series.
-  in 2018, the signal drops a few cm.
+- Harlingen show a lower trend as compared to the average of the
+  stations from roughly 1930 to 1990.
+- IJmuiden shows strong fluctuations in the first decades of the series
+  that are not seen at the other stations. in 2018, the signal drops a
+  few cm.
+- In all series, the two most recent years show very high sea levels.
 
 ``` r
-# p <- refreshed_df %>%
-#   dplyr::filter(!grepl("Netherlands", station)) %>%
-# ggplot(aes(year, height)) +
-#   geom_point(alpha = 1, aes(color = station), shape = 21, fill = "white", size = 1) +
-#   geom_line(alpha = 0.5, aes(color = station), linewidth = 0.5) +
-#   xlab("jaar") + ylab("gemeten zeespiegel in mm") +
-#   theme_light() +
-#   theme(legend.position = "bottom")
-# 
-# ggplotly(p) %>% layout(legend = list(x = 0.05, y = 0.95))
-
-refreshed_df %>%
+current_df %>%
   dplyr::filter(!grepl("Netherlands", station)) %>%
   group_by(year) %>%
   mutate(mean = mean(height)) %>% ungroup() %>%
@@ -351,7 +188,7 @@ refreshed_df %>%
 ```
 
 <figure>
-<img src="sealevelanalysis_files/figure-gfm/zeespiegelmetingen-1.png"
+<img src="sealevelanalysis_files/figure-gfm/zeespiegelanomalieen-1.png"
 alt="Afwijking van het gemiddelde voor elk jaar voor de zes hoofdstations langs de Nederlandse kust." />
 <figcaption aria-hidden="true">Afwijking van het gemiddelde voor elk
 jaar voor de zes hoofdstations langs de Nederlandse kust.</figcaption>
@@ -362,7 +199,7 @@ jaar voor de zes hoofdstations langs de Nederlandse kust.</figcaption>
 ```
 
 ``` r
-p <- refreshed_df %>%
+p <- current_df %>%
   dplyr::filter(grepl("Netherlands", station)) %>%
 ggplot(aes(year, height)) +
   geom_point(alpha = 1, aes(color = station), shape = 21, fill = "white", size = 1) +
@@ -371,7 +208,8 @@ ggplot(aes(year, height)) +
   theme_light() +
   theme(legend.position = "bottom")
 
-ggplotly(p) %>% layout(legend = list(x = 0.05, y = 0.95))
+# ggplotly(p) %>% layout(legend = list(x = 0.05, y = 0.95))
+p
 ```
 
 <figure>
@@ -382,18 +220,13 @@ alt="Jaarlijks gemiddelde zeespiegel voor gemiddelde van stations langs de Neder
 gemiddelde van stations langs de Nederlandse kust.</figcaption>
 </figure>
 
-``` r
-# p
-```
-
 ### Sea level high years
 
 The 5 years with highest sea levels are shown in table
 @ref(tab:highest5years).
 
 ``` r
-refreshed_df %>%
-  filter(year >= 1900) %>%
+current_df %>%
   dplyr::filter(station == "Netherlands (without Delfzijl)") %>%
   dplyr::arrange(-height) %>%
   dplyr::select(year, station, height_mm = height) %>%
@@ -404,11 +237,11 @@ refreshed_df %>%
 
 | year | station                        | height_mm |
 |-----:|:-------------------------------|----------:|
+| 2024 | Netherlands (without Delfzijl) |     161.4 |
 | 2023 | Netherlands (without Delfzijl) |     152.8 |
 | 2020 | Netherlands (without Delfzijl) |      96.6 |
 | 2022 | Netherlands (without Delfzijl) |      94.6 |
 | 2017 | Netherlands (without Delfzijl) |      94.2 |
-| 2019 | Netherlands (without Delfzijl) |      92.0 |
 
 Overview of the five highest yearly average water levels for the
 combined station Netherlands (without Delfzijl) in mm during the
@@ -429,7 +262,7 @@ correction reduces the variation due to differences in surge per year
 and allows a more precise estimate of the long-term trend to be made.
 
 ``` r
-p <- refreshed_df %>%
+p <- current_df %>%
   # filter(!grepl("Netherlands", station)) %>%
   # filter(station == "IJmuiden") %>%
 ggplot(aes(year, surge_anomaly)) +
@@ -440,8 +273,7 @@ ggplot(aes(year, surge_anomaly)) +
   theme(legend.position = "bottom") +
   coord_cartesian(xlim = c(1945, params$monitoryear))
 
-# ggplotly(p) %>% layout(legend = list(x = 0.05, y = 0.95))
-p
+ggplotly(p) # %>% layout(legend = list(x = 0.05, y = 0.95))
 ```
 
 <figure>
@@ -452,6 +284,10 @@ storm surge from long year avearge). The yearly averages surge is
 calculated for 1950 - now. For earlier years, an average surge is
 assumed.</figcaption>
 </figure>
+
+``` r
+# p
+```
 
 ## Trend analysis
 
@@ -470,7 +306,8 @@ In the regression equation, nodal tide is one of the components and is
 estimated as a sinusoid curve with a period of 18.6 years.
 
 ``` r
-byStation <- refreshed_df %>%
+byStation <- current_df %>%
+  filter(year > params$startyear) %>%
   dplyr::group_by(station) %>%
   tidyr::nest() %>%
   dplyr::ungroup()
@@ -573,7 +410,7 @@ for surge prior to application of the models.
 plotResidualDistribution(models)
 ```
 
-<img src="sealevelanalysis_files/figure-gfm/unnamed-chunk-7-1.png" width="100%" />
+<img src="sealevelanalysis_files/figure-gfm/unnamed-chunk-6-1.png" width="100%" />
 
 ### Variation of residuals over time
 
@@ -585,10 +422,11 @@ models %>%
   unnest(c(data, augment), names_sep = "_") %>%
   ggplot(aes(data_year, augment_.resid)) +
   geom_point(alpha = 0.4) +
-  facet_grid(station ~ modeltype)
+  facet_grid(station ~ modeltype) +
+  theme(strip.text.y = element_text(angle = 0))
 ```
 
-![](sealevelanalysis_files/figure-gfm/unnamed-chunk-8-1.png)<!-- -->
+![](sealevelanalysis_files/figure-gfm/unnamed-chunk-7-1.png)<!-- -->
 
 ## Sea level rise
 
@@ -605,9 +443,10 @@ lookup <- c(
 
 all_predictions <- makePredictionTable(models, lookup)
 
-write_csv(all_predictions, file = paste0("../../results/analysis_output/predictions_", today(), ".csv"))
-
-write_csv(all_predictions, file = "../../results/analysis_output/predictions_latest.csv")
+if(params$overwrite){
+  write_csv(all_predictions, file = paste0("../../results/analysis_output/predictions_", today(), ".csv"))
+  write_csv(all_predictions, file = "../../results/analysis_output/predictions_latest.csv")
+}
 ```
 
 ``` r
@@ -615,10 +454,18 @@ ggplot(
   all_predictions,
   aes(x = data_year)
 ) +
-  geom_point(aes(y = data_height), alpha = 0.15) +
-  geom_line(aes(y = prediction_recalc)) +
-  facet_grid(station ~ modeltype)
+  geom_point(aes(y = data_height, color = "observed"), alpha = 0.5, size = 1) +
+  geom_line(aes(y = prediction_recalc, color = "predicted"), linewidth = 1) +
+  facet_grid(station ~ modeltype) +
+  theme(strip.text.y = element_text(angle = 0))
 ```
+
+<figure>
+<img src="sealevelanalysis_files/figure-gfm/prediction-plot-1.png"
+alt="Observed and predicted sea level for selected stations and models." />
+<figcaption aria-hidden="true">Observed and predicted sea level for
+selected stations and models.</figcaption>
+</figure>
 
 ``` r
   p <- plot_station( 
@@ -637,39 +484,13 @@ ggplot(
     # legend.justification = c(1, 0),
     legend.title = element_blank()
   ) +
-  theme(strip.text.y = element_text(angle = 90)) 
+  theme(strip.text.y = element_text(angle = 90)) +
+  theme_bw()
 
   
   # ggplotly(p) %>% layout(legend = list(x = 0.05, y = 0.95))
   p
 ```
-
-![](sealevelanalysis_files/figure-gfm/unnamed-chunk-10-1.png)<!-- -->
-
-### individual stations
-
-``` r
-  p <- plot_station_website(
-    predictions_all = all_predictions,
-    stationi = unique(all_predictions$station)[!grepl("Netherlands", unique(all_predictions$station))],
-    correctionVariant = "GTSM", 
-    modelVariant = "broken_linear", 
-    printNumbers = F, 
-    startyear = 1890
-  ) +
-  facet_wrap("station", ncol = 3) +
-  theme(
-    legend.position = "bottom",
-    legend.title = element_blank()
-  ) +
-  theme(strip.text.y = element_text(angle = 90)) 
-
-  
-  # ggplotly(p) %>% layout(legend = list(x = 0.05, y = 0.95))
-  p
-```
-
-![](sealevelanalysis_files/figure-gfm/unnamed-chunk-11-1.png)<!-- -->
 
 ## Parameters
 
@@ -704,10 +525,10 @@ parametertable <- models %>%
 #     )
 #   )
 
-write_csv(parametertable, file = paste0("../../results/analysis_output/parameters_", today(), ".csv"))
-
-write_csv(parametertable, file = "../../results/analysis_output/parameters_latest.csv")
-
+if(params$overwrite){
+  write_csv(parametertable, file = paste0("../../results/analysis_output/parameters_", today(), ".csv"))
+  write_csv(parametertable, file = "../../results/analysis_output/parameters_latest.csv")
+}
   kableExtra::kable(parametertable,
     caption = "Coefficients for all models and stations.",digits = 2
     ) %>%
@@ -792,17 +613,17 @@ Constant
 
 <td style="text-align:right;">
 
--63.55
+-62.78
 </td>
 
 <td style="text-align:right;">
 
-2.24
+2.26
 </td>
 
 <td style="text-align:right;">
 
--28.32
+-27.76
 </td>
 
 <td style="text-align:right;">
@@ -812,7 +633,7 @@ Constant
 
 <td style="text-align:right;">
 
-2.30
+2.42
 </td>
 
 </tr>
@@ -836,7 +657,7 @@ Trend
 
 <td style="text-align:right;">
 
-2.41
+2.42
 </td>
 
 <td style="text-align:right;">
@@ -846,7 +667,7 @@ Trend
 
 <td style="text-align:right;">
 
-43.83
+43.47
 </td>
 
 <td style="text-align:right;">
@@ -880,27 +701,27 @@ u_nodal
 
 <td style="text-align:right;">
 
-5.20
+5.85
 </td>
 
 <td style="text-align:right;">
 
-3.04
+3.07
 </td>
 
 <td style="text-align:right;">
 
-1.71
+1.91
 </td>
 
 <td style="text-align:right;">
 
-0.09
+0.06
 </td>
 
 <td style="text-align:right;">
 
-3.45
+3.51
 </td>
 
 </tr>
@@ -924,17 +745,17 @@ v_nodal
 
 <td style="text-align:right;">
 
--12.72
+-13.18
 </td>
 
 <td style="text-align:right;">
 
-2.96
+3.03
 </td>
 
 <td style="text-align:right;">
 
--4.29
+-4.35
 </td>
 
 <td style="text-align:right;">
@@ -944,7 +765,7 @@ v_nodal
 
 <td style="text-align:right;">
 
-3.74
+3.76
 </td>
 
 </tr>
@@ -968,17 +789,17 @@ Constant
 
 <td style="text-align:right;">
 
--66.49
+-66.69
 </td>
 
 <td style="text-align:right;">
 
-2.96
+2.98
 </td>
 
 <td style="text-align:right;">
 
--22.48
+-22.41
 </td>
 
 <td style="text-align:right;">
@@ -988,7 +809,7 @@ Constant
 
 <td style="text-align:right;">
 
-3.01
+3.02
 </td>
 
 </tr>
@@ -1012,7 +833,7 @@ Trend
 
 <td style="text-align:right;">
 
-2.33
+2.32
 </td>
 
 <td style="text-align:right;">
@@ -1022,7 +843,7 @@ Trend
 
 <td style="text-align:right;">
 
-31.86
+31.10
 </td>
 
 <td style="text-align:right;">
@@ -1056,27 +877,27 @@ broken_linear
 
   <td style="text-align:right;">
 
-  0.56
+  0.72
   </td>
 
   <td style="text-align:right;">
 
-  0.37
+  0.36
   </td>
 
   <td style="text-align:right;">
 
-  1.52
+  1.99
   </td>
 
   <td style="text-align:right;">
 
-  0.13
+  0.05
   </td>
 
   <td style="text-align:right;">
 
-  0.33
+  0.36
   </td>
 
   </tr>
@@ -1100,27 +921,27 @@ broken_linear
 
   <td style="text-align:right;">
 
-  5.38
+  5.88
   </td>
 
   <td style="text-align:right;">
 
-  3.02
+  3.03
   </td>
 
   <td style="text-align:right;">
 
-  1.78
+  1.94
   </td>
 
   <td style="text-align:right;">
 
-  0.08
+  0.06
   </td>
 
   <td style="text-align:right;">
 
-  3.39
+  3.41
   </td>
 
   </tr>
@@ -1144,17 +965,17 @@ broken_linear
 
   <td style="text-align:right;">
 
-  -12.22
+  -12.48
   </td>
 
   <td style="text-align:right;">
 
-  2.97
+  3.01
   </td>
 
   <td style="text-align:right;">
 
-  -4.12
+  -4.14
   </td>
 
   <td style="text-align:right;">
@@ -1188,17 +1009,17 @@ broken_linear
 
   <td style="text-align:right;">
 
-  -64.82
+  -65.56
   </td>
 
   <td style="text-align:right;">
 
-  3.78
+  3.80
   </td>
 
   <td style="text-align:right;">
 
-  -17.17
+  -17.24
   </td>
 
   <td style="text-align:right;">
@@ -1208,7 +1029,7 @@ broken_linear
 
   <td style="text-align:right;">
 
-  4.25
+  4.36
   </td>
 
   </tr>
@@ -1232,7 +1053,7 @@ broken_linear
 
   <td style="text-align:right;">
 
-  2.38
+  2.36
   </td>
 
   <td style="text-align:right;">
@@ -1242,7 +1063,7 @@ broken_linear
 
   <td style="text-align:right;">
 
-  26.47
+  25.67
   </td>
 
   <td style="text-align:right;">
@@ -1252,7 +1073,7 @@ broken_linear
 
   <td style="text-align:right;">
 
-  0.12
+  0.13
   </td>
 
   </tr>
@@ -1286,12 +1107,12 @@ broken_linear
 
     <td style="text-align:right;">
 
-    0.42
+    0.91
     </td>
 
     <td style="text-align:right;">
 
-    0.68
+    0.36
     </td>
 
     <td style="text-align:right;">
@@ -1320,27 +1141,27 @@ broken_linear
 
     <td style="text-align:right;">
 
-    5.23
+    5.82
     </td>
 
     <td style="text-align:right;">
 
-    3.04
+    3.07
     </td>
 
     <td style="text-align:right;">
 
-    1.72
+    1.90
     </td>
 
     <td style="text-align:right;">
 
-    0.09
+    0.06
     </td>
 
     <td style="text-align:right;">
 
-    3.45
+    3.50
     </td>
 
     </tr>
@@ -1364,17 +1185,17 @@ broken_linear
 
     <td style="text-align:right;">
 
-    -12.61
+    -12.91
     </td>
 
     <td style="text-align:right;">
 
-    2.99
+    3.04
     </td>
 
     <td style="text-align:right;">
 
-    -4.22
+    -4.24
     </td>
 
     <td style="text-align:right;">
@@ -1408,27 +1229,27 @@ broken_linear
 
     <td style="text-align:right;">
 
-    0.90
+    1.76
     </td>
 
     <td style="text-align:right;">
 
-    2.25
+    2.27
     </td>
 
     <td style="text-align:right;">
 
-    0.40
+    0.78
     </td>
 
     <td style="text-align:right;">
 
-    0.69
+    0.44
     </td>
 
     <td style="text-align:right;">
 
-    2.26
+    2.37
     </td>
 
     </tr>
@@ -1452,7 +1273,7 @@ broken_linear
 
     <td style="text-align:right;">
 
-    2.53
+    2.55
     </td>
 
     <td style="text-align:right;">
@@ -1462,7 +1283,7 @@ broken_linear
 
     <td style="text-align:right;">
 
-    45.95
+    45.55
     </td>
 
     <td style="text-align:right;">
@@ -1496,27 +1317,27 @@ broken_linear
 
     <td style="text-align:right;">
 
-    0.65
+    1.24
     </td>
 
     <td style="text-align:right;">
 
-    3.05
+    3.08
     </td>
 
     <td style="text-align:right;">
 
-    0.21
+    0.40
     </td>
 
     <td style="text-align:right;">
 
-    0.83
+    0.69
     </td>
 
     <td style="text-align:right;">
 
-    3.80
+    3.88
     </td>
 
     </tr>
@@ -1540,17 +1361,17 @@ broken_linear
 
     <td style="text-align:right;">
 
-    -8.82
+    -9.56
     </td>
 
     <td style="text-align:right;">
 
-    2.98
+    3.03
     </td>
 
     <td style="text-align:right;">
 
-    -2.96
+    -3.15
     </td>
 
     <td style="text-align:right;">
@@ -1560,7 +1381,7 @@ broken_linear
 
     <td style="text-align:right;">
 
-    3.05
+    3.08
     </td>
 
     </tr>
@@ -1584,7 +1405,7 @@ broken_linear
 
     <td style="text-align:right;">
 
-    -3.16
+    -3.42
     </td>
 
     <td style="text-align:right;">
@@ -1594,12 +1415,12 @@ broken_linear
 
     <td style="text-align:right;">
 
-    -1.07
+    -1.16
     </td>
 
     <td style="text-align:right;">
 
-    0.29
+    0.25
     </td>
 
     <td style="text-align:right;">
@@ -1628,7 +1449,7 @@ broken_linear
 
     <td style="text-align:right;">
 
-    2.43
+    2.41
     </td>
 
     <td style="text-align:right;">
@@ -1638,7 +1459,7 @@ broken_linear
 
     <td style="text-align:right;">
 
-    33.34
+    32.60
     </td>
 
     <td style="text-align:right;">
@@ -1672,27 +1493,27 @@ broken_linear
 
       <td style="text-align:right;">
 
-      0.78
+      0.96
       </td>
 
       <td style="text-align:right;">
 
-      0.37
+      0.36
       </td>
 
       <td style="text-align:right;">
 
-      2.10
+      2.66
       </td>
 
       <td style="text-align:right;">
 
-      0.04
+      0.01
       </td>
 
       <td style="text-align:right;">
 
-      0.34
+      0.36
       </td>
 
       </tr>
@@ -1716,27 +1537,27 @@ broken_linear
 
       <td style="text-align:right;">
 
-      0.89
+      1.28
       </td>
 
       <td style="text-align:right;">
 
-      3.01
+      3.00
       </td>
 
       <td style="text-align:right;">
 
-      0.30
+      0.42
       </td>
 
       <td style="text-align:right;">
 
-      0.77
+      0.67
       </td>
 
       <td style="text-align:right;">
 
-      3.77
+      3.75
       </td>
 
       </tr>
@@ -1760,22 +1581,22 @@ broken_linear
 
       <td style="text-align:right;">
 
-      -8.13
+      -8.64
       </td>
 
       <td style="text-align:right;">
 
-      2.96
+      2.98
       </td>
 
       <td style="text-align:right;">
 
-      -2.75
+      -2.90
       </td>
 
       <td style="text-align:right;">
 
-      0.01
+      0.00
       </td>
 
       <td style="text-align:right;">
@@ -1804,27 +1625,27 @@ broken_linear
 
       <td style="text-align:right;">
 
-      -6.66
+      -7.45
       </td>
 
       <td style="text-align:right;">
 
-      3.70
+      3.69
       </td>
 
       <td style="text-align:right;">
 
-      -1.80
+      -2.02
       </td>
 
       <td style="text-align:right;">
 
-      0.07
+      0.04
       </td>
 
       <td style="text-align:right;">
 
-      4.29
+      4.26
       </td>
 
       </tr>
@@ -1848,7 +1669,7 @@ broken_linear
 
       <td style="text-align:right;">
 
-      2.36
+      2.33
       </td>
 
       <td style="text-align:right;">
@@ -1858,7 +1679,7 @@ broken_linear
 
       <td style="text-align:right;">
 
-      26.77
+      26.11
       </td>
 
       <td style="text-align:right;">
@@ -1902,12 +1723,12 @@ broken_linear
 
         <td style="text-align:right;">
 
-        2.54
+        3.11
         </td>
 
         <td style="text-align:right;">
 
-        0.01
+        0.00
         </td>
 
         <td style="text-align:right;">
@@ -1936,27 +1757,27 @@ broken_linear
 
         <td style="text-align:right;">
 
-        0.82
+        1.14
         </td>
 
         <td style="text-align:right;">
 
-        2.99
+        2.98
         </td>
 
         <td style="text-align:right;">
 
-        0.27
+        0.38
         </td>
 
         <td style="text-align:right;">
 
-        0.78
+        0.70
         </td>
 
         <td style="text-align:right;">
 
-        3.69
+        3.65
         </td>
 
         </tr>
@@ -1980,27 +1801,27 @@ broken_linear
 
         <td style="text-align:right;">
 
-        -8.11
+        -8.69
         </td>
 
         <td style="text-align:right;">
 
-        2.93
+        2.95
         </td>
 
         <td style="text-align:right;">
 
-        -2.77
+        -2.94
         </td>
 
         <td style="text-align:right;">
 
-        0.01
+        0.00
         </td>
 
         <td style="text-align:right;">
 
-        3.06
+        3.05
         </td>
 
         </tr>
@@ -2024,17 +1845,17 @@ broken_linear
 
         <td style="text-align:right;">
 
-        -57.11
+        -56.04
         </td>
 
         <td style="text-align:right;">
 
-        2.40
+        2.44
         </td>
 
         <td style="text-align:right;">
 
-        -23.78
+        -22.92
         </td>
 
         <td style="text-align:right;">
@@ -2044,7 +1865,7 @@ broken_linear
 
         <td style="text-align:right;">
 
-        2.56
+        2.74
         </td>
 
         </tr>
@@ -2068,7 +1889,7 @@ broken_linear
 
         <td style="text-align:right;">
 
-        1.57
+        1.59
         </td>
 
         <td style="text-align:right;">
@@ -2078,7 +1899,7 @@ broken_linear
 
         <td style="text-align:right;">
 
-        26.78
+        26.45
         </td>
 
         <td style="text-align:right;">
@@ -2112,27 +1933,27 @@ broken_linear
 
         <td style="text-align:right;">
 
-        4.82
+        5.69
         </td>
 
         <td style="text-align:right;">
 
-        3.25
+        3.32
         </td>
 
         <td style="text-align:right;">
 
-        1.49
+        1.72
         </td>
 
         <td style="text-align:right;">
 
-        0.14
+        0.09
         </td>
 
         <td style="text-align:right;">
 
-        3.24
+        3.44
         </td>
 
         </tr>
@@ -2156,17 +1977,17 @@ broken_linear
 
         <td style="text-align:right;">
 
-        -13.54
+        -14.35
         </td>
 
         <td style="text-align:right;">
 
-        3.17
+        3.27
         </td>
 
         <td style="text-align:right;">
 
-        -4.27
+        -4.38
         </td>
 
         <td style="text-align:right;">
@@ -2176,7 +1997,7 @@ broken_linear
 
         <td style="text-align:right;">
 
-        4.02
+        4.09
         </td>
 
         </tr>
@@ -2200,12 +2021,12 @@ broken_linear
 
         <td style="text-align:right;">
 
-        -64.75
+        -65.05
         </td>
 
         <td style="text-align:right;">
 
-        3.02
+        3.04
         </td>
 
         <td style="text-align:right;">
@@ -2220,7 +2041,7 @@ broken_linear
 
         <td style="text-align:right;">
 
-        3.07
+        3.12
         </td>
 
         </tr>
@@ -2244,17 +2065,17 @@ broken_linear
 
         <td style="text-align:right;">
 
-        1.38
+        1.36
         </td>
 
         <td style="text-align:right;">
 
-        0.07
+        0.08
         </td>
 
         <td style="text-align:right;">
 
-        18.46
+        17.88
         </td>
 
         <td style="text-align:right;">
@@ -2288,17 +2109,17 @@ broken_linear
 
           <td style="text-align:right;">
 
-          1.47
+          1.66
           </td>
 
           <td style="text-align:right;">
 
-          0.38
+          0.37
           </td>
 
           <td style="text-align:right;">
 
-          3.85
+          4.49
           </td>
 
           <td style="text-align:right;">
@@ -2308,7 +2129,7 @@ broken_linear
 
           <td style="text-align:right;">
 
-          0.33
+          0.37
           </td>
 
           </tr>
@@ -2332,27 +2153,27 @@ broken_linear
 
           <td style="text-align:right;">
 
-          5.29
+          5.76
           </td>
 
           <td style="text-align:right;">
 
-          3.09
+          3.10
           </td>
 
           <td style="text-align:right;">
 
-          1.71
+          1.86
           </td>
 
           <td style="text-align:right;">
 
-          0.09
+          0.06
           </td>
 
           <td style="text-align:right;">
 
-          3.02
+          3.06
           </td>
 
           </tr>
@@ -2376,17 +2197,17 @@ broken_linear
 
           <td style="text-align:right;">
 
-          -12.23
+          -12.75
           </td>
 
           <td style="text-align:right;">
 
-          3.04
+          3.08
           </td>
 
           <td style="text-align:right;">
 
-          -4.03
+          -4.14
           </td>
 
           <td style="text-align:right;">
@@ -2396,7 +2217,7 @@ broken_linear
 
           <td style="text-align:right;">
 
-          3.83
+          3.86
           </td>
 
           </tr>
@@ -2420,7 +2241,7 @@ broken_linear
 
           <td style="text-align:right;">
 
-          -70.00
+          -70.91
           </td>
 
           <td style="text-align:right;">
@@ -2430,7 +2251,7 @@ broken_linear
 
           <td style="text-align:right;">
 
-          -18.48
+          -18.72
           </td>
 
           <td style="text-align:right;">
@@ -2440,7 +2261,7 @@ broken_linear
 
           <td style="text-align:right;">
 
-          4.05
+          4.10
           </td>
 
           </tr>
@@ -2464,7 +2285,7 @@ broken_linear
 
           <td style="text-align:right;">
 
-          1.27
+          1.24
           </td>
 
           <td style="text-align:right;">
@@ -2474,7 +2295,7 @@ broken_linear
 
           <td style="text-align:right;">
 
-          14.12
+          13.55
           </td>
 
           <td style="text-align:right;">
@@ -2508,7 +2329,7 @@ broken_linear
 
             <td style="text-align:right;">
 
-            0.01
+            0.02
             </td>
 
             <td style="text-align:right;">
@@ -2518,7 +2339,7 @@ broken_linear
 
             <td style="text-align:right;">
 
-            4.24
+            4.88
             </td>
 
             <td style="text-align:right;">
@@ -2552,7 +2373,7 @@ broken_linear
 
             <td style="text-align:right;">
 
-            5.11
+            5.53
             </td>
 
             <td style="text-align:right;">
@@ -2562,17 +2383,17 @@ broken_linear
 
             <td style="text-align:right;">
 
-            1.67
+            1.81
             </td>
 
             <td style="text-align:right;">
 
-            0.10
+            0.07
             </td>
 
             <td style="text-align:right;">
 
-            2.94
+            2.99
             </td>
 
             </tr>
@@ -2596,17 +2417,17 @@ broken_linear
 
             <td style="text-align:right;">
 
-            -12.33
+            -12.93
             </td>
 
             <td style="text-align:right;">
 
-            3.00
+            3.03
             </td>
 
             <td style="text-align:right;">
 
-            -4.12
+            -4.26
             </td>
 
             <td style="text-align:right;">
@@ -2616,7 +2437,7 @@ broken_linear
 
             <td style="text-align:right;">
 
-            3.80
+            3.81
             </td>
 
             </tr>
@@ -2640,7 +2461,7 @@ broken_linear
 
             <td style="text-align:right;">
 
-            23.22
+            24.13
             </td>
 
             <td style="text-align:right;">
@@ -2650,7 +2471,7 @@ broken_linear
 
             <td style="text-align:right;">
 
-            7.87
+            8.19
             </td>
 
             <td style="text-align:right;">
@@ -2660,7 +2481,7 @@ broken_linear
 
             <td style="text-align:right;">
 
-            3.25
+            3.31
             </td>
 
             </tr>
@@ -2684,7 +2505,7 @@ broken_linear
 
             <td style="text-align:right;">
 
-            1.92
+            1.93
             </td>
 
             <td style="text-align:right;">
@@ -2694,7 +2515,7 @@ broken_linear
 
             <td style="text-align:right;">
 
-            26.60
+            26.57
             </td>
 
             <td style="text-align:right;">
@@ -2728,27 +2549,27 @@ broken_linear
 
             <td style="text-align:right;">
 
-            2.26
+            2.82
             </td>
 
             <td style="text-align:right;">
 
-            3.99
+            4.00
             </td>
 
             <td style="text-align:right;">
 
-            0.57
+            0.70
             </td>
 
             <td style="text-align:right;">
 
-            0.57
+            0.48
             </td>
 
             <td style="text-align:right;">
 
-            4.72
+            4.77
             </td>
 
             </tr>
@@ -2772,17 +2593,17 @@ broken_linear
 
             <td style="text-align:right;">
 
-            -14.05
+            -14.93
             </td>
 
             <td style="text-align:right;">
 
-            3.90
+            3.94
             </td>
 
             <td style="text-align:right;">
 
-            -3.60
+            -3.79
             </td>
 
             <td style="text-align:right;">
@@ -2792,7 +2613,7 @@ broken_linear
 
             <td style="text-align:right;">
 
-            4.28
+            4.32
             </td>
 
             </tr>
@@ -2816,17 +2637,17 @@ broken_linear
 
             <td style="text-align:right;">
 
-            12.18
+            12.09
             </td>
 
             <td style="text-align:right;">
 
-            3.63
+            3.60
             </td>
 
             <td style="text-align:right;">
 
-            3.35
+            3.36
             </td>
 
             <td style="text-align:right;">
@@ -2836,7 +2657,7 @@ broken_linear
 
             <td style="text-align:right;">
 
-            3.30
+            3.29
             </td>
 
             </tr>
@@ -2860,7 +2681,7 @@ broken_linear
 
             <td style="text-align:right;">
 
-            1.64
+            1.62
             </td>
 
             <td style="text-align:right;">
@@ -2870,7 +2691,7 @@ broken_linear
 
             <td style="text-align:right;">
 
-            18.27
+            17.97
             </td>
 
             <td style="text-align:right;">
@@ -2904,17 +2725,17 @@ broken_linear
 
               <td style="text-align:right;">
 
-              2.12
+              2.22
               </td>
 
               <td style="text-align:right;">
 
-              0.46
+              0.44
               </td>
 
               <td style="text-align:right;">
 
-              4.63
+              5.07
               </td>
 
               <td style="text-align:right;">
@@ -2924,7 +2745,7 @@ broken_linear
 
               <td style="text-align:right;">
 
-              0.38
+              0.36
               </td>
 
               </tr>
@@ -2948,12 +2769,12 @@ broken_linear
 
               <td style="text-align:right;">
 
-              2.94
+              2.91
               </td>
 
               <td style="text-align:right;">
 
-              3.71
+              3.66
               </td>
 
               <td style="text-align:right;">
@@ -2968,7 +2789,7 @@ broken_linear
 
               <td style="text-align:right;">
 
-              4.47
+              4.43
               </td>
 
               </tr>
@@ -2992,17 +2813,17 @@ broken_linear
 
               <td style="text-align:right;">
 
-              -12.16
+              -12.80
               </td>
 
               <td style="text-align:right;">
 
-              3.65
+              3.64
               </td>
 
               <td style="text-align:right;">
 
-              -3.34
+              -3.52
               </td>
 
               <td style="text-align:right;">
@@ -3012,7 +2833,7 @@ broken_linear
 
               <td style="text-align:right;">
 
-              3.75
+              3.73
               </td>
 
               </tr>
@@ -3036,27 +2857,27 @@ broken_linear
 
               <td style="text-align:right;">
 
-              6.76
+              6.14
               </td>
 
               <td style="text-align:right;">
 
-              4.63
+              4.56
               </td>
 
               <td style="text-align:right;">
 
-              1.46
+              1.34
               </td>
 
               <td style="text-align:right;">
 
-              0.15
+              0.18
               </td>
 
               <td style="text-align:right;">
 
-              4.39
+              4.33
               </td>
 
               </tr>
@@ -3080,7 +2901,7 @@ broken_linear
 
               <td style="text-align:right;">
 
-              1.54
+              1.50
               </td>
 
               <td style="text-align:right;">
@@ -3090,7 +2911,7 @@ broken_linear
 
               <td style="text-align:right;">
 
-              13.95
+              13.62
               </td>
 
               <td style="text-align:right;">
@@ -3134,7 +2955,7 @@ broken_linear
 
                 <td style="text-align:right;">
 
-                4.43
+                4.90
                 </td>
 
                 <td style="text-align:right;">
@@ -3168,17 +2989,17 @@ broken_linear
 
                 <td style="text-align:right;">
 
-                2.63
+                2.62
                 </td>
 
                 <td style="text-align:right;">
 
-                3.73
+                3.68
                 </td>
 
                 <td style="text-align:right;">
 
-                0.70
+                0.71
                 </td>
 
                 <td style="text-align:right;">
@@ -3188,7 +3009,7 @@ broken_linear
 
                 <td style="text-align:right;">
 
-                4.55
+                4.53
                 </td>
 
                 </tr>
@@ -3212,17 +3033,17 @@ broken_linear
 
                 <td style="text-align:right;">
 
-                -12.51
+                -13.22
                 </td>
 
                 <td style="text-align:right;">
 
-                3.66
+                3.65
                 </td>
 
                 <td style="text-align:right;">
 
-                -3.42
+                -3.62
                 </td>
 
                 <td style="text-align:right;">
@@ -3232,7 +3053,7 @@ broken_linear
 
                 <td style="text-align:right;">
 
-                3.72
+                3.68
                 </td>
 
                 </tr>
@@ -3256,27 +3077,27 @@ broken_linear
 
                 <td style="text-align:right;">
 
-                4.76
+                6.03
                 </td>
 
                 <td style="text-align:right;">
 
-                2.76
+                2.80
                 </td>
 
                 <td style="text-align:right;">
 
-                1.73
+                2.15
                 </td>
 
                 <td style="text-align:right;">
 
-                0.09
+                0.03
                 </td>
 
                 <td style="text-align:right;">
 
-                3.36
+                3.54
                 </td>
 
                 </tr>
@@ -3300,7 +3121,7 @@ broken_linear
 
                 <td style="text-align:right;">
 
-                1.23
+                1.25
                 </td>
 
                 <td style="text-align:right;">
@@ -3310,7 +3131,7 @@ broken_linear
 
                 <td style="text-align:right;">
 
-                18.18
+                18.03
                 </td>
 
                 <td style="text-align:right;">
@@ -3344,27 +3165,27 @@ broken_linear
 
                 <td style="text-align:right;">
 
-                1.00
+                1.95
                 </td>
 
                 <td style="text-align:right;">
 
-                3.73
+                3.80
                 </td>
 
                 <td style="text-align:right;">
 
-                0.27
+                0.51
                 </td>
 
                 <td style="text-align:right;">
 
-                0.79
+                0.61
                 </td>
 
                 <td style="text-align:right;">
 
-                4.26
+                4.48
                 </td>
 
                 </tr>
@@ -3388,17 +3209,17 @@ broken_linear
 
                 <td style="text-align:right;">
 
-                -11.13
+                -12.30
                 </td>
 
                 <td style="text-align:right;">
 
-                3.64
+                3.75
                 </td>
 
                 <td style="text-align:right;">
 
-                -3.06
+                -3.28
                 </td>
 
                 <td style="text-align:right;">
@@ -3408,7 +3229,7 @@ broken_linear
 
                 <td style="text-align:right;">
 
-                4.41
+                4.50
                 </td>
 
                 </tr>
@@ -3432,17 +3253,17 @@ broken_linear
 
                 <td style="text-align:right;">
 
-                -8.50
+                -8.82
                 </td>
 
                 <td style="text-align:right;">
 
-                3.20
+                3.18
                 </td>
 
                 <td style="text-align:right;">
 
-                -2.65
+                -2.78
                 </td>
 
                 <td style="text-align:right;">
@@ -3452,7 +3273,7 @@ broken_linear
 
                 <td style="text-align:right;">
 
-                3.23
+                3.22
                 </td>
 
                 </tr>
@@ -3476,7 +3297,7 @@ broken_linear
 
                 <td style="text-align:right;">
 
-                0.89
+                0.86
                 </td>
 
                 <td style="text-align:right;">
@@ -3486,7 +3307,7 @@ broken_linear
 
                 <td style="text-align:right;">
 
-                11.26
+                10.84
                 </td>
 
                 <td style="text-align:right;">
@@ -3520,17 +3341,17 @@ broken_linear
 
                   <td style="text-align:right;">
 
-                  2.54
+                  2.74
                   </td>
 
                   <td style="text-align:right;">
 
-                  0.40
+                  0.39
                   </td>
 
                   <td style="text-align:right;">
 
-                  6.30
+                  7.08
                   </td>
 
                   <td style="text-align:right;">
@@ -3540,7 +3361,7 @@ broken_linear
 
                   <td style="text-align:right;">
 
-                  0.36
+                  0.38
                   </td>
 
                   </tr>
@@ -3564,27 +3385,27 @@ broken_linear
 
                   <td style="text-align:right;">
 
-                  1.81
+                  2.07
                   </td>
 
                   <td style="text-align:right;">
 
-                  3.27
+                  3.24
                   </td>
 
                   <td style="text-align:right;">
 
-                  0.55
+                  0.64
                   </td>
 
                   <td style="text-align:right;">
 
-                  0.58
+                  0.52
                   </td>
 
                   <td style="text-align:right;">
 
-                  3.70
+                  3.69
                   </td>
 
                   </tr>
@@ -3608,7 +3429,7 @@ broken_linear
 
                   <td style="text-align:right;">
 
-                  -8.87
+                  -9.67
                   </td>
 
                   <td style="text-align:right;">
@@ -3618,17 +3439,17 @@ broken_linear
 
                   <td style="text-align:right;">
 
-                  -2.76
+                  -3.01
                   </td>
 
                   <td style="text-align:right;">
 
-                  0.01
+                  0.00
                   </td>
 
                   <td style="text-align:right;">
 
-                  3.65
+                  3.63
                   </td>
 
                   </tr>
@@ -3652,17 +3473,17 @@ broken_linear
 
                   <td style="text-align:right;">
 
-                  -13.62
+                  -14.79
                   </td>
 
                   <td style="text-align:right;">
 
-                  4.18
+                  4.14
                   </td>
 
                   <td style="text-align:right;">
 
-                  -3.26
+                  -3.58
                   </td>
 
                   <td style="text-align:right;">
@@ -3672,7 +3493,7 @@ broken_linear
 
                   <td style="text-align:right;">
 
-                  4.52
+                  4.57
                   </td>
 
                   </tr>
@@ -3696,7 +3517,7 @@ broken_linear
 
                   <td style="text-align:right;">
 
-                  0.80
+                  0.75
                   </td>
 
                   <td style="text-align:right;">
@@ -3706,7 +3527,7 @@ broken_linear
 
                   <td style="text-align:right;">
 
-                  8.01
+                  7.49
                   </td>
 
                   <td style="text-align:right;">
@@ -3750,7 +3571,7 @@ broken_linear
 
                     <td style="text-align:right;">
 
-                    5.48
+                    6.26
                     </td>
 
                     <td style="text-align:right;">
@@ -3784,27 +3605,27 @@ broken_linear
 
                     <td style="text-align:right;">
 
-                    1.41
+                    1.73
                     </td>
 
                     <td style="text-align:right;">
 
-                    3.37
+                    3.34
                     </td>
 
                     <td style="text-align:right;">
 
-                    0.42
+                    0.52
                     </td>
 
                     <td style="text-align:right;">
 
-                    0.68
+                    0.61
                     </td>
 
                     <td style="text-align:right;">
 
-                    3.85
+                    3.87
                     </td>
 
                     </tr>
@@ -3828,7 +3649,7 @@ broken_linear
 
                     <td style="text-align:right;">
 
-                    -9.41
+                    -10.32
                     </td>
 
                     <td style="text-align:right;">
@@ -3838,7 +3659,7 @@ broken_linear
 
                     <td style="text-align:right;">
 
-                    -2.85
+                    -3.12
                     </td>
 
                     <td style="text-align:right;">
@@ -3848,7 +3669,7 @@ broken_linear
 
                     <td style="text-align:right;">
 
-                    3.78
+                    3.76
                     </td>
 
                     </tr>
@@ -3872,17 +3693,17 @@ broken_linear
 
                     <td style="text-align:right;">
 
-                    -42.72
+                    -42.15
                     </td>
 
                     <td style="text-align:right;">
 
-                    2.63
+                    2.61
                     </td>
 
                     <td style="text-align:right;">
 
-                    -16.22
+                    -16.15
                     </td>
 
                     <td style="text-align:right;">
@@ -3892,7 +3713,7 @@ broken_linear
 
                     <td style="text-align:right;">
 
-                    2.61
+                    2.63
                     </td>
 
                     </tr>
@@ -3916,7 +3737,7 @@ broken_linear
 
                     <td style="text-align:right;">
 
-                    2.14
+                    2.15
                     </td>
 
                     <td style="text-align:right;">
@@ -3926,7 +3747,7 @@ broken_linear
 
                     <td style="text-align:right;">
 
-                    33.28
+                    33.33
                     </td>
 
                     <td style="text-align:right;">
@@ -3960,27 +3781,27 @@ broken_linear
 
                     <td style="text-align:right;">
 
-                    10.05
+                    10.23
                     </td>
 
                     <td style="text-align:right;">
 
-                    3.56
+                    3.54
                     </td>
 
                     <td style="text-align:right;">
 
-                    2.82
+                    2.89
                     </td>
 
                     <td style="text-align:right;">
 
-                    0.01
+                    0.00
                     </td>
 
                     <td style="text-align:right;">
 
-                    4.34
+                    4.32
                     </td>
 
                     </tr>
@@ -4004,17 +3825,17 @@ broken_linear
 
                     <td style="text-align:right;">
 
-                    -11.95
+                    -12.57
                     </td>
 
                     <td style="text-align:right;">
 
-                    3.48
+                    3.49
                     </td>
 
                     <td style="text-align:right;">
 
-                    -3.43
+                    -3.60
                     </td>
 
                     <td style="text-align:right;">
@@ -4024,7 +3845,7 @@ broken_linear
 
                     <td style="text-align:right;">
 
-                    4.03
+                    4.07
                     </td>
 
                     </tr>
@@ -4048,17 +3869,17 @@ broken_linear
 
                     <td style="text-align:right;">
 
-                    -43.87
+                    -43.98
                     </td>
 
                     <td style="text-align:right;">
 
-                    3.50
+                    3.48
                     </td>
 
                     <td style="text-align:right;">
 
-                    -12.54
+                    -12.64
                     </td>
 
                     <td style="text-align:right;">
@@ -4068,7 +3889,7 @@ broken_linear
 
                     <td style="text-align:right;">
 
-                    3.44
+                    3.41
                     </td>
 
                     </tr>
@@ -4092,7 +3913,7 @@ broken_linear
 
                     <td style="text-align:right;">
 
-                    2.12
+                    2.10
                     </td>
 
                     <td style="text-align:right;">
@@ -4102,7 +3923,7 @@ broken_linear
 
                     <td style="text-align:right;">
 
-                    24.43
+                    24.03
                     </td>
 
                     <td style="text-align:right;">
@@ -4136,27 +3957,27 @@ broken_linear
 
                       <td style="text-align:right;">
 
-                      0.22
+                      0.34
                       </td>
 
                       <td style="text-align:right;">
 
-                      0.44
+                      0.42
                       </td>
 
                       <td style="text-align:right;">
 
-                      0.50
+                      0.80
                       </td>
 
                       <td style="text-align:right;">
 
-                      0.62
+                      0.43
                       </td>
 
                       <td style="text-align:right;">
 
-                      0.39
+                      0.38
                       </td>
 
                       </tr>
@@ -4180,17 +4001,17 @@ broken_linear
 
                       <td style="text-align:right;">
 
-                      10.12
+                      10.25
                       </td>
 
                       <td style="text-align:right;">
 
-                      3.58
+                      3.55
                       </td>
 
                       <td style="text-align:right;">
 
-                      2.83
+                      2.89
                       </td>
 
                       <td style="text-align:right;">
@@ -4200,7 +4021,7 @@ broken_linear
 
                       <td style="text-align:right;">
 
-                      4.37
+                      4.34
                       </td>
 
                       </tr>
@@ -4224,17 +4045,17 @@ broken_linear
 
                       <td style="text-align:right;">
 
-                      -11.75
+                      -12.25
                       </td>
 
                       <td style="text-align:right;">
 
-                      3.51
+                      3.52
                       </td>
 
                       <td style="text-align:right;">
 
-                      -3.35
+                      -3.48
                       </td>
 
                       <td style="text-align:right;">
@@ -4244,7 +4065,7 @@ broken_linear
 
                       <td style="text-align:right;">
 
-                      4.02
+                      4.06
                       </td>
 
                       </tr>
@@ -4268,17 +4089,17 @@ broken_linear
 
                       <td style="text-align:right;">
 
-                      -43.57
+                      -44.11
                       </td>
 
                       <td style="text-align:right;">
 
-                      4.43
+                      4.40
                       </td>
 
                       <td style="text-align:right;">
 
-                      -9.83
+                      -10.03
                       </td>
 
                       <td style="text-align:right;">
@@ -4288,7 +4109,7 @@ broken_linear
 
                       <td style="text-align:right;">
 
-                      4.74
+                      4.70
                       </td>
 
                       </tr>
@@ -4312,17 +4133,17 @@ broken_linear
 
                       <td style="text-align:right;">
 
-                      2.12
+                      2.10
                       </td>
 
                       <td style="text-align:right;">
 
-                      0.10
+                      0.11
                       </td>
 
                       <td style="text-align:right;">
 
-                      20.16
+                      19.76
                       </td>
 
                       <td style="text-align:right;">
@@ -4366,12 +4187,12 @@ broken_linear
 
                         <td style="text-align:right;">
 
-                        0.24
+                        0.55
                         </td>
 
                         <td style="text-align:right;">
 
-                        0.81
+                        0.58
                         </td>
 
                         <td style="text-align:right;">
@@ -4400,27 +4221,27 @@ broken_linear
 
                         <td style="text-align:right;">
 
-                        10.07
+                        10.21
                         </td>
 
                         <td style="text-align:right;">
 
-                        3.58
+                        3.55
                         </td>
 
                         <td style="text-align:right;">
 
-                        2.82
+                        2.88
                         </td>
 
                         <td style="text-align:right;">
 
-                        0.01
+                        0.00
                         </td>
 
                         <td style="text-align:right;">
 
-                        4.37
+                        4.35
                         </td>
 
                         </tr>
@@ -4444,17 +4265,17 @@ broken_linear
 
                         <td style="text-align:right;">
 
-                        -11.87
+                        -12.39
                         </td>
 
                         <td style="text-align:right;">
 
-                        3.51
+                        3.52
                         </td>
 
                         <td style="text-align:right;">
 
-                        -3.38
+                        -3.52
                         </td>
 
                         <td style="text-align:right;">
@@ -4464,7 +4285,7 @@ broken_linear
 
                         <td style="text-align:right;">
 
-                        4.00
+                        4.04
                         </td>
 
                         </tr>
@@ -4488,17 +4309,17 @@ broken_linear
 
                         <td style="text-align:right;">
 
-                        -22.42
+                        -21.51
                         </td>
 
                         <td style="text-align:right;">
 
-                        2.02
+                        2.04
                         </td>
 
                         <td style="text-align:right;">
 
-                        -11.12
+                        -10.54
                         </td>
 
                         <td style="text-align:right;">
@@ -4508,7 +4329,7 @@ broken_linear
 
                         <td style="text-align:right;">
 
-                        2.12
+                        2.26
                         </td>
 
                         </tr>
@@ -4532,7 +4353,7 @@ broken_linear
 
                         <td style="text-align:right;">
 
-                        1.97
+                        1.98
                         </td>
 
                         <td style="text-align:right;">
@@ -4542,7 +4363,7 @@ broken_linear
 
                         <td style="text-align:right;">
 
-                        39.89
+                        39.38
                         </td>
 
                         <td style="text-align:right;">
@@ -4576,66 +4397,22 @@ broken_linear
 
                         <td style="text-align:right;">
 
-                        4.00
+                        4.63
                         </td>
 
                         <td style="text-align:right;">
 
-                        2.73
+                        2.77
                         </td>
 
                         <td style="text-align:right;">
 
-                        1.47
+                        1.67
                         </td>
 
                         <td style="text-align:right;">
 
-                        0.14
-                        </td>
-
-                        <td style="text-align:right;">
-
-                        2.94
-                        </td>
-
-                        </tr>
-
-                        <tr>
-
-                        <td style="text-align:left;">
-
-                        Netherlands
-                        </td>
-
-                        <td style="text-align:left;">
-
-                        linear
-                        </td>
-
-                        <td style="text-align:left;">
-
-                        v_nodal
-                        </td>
-
-                        <td style="text-align:right;">
-
-                        -12.04
-                        </td>
-
-                        <td style="text-align:right;">
-
-                        2.66
-                        </td>
-
-                        <td style="text-align:right;">
-
-                        -4.52
-                        </td>
-
-                        <td style="text-align:right;">
-
-                        0.00
+                        0.10
                         </td>
 
                         <td style="text-align:right;">
@@ -4654,6 +4431,50 @@ broken_linear
 
                         <td style="text-align:left;">
 
+                        linear
+                        </td>
+
+                        <td style="text-align:left;">
+
+                        v_nodal
+                        </td>
+
+                        <td style="text-align:right;">
+
+                        -12.82
+                        </td>
+
+                        <td style="text-align:right;">
+
+                        2.73
+                        </td>
+
+                        <td style="text-align:right;">
+
+                        -4.69
+                        </td>
+
+                        <td style="text-align:right;">
+
+                        0.00
+                        </td>
+
+                        <td style="text-align:right;">
+
+                        3.10
+                        </td>
+
+                        </tr>
+
+                        <tr>
+
+                        <td style="text-align:left;">
+
+                        Netherlands
+                        </td>
+
+                        <td style="text-align:left;">
+
                         broken_linear
                         </td>
 
@@ -4664,17 +4485,17 @@ broken_linear
 
                         <td style="text-align:right;">
 
-                        -29.10
+                        -29.31
                         </td>
 
                         <td style="text-align:right;">
 
-                        2.53
+                        2.52
                         </td>
 
                         <td style="text-align:right;">
 
-                        -11.52
+                        -11.63
                         </td>
 
                         <td style="text-align:right;">
@@ -4684,7 +4505,7 @@ broken_linear
 
                         <td style="text-align:right;">
 
-                        2.33
+                        2.34
                         </td>
 
                         </tr>
@@ -4708,7 +4529,7 @@ broken_linear
 
                         <td style="text-align:right;">
 
-                        1.80
+                        1.78
                         </td>
 
                         <td style="text-align:right;">
@@ -4718,7 +4539,7 @@ broken_linear
 
                         <td style="text-align:right;">
 
-                        28.78
+                        28.16
                         </td>
 
                         <td style="text-align:right;">
@@ -4752,17 +4573,17 @@ broken_linear
 
                           <td style="text-align:right;">
 
-                          1.28
+                          1.44
                           </td>
 
                           <td style="text-align:right;">
 
-                          0.32
+                          0.31
                           </td>
 
                           <td style="text-align:right;">
 
-                          4.03
+                          4.69
                           </td>
 
                           <td style="text-align:right;">
@@ -4772,7 +4593,7 @@ broken_linear
 
                           <td style="text-align:right;">
 
-                          0.26
+                          0.29
                           </td>
 
                           </tr>
@@ -4796,22 +4617,22 @@ broken_linear
 
                           <td style="text-align:right;">
 
-                          4.40
+                          4.69
                           </td>
 
                           <td style="text-align:right;">
 
-                          2.58
+                          2.57
                           </td>
 
                           <td style="text-align:right;">
 
-                          1.71
+                          1.83
                           </td>
 
                           <td style="text-align:right;">
 
-                          0.09
+                          0.07
                           </td>
 
                           <td style="text-align:right;">
@@ -4840,17 +4661,17 @@ broken_linear
 
                           <td style="text-align:right;">
 
-                          -10.89
+                          -11.43
                           </td>
 
                           <td style="text-align:right;">
 
-                          2.54
+                          2.55
                           </td>
 
                           <td style="text-align:right;">
 
-                          -4.30
+                          -4.48
                           </td>
 
                           <td style="text-align:right;">
@@ -4884,17 +4705,17 @@ broken_linear
 
                           <td style="text-align:right;">
 
-                          -31.99
+                          -32.78
                           </td>
 
                           <td style="text-align:right;">
 
-                          3.23
+                          3.21
                           </td>
 
                           <td style="text-align:right;">
 
-                          -9.91
+                          -10.21
                           </td>
 
                           <td style="text-align:right;">
@@ -4904,7 +4725,7 @@ broken_linear
 
                           <td style="text-align:right;">
 
-                          3.12
+                          3.15
                           </td>
 
                           </tr>
@@ -4928,7 +4749,7 @@ broken_linear
 
                           <td style="text-align:right;">
 
-                          1.74
+                          1.71
                           </td>
 
                           <td style="text-align:right;">
@@ -4938,7 +4759,7 @@ broken_linear
 
                           <td style="text-align:right;">
 
-                          22.72
+                          22.07
                           </td>
 
                           <td style="text-align:right;">
@@ -4982,7 +4803,7 @@ broken_linear
 
                             <td style="text-align:right;">
 
-                            3.69
+                            4.37
                             </td>
 
                             <td style="text-align:right;">
@@ -5016,27 +4837,27 @@ broken_linear
 
                             <td style="text-align:right;">
 
-                            4.21
+                            4.51
                             </td>
 
                             <td style="text-align:right;">
 
-                            2.60
+                            2.59
                             </td>
 
                             <td style="text-align:right;">
 
-                            1.62
+                            1.74
                             </td>
 
                             <td style="text-align:right;">
 
-                            0.11
+                            0.09
                             </td>
 
                             <td style="text-align:right;">
 
-                            2.80
+                            2.82
                             </td>
 
                             </tr>
@@ -5060,17 +4881,17 @@ broken_linear
 
                             <td style="text-align:right;">
 
-                            -11.14
+                            -11.74
                             </td>
 
                             <td style="text-align:right;">
 
-                            2.55
+                            2.57
                             </td>
 
                             <td style="text-align:right;">
 
-                            -4.36
+                            -4.57
                             </td>
 
                             <td style="text-align:right;">
@@ -5080,7 +4901,7 @@ broken_linear
 
                             <td style="text-align:right;">
 
-                            2.87
+                            2.86
                             </td>
 
                             </tr>
@@ -5104,17 +4925,17 @@ broken_linear
 
                             <td style="text-align:right;">
 
-                            -31.54
+                            -30.64
                             </td>
 
                             <td style="text-align:right;">
 
-                            1.94
+                            1.97
                             </td>
 
                             <td style="text-align:right;">
 
-                            -16.26
+                            -15.56
                             </td>
 
                             <td style="text-align:right;">
@@ -5124,7 +4945,7 @@ broken_linear
 
                             <td style="text-align:right;">
 
-                            2.01
+                            2.16
                             </td>
 
                             </tr>
@@ -5148,7 +4969,7 @@ broken_linear
 
                             <td style="text-align:right;">
 
-                            1.98
+                            1.99
                             </td>
 
                             <td style="text-align:right;">
@@ -5158,7 +4979,7 @@ broken_linear
 
                             <td style="text-align:right;">
 
-                            41.65
+                            41.01
                             </td>
 
                             <td style="text-align:right;">
@@ -5168,7 +4989,7 @@ broken_linear
 
                             <td style="text-align:right;">
 
-                            0.05
+                            0.06
                             </td>
 
                             </tr>
@@ -5192,139 +5013,17 @@ broken_linear
 
                             <td style="text-align:right;">
 
-                            4.34
+                            4.99
                             </td>
 
                             <td style="text-align:right;">
 
-                            2.62
+                            2.67
                             </td>
 
                             <td style="text-align:right;">
 
-                            1.66
-                            </td>
-
-                            <td style="text-align:right;">
-
-                            0.10
-                            </td>
-
-                            <td style="text-align:right;">
-
-                            2.83
-                            </td>
-
-                            </tr>
-
-                            <tr>
-
-                            <td style="text-align:left;">
-
-                            Netherlands (without Delfzijl)
-                            </td>
-
-                            <td style="text-align:left;">
-
-                            linear
-                            </td>
-
-                            <td style="text-align:left;">
-
-                            v_nodal
-                            </td>
-
-                            <td style="text-align:right;">
-
-                            -11.63
-                            </td>
-
-                            <td style="text-align:right;">
-
-                            2.56
-                            </td>
-
-                            <td style="text-align:right;">
-
-                            -4.54
-                            </td>
-
-                            <td style="text-align:right;">
-
-                            0.00
-                            </td>
-
-                            <td style="text-align:right;">
-
-                            2.96
-                            </td>
-
-                            </tr>
-
-                            <tr>
-
-                            <td style="text-align:left;">
-
-                            Netherlands (without Delfzijl)
-                            </td>
-
-                            <td style="text-align:left;">
-
-                            broken_linear
-                            </td>
-
-                            <td style="text-align:left;">
-
-                            Constant
-                            </td>
-
-                            <td style="text-align:right;">
-
-                            -37.35
-                            </td>
-
-                            <td style="text-align:right;">
-
-                            2.46
-                            </td>
-
-                            <td style="text-align:right;">
-
-                            -15.19
-                            </td>
-
-                            <td style="text-align:right;">
-
-                            0.00
-                            </td>
-
-                            <td style="text-align:right;">
-
-                            2.30
-                            </td>
-
-                            </tr>
-
-                            <tr>
-
-                            <td style="text-align:left;">
-
-                            Netherlands (without Delfzijl)
-                            </td>
-
-                            <td style="text-align:left;">
-
-                            broken_linear
-                            </td>
-
-                            <td style="text-align:left;">
-
-                            Trend
-                            </td>
-
-                            <td style="text-align:right;">
-
-                            1.83
+                            1.87
                             </td>
 
                             <td style="text-align:right;">
@@ -5334,7 +5033,129 @@ broken_linear
 
                             <td style="text-align:right;">
 
-                            30.08
+                            2.97
+                            </td>
+
+                            </tr>
+
+                            <tr>
+
+                            <td style="text-align:left;">
+
+                            Netherlands (without Delfzijl)
+                            </td>
+
+                            <td style="text-align:left;">
+
+                            linear
+                            </td>
+
+                            <td style="text-align:left;">
+
+                            v_nodal
+                            </td>
+
+                            <td style="text-align:right;">
+
+                            -12.39
+                            </td>
+
+                            <td style="text-align:right;">
+
+                            2.63
+                            </td>
+
+                            <td style="text-align:right;">
+
+                            -4.70
+                            </td>
+
+                            <td style="text-align:right;">
+
+                            0.00
+                            </td>
+
+                            <td style="text-align:right;">
+
+                            3.01
+                            </td>
+
+                            </tr>
+
+                            <tr>
+
+                            <td style="text-align:left;">
+
+                            Netherlands (without Delfzijl)
+                            </td>
+
+                            <td style="text-align:left;">
+
+                            broken_linear
+                            </td>
+
+                            <td style="text-align:left;">
+
+                            Constant
+                            </td>
+
+                            <td style="text-align:right;">
+
+                            -37.59
+                            </td>
+
+                            <td style="text-align:right;">
+
+                            2.46
+                            </td>
+
+                            <td style="text-align:right;">
+
+                            -15.27
+                            </td>
+
+                            <td style="text-align:right;">
+
+                            0.00
+                            </td>
+
+                            <td style="text-align:right;">
+
+                            2.32
+                            </td>
+
+                            </tr>
+
+                            <tr>
+
+                            <td style="text-align:left;">
+
+                            Netherlands (without Delfzijl)
+                            </td>
+
+                            <td style="text-align:left;">
+
+                            broken_linear
+                            </td>
+
+                            <td style="text-align:left;">
+
+                            Trend
+                            </td>
+
+                            <td style="text-align:right;">
+
+                            1.81
+                            </td>
+
+                            <td style="text-align:right;">
+
+                            0.06
+                            </td>
+
+                            <td style="text-align:right;">
+
+                            29.33
                             </td>
 
                             <td style="text-align:right;">
@@ -5368,17 +5189,17 @@ broken_linear
 
                               <td style="text-align:right;">
 
-                              1.11
+                              1.28
                               </td>
 
                               <td style="text-align:right;">
 
-                              0.31
+                              0.30
                               </td>
 
                               <td style="text-align:right;">
 
-                              3.60
+                              4.28
                               </td>
 
                               <td style="text-align:right;">
@@ -5388,7 +5209,7 @@ broken_linear
 
                               <td style="text-align:right;">
 
-                              0.26
+                              0.30
                               </td>
 
                               </tr>
@@ -5412,7 +5233,7 @@ broken_linear
 
                               <td style="text-align:right;">
 
-                              4.70
+                              5.05
                               </td>
 
                               <td style="text-align:right;">
@@ -5422,17 +5243,17 @@ broken_linear
 
                               <td style="text-align:right;">
 
-                              1.87
+                              2.01
                               </td>
 
                               <td style="text-align:right;">
 
-                              0.06
+                              0.05
                               </td>
 
                               <td style="text-align:right;">
 
-                              2.68
+                              2.70
                               </td>
 
                               </tr>
@@ -5456,17 +5277,17 @@ broken_linear
 
                               <td style="text-align:right;">
 
-                              -10.64
+                              -11.16
                               </td>
 
                               <td style="text-align:right;">
 
-                              2.47
+                              2.49
                               </td>
 
                               <td style="text-align:right;">
 
-                              -4.31
+                              -4.48
                               </td>
 
                               <td style="text-align:right;">
@@ -5500,7 +5321,7 @@ broken_linear
 
                               <td style="text-align:right;">
 
-                              -39.74
+                              -40.56
                               </td>
 
                               <td style="text-align:right;">
@@ -5510,7 +5331,7 @@ broken_linear
 
                               <td style="text-align:right;">
 
-                              -12.66
+                              -12.93
                               </td>
 
                               <td style="text-align:right;">
@@ -5520,7 +5341,7 @@ broken_linear
 
                               <td style="text-align:right;">
 
-                              3.12
+                              3.18
                               </td>
 
                               </tr>
@@ -5544,17 +5365,17 @@ broken_linear
 
                               <td style="text-align:right;">
 
-                              1.78
+                              1.75
                               </td>
 
                               <td style="text-align:right;">
 
-                              0.07
+                              0.08
                               </td>
 
                               <td style="text-align:right;">
 
-                              23.91
+                              23.15
                               </td>
 
                               <td style="text-align:right;">
@@ -5598,7 +5419,7 @@ broken_linear
 
                                 <td style="text-align:right;">
 
-                                3.25
+                                3.94
                                 </td>
 
                                 <td style="text-align:right;">
@@ -5632,7 +5453,7 @@ broken_linear
 
                                 <td style="text-align:right;">
 
-                                4.53
+                                4.89
                                 </td>
 
                                 <td style="text-align:right;">
@@ -5642,17 +5463,17 @@ broken_linear
 
                                 <td style="text-align:right;">
 
-                                1.79
+                                1.93
                                 </td>
 
                                 <td style="text-align:right;">
 
-                                0.08
+                                0.06
                                 </td>
 
                                 <td style="text-align:right;">
 
-                                2.72
+                                2.74
                                 </td>
 
                                 </tr>
@@ -5676,17 +5497,17 @@ broken_linear
 
                                 <td style="text-align:right;">
 
-                                -10.87
+                                -11.45
                                 </td>
 
                                 <td style="text-align:right;">
 
-                                2.48
+                                2.51
                                 </td>
 
                                 <td style="text-align:right;">
 
-                                -4.37
+                                -4.56
                                 </td>
 
                                 <td style="text-align:right;">
@@ -5696,7 +5517,7 @@ broken_linear
 
                                 <td style="text-align:right;">
 
-                                2.85
+                                2.84
                                 </td>
 
                                 </tr>
@@ -5715,20 +5536,20 @@ broken_linear
 acc_broken_linear <- parametertable %>%
   filter(modeltype == "broken_linear") %>%
   filter(term == "+ trend 1993") %>%
-  select(station, p.value )
+  select(station, estimate, p.value )
 knitr::kable(acc_broken_linear, caption = "p-values for the acceleration term in the broken linear model for all stations. ")
 ```
 
-| station                        | p.value |
-|:-------------------------------|--------:|
-| Vlissingen                     |   0.132 |
-| Hoek van Holland               |   0.038 |
-| Den Helder                     |   0.000 |
-| Delfzijl                       |   0.000 |
-| Harlingen                      |   0.000 |
-| IJmuiden                       |   0.615 |
-| Netherlands                    |   0.000 |
-| Netherlands (without Delfzijl) |   0.000 |
+| station                        | estimate | p.value |
+|:-------------------------------|---------:|--------:|
+| Vlissingen                     |    0.723 |   0.048 |
+| Hoek van Holland               |    0.956 |   0.009 |
+| Den Helder                     |    1.664 |   0.000 |
+| Delfzijl                       |    2.222 |   0.000 |
+| Harlingen                      |    2.741 |   0.000 |
+| IJmuiden                       |    0.337 |   0.428 |
+| Netherlands                    |    1.440 |   0.000 |
+| Netherlands (without Delfzijl) |    1.284 |   0.000 |
 
 p-values for the acceleration term in the broken linear model for all
 stations.
@@ -5736,36 +5557,35 @@ stations.
 For the broken linear model, there is a significant acceleration
 starting in the year 1993 when fitting the average sea level combined
 for all stations without Delfzijl. For individual stations, the
-acceleration is not significant for the stations Vlissingen, Hoek van
-Holland and IJmuiden.
+acceleration is not significant for the station IJmuiden.
 
 ``` r
 acc_broken_squared <- parametertable %>%
   filter(modeltype == "broken_squared") %>%
   filter(term == "+ square_trend 1960") %>%
   select(station, p.value )
-knitr::kable(acc_broken_squared, caption = "p-vallues for the acceleration term in the broken squared model for all stations. ")
+knitr::kable(acc_broken_squared, caption = "p-values for the acceleration term in the broken squared model for all stations. ")
 ```
 
 | station                        | p.value |
 |:-------------------------------|--------:|
-| Vlissingen                     |   0.675 |
-| Hoek van Holland               |   0.012 |
+| Vlissingen                     |   0.364 |
+| Hoek van Holland               |   0.002 |
 | Den Helder                     |   0.000 |
 | Delfzijl                       |   0.000 |
 | Harlingen                      |   0.000 |
-| IJmuiden                       |   0.811 |
+| IJmuiden                       |   0.580 |
 | Netherlands                    |   0.000 |
-| Netherlands (without Delfzijl) |   0.001 |
+| Netherlands (without Delfzijl) |   0.000 |
 
-p-vallues for the acceleration term in the broken squared model for all
+p-values for the acceleration term in the broken squared model for all
 stations.
 
 For the broken squared model, there is a significant acceleration
 starting in the year 1960 when fitting the average sea level combined
 for all stations without Delfzijl. For individual stations, the
-acceleration is not significant for the stations Vlissingen, Hoek van
-Holland and IJmuiden.
+acceleration is not significant for the stations Vlissingen and
+IJmuiden.
 
 ### Which model has the lowest Akaike Information Criterion (AIC)?
 
@@ -5773,26 +5593,60 @@ Of the two models with an acceleration term, the model with lowest AIC
 is the preferred model.
 
 ``` r
-models %>%
-  # filter(station == "Netherlands (without Delfzijl)") |>
+colors <- c(lowest = "orange")
+
+AIC_df <- models %>%
   mutate(station = as.character(station)) %>%
   select(station, modeltype, AIC) %>%
-  # unite(`modeltype x station`, modeltype, station) %>%
   arrange(-AIC) %>% 
   mutate(modeltype = factor(modeltype, levels=config$runparameters$modeltype)) %>%
   mutate(station = factor(station, levels=config$runparameters$station)) %>%
-  ggplot(aes(x = modeltype, y = AIC)) +
-  geom_point(size = 3, shape = "|") +
+  group_by(station) %>%
+  mutate(AIC_score = ifelse(AIC == min(AIC), "lowest", ""))
+
+AIC_df %>%
+  ggplot(aes(x = modeltype, y = AIC, color = AIC_score)) +
+  geom_point(size = 6, shape = "|") +
   coord_flip() +
+  scale_color_manual(values = colors) +
   facet_wrap("station")
 ```
 
-![](sealevelanalysis_files/figure-gfm/unnamed-chunk-15-1.png)<!-- -->
+![](sealevelanalysis_files/figure-gfm/unnamed-chunk-13-1.png)<!-- -->
+
+``` r
+preferred_model = AIC_df %>% 
+  ungroup() %>% 
+  filter(AIC_score == "lowest", station == "Netherlands (without Delfzijl)") %>% 
+  select(modeltype) %>% 
+  unlist() %>% 
+  as.character() %>% 
+  unname()
+
+AIC_df %>% ungroup() %>%
+  filter(AIC_score == "lowest") %>% 
+  arrange(modeltype) %>% 
+  select(station, `lowest AIC model` = modeltype) %>%
+  knitr::kable(caption = "Model with lowest AIC for each station or station combination. ")
+```
+
+| station                        | lowest AIC model |
+|:-------------------------------|:-----------------|
+| IJmuiden                       | linear           |
+| Delfzijl                       | broken_linear    |
+| Harlingen                      | broken_linear    |
+| Vlissingen                     | broken_linear    |
+| Netherlands                    | broken_linear    |
+| Netherlands (without Delfzijl) | broken_linear    |
+| Den Helder                     | broken_squared   |
+| Hoek van Holland               | broken_squared   |
+
+Model with lowest AIC for each station or station combination.
 
 For the combined stations Netherlands and Netherlands (without
-Delfzijl), the non-linear model has the lowest AIC, and is therefore the
-first candidate for the preferred model. In the next section, it is
-tested whether the non-linear model explains the observed variation
+Delfzijl), the model has the lowest AIC, and is therefore the first
+candidate for the preferred model. In the next section, it is tested
+whether the broken-linear model explains the observed variation
 significantly better than the simplest model, the linear model.
 
 For stations Den Helder and Hoek van Holland, the broken squared model
@@ -5844,10 +5698,10 @@ The Anova table for model comparison is shown below.
 makePrettyAnovaTable(t, 3)
 ```
 
-| Res.Df |   RSS |  Df | Sum of Sq |   F |       p |
-|-------:|------:|----:|----------:|----:|--------:|
-|    130 | 58300 |     |           |     |         |
-|    129 | 53000 |   1 |      5330 |  13 | 0.00045 |
+| Res.Df |   RSS |  Df | Sum of Sq |    F |        p |
+|-------:|------:|----:|----------:|-----:|---------:|
+|    130 | 61000 |     |           |      |          |
+|    129 | 53400 |   1 |      7580 | 18.3 | 3.62e-05 |
 
 The acceleration model (broken linear) has one more degree of freedom
 than the linear model. The broken linear model is significantly better

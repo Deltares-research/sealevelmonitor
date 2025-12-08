@@ -10,7 +10,7 @@ output:
 always_allow_html: true
 ---
 
-# Compare GTSM and wind measurements and reanalyases
+# Compare GTSM with wind measurements and reanalyses
 
 ```{r setupWind, include = FALSE}
 knitr::opts_chunk$set(
@@ -124,9 +124,9 @@ kooy_raw_last_4_years = kooy_uur_raw %>%
 walk(1:length(kooy_raw_last_4_years$data), 
      function(x) {
        plot.windrose(
-         spd = kooy_raw_2020_2023$data[[x]]$spd, 
-         dir = kooy_raw_2020_2023$data[[x]]$dir,
-       plot.title = kooy_raw_2020_2023$year[x], 
+         spd = kooy_raw_last_4_years$data[[x]]$spd, 
+         dir = kooy_raw_last_4_years$data[[x]]$dir,
+       plot.title = kooy_raw_last_4_years$year[x], 
        palette = "YlOrBr"
        )
      }

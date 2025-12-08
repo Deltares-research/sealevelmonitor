@@ -1,7 +1,7 @@
 Zeespiegelmonitor
 ================
 Willem Stolte, Nathalie Dees
-2024-03-12
+08 December, 2025
 
 ## Inleiding
 
@@ -15,9 +15,12 @@ doorgegeven aan de Permanent Service for Mean Sea Level
 Zeespiegelmonitor.
 
 ``` r
-  df <- read_csv2(file.path("../", "../data/deltares/results/dutch-sea-level-monitor-export-stations-latest.csv")) %>%
+  df <- read_delim(
+    file.path(
+      "../", "../data/deltares/results/dutch-sea-level-monitor-export-stations-latest.csv"),
+    delim = ";") %>%
   filter(station %in% params$station) %>%
-  filter(year >= 1890)
+  filter(year >= params$startyear)
 ```
 
 ### Zeespiegelmetingen
@@ -36,16 +39,18 @@ jaren is te zien in tabel @ref(tab:metingenView).
 ``` r
 df %>% 
   arrange(-year) %>%
-  select(
+  dplyr::select(
     year, 
     `height in mm`  = height, 
-    station) %>%
+    station
+    ) %>%
   head(10) %>%
   kableExtra::kable(caption = "Zeespiegelhoogte in mm over de laatste 10 jaar")
 ```
 
 | year | height in mm | station                        |
 |-----:|-------------:|:-------------------------------|
+| 2024 |        161.4 | Netherlands (without Delfzijl) |
 | 2023 |        152.8 | Netherlands (without Delfzijl) |
 | 2022 |         94.6 | Netherlands (without Delfzijl) |
 | 2021 |         75.8 | Netherlands (without Delfzijl) |
@@ -55,7 +60,6 @@ df %>%
 | 2017 |         94.2 | Netherlands (without Delfzijl) |
 | 2016 |         63.6 | Netherlands (without Delfzijl) |
 | 2015 |         75.2 | Netherlands (without Delfzijl) |
-| 2014 |         54.8 | Netherlands (without Delfzijl) |
 
 Zeespiegelhoogte in mm over de laatste 10 jaar
 
@@ -74,7 +78,7 @@ gevonden.
 ``` r
 df %>% 
   arrange(-year) %>%
-  select(year, 
+  dplyr::select(year, 
          `opzetanomalie in mm`  = surge_anomaly, 
          station) %>%
   head(10) %>%
@@ -84,16 +88,16 @@ df %>%
 
 | year | opzetanomalie in mm | station                        |
 |-----:|--------------------:|:-------------------------------|
+| 2024 |                17.0 | Netherlands (without Delfzijl) |
 | 2023 |                24.0 | Netherlands (without Delfzijl) |
 | 2022 |               -12.0 | Netherlands (without Delfzijl) |
 | 2021 |               -17.0 | Netherlands (without Delfzijl) |
-| 2020 |                 6.2 | Netherlands (without Delfzijl) |
-| 2019 |                 5.9 | Netherlands (without Delfzijl) |
+| 2020 |                 6.0 | Netherlands (without Delfzijl) |
+| 2019 |                 5.7 | Netherlands (without Delfzijl) |
 | 2018 |               -42.0 | Netherlands (without Delfzijl) |
-| 2017 |                17.0 | Netherlands (without Delfzijl) |
+| 2017 |                16.0 | Netherlands (without Delfzijl) |
 | 2016 |               -23.0 | Netherlands (without Delfzijl) |
 | 2015 |                16.0 | Netherlands (without Delfzijl) |
-| 2014 |                -4.0 | Netherlands (without Delfzijl) |
 
 Opzetanomalie (de afwijking in opzet van het langjarige gemiddelde)
 berekend door GTSM in mm over de laatste 10 jaar
@@ -193,17 +197,6 @@ models <- df %>%
 
 ### Omgaan met autocorrelatie
 
-Autocorrelatie is de kruiscorrelatie van een functie of signaal met
-zichzelf ([wikipedia](https://nl.wikipedia.org/wiki/Autocorrelatie)). In
-het zeespiegelsignaal voor alle hoofdstations is een consistente
-autocorrelatie met een ‘lag’ van 1 jaar gevonden (zie rekendocument
-[Sealevelanalysis](https://github.com/Deltares-research/sealevelmonitor/blob/main/analysis/sealevelmonitor/sealevelanalysis.md)).
-Dit is niet ongebruikelijk voor lange tijdseries die een trend vertonen.
-Hierdoor kan niet alle variatie worden toegekend aan het model zelf, en
-moet de standaardfout van de modelparameters worden gecorrigeerd voor de
-autocorrelatie. Dit gebeurt met een [Newey West
-autocorrelatieterm](https://search.r-project.org/CRAN/refmans/sandwich/html/NeweyWest.html).
-
 ``` r
 plot_ACF(models)
 ```
@@ -217,6 +210,17 @@ Autocorrelatie met een lag van 1 jaar is de enige die consistent is over
 alle stations en modellen.</figcaption>
 </figure>
 
+Autocorrelatie is de kruiscorrelatie van een functie of signaal met
+zichzelf ([wikipedia](https://nl.wikipedia.org/wiki/Autocorrelatie)). In
+het zeespiegelsignaal voor alle hoofdstations is een consistente
+autocorrelatie met een ‘lag’ van 1 jaar gevonden (zie rekendocument
+[Sealevelanalysis](https://github.com/Deltares-research/sealevelmonitor/blob/main/analysis/sealevelmonitor/sealevelanalysis.md)).
+Dit is niet ongebruikelijk voor lange tijdseries die een trend vertonen.
+Hierdoor kan niet alle variatie worden toegekend aan het model zelf, en
+moet de standaardfout van de modelparameters worden gecorrigeerd voor de
+autocorrelatie. Dit gebeurt met een [Newey West
+autocorrelatieterm](https://search.r-project.org/CRAN/refmans/sandwich/html/NeweyWest.html).
+
 ``` r
 require(sandwich)
 
@@ -225,10 +229,13 @@ models <- addHACterms(models)
 
 ## Heteroskedasticity
 
-Er wordt gecontroleerd of de verdeling van de residuen regelmatig is
-verdeeld over de tijd en over de te schatten waarde.
+In dit deel wordt gecontroleerd of de verdeling van de residuen
+regelmatig is verdeeld over de tijd en over de te schatten waarde.
 
-### Residuals distribution
+### Verdeling van residuen.
+
+De verdeling van resituen uitgezet tegen de verwachte waarde levert bij
+benadering een normale verdeling op.
 
 ``` r
 models %>%
@@ -242,12 +249,13 @@ ggplot(aes(x = augment_.resid)) +
 
 <img src="sealevelmonitor_files/figure-gfm/unnamed-chunk-1-1.png" alt="De verdeling (histogram) van de residuen. "  />
 <p class="caption">
+
 De verdeling (histogram) van de residuen.
 </p>
 
 </div>
 
-## Variation of residuals over time
+## Verdeling van residuen over de tijd
 
 Bij een geschikt model verwachten we een regelmatige verdeling van
 residuen over de tijd. Wanneer deze sterk afwijkt dan kan dat een
@@ -259,19 +267,27 @@ models %>%
   unnest(c(data, augment), names_sep = "_") %>% #str(max.level = 2)
 ggplot(aes(data_year, augment_.resid)) +
   geom_point(alpha = 0.4) +
-  facet_grid(station ~ modeltype) #+
+  facet_grid(station ~ modeltype)
 ```
 
 <figure>
-<img src="sealevelmonitor_files/figure-gfm/unnamed-chunk-2-1.png"
+<img src="sealevelmonitor_files/figure-gfm/variation-model-time-1.png"
 alt="De verdeling van residuwaarden uitgezet tegen de tijd in jaren." />
 <figcaption aria-hidden="true">De verdeling van residuwaarden uitgezet
 tegen de tijd in jaren.</figcaption>
 </figure>
 
-## Sea level rise
+Bovenstaande figuur laat zien dat de spreiding van residuen groter is
+voor de jaren vóór 1950. Dit zijn de jaren waarvoor geen correctie van
+opzet wordt uigevoerd, omdat hiervoor geen GTSM berekeningen beschikbaar
+zijn. Er is geen systematische afwijking van residuen in de loop van de
+tijd.
+
+## Zeespiegelstijging
 
 ``` r
+# vertaaltabel voor presentatie van parameters
+
 lookup <- c(
   Constant = "(Intercept)",
   Trend = "I(year - epoch)",
@@ -286,84 +302,45 @@ all_predictions <- makePredictionTable(models, lookup)
 ```
 
 ``` r
-uitvoer_df <- all_predictions %>% 
-  mutate(
-    `data_height (-nodal -surge anomaly)` = `data_height-surge_anomaly`-nodal_tide,
-    `preds_height (-nodal -surge anomaly)` = `preds_height-surge_anomaly`-nodal_tide
-  ) %>%
-  select(
-    station,
-    modeltype,
-    jaar = data_year,
-    `gemeten waterhoogte` = data_height,
-    `gecorrigeerde waterhoogte` = `data_height (-nodal -surge anomaly)`,
-     `fit`= `preds_height (-nodal -surge anomaly)`
-  ) 
+p <- plot_station(
+  stationi = params$station,
+  predictions_all = all_predictions %>% 
+    filter(station == params$station) %>%
+    filter(modeltype == params$modeltype), 
+  correctionVariant = params$wind_or_surge_type, 
+  modelVariant = params$modeltype, 
+  printNumbers = F, 
+  datayear = 2024
+)
 
-write_csv(uitvoer_df, file = "../../results/plotdata2024.csv")
-
-p = plot_station_website(
-    stationi = params$station,
-    predictions_all = all_predictions %>% 
-      filter(station == params$station) %>%
-      filter(modeltype == params$modeltype), 
-    correctionVariant = params$wind_or_surge_type, 
-    modelVariant = params$modeltype, 
-    printNumbers = F,
-    plotVline = F,
-    startyear = 1890)
-
-p
+  # ggplotly(p) %>% layout(legend = list(x = 0.05, y = 0.95)) # voor interactieve plot
+  p
 ```
 
-![](sealevelmonitor_files/figure-gfm/plotdatauitvoer-1.png)<!-- -->
-
-``` r
-ggsave(paste0("../../results/sl_web_", params$station, params$modeltype, ".png"), width = 8, height = 5)
-```
+![](sealevelmonitor_files/figure-gfm/unnamed-chunk-3-1.png)<!-- -->
 
 ``` r
 p <- plot_station(
   stationi = params$station,
-    predictions_all = all_predictions %>% 
-      filter(station == params$station) %>%
-      filter(modeltype == params$modeltype), 
-    correctionVariant = params$wind_or_surge_type, 
-    modelVariant = params$modeltype, 
-    printNumbers = F)
+  predictions_all = all_predictions %>% 
+    filter(station == params$station) %>%
+    filter(modeltype == params$modeltype), 
+  correctionVariant = params$wind_or_surge_type, 
+  modelVariant = params$modeltype, 
+  printNumbers = T,
+  plotVline = F,
+  startyear = 2010,
+  datayear = 2024)
 
-  ggplotly(p) %>% layout(legend = list(x = 0.05, y = 0.95))
+  # ggplotly(p) %>% layout(legend = list(x = 0.05, y = 0.95))
+  p
 ```
 
 ![](sealevelmonitor_files/figure-gfm/unnamed-chunk-4-1.png)<!-- -->
 
 ``` r
-  # p
-```
-
-``` r
-p <- plot_station( 
-  stationi = params$station,
-    predictions_all = all_predictions %>% 
-      filter(station == params$station) %>%
-      filter(modeltype == params$modeltype), 
-    correctionVariant = params$wind_or_surge_type, 
-    modelVariant = params$modeltype, 
-    printNumbers = T,
-    plotVline = F,
-    startyear = 2010)
-
-  ggplotly(p) %>% layout(legend = list(x = 0.05, y = 0.95))
-```
-
-![](sealevelmonitor_files/figure-gfm/unnamed-chunk-5-1.png)<!-- -->
-
-``` r
-  # p
-```
-
-``` r
-p = plot_station_website(
+if(params$modeltype == "broken_linear"){
+p = plot_station_website_broken_linear(
     stationi = params$station,
     predictions_all = all_predictions %>% 
       filter(station == params$station) %>%
@@ -373,14 +350,28 @@ p = plot_station_website(
     printNumbers = F,
     plotVline = F,
     startyear = 1890)
+}
+
+if(params$modeltype == "broken_squared"){
+p = plot_station_website_broken_squared(
+    stationi = params$station,
+    predictions_all = all_predictions %>% 
+      filter(station == params$station) %>%
+      filter(modeltype == params$modeltype), 
+    correctionVariant = params$wind_or_surge_type, 
+    modelVariant = params$modeltype, 
+    printNumbers = F,
+    plotVline = F,
+    startyear = 1890)
+}
 
 p
 ```
 
-![](sealevelmonitor_files/figure-gfm/unnamed-chunk-6-1.png)<!-- -->
+![](sealevelmonitor_files/figure-gfm/unnamed-chunk-5-1.png)<!-- -->
 
 ``` r
-ggsave(paste0("../../results/sl_web_", params$station, params$modeltype, ".png"), width = 8, height = 5)
+# ggsave(paste0("../../results/sl_web_", params$station, params$modeltype, ".png"), width = 8, height = 5)
 ```
 
 ## Trend parameters
@@ -389,6 +380,8 @@ For the preferred station Netherlands (without Delfzijl) and model
 broken_linear, the following set of parameters have been found.
 
 ``` r
+caption_text <- paste("Coefficients for the preferred model(", params$modeltype, ") and the composite station ", params$station)
+
 library(DT)
 
 lookup.df <- data.frame(long_term = unname(lookup),
@@ -415,27 +408,23 @@ parameterTable <- models %>%
     p.value
   )
 
-# DT::datatable(parameterTable, caption = "Parameters en standaardfouten voor het voorkeursmodel en -station.",
-#   options = list(
-#       "digits" = 2
-#     )
-#   )
-
   kableExtra::kable(
     parameterTable,
-    caption = "Coefficients for all models and stations.",digits = 2
+    caption = caption_text, 
+    digits = 2
     )
 ```
 
 | short_term    | estimate | st.err.HAC | p.value |
 |:--------------|---------:|-----------:|--------:|
-| Constant      |   -37.35 |       2.30 |    0.00 |
+| Constant      |   -37.51 |       2.33 |    0.00 |
 | Trend         |     1.83 |       0.07 |    0.00 |
-| \+ trend 1993 |     1.11 |       0.26 |    0.00 |
-| u_nodal       |     4.70 |       2.68 |    0.06 |
-| v_nodal       |   -10.64 |       2.82 |    0.00 |
+| \+ trend 1993 |     1.25 |       0.30 |    0.00 |
+| u_nodal       |     5.23 |       2.72 |    0.04 |
+| v_nodal       |   -10.77 |       2.84 |    0.00 |
 
-Coefficients for all models and stations.
+Coefficients for the preferred model( broken_linear ) and the composite
+station Netherlands (without Delfzijl)
 
 ``` r
 zeespiegel2023_cm <- df$height[df$year==params$monitoryear-1]/10
@@ -444,9 +433,22 @@ zeespiegel_gem_getij_gem_opzet_cm <- all_predictions %>%
   mutate(zsp_nod_surge = (`data_height-surge_anomaly` - nodal_tide)/10) %>%
   select(zsp_nod_surge) %>% unlist %>% unname
 
+cat("## Uitspraken over de zeespiegel trend \n\n" )
+```
+
+## Uitspraken over de zeespiegel trend
+
+``` r
+cat("De volgende uitspraken gelden voor berekeningen gedaan aan het virtuele station ", params$station, "en het voorkeursmodel ", params$modeltype, ".", "De analyse houdt rekening met wind en nodaal getij. \n\n")
+```
+
+De volgende uitspraken gelden voor berekeningen gedaan aan het virtuele
+station Netherlands (without Delfzijl) en het voorkeursmodel
+broken_linear . De analyse houdt rekening met wind en nodaal getij.
+
+``` r
 if(params$modeltype == "broken_linear"){
   trend_message = cat(
-    "## Uitspraken over de zeespiegel trend",
     paste("De lineaire trend tot 1993 bedraagt", 
           round(parameterTable$estimate[parameterTable$short_term == "Trend"], 1), 
           " +/- ", 
@@ -469,21 +471,49 @@ if(params$modeltype == "broken_linear"){
 }
 ```
 
-## Uitspraken over de zeespiegel trend
-
 De lineaire trend tot 1993 bedraagt 1.8 +/- 0.1 mm/jaar.
 
-De extra trend na 1993 bedraagt 1.1 +/- 0.3 mm/jaar.
+De extra trend na 1993 bedraagt 1.3 +/- 0.3 mm/jaar.
 
-Na 1993 is de totale trend verhoogd en bedraagt 2.9 +/- 0.4 mm/jaar.
+Na 1993 is de totale trend verhoogd en bedraagt 3.1 +/- 0.4 mm/jaar.
 
-<!-- ### Uitspraken over de stand van de zeespiegel in 2023. -->
-<!-- In 2023 was de gemiddelde zeespiegel 152.8 cm tov NAP (2005). -->
-<!-- Gecorrigeerd voor de afwijking van een gemiddeld nodaal getij en windopzet was de zeespiegel in 2023 12 cm tov NAP (2005).  -->
-<!-- Gerekend met het voorkeursmodel, broken_linear en station Netherlands (without Delfzijl) zijn de volgende trends vastgesteld:  -->
-
-## Vergelijking met de analyse van vorig jaar.
-
-| station | zeespiegel (1970) | trend (voor 1993) | se | trend (vanaf 1993) |  |
-|---:|:--:|:--:|:--:|:--:|:--:|
-| Netherlands (without Delfzijl) | -39.3 | 1.8 | 0.1 | 2.9 | 0.4 |
+``` r
+if(params$modeltype == "broken_squared"){
+  
+  Trend = round(
+    parameterTable$estimate[parameterTable$short_term == "Trend"], 
+    1
+  )
+  
+  `+trend_current` = round(
+    parameterTable[parameterTable$short_term == "+ square_trend 1960",]$estimate * 2 * (params$monitoryear-1 - 1960),
+    1
+  )
+  
+  SE_trend = round(
+    parameterTable$st.err.HAC[parameterTable$short_term == "Trend"], 
+    1
+  )
+  
+  `SE_+trend_current` = round(
+    parameterTable$st.err.HAC[parameterTable$short_term == "+ square_trend 1960"] / 
+      parameterTable[parameterTable$short_term == "+ square_trend 1960",]$estimate *
+      parameterTable[parameterTable$short_term == "+ square_trend 1960",]$estimate * 2 * (params$monitoryear-1 - 1960), 
+    1
+  )
+  
+  
+  trend_message = cat(
+    
+    "## Uitspraken over de zeespiegel trend",
+    
+    paste("De lineaire trend tot 1960 bedroeg", 
+          Trend, " +/- ", SE_trend, "mm/jaar."),
+    paste("De extra trend na 1960 is stijgende en bedroeg in het jaar ", params$monitoryear - 1, 
+         `+trend_current`, " +/- ", `SE_+trend_current`, "mm/jaar."),
+    paste("Na 1960 is de totale trend ook stijgende en bedroeg in het jaar ", config$runparameters$monitoryear - 1, 
+          Trend + `+trend_current`, " +/- ", SE_trend + `SE_+trend_current`, "mm/jaar."),
+    sep = "\n\n"
+  )
+}
+```

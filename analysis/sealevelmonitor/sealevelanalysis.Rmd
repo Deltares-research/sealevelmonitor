@@ -1,13 +1,13 @@
 ---
-title: "Zeespiegelmonitor analyse"
+title: "Zeespiegelmonitor analysis"
 author: "Willem Stolte, Nathalie Dees"
 date: "`r format(Sys.time(), '%d %B, %Y')`"
 output:
+  github_document: null
   html_document:
     df_print: paged
     code_folding: hide
     outputdir: ../../docs
-  github_document: null
   pdf_document: default
 always_allow_html: true
 params:
@@ -101,7 +101,9 @@ In an other script, annual average sea level data for the Dutch main stations is
 
 ```{r}
 
-current_df <-   read_csv2("../../data/deltares/results/dutch-sea-level-monitor-export-stations-latest.csv") %>%
+current_df <-   read_delim(
+  "../../data/deltares/results/dutch-sea-level-monitor-export-stations-latest.csv", 
+  delim = ";") %>%
   filter(year >= params$startyear)
 
 ```
@@ -133,7 +135,7 @@ knitr::kable(mainstations_df[,c('name', 'psmsl_id', 'msl-rlr', 'msl-nap', 'nap-r
 
 Sea level data for all six main station are shown below in an interactive plot.
 
-```{r zeespiegelmetingen, fig.width=8, fig.height=8, fig.cap="De gemiddelde jaarlijkse zeespiegel voor de zes hoofdstations langs de Nederlandse kust."}
+```{r zeespiegelmetingen, fig.width=8, fig.height=8, fig.cap="Yearly averaged sea level for the six main tidal stations in the Netherlands."}
 
 p <- current_df %>%
   dplyr::filter(!grepl("Netherlands", station)) %>%
@@ -144,7 +146,8 @@ ggplot(aes(year, height)) +
   theme_light() +
   theme(legend.position = "bottom")
 
-ggplotly(p) %>% layout(legend = list(x = 0.05, y = 0.95))
+p
+# ggplotly(p) %>% layout(legend = list(x = 0.05, y = 0.95))
 
 ```
 
@@ -153,8 +156,9 @@ Sea level measurements for the six main stations (yearly average) are shown in f
 
 A few things become clear
 
-- Harlingen show a negative trend as compared to the average of the stations from roughly 1930 to 1990. There is a sudden "bump" around 1970. 
-- IJmuiden shows strong fluctuations in the first decades of the series. in 2018, the signal drops a few cm. 
+- Harlingen show a lower trend as compared to the average of the stations from roughly 1930 to 1990.
+- IJmuiden shows strong fluctuations in the first decades of the series that are not seen at the other stations. in 2018, the signal drops a few cm. 
+- In all series, the two most recent years show very high sea levels.
 
 
 ```{r zeespiegelanomalieen, fig.width=8, fig.height=8, fig.cap="Afwijking van het gemiddelde voor elk jaar voor de zes hoofdstations langs de Nederlandse kust."}
@@ -183,8 +187,8 @@ ggplot(aes(year, height)) +
   theme_light() +
   theme(legend.position = "bottom")
 
-ggplotly(p) %>% layout(legend = list(x = 0.05, y = 0.95))
-# p
+# ggplotly(p) %>% layout(legend = list(x = 0.05, y = 0.95))
+p
 ```
 
 ### Sea level high years
@@ -394,7 +398,8 @@ ggplot(
     # legend.justification = c(1, 0),
     legend.title = element_blank()
   ) +
-  theme(strip.text.y = element_text(angle = 90)) 
+  theme(strip.text.y = element_text(angle = 90)) +
+  theme_bw()
 
   
   # ggplotly(p) %>% layout(legend = list(x = 0.05, y = 0.95))
@@ -496,16 +501,27 @@ AIC_df %>%
   facet_wrap("station")
 ```
 
-!!!!!! Automate and change
 
-```{r}
+```{r AIC-station-table}
 
-linModStations <- AIC_df %>% filter(AIC_score == "lowest") %>% arrange(modeltype) %>% select(station, `lowest AIC model` = modeltype)
+preferred_model = AIC_df %>% 
+  ungroup() %>% 
+  filter(AIC_score == "lowest", station == "Netherlands (without Delfzijl)") %>% 
+  select(modeltype) %>% 
+  unlist() %>% 
+  as.character() %>% 
+  unname()
+
+AIC_df %>% ungroup() %>%
+  filter(AIC_score == "lowest") %>% 
+  arrange(modeltype) %>% 
+  select(station, `lowest AIC model` = modeltype) %>%
+  knitr::kable(caption = "Model with lowest AIC for each station or station combination. ")
 
 ```
 
 
-For the combined stations Netherlands and Netherlands (without Delfzijl), the broken-linear model has the lowest AIC, and is therefore the first candidate for the preferred model. In the next section, it is tested whether the broken-linear model explains the observed variation significantly better than the simplest model, the linear model.
+For the combined stations Netherlands and Netherlands (without Delfzijl), the `r cat(preferred_model)` model has the lowest AIC, and is therefore the first candidate for the preferred model. In the next section, it is tested whether the broken-linear model explains the observed variation significantly better than the simplest model, the linear model.
 
 For stations Den Helder and Hoek van Holland, the broken squared model is the model with lowest AIC.
 
@@ -548,11 +564,7 @@ The Anova table for model comparison is shown below.
 
 ```{r, results='asis'}
 
-# makePrettyAnovaTable(t, 3)
-
-# print(t)
-print(broom::tidy(t))
-
+makePrettyAnovaTable(t, 3)
 
 ```
 

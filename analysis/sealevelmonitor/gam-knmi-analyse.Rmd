@@ -71,7 +71,7 @@ gam_model <- function(df, epoch = 1970){
     )
   
   mgcv::gam(
-    height ~ s(year, k = 20)   # smooth term on year
+    height ~ s(year, k = 5)   # smooth term on year
     +     nodal_cos
     +     nodal_sin
     + surge_anomaly,
