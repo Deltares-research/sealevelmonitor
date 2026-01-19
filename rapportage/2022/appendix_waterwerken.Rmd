@@ -71,14 +71,15 @@ waterkeringen %>%
 
 
 
-```{r}
+```{r, fig.height=6}
 waterkeringen %>%
   filter(regio == "Waddenzee") %>%
   mutate(start = as.integer(start), end = as.integer(end)) %>%
   ggplot(aes()) +
-  geom_rect(aes(xmin = start, xmax = end, ymin = 0, ymax = 1, fill = project), alpha = 0.4) +
+  geom_rect(aes(xmin = start, xmax = end, ymin = 0, ymax = 1), alpha = 0.4) +
     geom_vline(aes(xintercept = end)) +
-  geom_label(aes(x = end, label = project, y = 0.5), position = position_jitter(height = 0.5, width = 0), hjust = "right")
+  geom_label(aes(x = end, label = project, y = 0.5), position = position_jitter(height = 0.5, width = 0), hjust = "right") +
+  coord_cartesian(xlim = c(1900, 2000))
 ```
 
 

@@ -55,11 +55,12 @@ DiagrammeR::grViz("digraph {
   OceaanMas->OceaanVol
   Dichtheid->OceaanVol
   GravRot->RegZS  OceaanVol->RegZS  CircDichtheid->RegZS
-  RegZS->LokRelZS  Tect->BodDal Winning-> BodDal BodDal->LokRelZS  
   Wind->Opzet Opzet->LokRelZS  Morf-> Getij Getij->LokRelZS ZeeSpSt->Getij Morf->Opzet ZeeSpSt->Opzet Zoet->Opzet
+  Tect->BodDal Winning-> BodDal BodDal->LokRelZS  
   
   }",
   width = 650, height = "450px")
+#  RegZS->LokRelZS  
 
 ```
 
