@@ -1,0 +1,87 @@
+project:
+  type: book
+
+execute: 
+  echo: false
+  warning: false
+  message: false
+
+book:
+  title: "Zeespiegelmonitor 2026"
+  author: "Willem Stolte, Dewi Lebars, Dorien Honingh, Nathalie Dees, Marc Hijma"
+  date: today
+  page-navigation: true
+  favicon: "assets/icon-deltares.svg"
+  page-footer: 
+    background: "#2E89BF"
+    center: "Compendium for the Greater North Sea"
+  sidebar:
+    footer: custom-component/sidebar-footer.html
+  navbar: 
+    background: "#2E89BF"
+    pinned: true
+  chapters:
+    - index.qmd
+    - samenvatting.qmd
+    - inleiding.qmd
+    - methodiek.qmd
+    - resultaten.qmd
+    - discussie.qmd
+    - literatuur.qmd
+  abstract: "Abstract to be added"
+  description: "metadata for html version"
+  references: "references.bib"
+  output-file: "Zeespiegelmonitor_2026"
+#  delete_merged_file: true
+#  before_chapter_script: _common.R
+
+
+language:
+  label:
+    fig: "Figuur "
+    tab: "Tabel "
+    eq: "Vergelijking "
+    thm: "Theorem "
+    lem: "Lemma "
+    cor: "Corollary "
+    prp: "Proposition "
+    cnj: "Conjecture "
+    def: "Definition "
+    exm: "Example "
+    exr: "Exercise "
+    hyp: "Hypothesis "
+    proof: "Proof. "
+    remark: "Remark. "
+    solution: "Solution. "
+  ui:
+    chapter_name: "Hoofdstuk "
+    appendix_name: "Bijlage "
+
+toc: true
+toc-depth: 2
+# reference-location: margin
+# citation-location: margin
+# cap-location: margin
+number-sections: true
+number-depth: 1
+
+bibliography: references.bib
+
+format:
+  html:
+    theme: cosmo
+    css: styles.css
+  pdf:
+    # documentclass: scrreprt
+    extra_dependencies: ["flafter"]
+    include-in-header: 
+      - preamble.tex
+    template: deltares-report-template.tex
+    latex_engine: pdflatex  
+    keep_tex: true
+    # citation_package: natbib
+    citation_package: biblatex
+    pandoc_args: --top-level-division=chapter
+
+editor: source
+
