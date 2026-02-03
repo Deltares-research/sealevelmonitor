@@ -1,9 +1,18 @@
+---
+acronyms:
+  insert_loa: false
+  loa_title: "Lijst met afkortingen"
+  insert_links: false
+  fromfile:
+    - acronyms.yml
+---
+
 # Resultaten {#resultaten}
 
 ## Voorkeursmodel
 
 
-## Huidige zeespiegel(stijging)
+## Huidige zeespiegel(stijging) {#huidige}
 
 
 ## Bodemdaling en relatieve/absolute zeespiegelstijging

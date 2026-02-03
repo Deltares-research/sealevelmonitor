@@ -1,5 +1,18 @@
+---
+acronyms:
+  loa_title: ""
+  include_unused: true
+  insert_loa: false
+  insert_links: false
+  fromfile:
+    - acronyms.yml
+---
+
+
+
 # Preface {.unnumbered}
 
-This is a Quarto book.
 
-To learn more about Quarto books visit <https://quarto.org/docs/books>.
+## Lijst met afkortingen
+
+\printacronyms

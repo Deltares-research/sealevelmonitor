@@ -1,3 +1,14 @@
-# Summary
+---
+acronyms:
+  insert_loa: false
+  loa_title: "Lijst met afkortingen"
+  insert_links: false
+  fromfile:
+    - acronyms.yml
+---
 
-In summary, this book has no content whatsoever.
+# Samenvatting
+
+De Zeespiegelmonitor rapporteert eens in de vier jaar over de Nederlandse staat en trend van de zeespiegel. Ook wordt de stand van de wetenschap toegelicht, alsook de onderzoeken die binnen de Zeespiegelmonitor zijn gedaan.
+
+.... meer later...

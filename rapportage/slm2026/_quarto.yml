@@ -7,14 +7,14 @@ execute:
   message: false
 
 book:
-  title: "Zeespiegelmonitor 2026"
-  author: "Willem Stolte, Dewi Lebars, Dorien Honingh, Nathalie Dees, Marc Hijma"
-  date: today
+  # title: "Zeespiegelmonitor 2026"
+  # author: "Willem Stolte, Dewi Lebars, Dorien Honingh, Nathalie Dees, Marc Hijma"
+  # date: today
   page-navigation: true
-  favicon: "assets/icon-deltares.svg"
+  favicon: assets/icon-deltares.svg
   page-footer: 
     background: "#2E89BF"
-    center: "Compendium for the Greater North Sea"
+    center: Zeespiegelmonitor 2026
   sidebar:
     footer: custom-component/sidebar-footer.html
   navbar: 
@@ -28,12 +28,49 @@ book:
     - resultaten.qmd
     - discussie.qmd
     - literatuur.qmd
-  abstract: "Abstract to be added"
-  description: "metadata for html version"
-  references: "references.bib"
+  # abstract: 
+  # description: "metadata for html version"
+  # references: "references.bib"
   output-file: "Zeespiegelmonitor_2026"
 #  delete_merged_file: true
 #  before_chapter_script: _common.R
+
+bibliography: [bib/literatuurWillemMod.bib, bib/sealevel.bib]
+link-citations: true
+
+format:
+  html:
+    theme: cosmo
+    css: styles.css
+  pdf:
+    # documentclass: scrreprt
+    template: deltares-report-template.tex
+    # extra_dependencies: ["flafter"]
+    include-in-header:
+      - preamble.tex
+    latex_engine: pdflatex
+    keep_tex: true
+    # biblio-config: false
+    cite-method: natbib   # natbib
+
+
+filters:
+  - acronyms
+  
+acronyms:
+  loa_title: "Lijst met afkortingen"
+  # loa_header_classes:
+  #   - unnumbered
+#   # loa_format: nil
+  # include_unused: true
+#   insert_loa: "beginning"
+  insert_links: false
+  id_prefix: "acronyms_"
+#   sorting: "alphabetical"
+#   non_existing: "key"
+#   style: "long-short"
+  fromfile:
+    - acronyms.yml
 
 
 language:
@@ -57,31 +94,14 @@ language:
     chapter_name: "Hoofdstuk "
     appendix_name: "Bijlage "
 
-toc: true
-toc-depth: 2
-# reference-location: margin
-# citation-location: margin
-# cap-location: margin
-number-sections: true
-number-depth: 1
+# toc: true
+# toc-depth: 2
+# # reference-location: margin
+# # citation-location: margin
+# # cap-location: margin
+# number-sections: true
+# number-depth: 1
 
-bibliography: references.bib
-
-format:
-  html:
-    theme: cosmo
-    css: styles.css
-  pdf:
-    # documentclass: scrreprt
-    extra_dependencies: ["flafter"]
-    include-in-header: 
-      - preamble.tex
-    template: deltares-report-template.tex
-    latex_engine: pdflatex  
-    keep_tex: true
-    # citation_package: natbib
-    citation_package: biblatex
-    pandoc_args: --top-level-division=chapter
 
 editor: source
 

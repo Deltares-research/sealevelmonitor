@@ -1,13 +1,45 @@
-# Inleiding {#inleiding}
+---
+acronyms:
+  insert_loa: false
+  loa_title: "Lijst met afkortingen"
+  insert_links: false
+  fromfile:
+    - acronyms.yml
+---
 
+# Inleiding {#sec-inleiding}
 
-## Doel en onderzoeksvragen
+## Doel
 
+Dit rapport beschrijft de lange-termijn ontwikkeling van de hoogte van de gemiddelde zeespiegel langs de Nederlandse kust gebaseerd op metingen op zes hoofdstations. Dit gebeurt volgens een methodiek die is ontwikkeld in dienst van het Nederlandse kustbeleid. De hoeveelheid zandsuppleties die nodig is om de Nederlandse kust te handhaven is namelijk afhankelijk van de opgetreden relatieve zeespiegelstijging (de stijging ten opzichte van een land dat ook bodemdaling kent) op een tijdschaal van ca 15 jaar. De ontwikkelde methodiek bepaalt de gemiddelde zeespiegelstijging door filtering van korte-termijn fluctuaties (veroorzaakt door golven, getij, windopzet etc.) uit historische data. De schatting van de recente gemiddelde zeespiegelstijging wordt als indicatie gebruikt voor de verwachte zeespiegelstijging in de nabije toekomst[^inleiding-1]. In het [syntheserapport van Kustgenese 2.0](https://www.helpdeskwater.nl/publish/pages/188194/170065_m2_rapport_kustgenese-2_a4_v11_digitaal.pdf) is uitgebreid uiteengezet hoe het benodigde zandvolume wordt vastgesteld.
+
+[^inleiding-1]: Zie voor nadere uitwerking \@Dillingh2010
+
+Het zand is nodig om invulling te geven aan het kustonderhoudsdoel dat we meegroeien met de zeespiegel. Omdat het gaat om een aanvulling wordt de hoeveelheid zand die hiervoor nodig is achteraf bepaald. Om die reden beschouwen we in deze rapportage de opgetreden zeespiegel tot nu toe. Voor budgetplanning en signalering is ook de zeespiegel in de nabije toekomst van belang.
+
+Behalve voor de bepaling van de jaarlijkse suppletiehoeveelheid is de opgetreden zeespiegelstijging van belang voor de vergunningen rondom zout- en gaswinning in het Waddengebied en voor ontwerpparameters van waterkeringen. Dit uiteraard naast algemenere doeleinden, waaronder het informeren van het publiek. Een overzicht van de indicatoren en toepassingen staat in bijlage \@ref(toepassingen) . Voor een deel van deze indicatoren wordt gebruik gemaakt van zeespiegelprojecties.
+
+In de vorige rapportages [2014](https://publications.deltares.nl/1209426_202.pdf), [2018](https://www.deltares.nl/app/uploads/2019/03/Zeespiegelmonitor-2018-final.pdf) en [2022](https://publications.deltares.nl/11209266_000.pdf) zijn overzichten te vinden van eerder onderzoek en hoe deze tot keuzes in de methodiek leidden. De rapportage 2018 doet ook verslag van onderzoek om tot nauwkeuriger waarden voor de zeespiegel te komen. Het rapport geeft ook aanbevelingen aangaande de aansluiting van metingen en projecties en versterken van de reproduceerbaarheid.
+
+De methode die is gebruikt voor de bepaling van de zeespiegel en stijging ervan staat in hoofdstuk \@ref(methodiek). De waarden worden elk jaar geactualiseerd in de online zeespiegelmonitor.
+
+Voorliggend rapport heeft ook als doel een verslag te geven van het onderzoek dat in de afgelopen jaren is gedaan. De keuzes in dat onderzoek volgen uit de vooraf opgestelde onderzoeksagenda. In paragraaf \@ref(onderzoeksvragen) staat een overzicht. Een aantal onderzoeken zijn ook als aparte memo's of rapporten gepresenteerd. Dit staat aangegeven in het overzicht.
+
+## Onderzoeksvragen
+
+Dit rapport heeft als doel om een overzicht te geven van het werk dat in de afgelopen jaren is gedaan in het kader van het onderzoek Kustbeleid. Vanaf 2018 is er richting gegeven aan dit onderzoek vanuit een met de opdrachtgevers afgestemde onderzoeksagenda. Deze agenda is in 2023 vastgesteld voor de periode 2023 - 2025. In dit rapport worden deze centrale vraagstellingen beantwoord.
+
+**Jaarlijkse zeespiegelmonitor**
+
+-   Wat is de huidige stijging van de zeespiegel? Wat zijn de laatste ontwikkelingen op het gebied van de toestand van de globale en lokale zeespiegel?
+
+Deze vraag wordt beantwoord in paragraaf \@ref(huidige).
 
 ## Toepassingen
 
-
 ## Onderzoeksvragen afgelopen periode
 
-
 ## Stand van zaken in de literatuur
+
+
+\printacronyms
