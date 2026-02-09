@@ -172,7 +172,7 @@ p <- historie_all %>%
   geom_point(size = 2, alpha = 0.4) +
   ggtitle(paste("NAP historie", "nulpalen kuststations", "t.o.v. eerste waarde")) +
   ylab("hoogte in m") +
-  facet_wrap(c("locatie", "puntnummer"), ncol = 4)
+  facet_wrap(c("locatie", "puntnummer"), ncol = 5)
 p
 ```
 

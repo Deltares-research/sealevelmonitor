@@ -46,7 +46,7 @@ In dit onderzoek maken we gebruik van een \acr{GLM}, een gegeneralizeerde vorm v
 
 ## (Meet)gegevens {#bronnen}
 
-In dit onderzoek maken we gebruik van gegevens voor de 6 zogenaamde hoofdstations Vlissingen, Hoek van Holland, IJmuiden, Den Helder, Harlingen en Delfzijl. Deze kuststations leveren sinds 1890, toen het \acr{NAP} overal was doorgevoerd, betrouwbare metingen. In De Ronde et al. (2013) is de methode Zeespiegelmonitor op de 6 hoofdstations toegepast. Gegevens worden betrokken uit de [\acr{PSMSL} database](https://psmsl.org/data/). Rijkswaterstaat draagt zorg voor de aanlevering van gegevens aan \acr{PSMSL}.
+In dit onderzoek maken we gebruik van gegevens voor de 6 zogenaamde hoofdstations Vlissingen, Hoek van Holland, IJmuiden, Den Helder, Harlingen en Delfzijl. Deze kuststations leveren sinds 1890, toen het \acr{NAP} overal was doorgevoerd, betrouwbare metingen. Gegevens worden betrokken uit de [\acr{PSMSL} database](https://psmsl.org/data/). Rijkswaterstaat draagt zorg voor de aanlevering van gegevens aan \acr{PSMSL}.
 
 De overige stations waarvan gegevens in \acr{PSMSL} opvraagbaar zijn worden niet gebruikt. Het station van West-Terschelling (1921) wordt buiten beschouwing gelaten omdat het in de buurt ligt van Den Helder en Harlingen. Het station van Maassluis (1848) ligt kustinwaarts ten opzichte van Hoek van Holland en kan afgesloten worden door de Maeslantkering. Daardoor is de waterstand niet meer gelijk aan die van de open zee. Het station Roompot Buiten heeft een relatief korte historie (jaargemiddelden beschikbaar sinds 1982) en overlapt met Vlissingen. Roompot Buiten heeft wel een belangrijke functie in de operationele toepassing, waarin Roompot Buiten wel en IJmuiden niet als een hoofdstation wordt gezien. Roompot Buiten is in de Zeespiegelmonitor niet meegenomen als hoofdstation.
 
@@ -75,7 +75,47 @@ Rijkswaterstaat heeft begin 2022 geconstateerd dat een inhaalslag nodig is voor 
 
 ## Metingen en recente correcties
 
-## Rekenmethode incl uitgebreidere beschrijving windopzetberekening
+Voor de Zeespiegelmonitor worden jaargemiddelden gebruikt die beschikbaar zijn in \acr{PSMSL}. Deze gegevens worden door \acr{RWS} jaarlijks berekend en aan \acr{PSMSL} aangeleverd. Voorafgaand aan de berekening van gemiddelden worden de meetgegevens gecontroleerd, en waar nodig aangevuld of gecorrigeerd (@Honingh2021). 
+
+Recent heeft een extra controle en correctie plaatsgevonden voor de getijdemetingen. Dit betreft 2 typen correcties:
+
+- herberekening van gemiddelden op basis van 10-minutenreeksen (dit werd tot nu toe gedaan op basis van uurgegevens)
+- Herberekening van NAP referentiewaarden voor station Delfzijl
+
+Deze gegevens zijn (februari 2026) nog niet aangeleverd aan \{PSMSL}.
+
+
+
+## Correcties voor wind en getij (uitgebreidere beschrijving GTSM)
+
+### Principes
+
+### Practische uitvoering
+
+### Zeespiegelstijging en GTSM
+
+De modelresultaten die berekend worden met GTSM houden al rekening met zeespiegelstijging. De zeespiegelstijging die is toegepast is afgeleid van SLR-projecties in \acr{AR5} van \acr{IPCC}. Deze wijken waarschijnlijk af van de daadwerkelijk waargenomen zeespiegelstijging. Het is daarom belangrijk om te weten of de gebruikte stijging invloed heeft op de berekende windopzet aan de Nederlandse kust. Dit is gecontroleerd door de GTSM-ERA5 modelopstelling voor 2023 te draaien, zodat modelresultaten zowel met als zonder \acr{SLR} (totaal waterpeil en alleen getijdenruns) worden getoond. Deze resultaten zijn vergeleken (zoals te zien in het rekendocument op https://github.com/VU-IVM/gtsm3-era5-nrt/blob/main/02_analysis_and_validation/p06_compare_SLR_effect_surge_mean.ipynb).
+
+Uit deze resultaten kan worden geconcludeerd:
+
+- SLR in 2023, die in onze modelruns is opgenomen, is ~0,1 m.
+- Dit niveau van SLR heeft geen significant effect op de gemiddelde pieken (het verschil dat het model veroorzaakt is verwaarloosbaar - minder dan 1 mm).
+- Op enkele locaties diep in de Waddenzee is er enig verschil in pieken tussen de twee runs, maar dit zijn locaties in relatief afgesloten gebieden in ondiep water. Het verschil blijft beperkt tot enkele millimeters ().
+
+```{r GTSM-SLR-diff, fig.cap="Gemiddelde windopzet op de zeespiegel voor 2023 inclusief zeespiegelstijging zoals gedefinieerd in \acr{GTSM} (linker figuur) en het verschil in windopzet tussen modelruns met en zonder zeespiegelstijging (rechter figuur). Voor verder uitleg zie de tekst."}
+knitr::include_graphics("images/GTSM_SLR_diff.png")
+```
+
+Hieruit concluderen we dat de windopzet uit \acr{GTSM} inclusief zeespiegelstijging, die we op dit moment gebruiken voor de Zeespiegelmonitor, niet wordt beïnvloed door de gebruikte zeespiegelprojectie. 
+
+## Rekenmethode
+
+De stijging van de zeespiegel wordt wiskundig beschreven met een model, waaruit we de meest waarschijnlijk stijging berekenen over de gewenste periode (laatste 15 jaar). De keuze van het model dient ook te voldoen aan de gestelde criteria (\#afwegingen). De keus aan modellen die getest worden is over de jaren langzaam uitgebreid. In \@Dillingh2010 werd een kwadratische term toegevoegd aan het initiële lineaire model, om een versnelling al dan niet te accepteren. Er was toen alleen voor station Den Helder een significante toename van de zeespiegestijging met het gebruikte model. In de Zeespiegelmonitor 2014 (\@Baart2014a) is daarom alleen het lineaire model toegepast, met een uitbreiding van een LOESS term om het model beter te laten aansluiten bij projecties. In de Zeespiegel 2018 (\@Baart2019) is opnieuw de kwadratische term als toevoeging op het lineaire model getest, maar ook een trendbreuk (gebroken lineair model) in 1993. De keuze voor 1993 was gemotiveerd door:
+
+- 1993 is het startjaar van satellietmetingen. Door de breuk in 1993 te leggen wordt de trend ook berekend vanaf dit jaar, wat vergelijking met satellietmetingen vergemakkelijkt
+- Rond 1993 stond de zeespiegel vrij laag, deels door de uitbraak van de Pinatubo vulkaan. Latere analyses hebben laten zien dat voor een gebroken lineair model dit het meest waarschijnlijke breekpunt is ()
+
+
 
 ## Wanneer kan overgegaan worden op metingen met satellieten
 

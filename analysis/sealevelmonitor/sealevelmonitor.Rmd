@@ -3,10 +3,10 @@ title: "Zeespiegelmonitor"
 author: "Willem Stolte, Nathalie Dees"
 date: "`r format(Sys.time(), '%d %B, %Y')`"
 output:
-  github_document:
   html_document:
     df_print: paged
     code_folding: hide
+  github_document:
 params:
   # - Netherlands
   # - linear
@@ -40,6 +40,8 @@ knitr::opts_chunk$set(
 require(leaflet)
 require(plotly)
 require(nlme)
+remotes::install_github("wstolte/rwsapi")
+remotes::install_github("openearth/rsealevel")
 require(rsealevel)
 
 config <- RcppTOML::parseToml("_common/configuration.TOML")
@@ -259,7 +261,7 @@ uitvoer_df <- all_predictions %>%
      `fit`= `preds_height (-nodal -surge anomaly)`
   ) 
 
-# write_csv(uitvoer_df, file = "../../results/plotdata2024.csv")
+write_csv(uitvoer_df, file = "../../results/plotdata2024.csv")
 
 
 ```
@@ -334,11 +336,45 @@ p = plot_station_website_broken_squared(
 
 p
 
-# ggsave(paste0("../../results/sl_web_", params$station, params$modeltype, ".png"), width = 8, height = 5)
+ggsave(paste0("../../results/sl_web_", params$station, params$modeltype, ".png"), width = 8, height = 5)
 
 ```
 
+```{r, include=F, echo = F}
 
+# silently produce figure in english for Deltares website. 
+
+if(params$modeltype == "broken_linear"){
+p = plot_station_website_broken_linear_english(
+    stationi = params$station,
+    predictions_all = all_predictions %>% 
+      filter(station == params$station) %>%
+      filter(modeltype == params$modeltype), 
+    correctionVariant = params$wind_or_surge_type, 
+    modelVariant = params$modeltype, 
+    printNumbers = F,
+    plotVline = F,
+    startyear = 1890)
+}
+
+if(params$modeltype == "broken_squared"){
+p = plot_station_website_broken_squared_english(
+    stationi = params$station,
+    predictions_all = all_predictions %>% 
+      filter(station == params$station) %>%
+      filter(modeltype == params$modeltype), 
+    correctionVariant = params$wind_or_surge_type, 
+    modelVariant = params$modeltype, 
+    printNumbers = F,
+    plotVline = F,
+    startyear = 1890)
+}
+
+p
+
+ggsave(paste0("../../results/sl_web_en_", params$station, params$modeltype, ".png"), width = 8, height = 5)
+
+```
 
 
 ## Trend parameters

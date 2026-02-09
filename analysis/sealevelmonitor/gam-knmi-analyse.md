@@ -1,7 +1,7 @@
 GAM model estimation of Dutch Sea Level
 ================
 Willem Stolte
-2025-11-25
+2026-01-19
 
 ## Introduction
 
@@ -25,18 +25,18 @@ library(gratia)
 epoch = 1970
 datapath = "https://raw.githubusercontent.com/Deltares-research/sealevelmonitor/refs/heads/main/data/deltares/results/dutch-sea-level-monitor-export-stations-latest.csv"
 
-df <- read_csv2(file.path(datapath), col_types = cols()) %>%
+df <- read_delim(file.path(datapath), delim = ";", col_types = cols()) %>%
   # filter(station %in% params$station) %>%
   filter(year >= 1890)
 ```
 
 ``` r
 # add nodal components
-df <- df %>%
-  mutate(
-    nodal_cos = cos(2 * pi * (year - epoch) / 18.613),
-    nodal_sin = sin(2 * pi * (year - epoch) / 18.613)
-  )
+# df <- df %>%
+#   mutate(
+#     nodal_cos = cos(2 * pi * (year - epoch) / 18.613),
+#     nodal_sin = sin(2 * pi * (year - epoch) / 18.613)
+#   )
 ```
 
 ## Define GAM
@@ -102,8 +102,8 @@ by_station_model = df %>%
     # adj.rsq = glance %>% map_dbl("adj.r.squared"),
     # AIC    = glance %>% map_dbl("AIC"),
     tidy   = map(model, broom::tidy),
-    augment = map(model, broom::augment),
-    equation = map(model, function(x) equatiomatic::extract_eq(x))
+    augment = map(model, broom::augment)#,
+    # equation = map(model, function(x) equatiomatic::extract_eq(x))
   ) %>%
   mutate(
     sm_predict = map(model, \(x) gratia::derivatives(x, select = "s(year)", type = "central", .name_repair = "universal")),
@@ -226,6 +226,12 @@ years only a correction with the mean surge has been made.
 ``` r
 by_station_model %>%
   unnest(data) %>%
+  select(
+    station,
+    year,
+    height,
+    surge_anomaly # moet numeriek zijn!
+  ) %>%
   ggplot(
     aes(
       x = year, 
