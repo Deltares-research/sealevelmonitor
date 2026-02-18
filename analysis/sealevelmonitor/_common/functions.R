@@ -87,24 +87,24 @@ grootheid = "Waterhoogte"
 #   }
 # }
 # 
-readDDLwaterhoogte2 <- function(ddlmetadata, startyear, endyear, outDir = "data/rijkswaterstaat/ddl/raw"){
-
-  require(rwsapi)
-  require(tidyverse)
-
-  waterhoogteparameters <- c("Waterhoogte berekend", "Waterhoogte", "Waterhoogte astronomisch", "Waterhoogte verwacht")
-
-  # make warning if grootheid is not in list of waterhoogteparameters.
-
-  for(iyear in startyear:endyear){
-    rwsapi::getDDLdata(
-      startyear = iyear,
-      endyear = iyear,
-      myCatalogue = ddlmetadata,
-      outDir = outDir
-    )
-  }
-}
+# readDDLwaterhoogte2 <- function(ddlmetadata, startyear, endyear, outDir = "data/rijkswaterstaat/ddl/raw"){
+# 
+#   require(rwsapi)
+#   require(tidyverse)
+# 
+#   waterhoogteparameters <- c("Waterhoogte berekend", "Waterhoogte", "Waterhoogte astronomisch", "Waterhoogte verwacht")
+# 
+#   # make warning if grootheid is not in list of waterhoogteparameters.
+# 
+#   for(iyear in startyear:endyear){
+#     rwsapi::getDDLdata(
+#       startyear = iyear,
+#       endyear = iyear,
+#       myCatalogue = ddlmetadata,
+#       outDir = outDir
+#     )
+#   }
+# }
 
 readYrAvgWaterhoogteDDL <- function(dir = "data\\rijkswaterstaat\\ddl\\annual_means"){
   files = list.files(dir)  

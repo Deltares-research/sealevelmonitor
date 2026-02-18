@@ -23,7 +23,7 @@ plotResidualDistribution <- function(models) {
         fill = surge_correction,
         color = surge_correction),
       # position = position_identity(), 
-      alpha = 0.5, size = 1
+      alpha = 0.4, size = 1
     ) +
     facet_grid(station ~ modeltype) +
     geom_vline(xintercept = 0, alpha = 0.5) +
@@ -224,7 +224,7 @@ plot_station_website_broken_linear <- function(
   zoomyear = 2010
   
   pal <- hue_pal()(4)
-  path = file.path(base_logo_path, "rapportage\\2026\\navbar\\images\\Deltares_logo_D-blauw_RGB\\Deltares_logo_D-blauw_RGB.svg")
+  path = file.path(base_logo_path, "rapportage\\slm2022\\navbar\\images\\Deltares_logo_D-blauw_RGB\\Deltares_logo_D-blauw_RGB.svg")
   rlogo     <- svgparser::read_svg(path)
   
   
@@ -353,7 +353,7 @@ plot_station_website_broken_squared <- function(
   zoomyear = 2010
   
   pal <- hue_pal()(4)
-  path = file.path(base_logo_path, "rapportage\\2026\\navbar\\images\\Deltares_logo_D-blauw_RGB\\Deltares_logo_D-blauw_RGB.svg")
+  path = file.path(base_logo_path, "rapportage\\slm2022\\navbar\\images\\Deltares_logo_D-blauw_RGB\\Deltares_logo_D-blauw_RGB.svg")
   rlogo     <- svgparser::read_svg(path)
   
   
@@ -498,7 +498,7 @@ map_stations <- function(df, mainstations_df, mainstations_locs) {
     leaflet::addCircleMarkers(
       lat = ~Lat, 
       lng = ~Lon, 
-      label = ~ location,
+      label = ~ station,
       labelOptions = labelOptions(noHide = T)) %>%
     leaflet::setView(lng = mean(mainstations_locs$Lon), lat = mean(mainstations_locs$Lat), zoom = 6)
 }
@@ -660,7 +660,7 @@ plot_station_website_broken_linear_english <- function(
   zoomyear = 2010
   
   pal <- hue_pal()(4)
-  path = file.path(base_logo_path, "rapportage\\2026\\navbar\\images\\Deltares_logo_D-blauw_RGB\\Deltares_logo_D-blauw_RGB.svg")
+  path = file.path(base_logo_path, "rapportage\\slm2022\\navbar\\images\\Deltares_logo_D-blauw_RGB\\Deltares_logo_D-blauw_RGB.svg")
   rlogo     <- svgparser::read_svg(path)
   
   
