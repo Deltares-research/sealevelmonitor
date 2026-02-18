@@ -11,7 +11,7 @@ source("analysis/sealevelmonitor/_common/functions.R")
 stationlist <- read_csv("data/rijkswaterstaat/stationlist.csv")
 mijnmetadata <- get_selected_metadata(compartiment = "OW", grootheid = "WATHTE", locatie = stationlist)
 
-datayear = c(1971:1986)
+datayear = c(2025:2025)
 
 ddlrawdir <- "P:/11202493--systeemrap-grevelingen/1_data/Noordzee/ddl/raw/wathte"
 ddlmeandir <- "data/rijkswaterstaat/ddl/annual_means"

@@ -40,7 +40,6 @@ knitr::opts_chunk$set(
 require(leaflet)
 require(plotly)
 require(nlme)
-remotes::install_github("wstolte/rwsapi")
 remotes::install_github("openearth/rsealevel")
 require(rsealevel)
 
@@ -60,7 +59,7 @@ select <- dplyr::select
 ```{r readData, comment=F, message=F}
   df <- read_delim(
     file.path(
-      "../", "../data/deltares/results/dutch-sea-level-monitor-export-stations-latest.csv"),
+      "../", "../data/deltares/input/psmsl_gtsm_yr-latest.csv"),
     delim = ";") %>%
   filter(station %in% params$station) %>%
   filter(year >= params$startyear)
@@ -86,7 +85,7 @@ df %>%
 
 ### Windopzet
 
-Windopzet wordt berekend voor de zes hoofdstations met het Global Tide and Surge Model (GTSM). Het gemiddelde over stations `r params$station` per jaar is de windopzet per jaar. Hieruit wordt de windopzetanomalie berekend als de windopzet gedeeld door de gemiddelde windopzet over alle jaren die beschikbaar zijn (1950 - nu). Deze windopzetanomalie wordt gebruikt om de variatie in het zeespiegelsignaal ten gevolge van windopzet zo veel mogelijk weg te nemen.Hierdoor kan er preciezer een schatting van de trend en eventueel een trendbreuk worden gevonden.
+De hoeveelheid windopzet aan de Nederlandse kust varieert sterk van jaar tot jaar. Daarom worden zeespiegelstanden gecorrigeerd voor windopzet. Dit is nodig om een zuiverder signaal van de zeespiegel te kunnen gebruiken in de analyse. Windopzet wordt berekend voor de zes hoofdstations met het Global Tide and Surge Model (GTSM). In deze analyse wordt de windopzet voor `r params$station` berekend als gemiddelde over de bijdragende stations. Daarna wordt de windopzetanomalie berekend als de windopzet gedeeld door de gemiddelde windopzet over alle jaren die beschikbaar zijn (1950 - nu). Deze windopzetanomalie wordt gebruikt om de variatie in het zeespiegelsignaal ten gevolge van windopzet zo veel mogelijk weg te nemen. Hierdoor kan er preciezer een schatting van de trend en eventueel een trendbreuk worden gevonden.
 
 ```{r metingenView2}
 df %>% 
@@ -103,18 +102,12 @@ df %>%
 
 ## Keuze van stations
 
-De Zeespiegelmonitor heeft als doel om een overzicht te geven van de zeespiegel en -stijging voor de gehele Nederlandse kust. Hiervoor worden in principe de 6 hoofdstations gemiddeld. In de Zeespiegelmonitor (2023) is geconstateerd dat de waarden voor Delfzijl de laatste 15-20 jaar niet aan dezelfde standaard voldoen als voor de overige stations. in de tussentijd zijn correcties uitgevoerd voor deze meetwaarden. Deze zijn nog niet in deze Zeespiegelmonitor opgenomen. Op dit moment wordt dus gerekend met de vijf resterende stations. We noemen dit virtuele station `r params$station`. 
-
-```{r selected-stations, fig.cap="Hoofdgetijstations in Nederland. Er is aangegeven welke stations zijn meegenomen in dit rekendocument. "}
-
-map_stations(df = df, mainstations_df = mainstations_df, mainstations_locs = mainstations_locs)
-
-```
+De Zeespiegelmonitor heeft als doel om een overzicht te geven van de zeespiegel en -stijging voor de gehele Nederlandse kust. Hiervoor worden in principe de 6 hoofdstations gemiddeld. In de Zeespiegelmonitor (2023) is geconstateerd dat de waarden voor Delfzijl de laatste 15-20 jaar niet aan dezelfde standaard voldoen als voor de overige stations. in de tussentijd zijn correcties uitgevoerd voor deze meetwaarden. Deze zijn nog niet in deze Zeespiegelmonitor opgenomen. Op dit moment wordt dus gerekend met de vijf resterende stations. We noemen dit virtuele station "`r cat(params$station)`". 
 
 
 ## Is er een versnelling?
 
-Om de zeespiegelstijging over de laatste 10-15 jaar correct te berekenen wordt er rekening mee gehouden dat er in de loop van de tijd een verandering (versnelling) van de zeespiegel is geweest. Deze versnelling is lang niet gevonden in de Nederlandse metingen (Zeespiegelmonitor 2018). Vanaf 2021 is deze versnelling wel waargenomen  (Zeespiegelmonitor 2023). In het rekendocument ["Sealevelanalysis"](https://github.com/Deltares-research/sealevelmonitor/blob/main/analysis/sealevelmonitor/sealevelanalysis.md) is uitgezocht welk model het voorkeursmodel is voor de bepaling van de huidige zeespiegelstijging. Op dit moment worden de volgende modellen getest:
+Om de zeespiegelstijging over de laatste 10-15 jaar correct te berekenen wordt er rekening mee gehouden dat er in de loop van de tijd een verandering (versnelling) van de zeespiegel kan zijn geweest. Deze versnelling is lang niet gevonden in de Nederlandse metingen (Zeespiegelmonitor 2018). Vanaf 2021 is geconcludeerd dat de zeespiegelstijging vanaf 1993 sneller gaat dan in de periode daarvoor  (Zeespiegelmonitor 2023). In het rekendocument ["Sealevelanalysis"](https://github.com/Deltares-research/sealevelmonitor/blob/main/analysis/sealevelmonitor/sealevelanalysis.md) is uitgezocht welk model het voorkeursmodel is voor de bepaling van de huidige zeespiegelstijging. Op dit moment worden de volgende modellen getest:
 
 - lineair model (geen versnelling)
 - gebroken lineair model (met versnelde stijging vanaf 1993)
@@ -138,6 +131,7 @@ In voorliggend rekendocument wordt daarom gerekend met het `r params$modeltype` 
 selectedmodel <- params$modeltype
 
 models <- df %>%
+  addBreakPoints() %>%
   dplyr::group_by(station) %>%
   tidyr::nest() %>%
   dplyr::ungroup() %>%
@@ -191,7 +185,7 @@ In dit deel wordt gecontroleerd of de verdeling van de residuen regelmatig is ve
 
 ### Verdeling van residuen.
 
-De verdeling van resituen uitgezet tegen de verwachte waarde levert bij benadering een normale verdeling op. 
+De verdeling van residuen uitgezet tegen de verwachte waarde levert bij benadering een normale verdeling op. 
 
 ```{r, fig.height=nstations*3+1, fig.width=nmodels*2.5+1, fig.align='center', fig.cap="De verdeling (histogram) van de residuen. "}
 
@@ -204,7 +198,7 @@ ggplot(aes(x = augment_.resid)) +
 ```
 
 
-## Verdeling van residuen over de tijd
+## Verdeling van residuen
 
 Bij een geschikt model verwachten we een regelmatige verdeling van residuen over de tijd. Wanneer deze sterk afwijkt dan kan dat een aanwijzing zijn dat het model niet geschikt is, of dat bepaalde correcties niet goed zijn uitgevoerd. 
 
@@ -213,13 +207,21 @@ models %>%
   unnest(c(data, augment), names_sep = "_") %>% #str(max.level = 2)
 ggplot(aes(data_year, augment_.resid)) +
   geom_point(alpha = 0.4) +
-  facet_grid(station ~ modeltype)
+  facet_grid(station ~ modeltype) +
+  theme_minimal()
 ```
 
-Bovenstaande figuur laat zien dat de spreiding van residuen groter is voor de jaren vóór 1950. Dit zijn de jaren waarvoor geen correctie van opzet wordt uigevoerd, omdat hiervoor geen GTSM berekeningen beschikbaar zijn. Er is geen systematische afwijking van residuen in de loop van de tijd. 
+Bovenstaande figuur laat zien dat de spreiding van residuen groter is voor de jaren vóór 1950. Dit zijn de jaren waarvoor geen correctie van opzet voor elk jaar, maar alleen voor een gemiddeld jaar wordt uigevoerd. Voor die jaren zijn geen GTSM berekeningen beschikbaar zijn. We concluderen dat er geen systematische afwijking van residuen is in de loop van de tijd. Wel is de variantie niet helemaal gelijk verdeeld in de tijd.Het verdient aanbeveling om de GTSM reeks aan te vullen voor jaren vóór 1950.
+
+```{r, fig.height=6, fig.width=6, fig.cap= "Vier diagnostische plots van het lineaire regressiemodel, bestaande uit residualen‑diagnostiek, een Q–Q‑plot, een scale–location‑diagram en een leverage‑plot met Cook’s distances."}
+par(mfrow=c(2,2))
+plot(models$model[[1]])
+```
+
+Bovenstaande diagnostische grafieken wijzen erop dat het regressiemodel over het algemeen voldoet aan de belangrijkste modelaannames. Hoewel er enkele lichte afwijkingen zichtbaar zijn — voornamelijk in de residustructuur en de verdelingsuiteinden — zijn er geen aanwijzingen voor ernstige schendingen. Het model kan daarom als adequaat worden beschouwd voor verdere interpretatie.
 
 
-## Zeespiegelstijging
+## Zeespiegelstijging resultaten
 
 
 ```{r}
@@ -267,6 +269,47 @@ write_csv(uitvoer_df, file = "../../results/plotdata2024.csv")
 ```
 
 
+## Bijdrage van de verschillende componenten in het regressiemodel aan de totale zeespiegel  
+
+
+
+
+```{r predict_partial}
+
+# aim: produce predictions for:
+# trend only (+ SE)
+# nodal cycle only (+ SE)
+
+source("_common/predict_partials_functions.R")
+
+aug_long <- models %>%
+  mutate(
+    augmented = map2(model, data, ~ predict_partial_se(.x, .y, parts = c("trend", "nodal"), level = 0.95))
+  ) %>%
+  select(augmented) %>%
+  unnest(augmented)
+
+```
+
+
+```{r partials, fig.cap="Contribution of all factors to the trend estimation of Dutch sea level. Contributions of surge_anomaly, nodal_fit and rest have been lowered by 250 mm for presenation reasons. "}
+aug_long %>%
+  mutate(residual = height - trend_fit - nodal_fit - surge_anomaly) %>%
+  select(year, name, height, surge_anomaly, trend_fit, nodal_fit, fitted_total, residual) %>%
+  pivot_longer(-c(name, year), names_to = "variable", values_to = "value") %>%
+  mutate(value = ifelse(variable %in% c("nodal_fit"), value - 250, value)) %>%
+  mutate(value = ifelse(variable %in% c("surge_anomaly"), value - 350, value)) %>%
+  mutate(value = ifelse(variable %in% c("residual"), value - 450, value)) %>%
+  mutate(variable = factor(variable, levels = c("height", "fitted_total", "trend_fit", "nodal_fit", "surge_anomaly", "residual"))) %>%
+  ggplot(aes(x = year)) +
+  geom_point(data = . %>% filter(variable == "height"), aes(y = value, color = variable), size = 2) +
+  geom_line(data = . %>% filter(variable != "height"), aes(y = value, color = variable), size = 1) +
+  ylab("Sea level contribution in mm.")
+  theme_light()
+  
+```
+
+## Zeespiegel met de verschillende termen
 
 
 ```{r, eval=TRUE}
@@ -336,7 +379,14 @@ p = plot_station_website_broken_squared(
 
 p
 
+# different formats for publication. possibly change way of saving e.g. use dpi iso width and height. 
+# 
 ggsave(paste0("../../results/sl_web_", params$station, params$modeltype, ".png"), width = 8, height = 5)
+ggsave(paste0("../../results/sl_web_", params$station, params$modeltype, ".svg"), width = 8, height = 5)
+ggsave(paste0("../../results/sl_web_", params$station, params$modeltype, ".eps"), width = 8, height = 5)
+ggsave(paste0("../../results/sl_web_", params$station, params$modeltype, ".pdf"), width = 8, height = 5)
+
+
 
 ```
 
