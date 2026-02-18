@@ -1,7 +1,7 @@
 Zeespiegelmonitor analysis
 ================
 Willem Stolte, Nathalie Dees
-08 December, 2025
+16 February, 2026
 
 # Sea Level Monitor analysis
 
@@ -57,16 +57,18 @@ data.frame(
 
 Values of document parameters
 
-## Get latest data from file
+## Get latest input data from file
 
-In an other script, annual average sea level data for the Dutch main
-stations is downloaded from the [Permanent Service for Mean Sea Level
+In the script
+[updateSLMinput.R](https://github.com/Deltares-research/sealevelmonitor/blob/main/analysis/sealevelmonitor/updateSLMinput.R),
+annual average sea level data for the Dutch main stations is downloaded
+from the [Permanent Service for Mean Sea Level
 site](http://www.psmsl.org) and combined with the Global Tide and Surge
 Model (GTSM) annual average surge values.
 
 ``` r
 current_df <-   read_delim(
-  "../../data/deltares/results/dutch-sea-level-monitor-export-stations-latest.csv", 
+  "../../data/deltares/input/psmsl_gtsm_yr-latest.csv", 
   delim = ";") %>%
   filter(year >= params$startyear)
 ```
@@ -308,6 +310,7 @@ estimated as a sinusoid curve with a period of 18.6 years.
 ``` r
 byStation <- current_df %>%
   filter(year > params$startyear) %>%
+  addBreakPoints() %>%
   dplyr::group_by(station) %>%
   tidyr::nest() %>%
   dplyr::ungroup()
@@ -351,9 +354,9 @@ knitr::kable(eq, escape = F)
 
 | modeltype | equation |
 |:---|:---|
-| linear | $``height = \alpha + \beta_{1}(year\ -\ epoch) + \beta_{2}(cos(2\ *\ pi\ *\ (year\ -\ epoch)/(18.613))) + \beta_{3}(sin(2\ *\ pi\ *\ (year\ -\ epoch)/(18.613))) + \epsilon``$ |
-| broken_linear | $``height = \alpha + \beta_{1}(year\ -\ epoch) + \beta_{2}(from1993) + \beta_{3}(cos(2\ *\ pi\ *\ (year\ -\ epoch)/(18.613))) + \beta_{4}(sin(2\ *\ pi\ *\ (year\ -\ epoch)/(18.613))) + \epsilon``$ |
-| broken_squared | $``height = \alpha + \beta_{1}(year\ -\ epoch) + \beta_{2}(from1960\_square) + \beta_{3}(cos(2\ *\ pi\ *\ (year\ -\ epoch)/(18.613))) + \beta_{4}(sin(2\ *\ pi\ *\ (year\ -\ epoch)/(18.613))) + \epsilon``$ |
+| linear | $`height = \alpha + \beta_{1}(year\ -\ epoch) + \beta_{2}(cos(2\ *\ pi\ *\ (year\ -\ epoch)/(18.613))) + \beta_{3}(sin(2\ *\ pi\ *\ (year\ -\ epoch)/(18.613))) + \epsilon`$ |
+| broken_linear | $`height = \alpha + \beta_{1}(year\ -\ epoch) + \beta_{2}(from1993) + \beta_{3}(cos(2\ *\ pi\ *\ (year\ -\ epoch)/(18.613))) + \beta_{4}(sin(2\ *\ pi\ *\ (year\ -\ epoch)/(18.613))) + \epsilon`$ |
+| broken_squared | $`height = \alpha + \beta_{1}(year\ -\ epoch) + \beta_{2}(from1960\_square) + \beta_{3}(cos(2\ *\ pi\ *\ (year\ -\ epoch)/(18.613))) + \beta_{4}(sin(2\ *\ pi\ *\ (year\ -\ epoch)/(18.613))) + \epsilon`$ |
 
 ## Autocorrelation
 
@@ -364,7 +367,30 @@ often occurs. In case of autocorrelation, we recalculate standard errors
 of the estimated parameters accordingly.
 
 ``` r
-plot_ACF(models)
+library(ggfortify)
+
+  models %>%
+    mutate(
+      ACF = map(augment, function(x) ggplot2::fortify(acf(x$.resid, plot = F)))
+    ) %>%
+    unnest(ACF) %>%
+    mutate(ACF_pass = (ACF >= lower & ACF <= upper)) %>%
+    filter(Lag >= 1) %>%
+    ggplot(aes(Lag, ACF)) +
+    geom_col(width = 0.4, aes(fill = ACF_pass)) +
+    geom_vline(xintercept = 8.9, linetype = 3) +
+    geom_vline(xintercept = 18.6, linetype = 3) +
+    geom_line(aes(y = lower), linetype = "dotdash", linewidth = 0.5) +
+    geom_line(aes(y = upper), linetype = "dotdash", linewidth = 0.5) +
+    scale_x_continuous(
+      breaks = scales::breaks_pretty(10)
+    )+
+    facet_grid(station ~ modeltype) +
+    theme_minimal() +
+    theme(
+      strip.text.y = element_text(angle = 0),
+      legend.position = "bottom"
+    )
 ```
 
 <figure>
@@ -410,7 +436,7 @@ for surge prior to application of the models.
 plotResidualDistribution(models)
 ```
 
-<img src="sealevelanalysis_files/figure-gfm/unnamed-chunk-6-1.png" width="100%" />
+<img src="sealevelanalysis_files/figure-gfm/unnamed-chunk-6-1.png" alt="" width="100%" />
 
 ### Variation of residuals over time
 
@@ -5703,9 +5729,9 @@ makePrettyAnovaTable(t, 3)
 |    130 | 61000 |     |           |      |          |
 |    129 | 53400 |   1 |      7580 | 18.3 | 3.62e-05 |
 
-The acceleration model (broken linear) has one more degree of freedom
-than the linear model. The broken linear model is significantly better
-than the linear model (p \< 0.001).
+The broken linear model has one more degree of freedom than the linear
+model. The broken linear model is significantly better than the linear
+model (p \< 0.001).
 
 ## Conclusions
 

@@ -226,8 +226,8 @@ ggplot(aes(year, surge_anomaly)) +
   theme(legend.position = "bottom") +
   coord_cartesian(xlim = c(1945, params$monitoryear))
 
-ggplotly(p) # %>% layout(legend = list(x = 0.05, y = 0.95))
-# p
+# ggplotly(p) # %>% layout(legend = list(x = 0.05, y = 0.95))
+p
 ```
 
 
@@ -246,6 +246,7 @@ In the regression equation, nodal tide is one of the components and is estimated
 ```{r nest-per-station}
 byStation <- current_df %>%
   filter(year > params$startyear) %>%
+  addBreakPoints() %>%
   dplyr::group_by(station) %>%
   tidyr::nest() %>%
   dplyr::ungroup()
