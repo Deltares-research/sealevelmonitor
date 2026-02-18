@@ -1,7 +1,7 @@
 Zeespiegelmonitor analysis
 ================
 Willem Stolte, Nathalie Dees
-16 February, 2026
+18 February, 2026
 
 # Sea Level Monitor analysis
 
@@ -57,18 +57,16 @@ data.frame(
 
 Values of document parameters
 
-## Get latest input data from file
+## Get latest data from file
 
-In the script
-[updateSLMinput.R](https://github.com/Deltares-research/sealevelmonitor/blob/main/analysis/sealevelmonitor/updateSLMinput.R),
-annual average sea level data for the Dutch main stations is downloaded
-from the [Permanent Service for Mean Sea Level
+In an other script, annual average sea level data for the Dutch main
+stations is downloaded from the [Permanent Service for Mean Sea Level
 site](http://www.psmsl.org) and combined with the Global Tide and Surge
 Model (GTSM) annual average surge values.
 
 ``` r
 current_df <-   read_delim(
-  "../../data/deltares/input/psmsl_gtsm_yr-latest.csv", 
+  "../../data/deltares/results/dutch-sea-level-monitor-export-stations-latest.csv", 
   delim = ";") %>%
   filter(year >= params$startyear)
 ```
@@ -94,13 +92,18 @@ selection (“Netherlands (without Delfzijl)”).
 map_stations(df = current_df, mainstations_df = mainstations_df, mainstations_locs = mainstations_locs)
 ```
 
-<figure>
-<img src="sealevelanalysis_files/figure-gfm/selected-stations-1.png"
-alt="Hoofdgetijstations in Nederland. Er is aangegeven welke stations zijn meegenomen in dit rekendocument." />
-<figcaption aria-hidden="true">Hoofdgetijstations in Nederland. Er is
-aangegeven welke stations zijn meegenomen in dit
-rekendocument.</figcaption>
-</figure>
+<div class="figure">
+
+<div class="leaflet html-widget html-fill-item" id="htmlwidget-23183bc377c9710b0865" style="width:672px;height:480px;"></div>
+<script type="application/json" data-for="htmlwidget-23183bc377c9710b0865">{"x":{"options":{"crs":{"crsClass":"L.CRS.EPSG3857","code":null,"proj4def":null,"projectedBounds":null,"options":{}}},"calls":[{"method":"addTiles","args":["https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png",null,null,{"minZoom":0,"maxZoom":18,"tileSize":256,"subdomains":"abc","errorTileUrl":"","tms":false,"noWrap":false,"zoomOffset":0,"zoomReverse":false,"opacity":1,"zIndex":1,"detectRetina":false,"attribution":"&copy; <a href=\"https://openstreetmap.org/copyright/\">OpenStreetMap<\/a>,  <a href=\"https://opendatacommons.org/licenses/odbl/\">ODbL<\/a>"}]},{"method":"addCircleMarkers","args":[[51.442,51.978,52.964,53.326,53.176,52.462],[3.596,4.12,4.745,6.933,5.409,4.555],10,null,null,{"interactive":true,"className":"","stroke":true,"color":"#03F","weight":5,"opacity":0.5,"fill":true,"fillColor":"#03F","fillOpacity":0.2},null,null,null,null,["Vlissingen","Hoek van Holland","Den Helder","Delfzijl","Harlingen","IJmuiden"],{"interactive":false,"permanent":true,"direction":"auto","opacity":1,"offset":[0,0],"textsize":"10px","textOnly":false,"className":"","sticky":true},null]}],"limits":{"lat":[51.442,53.326],"lng":[3.596,6.933]},"setView":[[52.558,4.893],6,[]]},"evals":[],"jsHooks":[]}</script>
+
+<p class="caption">
+
+Hoofdgetijstations in Nederland. Er is aangegeven welke stations zijn
+meegenomen in dit rekendocument.
+</p>
+
+</div>
 
 ### Sea level measurements
 
@@ -142,8 +145,8 @@ interactive plot.
 p <- current_df %>%
   dplyr::filter(!grepl("Netherlands", station)) %>%
 ggplot(aes(year, height)) +
-  geom_point(alpha = 1, aes(color = station), shape = 21, fill = "white", size = 1) +
-  geom_line(alpha = 0.5, aes(color = station), linewidth = 0.5) +
+  geom_point(alpha = 1, aes(color = station), shape = 21, fill = "white", size = 2) +
+  geom_line(alpha = 0.8, aes(color = station), linewidth = 1) +
   xlab("jaar") + ylab("gemeten zeespiegel in mm") +
   theme_light() +
   theme(legend.position = "bottom")
@@ -275,7 +278,8 @@ ggplot(aes(year, surge_anomaly)) +
   theme(legend.position = "bottom") +
   coord_cartesian(xlim = c(1945, params$monitoryear))
 
-ggplotly(p) # %>% layout(legend = list(x = 0.05, y = 0.95))
+# ggplotly(p) # %>% layout(legend = list(x = 0.05, y = 0.95))
+p
 ```
 
 <figure>
@@ -286,10 +290,6 @@ storm surge from long year avearge). The yearly averages surge is
 calculated for 1950 - now. For earlier years, an average surge is
 assumed.</figcaption>
 </figure>
-
-``` r
-# p
-```
 
 ## Trend analysis
 
@@ -367,30 +367,7 @@ often occurs. In case of autocorrelation, we recalculate standard errors
 of the estimated parameters accordingly.
 
 ``` r
-library(ggfortify)
-
-  models %>%
-    mutate(
-      ACF = map(augment, function(x) ggplot2::fortify(acf(x$.resid, plot = F)))
-    ) %>%
-    unnest(ACF) %>%
-    mutate(ACF_pass = (ACF >= lower & ACF <= upper)) %>%
-    filter(Lag >= 1) %>%
-    ggplot(aes(Lag, ACF)) +
-    geom_col(width = 0.4, aes(fill = ACF_pass)) +
-    geom_vline(xintercept = 8.9, linetype = 3) +
-    geom_vline(xintercept = 18.6, linetype = 3) +
-    geom_line(aes(y = lower), linetype = "dotdash", linewidth = 0.5) +
-    geom_line(aes(y = upper), linetype = "dotdash", linewidth = 0.5) +
-    scale_x_continuous(
-      breaks = scales::breaks_pretty(10)
-    )+
-    facet_grid(station ~ modeltype) +
-    theme_minimal() +
-    theme(
-      strip.text.y = element_text(angle = 0),
-      legend.position = "bottom"
-    )
+plot_ACF(models)
 ```
 
 <figure>
@@ -5729,9 +5706,9 @@ makePrettyAnovaTable(t, 3)
 |    130 | 61000 |     |           |      |          |
 |    129 | 53400 |   1 |      7580 | 18.3 | 3.62e-05 |
 
-The broken linear model has one more degree of freedom than the linear
-model. The broken linear model is significantly better than the linear
-model (p \< 0.001).
+The acceleration model (broken linear) has one more degree of freedom
+than the linear model. The broken linear model is significantly better
+than the linear model (p \< 0.001).
 
 ## Conclusions
 
