@@ -1,0 +1,163 @@
+---
+title: "Untitled"
+author: "Willem Stolte"
+date: "2025-06-16"
+output: html_document
+---
+
+```{r setup, include=FALSE}
+
+knitr::opts_chunk$set(
+  echo = TRUE,
+  comment=FALSE,
+  message=FALSE,
+  warning = FALSE
+)
+
+require(leaflet)
+require(plotly)
+require(nlme)
+require(rsealevel)
+
+config <- RcppTOML::parseToml("_common/configuration.TOML")
+# source("_common/functions.R")
+source("_common/plotfunctions.R")
+epoch = config$constants$epoch
+mainstations_df <- readMainStationInfo(filepath = "../../")
+mainstations_locs <- readMainStationLocations(path = "../../")
+
+
+```
+
+## Read sea level data
+
+```{r readData, comment=F, message=F}
+  df <- read_delim(file.path("../", "../data/deltares/input/psmsl_gtsm_yr-latest.csv"), delim = ";") %>%
+  # filter(station %in% params$station) %>%
+  filter(year >= 1890)
+```
+
+## Find breakpoints for broken linear regression
+
+Note: no correction is made for nodal tide in this implementation
+
+```{r}
+library(segmented)
+```
+
+
+
+```{r}
+
+slm_breakpoint <- function(
+    df, 
+    mystation = "Netherlands (without Delfzijl)", 
+    startyear = 1890, 
+    n_bp, 
+    printsummary = F
+    ) {
+
+  nr_of_breakpoints = 2
+  
+  mydf = df %>% 
+    filter(
+      station %in% mystation,
+      year >= startyear
+    ) %>%
+    mutate(corr_height = height - surge_anomaly) %>%
+    group_by(year) %>%
+    summarize(corr_height = mean(corr_height))
+  
+  fit_lm = lm(corr_height ~ year, data = mydf )  # intercept-only model
+  
+  fit_segmented = selgmented(
+    fit_lm, 
+    seg.Z = ~year,
+    Kmax = nr_of_breakpoints,
+    type = "aic",
+    bonferroni = TRUE,
+    plot.ic = TRUE
+  )  # Two change points along x
+  
+ 
+  
+  plot(mydf$year, mydf$corr_height, main = mystation)
+  # lines(mydf$year, predict((fit_segmented)), add = T)
+  
+  plot(fit_segmented, add = T)
+  # points(mydf)
+  lines.segmented(fit_segmented)
+  points.segmented(fit_segmented)
+  
+  if(printsummary){
+    summary(fit_segmented)
+  }
+}
+
+slm_breakpoint(df, 
+               mystation = "Netherlands (without Delfzijl)", 
+               startyear = 1890,
+               n_bp = 1, 
+               printsummary = T
+               )
+
+```
+
+
+
+
+
+# Structural time series
+
+After 
+
+```{r, fig.width=10}
+
+ts_mydf <- ts(mydf$corr_height,start = min(mydf$year), end = max(mydf$year))
+
+fit <- StructTS(ts_mydf, type = "level")
+components <- tsSmooth(fit)
+trend = components[, "level"]
+dt = diff(trend) / diff(time(trend))
+time_dt <- time(trend)[-1]
+plot(time_dt, dt, type = "l", main = "Derivative of Trend Component",
+     xlab = "Time", ylab = "Derivative")
+
+ggplot(tibble(time = time_dt, strTimeTrend = dt), aes(time, strTimeTrend))  +
+  geom_point() +
+  geom_smooth(method = "loess", span = 0.8)
+# plot(time_dt, smooth(dt), type = "l", main = "Derivative of Trend Component",
+#      xlab = "Time", ylab = "Derivative")
+
+```
+
+
+
+```{r}
+
+plot(ts_mydf)
+lines(fit$fitted[,1], col = "green")
+tsdiag(fit)
+plot(fit$residuals)
+
+(fit <- StructTS(ts_mydf, type = "trend"))
+plot(ts_mydf)
+lines(fit$fitted[,1], col = "green")
+tsdiag(fit)
+
+plot(fit$residuals)
+
+```
+
+
+```{r}
+fit
+summary(fit)
+fit$residuals
+fit$coef
+
+
+```
+
+
+

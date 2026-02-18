@@ -94,8 +94,8 @@ map_stations(df = current_df, mainstations_df = mainstations_df, mainstations_lo
 
 <div class="figure">
 
-<div class="leaflet html-widget html-fill-item" id="htmlwidget-286d96865f6dadbbeba3" style="width:672px;height:480px;"></div>
-<script type="application/json" data-for="htmlwidget-286d96865f6dadbbeba3">{"x":{"options":{"crs":{"crsClass":"L.CRS.EPSG3857","code":null,"proj4def":null,"projectedBounds":null,"options":{}}},"calls":[{"method":"addTiles","args":["https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png",null,null,{"minZoom":0,"maxZoom":18,"tileSize":256,"subdomains":"abc","errorTileUrl":"","tms":false,"noWrap":false,"zoomOffset":0,"zoomReverse":false,"opacity":1,"zIndex":1,"detectRetina":false,"attribution":"&copy; <a href=\"https://openstreetmap.org/copyright/\">OpenStreetMap<\/a>,  <a href=\"https://opendatacommons.org/licenses/odbl/\">ODbL<\/a>"}]},{"method":"addCircleMarkers","args":[[51.442,51.978,52.964,53.326,53.176,52.462],[3.596,4.12,4.745,6.933,5.409,4.555],10,null,null,{"interactive":true,"className":"","stroke":true,"color":"#03F","weight":5,"opacity":0.5,"fill":true,"fillColor":"#03F","fillOpacity":0.2},null,null,null,null,["Vlissingen","Hoek van Holland","Den Helder","Delfzijl","Harlingen","IJmuiden"],{"interactive":false,"permanent":true,"direction":"auto","opacity":1,"offset":[0,0],"textsize":"10px","textOnly":false,"className":"","sticky":true},null]}],"limits":{"lat":[51.442,53.326],"lng":[3.596,6.933]},"setView":[[52.558,4.893],6,[]]},"evals":[],"jsHooks":[]}</script>
+<div class="leaflet html-widget html-fill-item" id="htmlwidget-2e9c247bfd0588626325" style="width:672px;height:480px;"></div>
+<script type="application/json" data-for="htmlwidget-2e9c247bfd0588626325">{"x":{"options":{"crs":{"crsClass":"L.CRS.EPSG3857","code":null,"proj4def":null,"projectedBounds":null,"options":{}}},"calls":[{"method":"addTiles","args":["https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png",null,null,{"minZoom":0,"maxZoom":18,"tileSize":256,"subdomains":"abc","errorTileUrl":"","tms":false,"noWrap":false,"zoomOffset":0,"zoomReverse":false,"opacity":1,"zIndex":1,"detectRetina":false,"attribution":"&copy; <a href=\"https://openstreetmap.org/copyright/\">OpenStreetMap<\/a>,  <a href=\"https://opendatacommons.org/licenses/odbl/\">ODbL<\/a>"}]},{"method":"addCircleMarkers","args":[[51.442,51.978,52.964,53.326,53.176,52.462],[3.596,4.12,4.745,6.933,5.409,4.555],10,null,null,{"interactive":true,"className":"","stroke":true,"color":"#03F","weight":5,"opacity":0.5,"fill":true,"fillColor":"#03F","fillOpacity":0.2},null,null,null,null,["Vlissingen","Hoek van Holland","Den Helder","Delfzijl","Harlingen","IJmuiden"],{"interactive":false,"permanent":true,"direction":"auto","opacity":1,"offset":[0,0],"textsize":"10px","textOnly":false,"className":"","sticky":true},null]}],"limits":{"lat":[51.442,53.326],"lng":[3.596,6.933]},"setView":[[52.558,4.893],6,[]]},"evals":[],"jsHooks":[]}</script>
 
 <p class="caption">
 
@@ -145,8 +145,8 @@ interactive plot.
 p <- current_df %>%
   dplyr::filter(!grepl("Netherlands", station)) %>%
 ggplot(aes(year, height)) +
-  geom_point(alpha = 1, aes(color = station), shape = 21, fill = "white", size = 1) +
-  geom_line(alpha = 0.5, aes(color = station), linewidth = 0.5) +
+  geom_point(alpha = 1, aes(color = station), shape = 21, fill = "white", size = 2) +
+  geom_line(alpha = 0.8, aes(color = station), linewidth = 1) +
   xlab("jaar") + ylab("gemeten zeespiegel in mm") +
   theme_light() +
   theme(legend.position = "bottom")

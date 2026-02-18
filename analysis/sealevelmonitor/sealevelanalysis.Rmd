@@ -135,13 +135,13 @@ knitr::kable(mainstations_df[,c('name', 'psmsl_id', 'msl-rlr', 'msl-nap', 'nap-r
 
 Sea level data for all six main station are shown below in an interactive plot.
 
-```{r zeespiegelmetingen, fig.width=8, fig.height=8, fig.cap="Yearly averaged sea level for the six main tidal stations in the Netherlands."}
+```{r zeespiegelmetingen, fig.width=7, fig.height=5, fig.cap="Yearly averaged sea level for the six main tidal stations in the Netherlands."}
 
 p <- current_df %>%
   dplyr::filter(!grepl("Netherlands", station)) %>%
 ggplot(aes(year, height)) +
-  geom_point(alpha = 1, aes(color = station), shape = 21, fill = "white", size = 1) +
-  geom_line(alpha = 0.5, aes(color = station), linewidth = 0.5) +
+  geom_point(alpha = 1, aes(color = station), shape = 21, fill = "white", size = 2) +
+  geom_line(alpha = 0.8, aes(color = station), linewidth = 1) +
   xlab("jaar") + ylab("gemeten zeespiegel in mm") +
   theme_light() +
   theme(legend.position = "bottom")
