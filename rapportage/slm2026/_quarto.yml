@@ -55,7 +55,7 @@ format:
 
 
 filters:
-  - acronyms
+  - _extensions/acronyms/acronyms.lua
   
 acronyms:
   loa_title: "Lijst met afkortingen"
