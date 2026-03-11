@@ -18,7 +18,7 @@ knitr::opts_chunk$set(
 
 Full documentation will follow
 
-The Dutch Sea Level Monitor uses linear model variants to describe the sea level at the Dutch coastal tidal stations. In literature, other models are use. For example, GAM was used by Keizer et al., (2023) to detect changes in sea level rise. Although GAM is at the moment not included in the official product, in this document we test this method in order to visualize patterns of sea level (rise). 
+The Dutch Sea Level Monitor uses general linearized model variants to describe the sea level at the Dutch coastal tidal stations. In the literature, also other models are used. For example, GAM was used by Keizer et al., (2023) to detect changes in sea level rise by comparing different periods with respect to GAM fitted sea level changes. Although GAM is at the moment not included in the official product, in this document we test this method in order to visualize patterns of sea level (rise). 
 
 This notebook provides the code and first results
 
@@ -36,7 +36,6 @@ df <- read_delim(file.path(datapath), delim = ";", col_types = cols()) %>%
   # filter(station %in% params$station) %>%
   filter(year >= 1890)
 ```
-
 
 
 ## Define GAM 
@@ -84,7 +83,7 @@ by_station_model = df %>%
   group_by(station) %>%
   nest() %>%
   ungroup() %>%
-  expand_grid(modeltype = selected_model) %>%
+  expand_grid(modeltype = selected_model) %>% # in case multiple models are used
   #### parse function names based on selected model()
   mutate(modelfunctionname = paste(modeltype, "model", sep = "_")) %>%
   #### add functions for model calculation
@@ -101,8 +100,9 @@ by_station_model = df %>%
   mutate(
     glance = map(model, broom::glance),
     # rsq    = glance %>% map_dbl("r.squared"),
-    # adj.rsq = glance %>% map_dbl("adj.r.squared"),
+    adj.rsq = glance %>% map_dbl("adj.r.squared"),
     # AIC    = glance %>% map_dbl("AIC"),
+    npar = glance %>% map_dbl("npar"),
     tidy   = map(model, broom::tidy),
     augment = map(model, broom::augment)#,
     # equation = map(model, function(x) equatiomatic::extract_eq(x))
@@ -127,34 +127,6 @@ library(mgcv)
 library(broom)
 library(dplyr)
 
-# Example GAM
-# gam_model <- gam(y ~ s(x1) + s(x2) + z, data = mydata, method = "REML")
-
-# Tidy coefficients
-param_table <- broom::tidy(by_station_model$model[[1]])
-
-# Extract goodness-of-fit from summary
-gam_summary <- summary(by_station_model$model[[1]])
-
-fit_stats <- tibble(
-  deviance_explained = gam_summary$dev.expl,
-  aic = AIC(by_station_model$model[[1]]),
-  gcv_score = gam_summary$sp.criterion,  # Only if method = "GCV"
-  n = gam_summary$n
-)
-
-# Combine
-summary_table <- param_table %>%
-  mutate(
-    deviance_explained = fit_stats$deviance_explained,
-    aic = fit_stats$aic,
-    n = fit_stats$n
-  )
-
-summary_table
-
-## still need to implement into tidy workflow below
-
 summary_table <- by_station_model %>%
   select(station, glance, tidy) %>%
   unnest(c(glance, tidy)) %>%
@@ -166,7 +138,7 @@ summary_table <- by_station_model %>%
     p.value
   )
 
-summary_table
+knitr::kable(summary_table, caption = "GAM summary table.")
 
 ```
 
@@ -182,7 +154,8 @@ by_station_model %>%
     station, 
     glance
   ) %>%
-  unnest(glance)
+  unnest(glance) %>%
+  knitr::kable(caption = "Skill assessment table for GAM model.")
 ```
 
 ### Parameters
@@ -193,7 +166,8 @@ by_station_model %>%
     station, 
     tidy
   ) %>%
-  unnest(tidy)
+  unnest(tidy) %>%
+  knitr::kable(caption = "GAM parameter table")
 ```
 
 
@@ -242,6 +216,8 @@ by_station_model %>%
 ```
 
 ## Sea level rate development in time
+
+The plot below shows the sea level rate in time as estimated using GAM. It is currently compared to the sea level rate as calculated with the current Sea Level Monitor preferred model (broken linear) for the virtual station "Netherlands (without Delfzijl)". For better comparison on station level, station-specific results will be added in a later stage.  
 
 ```{r, fig.width=8, fig.height=7, fig.cap="Relative sea level change rate from the six Dutch main stations. The horizontal line is the current calculated sea level change rate as calculated by a broken-linear model in the Sea Level Monitor. "}
 by_station_model %>%
