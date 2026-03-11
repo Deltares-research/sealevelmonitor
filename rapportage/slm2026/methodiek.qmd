@@ -40,11 +40,11 @@ Bij het selecteren van de methode worden er diverse afwegingen gemaakt, waarbij 
 
 ## Algemene methodiek
 
-In dit onderzoek maken we gebruik van een \acr{GLM}, een gegeneralizeerde vorm van een lineair regressiemodel. Vooral omdat de variatie goed verklaard wordt [@Watson2016]. We gaan er vanuit dat de zeespiegel sneller aan het stijgen is of binnenkort sneller gaat stijgen dan in het verleden (ruwweg de twintigste eeuw)[^methodiek-1]. Dit heeft implicaties voor de verwachte zeespiegel en zeespiegelstijging. Daarom maken we gebruik van schattingen van de versnelling, zie \@ref(versnelling-methods). Merk op dat een lineair model niet impliceert dat de zeespiegelstijging een rechte lijn moet volgen. Ook polynome, sinusoïde, exponentiële en loglineaire modellen vallen onder de \acr{GLM} familie.
+In dit onderzoek maken we gebruik van een \acr{GLM}, een gegeneralizeerde vorm van een lineair regressiemodel. Vooral omdat de variatie goed verklaard wordt [@Watson2016]. We gaan er vanuit dat de zeespiegel sneller aan het stijgen is of binnenkort sneller gaat stijgen dan in het verleden (ruwweg de twintigste eeuw)[^1]. Dit heeft implicaties voor de verwachte zeespiegel en zeespiegelstijging. Daarom maken we gebruik van schattingen van de versnelling, zie \@ref(versnelling-methods). Merk op dat een lineair model niet impliceert dat de zeespiegelstijging een rechte lijn moet volgen. Ook polynome, sinusoïde, exponentiële en loglineaire modellen vallen onder de \acr{GLM} familie.
 
-[^methodiek-1]: Zie ook laatste IPCC rapport: <https://www.ipcc.ch/report/ar6/wg1/chapter/chapter-9/>
+[^1]: Zie ook laatste IPCC rapport: <https://www.ipcc.ch/report/ar6/wg1/chapter/chapter-9/>
 
-## (Meet)gegevens {#bronnen}
+## Meetgegevens {#bronnen}
 
 In dit onderzoek maken we gebruik van gegevens voor de 6 zogenaamde hoofdstations Vlissingen, Hoek van Holland, IJmuiden, Den Helder, Harlingen en Delfzijl. Deze kuststations leveren sinds 1890, toen het \acr{NAP} overal was doorgevoerd, betrouwbare metingen. Gegevens worden betrokken uit de [\acr{PSMSL} database](https://psmsl.org/data/). Rijkswaterstaat draagt zorg voor de aanlevering van gegevens aan \acr{PSMSL}.
 
@@ -75,35 +75,30 @@ Rijkswaterstaat heeft begin 2022 geconstateerd dat een inhaalslag nodig is voor 
 
 ## Metingen en recente correcties
 
-Voor de Zeespiegelmonitor worden jaargemiddelden gebruikt die beschikbaar zijn in \acr{PSMSL}. Deze gegevens worden door \acr{RWS} jaarlijks berekend en aan \acr{PSMSL} aangeleverd. Voorafgaand aan de berekening van gemiddelden worden de meetgegevens gecontroleerd, en waar nodig aangevuld of gecorrigeerd (@Honingh2021). 
+Voor de Zeespiegelmonitor worden jaargemiddelden gebruikt die beschikbaar zijn in \acr{PSMSL}. Deze gegevens worden door \acr{RWS} jaarlijks berekend en aan \acr{PSMSL} aangeleverd. Voorafgaand aan de berekening van gemiddelden worden de meetgegevens gecontroleerd, en waar nodig aangevuld of gecorrigeerd (@Honingh2021).
 
 Recent heeft een extra controle en correctie plaatsgevonden voor de getijdemetingen. Dit betreft 2 typen correcties:
 
-- herberekening van gemiddelden op basis van 10-minutenreeksen (dit werd tot nu toe gedaan op basis van uurgegevens)
-- Herberekening van NAP referentiewaarden voor station Delfzijl
+-   herberekening van gemiddelden op basis van 10-minutenreeksen (dit werd tot nu toe gedaan op basis van uurgegevens)
+-   Herberekening van NAP referentiewaarden voor station Delfzijl
 
-De maand- en jaargemiddelden zijn op dit moment (februari 2026) preliminair uitgerekend, maar zijn nog niet aangeleverd aan \{PSMSL}.
+De maand- en jaargemiddelden zijn op dit moment (februari 2026) preliminair uitgerekend, maar zijn nog niet aangeleverd aan {PSMSL}.
 
 <placeholder> consequenties voor zeespiegel, zss en keuze stations uitleggen (maar pas toepassen als gegevens in PSMSL staan)
-
-
 
 ## Rekenmethode voor GTSM windopzet correctie in de Zeespiegelmonotor
 
 ### Werkwijze
 
-Modelresultaten voor windopzet (surge) uit GTSM runs worden geselecteerd per hoofdstation. Deze worden daarna gemiddeld per maand voor elk hoofdstation en tijdelijk opgeslagen voor later gebruik in de Zeespiegelmonitor (zie dit [rekendocument](https://github.com/VU-IVM/gtsm3-era5-nrt/blob/main/03_other_postprocessing/00_monthly_means_surge_SeaLevelMonitor.ipynb)). 
+Modelresultaten voor windopzet (surge) uit GTSM runs worden geselecteerd per hoofdstation. Deze worden daarna gemiddeld per maand voor elk hoofdstation en tijdelijk opgeslagen voor later gebruik in de Zeespiegelmonitor (zie dit [rekendocument](https://github.com/VU-IVM/gtsm3-era5-nrt/blob/main/03_other_postprocessing/00_monthly_means_surge_SeaLevelMonitor.ipynb)).
 
-De windopzet wordt berekend voor de periode 1950 - heden. De maandelijkse gemiddelden variëren over de jaren, maar in de winter is de windopzet over het algemeen hoger dan in de zomer. 
+De windopzet wordt berekend voor de periode 1950 - heden. De maandelijkse gemiddelden variëren over de jaren, maar in de winter is de windopzet over het algemeen hoger dan in de zomer.
 
 ```{r GTSM-monthly-means, fig.cap="Maandgemiddelde windopzet voor alle jaren over de periode 1950 - 2024. Zie tekst voor meer uitleg. "}
 knitr::include_graphics("images/GTSM_monthly_means.png")
 ```
 
-
-Voor de windopzetcorrectie van de jaargemiddelde zeespiegelstanden worden de \acr{GTSM} windopzet maandgemiddelden eerst gemiddeld per jaar en station, Daarna wordt de windopzet afgetrokken van de gemiddelde zeespiegel om tot een gecorrigeerde zeespiegel per jaar per hoofdstation te komen. Voor het gemiddelde over Nederland worden de gecorrigeerde waarden gemiddeld over de stations. 
-
-
+Voor de windopzetcorrectie van de jaargemiddelde zeespiegelstanden worden de \acr{GTSM} windopzet maandgemiddelden eerst gemiddeld per jaar en station, Daarna wordt de windopzet afgetrokken van de gemiddelde zeespiegel om tot een gecorrigeerde zeespiegel per jaar per hoofdstation te komen. Voor het gemiddelde over Nederland worden de gecorrigeerde waarden gemiddeld over de stations.
 
 ### Zeespiegelstijging en GTSM
 
@@ -111,43 +106,29 @@ De huidige versie van GTSM die gebruikt wordt voor berekening van windopzet voor
 
 Uit deze resultaten kan worden geconcludeerd:
 
-- SLR in 2023, die in onze modelruns is opgenomen, is ~0,1 m. **!! Ten opzichte van welk jaar? !!**
-- Dit niveau van SLR heeft geen significant effect op de gemiddelde windopzet. Het verschil dat het model veroorzaakt is verwaarloosbaar (minder dan 1 mm).
-- Op enkele locaties diep in de Waddenzee is er enig verschil in windopzet tussen de twee runs, maar dit zijn locaties in relatief afgesloten gebieden in ondiep water. Het verschil blijft beperkt tot enkele millimeters ().
+-   SLR in 2023, die in onze modelruns is opgenomen, is \~0,1 m. **!! Ten opzichte van welk jaar? !!**
+-   Dit niveau van SLR heeft geen significant effect op de gemiddelde windopzet. Het verschil dat het model veroorzaakt is verwaarloosbaar (minder dan 1 mm).
+-   Op enkele locaties diep in de Waddenzee is er enig verschil in windopzet tussen de twee runs, maar dit zijn locaties in relatief afgesloten gebieden in ondiep water. Het verschil blijft beperkt tot enkele millimeters ().
 
-```{r GTSM-SLR-diff, fig.cap="Gemiddelde windopzet op de zeespiegel voor 2023 inclusief zeespiegelstijging zoals gedefinieerd in \acr{GTSM} (linker figuur) en het verschil in windopzet tussen modelruns met en zonder zeespiegelstijging (rechter figuur). Voor verder uitleg zie de tekst."}
+```{r GTSM-SLR-diff, fig.cap="Gemiddelde windopzet op de zeespiegel voor 2023 inclusief zeespiegelstijging zoals gedefinieerd in GTSM (linker figuur) en het verschil in windopzet tussen modelruns met en zonder zeespiegelstijging (rechter figuur). Voor verder uitleg zie de tekst."}
 knitr::include_graphics("images/GTSM_SLR_diff.png")
 ```
 
-Hieruit concluderen we dat de windopzet uit \acr{GTSM} inclusief zeespiegelstijging, die we op dit moment gebruiken voor de Zeespiegelmonitor, niet wordt beïnvloed door de gebruikte zeespiegelprojectie. Het verdient wel aanbeveling om in de toekomst \acr{GTSM} ook zonder \acr{SLR} en/of met de gemeten /acr{SLR} te laten rekenen. 
+Hieruit concluderen we dat de windopzet uit \acr{GTSM} inclusief zeespiegelstijging, die we op dit moment gebruiken voor de Zeespiegelmonitor, niet wordt beïnvloed door de gebruikte zeespiegelprojectie. Het verdient wel aanbeveling om in de toekomst \acr{GTSM} ook zonder \acr{SLR} en/of met de gemeten /acr{SLR} te laten rekenen.
 
 ## Rekenmethode voor de bepaling van de huidige zeespiegelstijging
 
-De stijging van de zeespiegel wordt wiskundig beschreven met een model, waaruit we de meest waarschijnlijk stijging berekenen over de gewenste periode (laatste 15 jaar). De keuze van het model dient ook te voldoen aan de gestelde criteria (\#afwegingen). De keus aan modellen die getest worden is over de jaren langzaam uitgebreid. In \@Dillingh2010 werd een kwadratische term toegevoegd aan het initiële lineaire model, om een versnelling al dan niet te accepteren. Er was toen alleen voor station Den Helder een significante toename van de zeespiegestijging met het gebruikte model. In de Zeespiegelmonitor 2014 (\@Baart2014a) is daarom alleen het lineaire model toegepast, met een uitbreiding van een LOESS term om het model beter te laten aansluiten bij projecties. In de Zeespiegel 2018 (\@Baart2019) is opnieuw de kwadratische term als toevoeging op het lineaire model getest, maar ook een trendbreuk (gebroken lineair model) in 1993. De keuze voor 1993 was gemotiveerd door:
+De stijging van de zeespiegel wordt wiskundig beschreven met een model, waaruit we de meest waarschijnlijk stijging berekenen over de gewenste periode (laatste 15 jaar). De keuze van het model dient ook te voldoen aan de gestelde criteria (#afwegingen). De keus aan modellen die getest worden is over de jaren langzaam uitgebreid. In \@Dillingh2010 werd een kwadratische term toegevoegd aan het initiële lineaire model, om een versnelling al dan niet te accepteren. Er was toen alleen voor station Den Helder een significante toename van de zeespiegestijging met het gebruikte model. In de Zeespiegelmonitor 2014 (\@Baart2014a) is daarom alleen het lineaire model toegepast, met een uitbreiding van een LOESS term om het model beter te laten aansluiten bij projecties. In de Zeespiegel 2018 (\@Baart2019) is opnieuw de kwadratische term als toevoeging op het lineaire model getest, maar ook een trendbreuk (gebroken lineair model) in 1993. De keuze voor 1993 was gemotiveerd door:
 
-- 1993 is het startjaar van satellietmetingen. Door de breuk in 1993 te leggen wordt de trend ook berekend vanaf dit jaar, wat vergelijking met satellietmetingen vergemakkelijkt. Tevens wordt de aansluiting met gegevens van vóór 1993 behouden.
-- Rond 1993 stond de zeespiegel vrij laag, deels door de uitbraak van de Pinatubo vulkaan. Gedeeltelijk daardoor laten latere analyses zien dat voor een gebroken lineair model dit het meest waarschijnlijke breekpunt is (). 
-
-
+-   1993 is het startjaar van satellietmetingen. Door de breuk in 1993 te leggen wordt de trend ook berekend vanaf dit jaar, wat vergelijking met satellietmetingen vergemakkelijkt. Tevens wordt de aansluiting met gegevens van vóór 1993 behouden.
+-   Rond 1993 stond de zeespiegel vrij laag, deels door de uitbraak van de Pinatubo vulkaan. Gedeeltelijk daardoor laten latere analyses zien dat voor een gebroken lineair model dit het meest waarschijnlijke breekpunt is ().
 
 ## Metingen van het zeeniveau met satellieten (altimetrie) {#altimetrie}
 
 uitleg, voordelen, nadelen, verschillen. Zie ook eerdere rapportages.
 
-
 ### Beschikbare satellieten en metingen
-
-
-
 
 ### Nieuwe satellieten
 
-
-
 ### Wanneer kan overgegaan worden op satellietmetingen
-
-
-
-
-
-
