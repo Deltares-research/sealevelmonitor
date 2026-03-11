@@ -23,11 +23,11 @@ book:
   chapters:
     - index.qmd
     - samenvatting.qmd
-    - inleiding.qmd
-    - methodiek.qmd
-    - resultaten.qmd
-    - discussie.qmd
-    - literatuur.qmd
+    - 01_inleiding.qmd
+    - 02_methodiek.qmd
+    - 03_resultaten.qmd
+    - 04_discussie.qmd
+    - 05_literatuur.qmd
   # abstract: 
   # description: "metadata for html version"
   # references: "references.bib"
