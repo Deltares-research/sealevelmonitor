@@ -9,11 +9,12 @@ library(tidyverse)
 
 path <- "data/rijkswaterstaat/ddl/netcdf/wathte_2020_2025"
 files <- list.files(path, pattern = ".nc")
-df <- lapply(files, \(x) {
+df_nc <- lapply(files, \(x) {
   print(x)
   station = str_replace(x, "_meas_wl.nc", "")
   nc <- tidync::tidync(x = file.path(path, x))
   df_yr <- hyper_tibble(nc) %>%
+    distinct() %>%                         ### There are ca 4000 duplicate rows
     mutate(station = station) %>%
     mutate(
       year = year(time)
@@ -28,19 +29,25 @@ df <- lapply(files, \(x) {
   bind_rows() %>% 
   filter(year > 2019) 
 
-df%>%
+df_nc %>%
   ggplot(aes(year, height)) +
   geom_point() +
   geom_line() +
-  facet_wrap("station")
+  facet_wrap("station") +
+  ylab("waterhoogte jaargemiddeld in cm")
+
+# for export to yearly average 
+# choose year
+# convert height to mm
 
 currentyear = 2025
 
-df %>%
+df_nc %>%
   filter(year == currentyear) %>%
   mutate(
     verticalreference = "NAP", 
-    source = "rws_ddl_wadar"
+    source = "rws_ddl_wadar",
+    height = height * 10
   ) %>%
   mutate(
     station = recode(
@@ -53,4 +60,4 @@ df %>%
       "vlissingen"  = "Vlissingen",
     )
   ) %>%
-  write_delim(file.path("data/rijkswaterstaat/ddl/annual_means/", paste0(currentyear, ".csv")))
+  write_delim(file.path("data/rijkswaterstaat/ddl/annual_means/", paste0(currentyear, ".csv")), delim = ";")
