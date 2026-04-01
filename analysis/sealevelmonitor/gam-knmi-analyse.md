@@ -1,7 +1,7 @@
 GAM model estimation of Dutch Sea Level
 ================
 Willem Stolte
-2026-03-11
+2026-04-01
 
 ## Introduction
 
@@ -30,6 +30,22 @@ datapath = "../../data/deltares/input/psmsl_gtsm_yr-latest.csv"
 df <- read_delim(file.path(datapath), delim = ";", col_types = cols()) %>%
   # filter(station %in% params$station) %>%
   filter(year >= 1890)
+
+df <- df %>% 
+  mutate(
+    station = factor(
+      station, levels = c(
+        "Delfzijl",
+        "Harlingen",
+        "Den Helder",
+        "IJmuiden",
+        "Hoek van Holland",
+        "Vlissingen",
+        "Netherlands",
+        "Netherlands (without Delfzijl)"
+      )
+    )
+  )
 ```
 
 ## Define GAM
@@ -43,35 +59,172 @@ The GAM model used here is using 4 components:
 
 No further fine tuning of the GAM model has been done so far
 
-``` r
-gam_model <- function(df, epoch = 1970){
+## Add helper variables
 
-  df <- df %>%
+``` r
+prepare_nodal <- function(df, epoch = 1970){
+  df %>%
     mutate(
       nodal_cos = cos(2 * pi * (year - epoch) / 18.613),
       nodal_sin = sin(2 * pi * (year - epoch) / 18.613)
     )
-  
+}
+```
+
+## compare gam and glm
+
+The gam and glm models can be compared when using the same model
+formulations. For this comparison, the linear model is also formulated
+using the mgcv package (like the gam model) but without the smoothing
+term, so only using linear terms.
+
+For that reason the exact outcomes of the GLM model in this notebook
+does not necessarily match exactly with the GLM outcomes in the Sea
+Level Monitor script.
+
+``` r
+slm_k = 50
+
+gam_model <- function(df, epoch = 1970, k = slm_k){
+
   mgcv::gam(
-    height ~ s(year, k = 5)   # smooth term on year
+    height ~ s(year, k = k)   # smooth term on year
     +     nodal_cos
     +     nodal_sin
     + surge_anomaly,
+    family = gaussian(),
     data = df,
     method = "REML"
   )
 }
+
+
+glm_model <- function(df, epoch = 1970){
+
+  mgcv::gam(
+    height ~ year
+    +        from1993 
+    +        nodal_cos
+    +        nodal_sin
+    +        surge_anomaly,
+    family = gaussian(),
+    data = df,
+    method = "REML"
+  )
+}
+
+get_year_predictions <- function(model, newdata, modeltype){
+
+  # get all term contributions + SE
+  p <- predict(model, newdata = newdata, type = "terms", se.fit = TRUE)
+
+  # GAM model → use only s(year)
+  if (modeltype == "gam") {
+    term_name <- "s(year)"
+    fit  <- p$fit[, term_name]
+    se   <- p$se.fit[, term_name]
+  }
+
+  # GLM model → use year + from1993
+  if (modeltype == "glm") {
+    terms_needed <- c("year", "from1993")
+
+    fit  <- rowSums(p$fit[, terms_needed, drop = FALSE])
+
+    # combine SE correctly (assuming independence of linear terms)
+    se   <- sqrt(rowSums(p$se.fit[, terms_needed, drop = FALSE]^2))
+  }
+
+  tibble(
+    fit_year = fit,
+    se_year  = se
+  )
+}
 ```
 
-## Apply GAM model to sea level data for all stations
+## Apply GAM and GLM models to sea level data for all stations
 
-The GAM model was applied to all six main stations and the composite
-stations according to the code below.
+The GAM and GLM models was applied to all six main stations and the
+composite stations according to the code below.
 
 ``` r
-selected_model = "gam"
+get_derivatives <- function(model) {
 
-by_station_model = df %>%
+  # ==== CASE 1: GAM MET SMOOTH ====
+  if (length(model$smooth) > 0) {
+
+    der <- gratia::derivatives(
+      model,
+      term = "s(year)",
+      type = "central",
+      interval = "confidence",
+      unconditional = TRUE
+    )
+
+
+  # Bouw een nette, uniforme tibble met de juiste kolommen
+  out <- tibble::tibble(
+    x          = der$year,
+    derivative = der$.derivative,
+    se         = der$.se,
+    lower      = der$.lower_ci,
+    upper      = der$.upper_ci
+  )
+
+    return(out)
+  }
+
+  # ==== CASE 2: LINEAIR MODEL ====
+
+  cf <- coef(model)
+  vc <- vcov(model)
+
+  year_term <- grep("^year$", names(cf), value = TRUE)
+  from_term <- grep("^from1993$", names(cf), value = TRUE)
+
+  if (length(year_term) == 0) {
+    stop("GLM heeft geen year-term (aliased in dit station).")
+  }
+
+  slope_year  <- cf[[year_term]]
+  se_year     <- sqrt(vc[year_term, year_term])
+
+  if (length(from_term) == 1) {
+    slope_from <- cf[[from_term]]
+    se_from    <- sqrt(vc[from_term, from_term])
+  } else {
+    slope_from <- 0
+    se_from    <- 0
+  }
+
+  xvals <- model$model$year
+
+  # ✅ derivative vóór/na 1993
+  derivative_vals <- ifelse(
+    xvals < 1993,
+    slope_year,
+    slope_year + slope_from
+  )
+
+  # SE combineren
+  se_vals <- sqrt(se_year^2 + se_from^2)
+
+  tibble::tibble(
+    x          = xvals,
+    derivative = derivative_vals,
+    se         = se_vals,
+    lower      = derivative_vals - 2*se_vals,
+    upper      = derivative_vals + 2*se_vals
+  )
+}
+```
+
+``` r
+selected_model = c("glm", "gam")
+
+by_station_model_compared = df %>%
+  prepare_nodal() %>%
+  addBreakPoints() %>%
   group_by(station) %>%
   nest() %>%
   ungroup() %>%
@@ -93,94 +246,49 @@ by_station_model = df %>%
     glance = map(model, broom::glance),
     # rsq    = glance %>% map_dbl("r.squared"),
     adj.rsq = glance %>% map_dbl("adj.r.squared"),
-    # AIC    = glance %>% map_dbl("AIC"),
+    AIC    = glance %>% map_dbl("AIC"),
     npar = glance %>% map_dbl("npar"),
-    tidy   = map(model, broom::tidy),
+    tidy   = map(model, ~ broom::tidy(.x, parametric = TRUE, smooth = TRUE)),
     augment = map(model, broom::augment)#,
     # equation = map(model, function(x) equatiomatic::extract_eq(x))
   ) %>%
   mutate(
-    sm_predict = map(model, \(x) gratia::derivatives(x, select = "s(year)", type = "central", .name_repair = "universal")),
-    
-  ) %>%
+    pred_year = pmap(
+      list(model, data, modeltype),
+      ~ get_year_predictions(..1, ..2, ..3),
+    ),
+    derivatives = map(model, get_derivatives)
+  ) 
+```
+
+## model comparison
+
+There is something not correct with the offset of the models. They
+differ. This needs to be corrected later. For visualization, I project
+the models and data on top of eachother, but it needs some more
+attention as it also seems to affect the SE.
+
+``` r
+by_station_model_compared %>%
+  select(data, pred_year, modeltype, station) %>%
+  # filter(station == "Netherlands (without Delfzijl)") %>%
+  unnest(c(data, pred_year)) %>% 
+  group_by(modeltype, station) %>%
   mutate(
-    smoother = map(model, \(x) gratia::smooth_estimates(x, smooth = "s(year)")),
-    Intercept = map(model, \(x) coef(x)["(Intercept)"])
-  )
-```
-
-## Outcome of the model
-
-``` r
-library(mgcv)
-library(broom)
-library(dplyr)
-
-summary_table <- by_station_model %>%
-  select(station, glance, tidy) %>%
-  unnest(c(glance, tidy)) %>%
-  select(
-    station,
-    AIC,
-    adj.r.squared,
-    npar,
-    p.value
-  )
-
-knitr::kable(summary_table, caption = "GAM summary table.")
-```
-
-| station                        |      AIC | adj.r.squared | npar | p.value |
-|:-------------------------------|---------:|--------------:|-----:|--------:|
-| Vlissingen                     | 1243.513 |     0.9361823 |    8 |       0 |
-| Hoek van Holland               | 1240.397 |     0.9476682 |    8 |       0 |
-| Den Helder                     | 1262.298 |     0.8813889 |    8 |       0 |
-| Delfzijl                       | 1307.001 |     0.8949587 |    8 |       0 |
-| Harlingen                      | 1273.934 |     0.8608704 |    8 |       0 |
-| IJmuiden                       | 1297.740 |     0.8992253 |    8 |       0 |
-| Netherlands                    | 1212.105 |     0.9391873 |    8 |       0 |
-| Netherlands (without Delfzijl) | 1206.283 |     0.9404346 |    8 |       0 |
-
-GAM summary table.
-
-### Skill assessment
-
-``` r
-by_station_model %>%
-  select(
-    station, 
-    glance
+      pred_year_centered = fit_year - mean(fit_year),
+      height_centered = height - mean(height)
   ) %>%
-  unnest(glance) %>%
-  knitr::kable(caption = "Skill assessment table for GAM model.")
+  ungroup() %>%
+  ggplot(aes(x = year)) +
+  geom_point(aes(y = height_centered, color = modeltype), alpha = 0.3) +
+  geom_line(aes(y = pred_year_centered, color = modeltype), linewidth = 1) +
+  # geom_ribbon(aes(ymin = pred_year_centered - se_year, ymax = pred_year_centered + se_year, fill = modeltype), alpha = 0.2) +
+  facet_wrap("station")
 ```
 
-### Parameters
+![](gam-knmi-analyse_files/figure-gfm/unnamed-chunk-4-1.png)<!-- -->
 
-``` r
-by_station_model %>%
-  select(
-    station, 
-    tidy
-  ) %>%
-  unnest(tidy) %>%
-  knitr::kable(caption = "GAM parameter table")
-```
-
-| station                        | term    |      edf |   ref.df | statistic | p.value |
-|:-------------------------------|:--------|---------:|---------:|----------:|--------:|
-| Vlissingen                     | s(year) | 3.655438 | 3.929964 |  436.1142 |       0 |
-| Hoek van Holland               | s(year) | 3.494847 | 3.854398 |  614.1079 |       0 |
-| Den Helder                     | s(year) | 2.958248 | 3.461452 |  245.6309 |       0 |
-| Delfzijl                       | s(year) | 3.441074 | 3.824037 |  216.8197 |       0 |
-| Harlingen                      | s(year) | 3.677427 | 3.938022 |  116.7701 |       0 |
-| IJmuiden                       | s(year) | 1.000779 | 1.001558 | 1137.0212 |       0 |
-| Netherlands                    | s(year) | 3.372275 | 3.781584 |  499.8698 |       0 |
-| Netherlands (without Delfzijl) | s(year) | 3.292701 | 3.728437 |  534.0417 |       0 |
-
-GAM parameter table
-
-## Sea level development in time
+## Sea level rate development in time
 
 The comparison between observed and (GAM) modelled sea level for the 6
 stations, and the composite stations is shown below. The variation in
@@ -188,52 +296,6 @@ observations from 1950 to now is lower than in the period before. this
 is related to the wind-surge corrections derived from the GTSM model.
 Because of a lack of GTSM output for the years before 1950, for those
 years only a correction with the mean surge has been made.
-
-``` r
-by_station_model %>%
-  unnest(data) %>%
-  select(
-    station,
-    year,
-    height,
-    surge_anomaly # moet numeriek zijn!
-  ) %>%
-  ggplot(
-    aes(
-      x = year, 
-      y = height - surge_anomaly
-    )
-  ) +
-  geom_point(
-    alpha = 0.6,
-    aes(
-      color = "observations"
-    )) +
-  geom_line(
-    data = by_station_model %>%
-      unnest(c(smoother, Intercept)),
-    aes(
-      x = year, 
-      y = .estimate + Intercept,
-      color = "gam"
-    ),
-    linewidth = 2,
-    alpha = 0.6
-  ) +
-  # geom_ribbon(aes(ymin = .lower_ci, ymax = .upper_ci), alpha = 0.3) +
-  labs(x = "Year", y = "Estimated sea-level (mm)",
-       title = "Evolution of sea-level from GAM model") +
-  facet_wrap("station")
-```
-
-<figure>
-<img src="gam-knmi-analyse_files/figure-gfm/unnamed-chunk-6-1.png"
-alt="Relative sea level from the six Dutch main stations." />
-<figcaption aria-hidden="true">Relative sea level from the six Dutch
-main stations.</figcaption>
-</figure>
-
-## Sea level rate development in time
 
 The plot below shows the sea level rate in time as estimated using GAM.
 It is currently compared to the sea level rate as calculated with the
@@ -243,29 +305,54 @@ on station level, station-specific results will be added in a later
 stage.
 
 ``` r
-by_station_model %>%
-  unnest(sm_predict) %>%
-  ggplot(aes(x = year, y = .derivative)) +
-  geom_line() +
-  geom_ribbon(aes(ymin = .lower_ci, ymax = .upper_ci), alpha = 0.3) +
-  # geom_hline(yintercept = 3.1) +
-  geom_linerange(xmin = 1993, xmax = 2025, y = 3.1, size = 1, color = "darkgreen") +
-  annotate(x = 1990, y = 3.1 + 0.2, geom = "text", label = "ZSM2025", , color = "darkgreen") +
-  # ylim(0,NA) +
-  labs(x = "Year", y = "Estimated rate of sea-level rise (units per year)",
-       title = "Smoother term of the evolution of the rate of sea-level rise from GAM model") +
-  facet_wrap("station") +
-  theme_minimal()
+plot_derivatives <- function(by_station_model_compared) {
+
+  # unnest derivatives én metadata
+  df_plot <- by_station_model_compared %>% 
+    select(station, modeltype, derivatives) %>%
+    unnest(derivatives)
+
+  ggplot(df_plot, aes(x = x, y = derivative, color = modeltype)) +
+    geom_line(size = 1) +
+    geom_ribbon(aes(ymin = lower, ymax = upper, fill = modeltype),
+                alpha = 0.2, color = NA) +
+    facet_wrap(~ station, scales = "free_y") +
+    theme_bw() +
+    labs(
+      title = "Afgeleiden d(height)/d(year)",
+      subtitle = "Vergelijking GAM vs GLM",
+      x = "Jaar",
+      y = "Afgeleide (trend per jaar)",
+      color = "Modeltype",
+      fill = "Modeltype"
+    ) +
+    theme(
+      strip.text = element_text(size = 10),
+      plot.title = element_text(size = 14, face = "bold")
+    )
+}
+
+plot_derivatives(by_station_model_compared)
 ```
 
 <figure>
-<img src="gam-knmi-analyse_files/figure-gfm/unnamed-chunk-7-1.png"
-alt="Relative sea level change rate from the six Dutch main stations. The horizontal line is the current calculated sea level change rate as calculated by a broken-linear model in the Sea Level Monitor." />
-<figcaption aria-hidden="true">Relative sea level change rate from the
-six Dutch main stations. The horizontal line is the current calculated
-sea level change rate as calculated by a broken-linear model in the Sea
-Level Monitor.</figcaption>
+<img src="gam-knmi-analyse_files/figure-gfm/plot-derivatives-1.png"
+alt="Derivatives plus confidence intervals." />
+<figcaption aria-hidden="true">Derivatives plus confidence
+intervals.</figcaption>
 </figure>
+
+## AIC comparison
+
+``` r
+by_station_model_compared %>%
+  select(station, modeltype, adj.rsq, AIC) %>%
+  ggplot(aes(station, AIC, color = modeltype)) +
+  geom_point(shape = "|", size = 6) +
+  coord_flip()
+```
+
+![](gam-knmi-analyse_files/figure-gfm/unnamed-chunk-5-1.png)<!-- -->
 
 ## References
 
