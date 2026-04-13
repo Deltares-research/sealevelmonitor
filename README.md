@@ -24,7 +24,16 @@ Sea Level Monitor document presents the results for an average of the Dutch stat
 
 ## Data
 
-Description of data folder
+The folder 
+
+/data contains the data, 
+/analysis contains code and intermediate products and procedures, 
+/results contains only tabular results or images, 
+/validation contains code to validate intermediate products and results. 
+
+Set up for the report for 2026 can be found in /rapportage/2026, 
+
+/docs contains textual explanation and output of analysis, 
 
 ## Help
 
@@ -36,9 +45,11 @@ renv::activate()
 renv::restore()
 ```
 
+
 ## License
 
 
 ## Contact 
 
 Contact maintainer for more information
+
