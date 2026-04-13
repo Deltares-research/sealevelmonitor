@@ -24,19 +24,23 @@ ggplot(ww) +
 ```
 
 
-```{r, fig.width=8, fig.height=2}
+```{r, fig.width=8, fig.height=8}
 
 order = ww %>% arrange(start) %>% select(project) %>% unlist %>% unname
 
 ww %>%
-  filter(regio == "Waddenzee") %>%
+  # filter(regio == "Waddenzee") %>%
   mutate(
     project = factor(project, levels = order),
     regio = as.factor(regio)) %>%
   mutate(positie = row_number()) %>%
   ggplot() +
-  geom_segment(aes(x = start, xend = end, y = interaction(project)),
-               linewidth = 3, alpha = 0.6, arrow = grid::arrow(ends = "last", type = "open")) +   #, position = position_jitter(width = 0)
+  geom_segment(aes(x = start, 
+                   xend = end, y = interaction(regio, project)),
+               linewidth = 2, 
+               alpha = 0.6#, 
+               # arrow = grid::arrow(ends = "last", type = "open")
+               ) +   #, position = position_jitter(width = 0)
   theme_minimal() +
   theme(legend.position = "bottom", axis.title.y = element_blank()) +
   coord_cartesian(xlim = c(NA, 2000))
