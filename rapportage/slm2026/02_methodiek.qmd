@@ -58,22 +58,14 @@ leaflet(stations) %>%
   addTiles() %>%
   addCircleMarkers(lat = ~Lat, lng = ~Lon, label = ~StationName, labelOptions = labelOptions(noHide = T))
 } else
-  knitr::include_graphics("figures/station-map.png")
+  knitr::include_graphics("images/station-map.png")
 ```
 
-We maken geen onderscheid naar in welke mate de stations zijn beïnvloed door de diverse ingrepen aan de Nederlandse kust. Er hebben diverse kleinere en grotere ingrepen plaatsgevonden die invloed hebben op de metingen. Denk hierbij aan de aanleg van de Afsluitdijk, de aanleg van de Deltawerken, sinds de jaren 1990 het dynamisch kustbeheer en vooral de diverse lokale aanpassingen binnen de havens. Deze effecten onderscheiden we niet.
+We maken geen onderscheid naar in welke mate de stations zijn beïnvloed door de diverse ingrepen aan de Nederlandse kust. Er hebben diverse kleinere en grotere ingrepen plaatsgevonden die invloed hebben op de metingen. Denk hierbij aan de aanleg van de Afsluitdijk, de aanleg van de Deltawerken, sinds de jaren 1990 het dynamisch kustbeheer en vooral de diverse lokale aanpassingen binnen de havens. Hoewel bekend is dat deze ingrepen over kortere of langere tijd een effect hebben op de waterstand [@Becker2009] hebben ontbreekt op dit moment de kennis om hier op een kwantitatieve manier voor te corrigeren. Wel is het zo dat door het middelen van waterstanden gemeten bij de hoofdstations een deel van deze effekten uitgemiddeld zullen worden.
 
-Op dit moment is van Station Delfzijl onzeker of de vertikale positie de laatste 10-15 jaar correct is doorgevoerd [@Honingh2021]. Zij schrijven:
+Sinds de vorige Zeespiegelmonitor is aangenomen dat de waarden bij Station Delfzijl onzeker zijn doordat de vertikale positie de laatste 10-15 jaar niet correct is doorgevoerd [@Honingh2021]. Rijkswaterstaat heeft begin 2022 geconstateerd dat een inhaalslag nodig is voor de verticale correctie van de waterstandsmetingen bij Delfzijl. Deze correctie is bij het schrijven van dit rapport wel herberekend maar nog niet via de geijkte manieren (WADAR, PSMSL) gepubliceerd. Daarom berekenen we de zeespiegel en -stijging op basis van het gemiddelde van alleen de 5 andere hoofdstations.
 
-> Delfzijl is het enige hoofdgetijdenstation waarvan de nulpaal niet tot het primaire meetnet behoort. Dit komt doordat de olie, gas en zoutwinning hebben geresulteerd in onstabiele merken in het grootste deel van Friesland en Groningen, waardoor deze niet deel uitmaken van het primaire net. Dit betekent dat Delfzijl alleen met secundaire waterpassingen wordt ingemeten. Omdat Delfzijl tot een zakkingsgevoelig gebied behoort, worden eens per 5 jaar secundaire waterpassingen uitgevoerd in dit gebied. Tijdens deze waterpassingen worden zowel de nulpaal en de M-bout ingemeten. De laatste jaren zijn hoogtewijzingen bij Delfzijl echter niet goed doorgevoerd voor de waterstandsmetingen. De laatste hoogtewijziging van de nulpaal bij Delfzijl is doorgevoerd in 2013 (hoogte=4,247 m+NAP), terwijl de laatste regionale waterpassing in 2018 (hoogte=4,220 m+NAP) is uitgevoerd (Kremers, 2021 & Alberts, 2020). Ook zijn er in de periode 2015-2020 geen B0-correcties geweest, omdat de maximale geconstateerde afwijking 3 mm was. Echter worden de B0-metingen ten opzichte van de M-bout ingemeten, maar de M-bout wordt nu niet jaarlijks ingemeten ten opzichte van de nulpaal. Dit is wel noodzakelijk omdat de nulpaal en de M-bout onafhankelijk van elkaar bewegen.
-
-Rijkswaterstaat heeft begin 2022 geconstateerd dat een inhaalslag nodig is voor de verticale correctie van de waterstandsmetingen bij Delfzijl. Deze correctie wordt begin 2023 verwacht. Vanwege deze onzekerheid berekenen we de zeespiegel en -stijging ook op basis van het gemiddelde van alleen de 5 andere hoofdstations. Het weglaten van gegevens van Delfzijl leidt tot informatieverlies, maar het meenemen van dit station zou kunnen leiden tot fouten. We kiezen hier voor het vermijden van fouten. Zogauw er gecorrigeerde waarden voor Delfzijl beschikbaar zijn, kan de analyse met alle zes hoofdstations herhaald worden. De verwachting is dat dit in de eerste helft van 2023 gebeurt (mondelinge communicatie, Rijkswaterstaat).
-
-## Uitleg relatieve zeespiegelstijging (infographic)
-
-## Uitleg GNSS stations
-
-## Metingen en recente correcties
+## Metingen en recente correcties {#sec-metingen-en-recente-correcties}
 
 Voor de Zeespiegelmonitor worden jaargemiddelden gebruikt die beschikbaar zijn in \acr{PSMSL}. Deze gegevens worden door \acr{RWS} jaarlijks berekend en aan \acr{PSMSL} aangeleverd. Voorafgaand aan de berekening van gemiddelden worden de meetgegevens gecontroleerd, en waar nodig aangevuld of gecorrigeerd (@Honingh2021).
 
@@ -82,15 +74,17 @@ Recent heeft een extra controle en correctie plaatsgevonden voor de getijdemetin
 -   herberekening van gemiddelden op basis van 10-minutenreeksen (dit werd tot nu toe gedaan op basis van uurgegevens)
 -   Herberekening van NAP referentiewaarden voor station Delfzijl
 
-De maand- en jaargemiddelden zijn op dit moment (februari 2026) preliminair uitgerekend, maar zijn nog niet aangeleverd aan {PSMSL}.
+<placeholder>De maand- en jaargemiddelden zijn op dit moment (februari 2026) preliminair uitgerekend, maar zijn nog niet aangeleverd aan {PSMSL}.
 
 <placeholder> consequenties voor zeespiegel, zss en keuze stations uitleggen (maar pas toepassen als gegevens in PSMSL staan)
 
-## Rekenmethode voor GTSM windopzet correctie in de Zeespiegelmonotor
+## Uitleg relatieve zeespiegelstijging (aan de hand van infographic)
 
-### Werkwijze
+## Uitleg GNSS stations
 
-Modelresultaten voor windopzet (surge) uit GTSM runs worden geselecteerd per hoofdstation. Deze worden daarna gemiddeld per maand voor elk hoofdstation en tijdelijk opgeslagen voor later gebruik in de Zeespiegelmonitor (zie dit [rekendocument](https://github.com/VU-IVM/gtsm3-era5-nrt/blob/main/03_other_postprocessing/00_monthly_means_surge_SeaLevelMonitor.ipynb)).
+## Windopzet {#sec-windopzet}
+
+Een van de factoren die de zeespiegelhoogte beïnvloeden is windopzet. De jaarlijks gemiddelde windopzet wordt berekend met het \acr{GTSM}. Modelresultaten voor windopzet (surge) uit GTSM runs worden geselecteerd per hoofdstation. Deze worden daarna gemiddeld per maand voor elk hoofdstation en tijdelijk opgeslagen voor later gebruik in de Zeespiegelmonitor (zie dit [rekendocument](https://github.com/VU-IVM/gtsm3-era5-nrt/blob/main/03_other_postprocessing/00_monthly_means_surge_SeaLevelMonitor.ipynb)).
 
 De windopzet wordt berekend voor de periode 1950 - heden. De maandelijkse gemiddelden variëren over de jaren, maar in de winter is de windopzet over het algemeen hoger dan in de zomer.
 
@@ -98,9 +92,15 @@ De windopzet wordt berekend voor de periode 1950 - heden. De maandelijkse gemidd
 knitr::include_graphics("images/GTSM_monthly_means.png")
 ```
 
-Voor de windopzetcorrectie van de jaargemiddelde zeespiegelstanden worden de \acr{GTSM} windopzet maandgemiddelden eerst gemiddeld per jaar en station, Daarna wordt de windopzet afgetrokken van de gemiddelde zeespiegel om tot een gecorrigeerde zeespiegel per jaar per hoofdstation te komen. Voor het gemiddelde over Nederland worden de gecorrigeerde waarden gemiddeld over de stations.
+De correctie voor windopzet wordt als volgt berekend:
 
-### Zeespiegelstijging en GTSM
+-   Windopzet wordt gemiddeld per jaar en station
+
+-   Jaargemiddelde windopzet wordt getransformeerd tot jaarlijkse afwijking (opzetanomalie) van het gemiddelde
+
+-   De opzetanomalie per jaar en station wordt afgetrokken van de zeespiegelhoogte om tot de gecorrigeerde zeespiegel te komen
+
+Voor het gemiddelde over Nederland worden de gecorrigeerde zeespiegelwaarden gemiddeld over de stations.
 
 De huidige versie van GTSM die gebruikt wordt voor berekening van windopzet voor de Zeespiegelmonitor wordt aangestuurd door een waterpeil inclusief een stijging. De zeespiegelstijging die is toegepast is afgeleid van SLR-projecties in \acr{AR5} van \acr{IPCC}. Deze wijken waarschijnlijk af van de daadwerkelijk waargenomen zeespiegelstijging. Het is daarom belangrijk om te weten of de gebruikte stijging invloed heeft op de berekende windopzet aan de Nederlandse kust. Dit is gecontroleerd door de GTSM-ERA5 modelopstelling voor 2023 te draaien, zodat modelresultaten zowel met als zonder \acr{SLR} (totaal waterpeil en alleen getijdenruns) worden getoond. Deze resultaten zijn vergeleken (zoals te zien in dit [rekendocument](https://github.com/VU-IVM/gtsm3-era5-nrt/blob/main/02_analysis_and_validation/p06_compare_SLR_effect_surge_mean.ipynb).
 
@@ -116,12 +116,16 @@ knitr::include_graphics("images/GTSM_SLR_diff.png")
 
 Hieruit concluderen we dat de windopzet uit \acr{GTSM} inclusief zeespiegelstijging, die we op dit moment gebruiken voor de Zeespiegelmonitor, niet wordt beïnvloed door de gebruikte zeespiegelprojectie. Het verdient wel aanbeveling om in de toekomst \acr{GTSM} ook zonder \acr{SLR} en/of met de gemeten /acr{SLR} te laten rekenen.
 
+## Getij
+
+Naast windopzet zorgt ook het getij, met name de nodale cyclus, voor een variatie in de zeespiegel over de jaren [@Woodworth2012, @Baart2012]. Daarom wordt de variatie door de nodale cyclus meegenomen als gelinearizeerde amplitude en fase, in de vorm van een u en v component (vergelijking (2.2)). Het is ook mogelijk om het equilibrium getij (Fedor Baart, van Gelder, et al. 2012) op te leggen. Het equilibrium getij is het getij dat zou optreden zonder invloed van land of ondiepte op de propagatie van de getijgolf. In Nederland en op veel andere plaatsen is de amplitude en fase van het in de regressie meegenomen nodaal getij niet hetzelfde als het equilibrium getij. Er is lange tijd discussie geweest over welk getij het meest geschikt is om mee te rekenen in langjarige analyses (Woodworth vs Baart). Recent is aangetoond dat het waargenomen nodaal getij aan de Nederlandse kust verklaarbaar beïnvloed wordt door modulatie van de M2 getijgolf in de Noordzee (Lebars et al., ). Dit brengt de twee denkbeelden dichter bij elkaar. Het lijkt er hierbij op dat de in de regressie geschatte nodale cyclus min of meer precies beantwoord aan het beeld van een gemoduleerd M2 getij.
+
 ## Rekenmethode voor de bepaling van de huidige zeespiegelstijging
 
-De stijging van de zeespiegel wordt wiskundig beschreven met een model, waaruit we de meest waarschijnlijk stijging berekenen over de gewenste periode (laatste 15 jaar). De keuze van het model dient ook te voldoen aan de gestelde criteria (#afwegingen). De keus aan modellen die getest worden is over de jaren langzaam uitgebreid. In \@Dillingh2010 werd een kwadratische term toegevoegd aan het initiële lineaire model, om een versnelling al dan niet te accepteren. Er was toen alleen voor station Den Helder een significante toename van de zeespiegestijging met het gebruikte model. In de Zeespiegelmonitor 2014 (\@Baart2014a) is daarom alleen het lineaire model toegepast, met een uitbreiding van een LOESS term om het model beter te laten aansluiten bij projecties. In de Zeespiegel 2018 (\@Baart2019) is opnieuw de kwadratische term als toevoeging op het lineaire model getest, maar ook een trendbreuk (gebroken lineair model) in 1993. De keuze voor 1993 was gemotiveerd door:
+De stijging van de zeespiegel wordt wiskundig beschreven met een model, waaruit we de meest waarschijnlijk stijging berekenen over de gewenste periode (laatste 15 jaar). De keuze van het model dient ook te voldoen aan de gestelde criteria (#afwegingen). De keus aan modellen die getest worden is over de jaren langzaam uitgebreid. In \@Dillingh2010 werd een kwadratische term toegevoegd aan het initiële lineaire model, om een versnelling al dan niet te accepteren. Er was toen alleen voor station Den Helder een significante toename van de zeespiegestijging met het gebruikte model. In de Zeespiegelmonitor 2014 (\@Baart2014a) is daarom alleen het lineaire model toegepast, met een uitbreiding van een LOESS term om het model beter te laten aansluiten bij projecties. In de Zeespiegel 2018 (\@Baart2019) is opnieuw de kwadratische term als toevoeging op het lineaire model getest, samen met een trendbreuk model (gebroken lineair model) waarbij het breekpunt in 1993 gekozen werd. De keuze voor 1993 was gemotiveerd door:
 
 -   1993 is het startjaar van satellietmetingen. Door de breuk in 1993 te leggen wordt de trend ook berekend vanaf dit jaar, wat vergelijking met satellietmetingen vergemakkelijkt. Tevens wordt de aansluiting met gegevens van vóór 1993 behouden.
--   Rond 1993 stond de zeespiegel vrij laag, deels door de uitbraak van de Pinatubo vulkaan. Gedeeltelijk daardoor laten latere analyses zien dat voor een gebroken lineair model dit het meest waarschijnlijke breekpunt is ().
+-   Rond 1993 stond de zeespiegel vrij laag, deels door de uitbraak van de Pinatubo vulkaan. Gedeeltelijk daardoor laten latere analyses zien dat voor een gebroken lineair model dit het meest waarschijnlijke breekpunt is [@].
 
 ## Metingen van het zeeniveau met satellieten (altimetrie) {#altimetrie}
 
