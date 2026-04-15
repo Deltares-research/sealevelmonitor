@@ -39,7 +39,7 @@ mainstations_locs <- readMainStationLocations(path = "../../")
 
 ## Find breakpoints for broken linear regression
 
-Note: no correction is made for nodal tide in this implementation
+Note: no correction is made for nodal tide in this implementation. Still to be done.
 
 ```{r}
 library(segmented)
@@ -95,7 +95,8 @@ slm_breakpoint <- function(
 }
 
 slm_breakpoint(df, 
-               mystation = "Netherlands (without Delfzijl)", 
+               # mystation = "Netherlands (without Delfzijl)",
+               mystation = "Den Helder",
                startyear = 1890,
                n_bp = 1, 
                printsummary = T
@@ -104,60 +105,237 @@ slm_breakpoint(df,
 ```
 
 
-
-
-
-# Structural time series
-
-After 
-
-```{r, fig.width=10}
-
-ts_mydf <- ts(mydf$corr_height,start = min(mydf$year), end = max(mydf$year))
-
-fit <- StructTS(ts_mydf, type = "level")
-components <- tsSmooth(fit)
-trend = components[, "level"]
-dt = diff(trend) / diff(time(trend))
-time_dt <- time(trend)[-1]
-plot(time_dt, dt, type = "l", main = "Derivative of Trend Component",
-     xlab = "Time", ylab = "Derivative")
-
-ggplot(tibble(time = time_dt, strTimeTrend = dt), aes(time, strTimeTrend))  +
-  geom_point() +
-  geom_smooth(method = "loess", span = 0.8)
-# plot(time_dt, smooth(dt), type = "l", main = "Derivative of Trend Component",
-#      xlab = "Time", ylab = "Derivative")
-
-```
-
-
+## surge 
 
 ```{r}
 
-plot(ts_mydf)
-lines(fit$fitted[,1], col = "green")
-tsdiag(fit)
-plot(fit$residuals)
+surge_breakpoint <- function(
+    df, 
+    mystation = "Netherlands (without Delfzijl)", 
+    startyear = 1890, 
+    n_bp, 
+    printsummary = F
+    ) {
 
-(fit <- StructTS(ts_mydf, type = "trend"))
-plot(ts_mydf)
-lines(fit$fitted[,1], col = "green")
-tsdiag(fit)
+  nr_of_breakpoints = 2
+  
+  mydf = df %>% 
+    filter(
+      station %in% mystation,
+      year >= startyear
+    ) #%>%
+    # mutate(corr_height = height - surge_anomaly) %>%
+    # group_by(year) %>%
+    # summarize(corr_height = mean(corr_height))
+  
+  fit_lm = lm(surge_anomaly ~ year, data = mydf )  # intercept-only model
+  
+  fit_segmented = selgmented(
+    fit_lm, 
+    seg.Z = ~year,
+    Kmax = nr_of_breakpoints,
+    type = "aic",
+    bonferroni = TRUE,
+    plot.ic = TRUE
+  )  # Two change points along x
+  
+ 
+  
+  plot(mydf$year, mydf$surge_anomaly, main = mystation)
+  # lines(mydf$year, predict((fit_segmented)), add = T)
+  
+  plot(fit_segmented, add = T)
+  # points(mydf)
+  lines.segmented(fit_segmented)
+  points.segmented(fit_segmented)
+  
+  if(printsummary){
+    summary(fit_segmented)
+  }
+}
 
-plot(fit$residuals)
+surge_breakpoint(df, 
+               mystation = "Netherlands (without Delfzijl)",
+               startyear = 1890,
+               n_bp = 1, 
+               printsummary = T
+               )
+
 
 ```
 
+There are no breakpoints detected in the surge anomaly time series. 
+
+Only years from which surge data are available ( >= 1950)
 
 ```{r}
-fit
-summary(fit)
-fit$residuals
-fit$coef
+
+surge_breakpoint(df %>% filter(year >= 1950), 
+               # mystation = "Netherlands (without Delfzijl)", 
+               mystation = "Delfzijl", 
+               startyear = 1890,
+               n_bp = 1, 
+               printsummary = T
+               )
+
+```
+
+# Strucchange
+
+```{r}
+# make reprex
+
+dput(df %>% filter(station == "Harlingen", year > 1960) %>% select(year, name, height))
 
 
 ```
 
+```{r}
+############################################################
+# Breakpoint-analyse voor meerdere stations tegelijk
+# Met optimale stukwise fit per station
+# Auteur: Willem
+############################################################
 
+library(dplyr)
+library(strucchange)
+
+# -------------------------------------------------------
+# 1. LOAD YOUR DATA
+# -------------------------------------------------------
+# Your dataframe must contain:
+#   year   = numerical year
+#   name   = station name (factor/character)
+#   height = numeric variable to analyze
+
+# Example:
+# df <- read.csv("yourfile.csv")
+
+# IMPORTANT: do not modify df here — use your real dataset.
+
+
+# -------------------------------------------------------
+# 2. FUNCTION: Analyze a single station
+# -------------------------------------------------------
+
+
+analyse_station <- function(df_station) {
+
+  model <- height ~ year
+
+  # Sensitive breakpoint search
+  bp <- breakpoints(model, data=df_station, h=10, breaks=1)
+
+ 
+  # Safe extraction of optimal number of breakpoints
+  opt <- bp$mopt
+  
+  if (length(opt) == 0 || is.na(opt) || opt < 0) {
+    opt <- 0
+  }
+
+  # Build appropriate model
+  if (opt == 0) {
+    fm <- lm(model, data=df_station)
+    bp_years <- NA
+    slopes <- coef(fm)[2]
+  } else {
+    fm <- lm(model, data=df_station,
+             subset = breakfactor(bp, breaks=opt))
+
+    bp_idx <- bp$breakpoints[1:opt]
+    bp_years <- df_station$year[bp_idx]
+
+    # extract slopes: one per segment
+    slopes <- sapply(1:(opt + 1), function(i) {
+      cfs <- coef(fm)
+      # segment slope name: "year", "year.(segment)" etc.
+      idx <- grep("^year", names(cfs))
+      cfs[idx][i]
+    })
+  }
+
+  list(
+    bp = bp,
+    opt = opt,
+    years = bp_years,
+    slopes = slopes,
+    model = fm
+  )
+}
+
+# -------------------------------------------------------
+# 3. RUN ANALYSIS FOR ALL STATIONS
+# -------------------------------------------------------
+
+stations <- unique(df$name)
+
+results <- lapply(stations, function(st) {
+  df_st <- df %>% filter(name == st)
+  analyse_station(df_st)
+})
+names(results) <- stations
+
+
+# -------------------------------------------------------
+# 4. BUILD SUMMARY TABLE
+# -------------------------------------------------------
+
+summary_table <- do.call(rbind, lapply(names(results), function(st) {
+  r <- results[[st]]
+  data.frame(
+    station = st,
+    breakpoints = r$opt,
+    break_years = if (all(is.na(r$years))) NA else
+      paste(r$years, collapse=", "),
+    slopes = paste(round(r$slopes, 4), collapse="; "),
+    stringsAsFactors = FALSE
+  )
+}))
+
+print(summary_table)
+
+
+# -------------------------------------------------------
+# 5. PLOT ALL STATIONS TO A PDF
+# -------------------------------------------------------
+
+pdf("breakpoint_plots.pdf", width=9, height=5)
+
+for (st in stations) {
+  df_st <- df %>% filter(name == st)
+  res   <- results[[st]]
+  bp    <- res$bp
+  opt   <- res$opt
+
+  par(mfrow=c(1,1), mar=c(4,4,2,1))
+
+  plot(df_st$year, df_st$height, type="l", col="grey40",
+       main=paste("Breakpoint analysis:", st),
+       xlab="Year", ylab="Height")
+
+  # ✅ No breakpoints: simple linear trend
+  if (opt == 0) {
+    lines(df_st$year,
+          predict(lm(height ~ year, data=df_st)),
+          col="red", lwd=2)
+  }
+
+  # ✅ One or more breakpoints: piecewise regression
+  if (opt > 0) {
+    fv <- fitted(bp, breaks=opt)
+    lines(df_st$year, fv, col="red", lwd=2)
+
+    abline(v = res$years, col="blue", lwd=2, lty=2)
+  }
+}
+
+dev.off()
+
+############################################################
+# END OF SCRIPT
+############################################################
+
+
+```
 

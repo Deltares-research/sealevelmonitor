@@ -3,7 +3,8 @@ title: "Zeespiegelmonitor"
 author: "Willem Stolte, Nathalie Dees"
 date: "`r format(Sys.time(), '%d %B, %Y')`"
 output:
-  github_document:
+  github_document: default
+  pdf_document: default
   html_document:
     df_print: paged
     code_folding: hide
@@ -14,6 +15,7 @@ params:
   monitoryear: 2025
   startyear: 1890
   wind_or_surge_type: GTSM
+  include_ddl: TRUE
   station:
   - Netherlands (without Delfzijl)
   modeltype:
@@ -57,12 +59,18 @@ select <- dplyr::select
 
 
 ```{r readData, comment=F, message=F}
+
   df <- read_delim(
     file.path(
-      "../", "../data/deltares/input/psmsl_gtsm_yr-latest.csv"),
+  "../../data/deltares/input/psmsl_gtsm_yr-latest.csv"),
     delim = ";") %>%
   filter(station %in% params$station) %>%
-  filter(year >= params$startyear)
+  filter(year >= params$startyear) %>%
+  filter(
+    case_when(
+      !params$include_ddl ~ source == "psmsl",
+              TRUE ~ TRUE)
+  )
 ```
 
 ### Zeespiegelmetingen
@@ -176,6 +184,17 @@ require(sandwich)
 
 models <- addHACterms(models)
 
+models <- models %>%
+  mutate(
+    tidy.HAC = pmap(
+      list(model, vcov.HAC),
+      ~ broom::tidy(
+          .x,
+          vcov = .y
+        )
+    )
+  )
+
 ```
 
 
@@ -205,7 +224,7 @@ Bij een geschikt model verwachten we een regelmatige verdeling van residuen over
 ```{r variation-model-time, fig.height=3, fig.width=6, fig.cap="De verdeling van residuwaarden uitgezet tegen de tijd in jaren. "}
 models %>%
   unnest(c(data, augment), names_sep = "_") %>% #str(max.level = 2)
-ggplot(aes(data_year, augment_.resid)) +
+ggplot(aes(data_year, augment_.resid, color = data_source)) +
   geom_point(alpha = 0.4) +
   facet_grid(station ~ modeltype) +
   theme_minimal()
@@ -307,7 +326,10 @@ aug_long %>%
   geom_point(data = . %>% filter(variable == "height"), aes(y = value, color = variable), size = 2) +
   geom_line(data = . %>% filter(variable != "height"), aes(y = value, color = variable), size = 1) +
   ylab("Sea level contribution in mm.") +
-  theme_light()
+  theme_light() +
+  scale_x_continuous(breaks = breaks_pretty(10))
+
+# ggsave("c:\\OneDriveTemp\\ZSM_for_infographic.svg")
   
 ```
 
@@ -443,23 +465,14 @@ lookup.df <- data.frame(long_term = unname(lookup),
                         short_term = names(lookup))
 
 parameterTable <- models %>%
-  select(station, modeltype, tidy) %>% 
-  unnest(tidy) %>%
-  left_join(models %>%
-              select(station, modeltype, tidy.HAC) %>%
-              unnest(tidy.HAC),
-            by = c(
-              station = "station",
-              modeltype = "modeltype",
-              term = "term.HAC"
-            )
-              ) %>%
+  select(station, modeltype, tidy.HAC) %>% #, tidy 
+  unnest(tidy.HAC) %>%
   mutate(across(where(is.numeric), round, 3)) %>%
   left_join(lookup.df, by = c(term = "long_term")) %>%
   select(
     short_term,
     estimate,
-    st.err.HAC,
+    std.error,
     p.value
   )
 
@@ -468,6 +481,44 @@ parameterTable <- models %>%
     caption = caption_text, 
     digits = 2
     )
+
+```
+
+
+
+```{r broken_linear_trends}
+
+# calculate trends and SE before and after 1993
+
+trends <- models %>%
+  select(
+    station,
+    modeltype,
+    model,
+    rsq,
+    AIC
+  ) %>%
+  mutate(
+    post1993_trend = map_dbl(model, ~{
+      b <- coef(.x)
+      b["I(year - epoch)"] + b["from1993"]
+    }),
+    post1993_se = map_dbl(model, ~{
+      V <- vcov(.x)
+      sqrt(
+        V["I(year - epoch)", "I(year - epoch)"] +
+        V["from1993", "from1993"] +
+        2*V["I(year - epoch)", "from1993"]
+      )
+    })
+  ) %>%
+  mutate(
+    df_resid = map_dbl(model, ~ df.residual(.x)),
+    crit = qt(0.975, df_resid),
+    post1993_lwr = post1993_trend - crit * post1993_se,
+    post1993_upr = post1993_trend + crit * post1993_se
+  )
+
 
 ```
 
@@ -491,19 +542,17 @@ if(params$modeltype == "broken_linear"){
     paste("De lineaire trend tot 1993 bedraagt", 
           round(parameterTable$estimate[parameterTable$short_term == "Trend"], 1), 
           " +/- ", 
-          round(parameterTable$st.err.HAC[parameterTable$short_term == "Trend"], 1), 
+          round(parameterTable$std.error[parameterTable$short_term == "Trend"], 1), 
           "mm/jaar."),
     paste("De extra trend na 1993 bedraagt", 
           round(parameterTable$estimate[parameterTable$short_term == "+ trend 1993"], 1), 
           " +/- ", 
-          round(parameterTable$st.err.HAC[parameterTable$short_term == "+ trend 1993"], 1), 
+          round(parameterTable$std.error[parameterTable$short_term == "+ trend 1993"], 1), 
           "mm/jaar."),
     paste("Na 1993 is de totale trend verhoogd en bedraagt", 
-          round(parameterTable$estimate[parameterTable$short_term == "Trend"], 1) +
-            round(parameterTable$estimate[parameterTable$short_term == "+ trend 1993"], 1),
+          round(trends$post1993_trend, 1),
           " +/- ", 
-          round(parameterTable$st.err.HAC[parameterTable$short_term == "Trend"], 1) +
-            round(parameterTable$st.err.HAC[parameterTable$short_term == "+ trend 1993"], 1), 
+          round(trends$post1993_se, 1), 
           "mm/jaar."),
     sep = "\n\n"
   )

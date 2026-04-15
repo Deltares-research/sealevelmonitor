@@ -169,39 +169,58 @@ selectCols <- function(df){
 }
 
 
+# addHACterms <- function(models) {
+#   
+#   modelstemp <- models %>%
+#     mutate(
+#       tidy.HAC = map(
+#         model, 
+#         function(x) broom::tidy(
+#           sqrt(
+#             diag(
+#               NeweyWest(
+#                 x, 
+#                 lag = 1, 
+#                 prewhite = F, 
+#                 adjust = T
+#               )
+#             )
+#           )
+#         )
+#       )
+#     )
+#   
+#   
+#   
+#   modelstemp$tidy.HAC <- lapply(modelstemp$tidy.HAC,
+#                                 function(x) {
+#                                   x %>%
+#                                     rename(
+#                                       term.HAC = names,
+#                                       st.err.HAC = x
+#                                     )
+#                                 }
+#   )
+#   
+#   return(modelstemp)
+# }
+
 addHACterms <- function(models) {
   
-  modelstemp <- models %>%
+  models %>%
     mutate(
-      tidy.HAC = map(
-        model, 
-        function(x) broom::tidy(
-          sqrt(
-            diag(
-              NeweyWest(
-                x, 
-                lag = 1, 
-                prewhite = F, 
-                adjust = T
-              )
-            )
-          )
+      vcov.HAC = map(
+        model,
+        ~ sandwich::NeweyWest(
+          .x,
+          lag = 1,
+          prewhite = FALSE,
+          adjust = TRUE
         )
       )
     )
-  
-  modelstemp$tidy.HAC <- lapply(modelstemp$tidy.HAC,
-                                function(x) {
-                                  x %>%
-                                    rename(
-                                      term.HAC = names,
-                                      st.err.HAC = x
-                                    )
-                                }
-  )
-  
-  return(modelstemp)
 }
+
 
 makePrettyAnovaTable <- function(output, digits) {
   rm.cols <- NULL

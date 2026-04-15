@@ -3,7 +3,7 @@
 
 [runparameters]
 
-monitoryear = 2025
+monitoryear = 2026
 
 modeltypes = [
   "linear", 

@@ -1,7 +1,7 @@
 Zeespiegelmonitor
 ================
 Willem Stolte, Nathalie Dees
-05 March, 2026
+15 April, 2026
 
 ## Inleiding
 
@@ -17,10 +17,15 @@ Zeespiegelmonitor.
 ``` r
   df <- read_delim(
     file.path(
-      "../", "../data/deltares/input/psmsl_gtsm_yr-latest.csv"),
+  "../../data/deltares/input/psmsl_gtsm_yr-latest.csv"),
     delim = ";") %>%
   filter(station %in% params$station) %>%
-  filter(year >= params$startyear)
+  filter(year >= params$startyear) %>%
+  filter(
+    case_when(
+      !params$include_ddl ~ source == "psmsl",
+              TRUE ~ TRUE)
+  )
 ```
 
 ### Zeespiegelmetingen
@@ -50,16 +55,16 @@ df %>%
 
 | year | height in mm | station                        |
 |-----:|-------------:|:-------------------------------|
-| 2024 |        161.4 | Netherlands (without Delfzijl) |
-| 2023 |        152.8 | Netherlands (without Delfzijl) |
-| 2022 |         94.6 | Netherlands (without Delfzijl) |
-| 2021 |         75.8 | Netherlands (without Delfzijl) |
-| 2020 |         96.6 | Netherlands (without Delfzijl) |
-| 2019 |         92.0 | Netherlands (without Delfzijl) |
-| 2018 |         26.2 | Netherlands (without Delfzijl) |
-| 2017 |         94.2 | Netherlands (without Delfzijl) |
-| 2016 |         63.6 | Netherlands (without Delfzijl) |
-| 2015 |         75.2 | Netherlands (without Delfzijl) |
+| 2025 |     112.5181 | Netherlands (without Delfzijl) |
+| 2024 |     161.4000 | Netherlands (without Delfzijl) |
+| 2023 |     152.8000 | Netherlands (without Delfzijl) |
+| 2022 |      94.6000 | Netherlands (without Delfzijl) |
+| 2021 |      75.8000 | Netherlands (without Delfzijl) |
+| 2020 |      96.6000 | Netherlands (without Delfzijl) |
+| 2019 |      92.0000 | Netherlands (without Delfzijl) |
+| 2018 |      26.2000 | Netherlands (without Delfzijl) |
+| 2017 |      94.2000 | Netherlands (without Delfzijl) |
+| 2016 |      63.6000 | Netherlands (without Delfzijl) |
 
 Zeespiegelhoogte in mm over de laatste 10 jaar
 
@@ -92,16 +97,16 @@ df %>%
 
 | year | opzetanomalie in mm | station                        |
 |-----:|--------------------:|:-------------------------------|
+| 2025 |               -24.0 | Netherlands (without Delfzijl) |
 | 2024 |                17.0 | Netherlands (without Delfzijl) |
 | 2023 |                24.0 | Netherlands (without Delfzijl) |
 | 2022 |               -12.0 | Netherlands (without Delfzijl) |
 | 2021 |               -17.0 | Netherlands (without Delfzijl) |
-| 2020 |                 6.0 | Netherlands (without Delfzijl) |
-| 2019 |                 5.7 | Netherlands (without Delfzijl) |
+| 2020 |                 6.2 | Netherlands (without Delfzijl) |
+| 2019 |                 5.9 | Netherlands (without Delfzijl) |
 | 2018 |               -42.0 | Netherlands (without Delfzijl) |
-| 2017 |                16.0 | Netherlands (without Delfzijl) |
+| 2017 |                17.0 | Netherlands (without Delfzijl) |
 | 2016 |               -23.0 | Netherlands (without Delfzijl) |
-| 2015 |                16.0 | Netherlands (without Delfzijl) |
 
 Opzetanomalie (de afwijking in opzet van het langjarige gemiddelde)
 berekend door GTSM in mm over de laatste 10 jaar
@@ -219,6 +224,17 @@ autocorrelatieterm](https://search.r-project.org/CRAN/refmans/sandwich/html/Newe
 require(sandwich)
 
 models <- addHACterms(models)
+
+models <- models %>%
+  mutate(
+    tidy.HAC = pmap(
+      list(model, vcov.HAC),
+      ~ broom::tidy(
+          .x,
+          vcov = .y
+        )
+    )
+  )
 ```
 
 ## Heteroskedasticity
@@ -259,7 +275,7 @@ correcties niet goed zijn uitgevoerd.
 ``` r
 models %>%
   unnest(c(data, augment), names_sep = "_") %>% #str(max.level = 2)
-ggplot(aes(data_year, augment_.resid)) +
+ggplot(aes(data_year, augment_.resid, color = data_source)) +
   geom_point(alpha = 0.4) +
   facet_grid(station ~ modeltype) +
   theme_minimal()
@@ -352,7 +368,8 @@ aug_long %>%
   geom_point(data = . %>% filter(variable == "height"), aes(y = value, color = variable), size = 2) +
   geom_line(data = . %>% filter(variable != "height"), aes(y = value, color = variable), size = 1) +
   ylab("Sea level contribution in mm.") +
-  theme_light()
+  theme_light() +
+  scale_x_continuous(breaks = breaks_pretty(10))
 ```
 
 <figure>
@@ -363,6 +380,10 @@ estimation of Dutch sea level. Contributions of surge_anomaly, nodal_fit
 and rest have been lowered by 250 mm for presenation
 reasons.</figcaption>
 </figure>
+
+``` r
+# ggsave("c:\\OneDriveTemp\\ZSM_for_infographic.svg")
+```
 
 ## Zeespiegel met de verschillende termen
 
@@ -458,23 +479,14 @@ lookup.df <- data.frame(long_term = unname(lookup),
                         short_term = names(lookup))
 
 parameterTable <- models %>%
-  select(station, modeltype, tidy) %>% 
-  unnest(tidy) %>%
-  left_join(models %>%
-              select(station, modeltype, tidy.HAC) %>%
-              unnest(tidy.HAC),
-            by = c(
-              station = "station",
-              modeltype = "modeltype",
-              term = "term.HAC"
-            )
-              ) %>%
+  select(station, modeltype, tidy.HAC) %>% #, tidy 
+  unnest(tidy.HAC) %>%
   mutate(across(where(is.numeric), round, 3)) %>%
   left_join(lookup.df, by = c(term = "long_term")) %>%
   select(
     short_term,
     estimate,
-    st.err.HAC,
+    std.error,
     p.value
   )
 
@@ -485,16 +497,49 @@ parameterTable <- models %>%
     )
 ```
 
-| short_term    | estimate | st.err.HAC | p.value |
-|:--------------|---------:|-----------:|--------:|
-| Constant      |   -37.51 |       2.33 |    0.00 |
-| Trend         |     1.83 |       0.07 |    0.00 |
-| \+ trend 1993 |     1.25 |       0.30 |    0.00 |
-| u_nodal       |     5.23 |       2.72 |    0.04 |
-| v_nodal       |   -10.77 |       2.84 |    0.00 |
+| short_term    | estimate | std.error | p.value |
+|:--------------|---------:|----------:|--------:|
+| Constant      |   -37.98 |      2.47 |    0.00 |
+| Trend         |     1.82 |      0.06 |    0.00 |
+| \+ trend 1993 |     1.35 |      0.29 |    0.00 |
+| u_nodal       |     5.59 |      2.50 |    0.03 |
+| v_nodal       |   -10.75 |      2.49 |    0.00 |
 
 Coefficients for the preferred model( broken_linear ) and the composite
 station Netherlands (without Delfzijl)
+
+``` r
+# calculate trends and SE before and after 1993
+
+trends <- models %>%
+  select(
+    station,
+    modeltype,
+    model,
+    rsq,
+    AIC
+  ) %>%
+  mutate(
+    post1993_trend = map_dbl(model, ~{
+      b <- coef(.x)
+      b["I(year - epoch)"] + b["from1993"]
+    }),
+    post1993_se = map_dbl(model, ~{
+      V <- vcov(.x)
+      sqrt(
+        V["I(year - epoch)", "I(year - epoch)"] +
+        V["from1993", "from1993"] +
+        2*V["I(year - epoch)", "from1993"]
+      )
+    })
+  ) %>%
+  mutate(
+    df_resid = map_dbl(model, ~ df.residual(.x)),
+    crit = qt(0.975, df_resid),
+    post1993_lwr = post1993_trend - crit * post1993_se,
+    post1993_upr = post1993_trend + crit * post1993_se
+  )
+```
 
 ``` r
 zeespiegel2023_cm <- df$height[df$year==params$monitoryear-1]/10
@@ -522,19 +567,17 @@ if(params$modeltype == "broken_linear"){
     paste("De lineaire trend tot 1993 bedraagt", 
           round(parameterTable$estimate[parameterTable$short_term == "Trend"], 1), 
           " +/- ", 
-          round(parameterTable$st.err.HAC[parameterTable$short_term == "Trend"], 1), 
+          round(parameterTable$std.error[parameterTable$short_term == "Trend"], 1), 
           "mm/jaar."),
     paste("De extra trend na 1993 bedraagt", 
           round(parameterTable$estimate[parameterTable$short_term == "+ trend 1993"], 1), 
           " +/- ", 
-          round(parameterTable$st.err.HAC[parameterTable$short_term == "+ trend 1993"], 1), 
+          round(parameterTable$std.error[parameterTable$short_term == "+ trend 1993"], 1), 
           "mm/jaar."),
     paste("Na 1993 is de totale trend verhoogd en bedraagt", 
-          round(parameterTable$estimate[parameterTable$short_term == "Trend"], 1) +
-            round(parameterTable$estimate[parameterTable$short_term == "+ trend 1993"], 1),
+          round(trends$post1993_trend, 1),
           " +/- ", 
-          round(parameterTable$st.err.HAC[parameterTable$short_term == "Trend"], 1) +
-            round(parameterTable$st.err.HAC[parameterTable$short_term == "+ trend 1993"], 1), 
+          round(trends$post1993_se, 1), 
           "mm/jaar."),
     sep = "\n\n"
   )
@@ -543,9 +586,9 @@ if(params$modeltype == "broken_linear"){
 
 De lineaire trend tot 1993 bedraagt 1.8 +/- 0.1 mm/jaar.
 
-De extra trend na 1993 bedraagt 1.3 +/- 0.3 mm/jaar.
+De extra trend na 1993 bedraagt 1.4 +/- 0.3 mm/jaar.
 
-Na 1993 is de totale trend verhoogd en bedraagt 3.1 +/- 0.4 mm/jaar.
+Na 1993 is de totale trend verhoogd en bedraagt 3.2 +/- 0.3 mm/jaar.
 
 ``` r
 if(params$modeltype == "broken_squared"){

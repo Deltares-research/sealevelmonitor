@@ -3,12 +3,15 @@ require(ncdf4)
 require(tidyverse)
 require(scales)
 
-added_year = 2024
+added_year = 2025
+
+# from Natalia
+# p:\1230882-emodnet_hrsm\GTSM-ERA5\06_model_runs\03_postprocessing\SeaLevelMonitor\era5_reanalysis_surge_2025_v1_monthly_mean.nc
 
 gtsm_dir <- "data/deltares/gtsm"
-gtsm_source <- "p:\\11210221-gtsm-reanalysis\\GTSM-ERA5-E_dataset\\SeaLevelMonitor"
+gtsm_source <- "p:\\1230882-emodnet_hrsm\\GTSM-ERA5\\06_model_runs\\03_postprocessing\\SeaLevelMonitor"
 allfiles <- list.files(gtsm_source)
-currentfile <- "era5_reanalysis_surge_2024_v1_monthly_mean.nc"
+currentfile <- "era5_reanalysis_surge_2025_v1_monthly_mean.nc"
 
 #== read station information =================================
 
@@ -62,7 +65,7 @@ gtsm_replacementyear_monthly_add <- gtsm_replacementyear %>%
     t = as.Date(paste(added_year, str_pad(as.character(month), 2, "left", "0"), "01", sep = "-")),
     psmsl_id = as.numeric(psmsl_id)
   ) %>% 
-  select(
+  dplyr::select(
     t,
     name,
     psmsl_id,
@@ -101,7 +104,7 @@ gtsm_replacementyear_annual_add <- gtsm_replacementyear %>%
   mutate(
     t = as.Date(paste(year, "01", "01", sep = "-"))
   ) %>%
-  select(
+  dplyr::select(
     t,
     name,
     ddl_id,
@@ -145,7 +148,7 @@ gtsm_monthly %>%
 gtsm_allyears_annual <- gtsm_annual %>%
   filter(!t %in% unique(gtsm_replacementyear_annual_add$t)) %>%
   bind_rows(gtsm_replacementyear_annual_add) %>%
-  select(
+  dplyr::select(
     t,
     name,
     ddl_id,
@@ -156,7 +159,7 @@ gtsm_allyears_annual <- gtsm_annual %>%
 gtsm_allyears_monthly <- gtsm_monthly %>%
   filter(!t %in% unique(gtsm_replacementyear_annual_add$t)) %>%
   bind_rows(gtsm_replacementyear_monthly_add) %>%
-  select(
+  dplyr::select(
     t,
     name,
     ddl_id,

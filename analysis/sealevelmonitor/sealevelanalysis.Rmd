@@ -3,17 +3,19 @@ title: "Zeespiegelmonitor analysis"
 author: "Willem Stolte, Nathalie Dees"
 date: "`r format(Sys.time(), '%d %B, %Y')`"
 output:
-  github_document: null
   html_document:
     df_print: paged
     code_folding: hide
     outputdir: ../../docs
+  github_document: 
+    fig_path: "figs/sealevelanalysis-"
   pdf_document: default
 always_allow_html: true
 params:
   monitoryear: 2025
   startyear: 1890
   wind_or_surge_type: GTSM
+  include_ddl: FALSE
   overwrite: FALSE
   station:
   - Delfzijl
@@ -102,9 +104,14 @@ In an other script, annual average sea level data for the Dutch main stations is
 ```{r}
 
 current_df <-   read_delim(
-  "../../data/deltares/results/dutch-sea-level-monitor-export-stations-latest.csv", 
+  "../../data/deltares/input/psmsl_gtsm_yr-latest.csv",
   delim = ";") %>%
-  filter(year >= params$startyear)
+  filter(year >= params$startyear) %>%
+  filter(
+    case_when(
+      !params$include_ddl ~ source == "psmsl",
+              TRUE ~ TRUE)
+  )
 
 ```
 
@@ -171,7 +178,8 @@ current_df %>%
   ggplot(aes(year, norm_station_height, color = station)) +
   geom_point(alpha = 0.5) +
   geom_line(alpha = 0.2) +
-  facet_wrap(facets = "station", ncol = 2) +
+  facet_wrap(facets = "station", ncol = 2, scales = "free_x") +
+  scale_x_continuous(breaks = breaks_pretty(10))
   theme(legend.position = "bottom")
 
 # p
@@ -317,6 +325,17 @@ require(sandwich)
 
 models <- addHACterms(models)
 
+models <- models %>%
+  mutate(
+    tidy.HAC = pmap(
+      list(model, vcov.HAC),
+      ~ broom::tidy(
+          .x,
+          vcov = .y
+        )
+    )
+  )
+
 ```
 
 ## Heteroskedasticity
@@ -340,8 +359,8 @@ Distribution of residuals should not reveal a clear deviation from a horizontal 
 ```{r, fig.height=nstations*1.5+1, fig.width=nmodels*3+1}
 models %>%
   unnest(c(data, augment), names_sep = "_") %>%
-  ggplot(aes(data_year, augment_.resid)) +
-  geom_point(alpha = 0.4) +
+  ggplot(aes(data_year, augment_.resid, color = data_source)) +
+  geom_point(alpha = 0.7) +
   facet_grid(station ~ modeltype) +
   theme(strip.text.y = element_text(angle = 0))
 ```
@@ -374,8 +393,8 @@ ggplot(
   all_predictions,
   aes(x = data_year)
 ) +
-  geom_point(aes(y = data_height, color = "observed"), alpha = 0.5, size = 1) +
-  geom_line(aes(y = prediction_recalc, color = "predicted"), linewidth = 1) +
+  geom_point(aes(y = data_height, color = "observed"), alpha = 0.5, size = 2) +
+  geom_line(aes(y = prediction_recalc, color = "predicted"), linewidth = 2) +
   facet_grid(station ~ modeltype) +
   theme(strip.text.y = element_text(angle = 0))
 
@@ -419,18 +438,9 @@ ggplot(
 lookup.df <- data.frame(long_term = unname(lookup),
                         short_term = names(lookup))
 
-parametertable <- models %>%
-  select(station, modeltype, tidy) %>% 
-  unnest(tidy) %>%
-  left_join(models %>%
-              select(station, modeltype, tidy.HAC) %>%
-              unnest(tidy.HAC),
-            by = c(
-              station = "station",
-              modeltype = "modeltype",
-              term = "term.HAC"
-            )
-  ) %>%
+parameterTable <- models %>%
+  select(station, modeltype, tidy.HAC) %>% #, tidy 
+  unnest(tidy.HAC) %>%
   mutate(across(where(is.numeric), round, 3)) %>%
   left_join(lookup.df, by = c(term = "long_term")) %>%
   select(-term, term = short_term) %>%
@@ -444,10 +454,10 @@ parametertable <- models %>%
 #   )
 
 if(params$overwrite){
-  write_csv(parametertable, file = paste0("../../results/analysis_output/parameters_", today(), ".csv"))
-  write_csv(parametertable, file = "../../results/analysis_output/parameters_latest.csv")
+  write_csv(parameterTable, file = paste0("../../results/analysis_output/parameters_", today(), ".csv"))
+  write_csv(parameterTable, file = "../../results/analysis_output/parameters_latest.csv")
 }
-  kableExtra::kable(parametertable,
+  kableExtra::kable(parameterTable,
     caption = "Coefficients for all models and stations.",digits = 2
     ) %>%
   kableExtra::scroll_box(height = "500px")
@@ -459,7 +469,7 @@ if(params$overwrite){
 ### Is there a significant acceleration?
 
 ```{r}
-acc_broken_linear <- parametertable %>%
+acc_broken_linear <- parameterTable %>%
   filter(modeltype == "broken_linear") %>%
   filter(term == "+ trend 1993") %>%
   select(station, estimate, p.value )
@@ -469,7 +479,7 @@ knitr::kable(acc_broken_linear, caption = "p-values for the acceleration term in
 For the broken linear model, there is a significant acceleration starting in the year 1993 when fitting the average sea level combined for all stations without Delfzijl. For individual stations, the acceleration is not significant for the station IJmuiden.
 
 ```{r}
-acc_broken_squared <- parametertable %>%
+acc_broken_squared <- parameterTable %>%
   filter(modeltype == "broken_squared") %>%
   filter(term == "+ square_trend 1960") %>%
   select(station, p.value )

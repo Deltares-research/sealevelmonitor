@@ -17,9 +17,13 @@ ww <- read_csv2("../../data/deltares/waterwerken.csv")
 ```
 
 ```{r}
-ggplot(ww) +
+
+ww %>%
+  filter(start > 1900) %>%
+  ggplot() +
   geom_segment(aes(x = start, xend = end, y = project, color = functie),
                linewidth = 2, alpha = 0.6) +
+  coord_cartesian(xlim = c(1900, NA)) +
   facet_wrap("regio", ncol = 1, scales = "free_y")
 ```
 

@@ -350,6 +350,38 @@ by_station_model_compared %>%
   coord_flip()
 ```
 
+```{r}
+plot_derivatives_glm <- function(by_station_model_compared) {
+
+  # unnest derivatives én metadata
+  df_plot <- by_station_model_compared %>% 
+    select(station, modeltype, derivatives) %>%
+    unnest(derivatives) %>%
+    filter(modeltype == "glm")
+
+  ggplot(df_plot, aes(x = x, y = derivative, color = station)) +
+    geom_ribbon(aes(ymin = lower, ymax = upper, fill = station),
+                alpha = 0.2, color = NA) +
+    geom_line(size = 2) +
+    # facet_wrap(~ station, scales = "free_y") +
+    theme_bw() +
+    labs(
+      title = "Afgeleiden d(height)/d(year)",
+      subtitle = "Vergelijking stations",
+      x = "Jaar",
+      y = "Afgeleide (trend per jaar)",
+      color = "station"
+    ) +
+    theme(
+      strip.text = element_text(size = 10),
+      plot.title = element_text(size = 14, face = "bold")
+    )
+}
+
+plot_derivatives_glm(by_station_model_compared)
+
+```
+
 
 
 
