@@ -1,7 +1,10 @@
-@import url('https://fonts.googleapis.com/css2?family=Asap&display=swap')
-@font-face {
+
+@import url('https://fonts.googleapis.com/css2?family=Asap&display=swap');
+
+body {
   font-family: 'Asap', sans-serif;
 }
+
 
 body {
   padding: 60px 10px 60px 10px;
