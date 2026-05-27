@@ -16,7 +16,7 @@ require(leaflet)
 ww <- read_csv2("../../data/deltares/waterwerken.csv")
 ```
 
-```{r}
+```{r alleWerken, fig.height=10, fig.width=10}
 
 ww %>%
   filter(start > 1900) %>%
@@ -24,13 +24,14 @@ ww %>%
   geom_segment(aes(x = start, xend = end, y = project, color = functie),
                linewidth = 2, alpha = 0.6) +
   coord_cartesian(xlim = c(1900, NA)) +
+  scale_x_continuous(breaks = scales::pretty_breaks(6)) +
   facet_wrap("regio", ncol = 1, scales = "free_y")
 ```
 
 
 ```{r, fig.width=8, fig.height=8}
 
-order = ww %>% arrange(start) %>% select(project) %>% unlist %>% unname
+order = ww %>% arrange(-end) %>% select(project) %>% unlist %>% unname
 
 ww %>%
   # filter(regio == "Waddenzee") %>%
@@ -40,7 +41,9 @@ ww %>%
   mutate(positie = row_number()) %>%
   ggplot() +
   geom_segment(aes(x = start, 
-                   xend = end, y = interaction(regio, project)),
+                   xend = end, 
+                   y = interaction(regio, project),
+                   color = regio),
                linewidth = 2, 
                alpha = 0.6#, 
                # arrow = grid::arrow(ends = "last", type = "open")
