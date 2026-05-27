@@ -8,6 +8,11 @@ output:
     code_folding: hide
 ---
 
+Preliminary analysis, improve by:
+
+- correct for NAP redefinition in 2005
+- 
+
 ```{r setupWind}
 knitr::opts_chunk$set(
   echo = TRUE,
@@ -34,15 +39,16 @@ source("../../analysis/sealevelmonitor/_common/plotfunctions.R")
 
 epoch = config$constants$epoch
 
-df_psmsl <- readSeaLevelData(file.path("../../data/deltares/results/dutch-sea-level-monitor-export-stations-2023-11-20.csv"))
+df_psmsl <- read_delim(
+    file.path(
+  "../../data/deltares/input/psmsl_gtsm_yr-latest.csv"),
+    delim = ";")
 
 
 ddl_y_files <- list.files("../../data/rijkswaterstaat/ddl/annual_means", full.names = T)
 
 ddl_y_means <- lapply(ddl_y_files, function(x) read_delim(x, delim = ";", col_types = cols())) %>%
-  list_rbind() %>%
-  filter(annual_mean_mm_corrected > -1000)
-
+  list_rbind()
 
 ```
 
@@ -50,38 +56,38 @@ ddl_y_means <- lapply(ddl_y_files, function(x) read_delim(x, delim = ";", col_ty
 ```{r, fig.width=8, fig.height=3}
 ddl_y_means %>%
   filter(
-    locatie.naam %in% mainstations_df$name,
+    station %in% mainstations_df$name#,
     # year > 1986,
-    groepering.code == "NVT"
+    # groepering.code == "NVT"
   ) %>%
 ggplot(aes(x = year)) +
-  geom_col(aes(y = n/1e3, fill = locatie.naam), position = position_dodge())# +
+  geom_col(aes(y = n_per_year/1e3, fill = station), position = position_dodge())# +
   # coord_cartesian(xlim = c(1987, 1995))
 ```
 
 ```{r}
 ddl_y_means %>%
   filter(
-    locatie.naam %in% mainstations_df$name,
-    year > 1986,
-    groepering.code == "NVT"
+    station %in% mainstations_df$name,
+    year > 1986#,
+    # groepering.code == "NVT"
   ) %>%
-  ggplot(aes(year,annual_mean_mm_corrected)) +
-  geom_line(aes(color = locatie.naam), size = 1) +
+  ggplot(aes(year,height)) +
+  geom_line(aes(color = station), size = 1) +
   theme(legend.position = "bottom")
 ```
 
 ```{r}
 ddl_y_means_av <- ddl_y_means %>%
     filter(
-    locatie.naam %in% mainstations_df$name,
-    groepering.code == "NVT"
+    station %in% mainstations_df$name#,
+    # groepering.code == "NVT"
   ) %>%
   bind_rows(
     . |>
       group_by(year) |>
       summarise(
-        annual_mean_mm_corrected = mean(annual_mean_mm_corrected)
+        annual_mean_mm_corrected = mean(height)
       ) |>
       mutate(
         locatie.naam = "Netherlands",

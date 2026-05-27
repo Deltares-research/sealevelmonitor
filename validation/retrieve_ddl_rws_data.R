@@ -1,16 +1,14 @@
   ## Get DDL sea level data for main stations. 
   ## 
   ## 
-  ## to do: connect station code to station name (ijmuiden is not correct) and gtsm_id
+  ## Not working anymore. rwsapi is not updated to newst RWS webservice. Use rddlpy in stead
   
   source("analysis/sealevelmonitor/_common/functions.R")
   
   require(tidyverse)
   require(rwsapi)
   
-  datayear = c(2004:2004)
-  
-  # for all RWS North Sea stations
+   # for all RWS North Sea stations
   stationlist <- read_delim(
     "data/rijkswaterstaat/stationlist.csv",
     locale = readr::locale(encoding = 'WINDOWS-1252'),
@@ -28,7 +26,7 @@
   mainstations_df <- readMainStationInfo(filepath = "")
   mainstationcodes <- mainstations_df$ddl_id
   
-  mijnmetadata <- get_selected_metadata(grootheid = "WATHTE", locatie = stationlist)
+  mijnmetadata <- get_selected_metadata(grootheid = "WATHTE", locatie = mainstationcodes)
   
 # mijnmetadata %>% 
 #   distinct(coordinatenstelsel, x, y, locatie.naam, locatie.code) %>%
@@ -51,10 +49,13 @@
   #   x = str_pad(as.character(x), 16, "right", "0"),
   #   y = str_pad(as.character(y), 16, "right", "0")
   # )
+  
+  datayear = c(2020:2025)
+  
 
-readDDLwaterhoogte2(
-  ddlmetadata = mijnmetadata, 
-  startyear = min(datayear), 
-  endyear = max(datayear), 
-  outDir = ddlrawdir
-)
+  readDDLwaterhoogte2(
+    ddlmetadata = mijnmetadata, 
+    startyear = min(datayear), 
+    endyear = max(datayear), 
+    outDir = ddlrawdir
+  )
