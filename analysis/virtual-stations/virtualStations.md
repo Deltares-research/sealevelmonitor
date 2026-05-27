@@ -1,7 +1,7 @@
 Virtual station analysis
 ================
 Willem Stolte
-2025-02-05
+2025-02-06
 
 ## Introduction
 
@@ -223,6 +223,46 @@ cat("The mean value of the median slope over all stations and years is",
 
     FALSE The mean value of the median slope over all stations and years is 3.52 +/- 23 mm per year
 
+### Find anomalies per station
+
+The bias per station and year from the median value shows relatively
+high values for stations Delfzijl and Harlingen, especially several
+years after the closure of the Zuiderzee.
+
+``` r
+p <- slrMedian %>%
+  pivot_longer(
+    cols = c(-year, -n, -median), 
+    names_to = "station", 
+    values_to = "per_station"
+  ) %>%
+  mutate(
+    deviant = case_when(
+      year >= 1950 ~ abs(per_station) > 20,
+      year < 1950 ~ abs(per_station) > 40
+    )
+  ) %>%
+  ggplot(aes(year, per_station - median)) +
+  geom_col(linewidth = 1, aes(fill = deviant), position = "dodge") +
+  theme(legend.position = "bottom") +
+  geom_vline(xintercept = 1932, linewidth = 1, color = "blue", alpha = 0.5) +
+  # annotate("text", x = 1935, y = 60, label = "1932") +
+  scale_x_continuous(n.breaks = 20) +
+  coord_cartesian(ylim = c(-30, 30)) +
+  facet_wrap("station", ncol = 2)
+p
+
+p +
+  coord_cartesian(xlim = c(1986, NA), ylim = c(-50, 50))
+```
+
+![Deviation from the median per station and year (stacked bars) over the
+whole period (top) and over the last decades
+(bottom).](virtualStations_files/figure-gfm/unnamed-chunk-1-1.png)![Deviation
+from the median per station and year (stacked bars) over the whole
+period (top) and over the last decades
+(bottom).](virtualStations_files/figure-gfm/unnamed-chunk-1-2.png)
+
 ### Results with linear model fit
 
 ``` r
@@ -275,7 +315,7 @@ slrMedian %>%
   )
 ```
 
-![](virtualStations_files/figure-gfm/unnamed-chunk-1-1.png)<!-- -->
+![](virtualStations_files/figure-gfm/unnamed-chunk-2-1.png)<!-- -->
 
 ``` r
 # lm(Value ~ Num*(Num >= 6.30) + Num*(Num < 6.30)
