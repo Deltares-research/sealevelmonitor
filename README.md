@@ -4,7 +4,7 @@ Tools and applications used to monitor sea-level rise in the Netherlands. New gi
 
 ## Analysis
 
-Sea level analysis of the six main tide stations in the Netherlands is presented in this document. In the document the following steps are taken:
+Sea level analysis of the six main tide stations in the Netherlands is presented in this [document](https://github.com/Deltares-research/sealevelmonitor/blob/main/analysis/sealevelmonitor/sealevelanalysis.md). In the document the following steps are taken:
 
 - Visual inspection of water level time series
 - Global Tide and Surge Model calculations of surge are subtracted from the water level measurements
@@ -20,7 +20,9 @@ Sea level analysis of the six main tide stations in the Netherlands is presented
   
 ## Monitor
 
-Sea Level Monitor document presents the results for an average of the Dutch stations, using the preferred model (from Sea Level Analysis)
+Sea Level Monitor [document](https://github.com/Deltares-research/sealevelmonitor/blob/main/analysis/sealevelmonitor/sealevelmonitor.md) presents the results for an average of the Dutch stations, using the preferred model (from Sea Level Analysis)
+
+
 
 ## Data
 

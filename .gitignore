@@ -172,3 +172,11 @@ data/rijkswaterstaat/ddl/raw
 .Rhistory
 .Rproj
 .Rprofile
+sealevelanalysis.html
+sealevelmonitor.html
+.Rhistory
+.html
+data/rijkwaterstaat/ddl/annual_means/
+results/analysis_output/parameters_2025*
+results/analysis_output/predictions_2025*
+.positai
