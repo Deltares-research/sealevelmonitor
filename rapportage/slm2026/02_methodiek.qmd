@@ -84,29 +84,43 @@ Recent heeft een extra controle en correctie plaatsgevonden voor de getijdemetin
 
 ## Windopzet {#sec-windopzet}
 
-Een van de factoren die de zeespiegelhoogte beïnvloeden is windopzet. De jaarlijks gemiddelde windopzet wordt berekend met het \acr{GTSM}. Modelresultaten voor windopzet (surge) uit GTSM runs worden geselecteerd per hoofdstation. Deze worden daarna gemiddeld per maand voor elk hoofdstation en tijdelijk opgeslagen voor later gebruik in de Zeespiegelmonitor (zie dit [rekendocument](https://github.com/VU-IVM/gtsm3-era5-nrt/blob/main/03_other_postprocessing/00_monthly_means_surge_SeaLevelMonitor.ipynb)).
+Een van de factoren die de zeespiegelhoogte beïnvloeden is windopzet. De jaarlijks gemiddelde windopzet wordt berekend met het Global Tide and Surge Model (\acr{GTSM}). 
+
+TODO: GTSM uitleg en referenties
+- GTSM - depth-averaged hydrodynamic model for calculating tides and surges in the global ocean, and their non-linear interactions.
+- In ZSM we use the GTSM-ERA5 dataset, providing a reanalysis of global water levels from 1950 to present (hourly values), generated with the ERA5 reanalysis as atmospheric forcing. 
+- reference to the dataset: https://doi.org/10.24381/cds.a6d42d60
+- reference to papers describing it: Muis et al. 2023 https://doi.org/10.1029/2023EF003479
+
+Modelresultaten voor windopzet (surge) uit GTSM runs worden geselecteerd per hoofdstation. Deze worden daarna gemiddeld per maand voor elk hoofdstation en opgeslagen voor later gebruik in de Zeespiegelmonitor (zie dit [rekendocument](https://github.com/VU-IVM/gtsm3-era5-nrt/blob/main/03_other_postprocessing/00_monthly_means_surge_SeaLevelMonitor.ipynb)).
 
 De windopzet wordt berekend voor de periode 1950 - heden. De maandelijkse gemiddelden variëren over de jaren, maar in de winter is de windopzet over het algemeen hoger dan in de zomer.
 
-```{r GTSM-monthly-means, fig.cap="Maandgemiddelde windopzet voor alle jaren over de periode 1950 - 2024. Zie tekst voor meer uitleg. "}
+```{r GTSM-monthly-means, fig.cap="Maandgemiddelde windopzet voor alle jaren over de periode 1950 - 2025 voor Hoek van Holland. Zie tekst voor meer uitleg. "}
 knitr::include_graphics("images/GTSM_monthly_means_surge_HoekVanHolland_1950-2025.png")
+```
+
+```{r GTSM-monthly-means, fig.cap="Windopzet tijdreeks en maandgemiddelde windopzet voor 2025 voor Hoek van Holland. Zie tekst voor meer uitleg. "}
+knitr::include_graphics("images/GTSM_monthly_means_surge_HoekVanHolland_2025_timeseries.png")
 ```
 
 De correctie voor windopzet wordt als volgt berekend:
 
--   Windopzet wordt gemiddeld per jaar en station
+-   Voor elk station wordt jaargemiddeld windopzet berekend.
 
--   Jaargemiddelde windopzet wordt getransformeerd tot jaarlijkse afwijking (opzetanomalie) van het gemiddelde
+-   Jaargemiddelde windopzet wordt getransformeerd tot jaarlijkse afwijking (opzetanomalie) van het gemiddelde.
 
--   De opzetanomalie per jaar en station wordt afgetrokken van de zeespiegelhoogte om tot de gecorrigeerde zeespiegel te komen
+-   De opzetanomalie per jaar en station wordt afgetrokken van de zeespiegelhoogte om tot de gecorrigeerde zeespiegel te komen.
 
 Voor het gemiddelde over Nederland worden de gecorrigeerde zeespiegelwaarden gemiddeld over de stations.
 
 De huidige versie van GTSM die gebruikt wordt voor berekening van windopzet voor de Zeespiegelmonitor wordt aangestuurd door een waterpeil inclusief een stijging. De zeespiegelstijging die is toegepast is afgeleid van SLR-projecties in \acr{AR5} van \acr{IPCC}. Deze wijken waarschijnlijk af van de daadwerkelijk waargenomen zeespiegelstijging. Het is daarom belangrijk om te weten of de gebruikte stijging invloed heeft op de berekende windopzet aan de Nederlandse kust. Dit is gecontroleerd door de GTSM-ERA5 modelopstelling voor 2023 te draaien, zodat modelresultaten zowel met als zonder \acr{SLR} (totaal waterpeil en alleen getijdenruns) worden getoond. Deze resultaten zijn vergeleken (zoals te zien in dit [rekendocument](https://github.com/VU-IVM/gtsm3-era5-nrt/blob/main/02_analysis_and_validation/p06_compare_SLR_effect_surge_mean.ipynb).
 
+TODO: add estimate of how large the SLR values are and that at these small values the interaction with the wind setup is negligible. 
+
 Uit deze resultaten kan worden geconcludeerd:
 
--   SLR in 2023, die in onze modelruns is opgenomen, is \~0,1 m. **!! Ten opzichte van welk jaar? !!**
+-   SLR in 2023, die in onze modelruns is opgenomen, is \~0,1 m te opzichte van het referentie periode 1986-2005.
 -   Dit niveau van SLR heeft geen significant effect op de gemiddelde windopzet. Het verschil dat het model veroorzaakt is verwaarloosbaar (minder dan 1 mm).
 -   Op enkele locaties diep in de Waddenzee is er enig verschil in windopzet tussen de twee runs, maar dit zijn locaties in relatief afgesloten gebieden in ondiep water. Het verschil blijft beperkt tot enkele millimeters ().
 
