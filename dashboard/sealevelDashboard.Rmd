@@ -25,6 +25,14 @@ resource_files:
 - data/knmi/knmi21/knmi_df.Rdata
 ---
 
+# ToDo
+
+- surge last year does not compute. mismatch between height and surge_anomaly? check joins.
+  + surge now taken from KNMI budget. change to GTSM surge from SLM
+- check the values of the height after processes are removed. 
+- no effect of surge and tide in Vlissingen last 2 years. strange
+
+
 ```{r global, include=FALSE}
 # you might need to install flexdashboard by hand using
 # install.packages(c("flexdashboard"))
@@ -82,22 +90,22 @@ datadir <- "../data/knmi/knmi23"
 # 
 # # run below code when updating data
 # 
-  pre_knmi_df <- read.csv(
-    file.path(
-      datadir,
-      "DataKNMI23_SeaLevel_2100_ref_period_1995_2014.csv"
-      )
-  )
-
-  knmi_df <- pre_knmi_df %>%
-    pivot_longer(-time, names_to = "name", values_to = "perc_ts") %>%
-    separate(name, c("scenario", "percentiles"), sep = "_") %>%
-    mutate(
-      percentiles = as.numeric(sub("pc", "", percentiles)),
-      proc = "Total"
-    )
-
-  save(knmi_df, file =  file.path(datadir, "knmi_df23.Rdata"))
+  # pre_knmi_df <- read.csv(
+  #   file.path(
+  #     datadir,
+  #     "DataKNMI23_SeaLevel_2100_ref_period_1995_2014.csv"
+  #     )
+  # )
+  # 
+  # knmi_df <- pre_knmi_df %>%
+  #   pivot_longer(-time, names_to = "name", values_to = "perc_ts") %>%
+  #   separate(name, c("scenario", "percentiles"), sep = "_") %>%
+  #   mutate(
+  #     percentiles = as.numeric(sub("pc", "", percentiles)),
+  #     proc = "Total"
+  #   )
+  # 
+  # save(knmi_df, file =  file.path(datadir, "knmi_df23.Rdata"))
 
 load(file.path(datadir, "knmi_df23.Rdata"))
 
@@ -134,6 +142,7 @@ subsidence <- sealevel %>%
   arrange(year)
 
 ## still best practice? 
+
 # sealevel <- sealevel %>% left_join(subsidence, by = c(year = "year")) %>%
   # mutate(height = height - subsidence)
 
@@ -299,7 +308,7 @@ observeEvent(
     updateSelectInput(
       session,
       inputId = "fitType",
-      selected = "linear"
+      selected = "broken linear"
     )
   })
 
@@ -405,7 +414,7 @@ conditionalPanel(
                       icon("info-circle", "fa-1x"),
                       id="trend-info")
                   ),
-                  choices = c("linear", "broken linear", "quadratic", "loess", "cyclic"),
+                  choices = c("linear", "broken linear", "quadratic", "loess", "nodal cycle"),
                   width = "100%"
       ),
       
@@ -430,7 +439,7 @@ conditionalPanel(
                                 "*  broken linear: line with breakpoint in certain year", 
                                 "*  quadratic: y = ax<sup>2</sup> + bx + c", 
                                 "*  loess: local regression curve fit", 
-                                "*  cyclic: linear with a nodal cyclic component with a period of 18.6 years", 
+                                "*  nodal cycle: linear with a nodal cycle component with a period of 18.6 years", 
                                 sep = "<br>"), 
                 placement = "top", trigger = "hover",
                 options = list(container = "body")),
@@ -461,7 +470,7 @@ conditionalPanel(
                     ),
                     min = 1950,
                     max = 1995,
-                    value = 1970,
+                    value = 1993,
                     sep = "",
                     width = "100%")
       )
@@ -495,7 +504,7 @@ Column
 
 fillPage(
   fillCol(height = "80%", flex = c(NA,1), 
-          h3("Observed (monitoring) and projected (modelled) sea level at the Dutch coast, in cm"),  
+          h3("Observed (monitored) and projected (modelled) sea level at the Dutch coast, in cm"),  
           plotlyOutput("combinedPlot", height = "80%", width = "100%")#,
   )
 )
@@ -620,7 +629,7 @@ output$combinedPlot <- renderPlotly({
     
   }
 
-  if (input$`fitType` == "cyclic") {
+  if (input$`fitType` == "nodal cycle") {
     cyclic <-
       geom_smooth(
         method = "lm", 
@@ -695,11 +704,17 @@ output$combinedPlot <- renderPlotly({
       legend = list(
         title=NA,
         orientation = 'v',
-        x = 1,
-        y = 0.9
+        x = 0.05,
+        y = 0.95
         ),
       yaxis = list(hoverformat = ".3r") # does not work.. 
-      )
+      ) %>%
+  config(
+    displaylogo = FALSE,
+    modeBarButtons = list(
+      list("zoomIn2d", "zoomOut2d", "autoScale2d", "resetScale2d")
+    )
+  )
   
   # further styling of plotly legend: https://plotly.com/r/legend/ 
   
@@ -779,11 +794,11 @@ output$processPlot <- renderPlotly({
 
 
   obsData <- sealevelPlus %>%
-    select(-tide) %>%
+    select(-c(tide, surge)) %>%
     pivot_longer(cols = -c(year, height),
                  names_to = "component", values_to = "value"
     ) %>%
-    mutate(value = value/10) %>%  #convert mm to cm
+    mutate(value = value) %>%  #convert mm to cm
     mutate(
       positive = case_when(
         value >= 0 ~ value,
@@ -797,7 +812,7 @@ output$processPlot <- renderPlotly({
 
   projData <- knmi_mapped %>%
     filter(scenario == input$scenario2) %>%
-    mutate(value = value/10) %>%  #convert mm to cm
+    mutate(value = value) %>%  #convert mm to cm
     mutate(
       positive = case_when(
         value >= 0 ~ value,
@@ -815,6 +830,7 @@ output$processPlot <- renderPlotly({
               position = 'stack', alpha = alphaProcessesObs, color = "darkgrey", size = 0.5) +
     geom_area(data = obsData, aes(x = year, y = negative, fill = component),
               position = 'stack', alpha = alphaProcessesObs, color = "darkgrey", size = 0.5) +
+    geom_line(data = sealevel, aes(x = year, y = (height - surge_anomaly - nodal_fit)/10)) +
     # projections:
     geom_area(data = projData,
               aes(x = year, y = positive),
@@ -830,7 +846,8 @@ output$processPlot <- renderPlotly({
       axis.ticks = element_blank(),
       axis.title = element_text(face = "italic"),
       legend.title=element_blank()
-    )
+    ) +
+    coord_cartesian(xlim = c(1960, 2050))
 
 
 
@@ -843,7 +860,14 @@ output$processPlot <- renderPlotly({
         y = 0.9
       ),
       yaxis = list(hoverformat = '.2f')
+    ) %>%
+  config(
+    displaylogo = FALSE,
+    modeBarButtons = list(
+      list("zoomIn2d", "zoomOut2d", "autoScale2d", "resetScale2d")
     )
+  )
+
 })
 ```
 
@@ -870,9 +894,13 @@ fillPage(
           h3("Observation timeseries per station"),
           p("The observations per station are shown here for all six main gauge stations at the Dutch coast (points). The lines the observed yearly avearges, where the effect of tide and wind is excluded. The effect of wind can not be excluded before 1950, because not enough data are available."),
           plotlyOutput("stationPlot", height = 600, width = "100%")#,
-  )
+
+          ## for testing ggplotly output names
+          # shiny::textOutput("stationPlot")
+)
 )
 
+# output$stationPlot <- renderPlotly({
 output$stationPlot <- renderPlotly({
   
   p <- sealevelAllStations %>% 
@@ -881,11 +909,16 @@ output$stationPlot <- renderPlotly({
     mutate(`height in cm` = height,
            `observed_minus_surge_effect in cm` = height - surge_anomaly) %>%
     ggplot() +
-    geom_point(aes(year, `height in cm`, color = StationName)) +
-    geom_line(aes(year, `observed_minus_surge_effect in cm`, color = StationName)) +
+    # geom_point(aes(year, `height in cm`, color = StationName, group = factor(StationName))) +
+    geom_line(aes(year, `observed_minus_surge_effect in cm`, color = StationName, group = factor(StationName))) +
     scale_x_continuous(n.breaks = 10)
   
-  ggplotly(p) %>% 
+  gp <- ggplotly(p)
+
+  gp$x$layout$legend$itemdoubleclick <- "toggleothers"
+  gp$x$layout$legend$itemclick <- "toggle"
+
+  gp %>%
     layout(
       legend = list(
         orientation = 'v',
@@ -894,7 +927,12 @@ output$stationPlot <- renderPlotly({
       ),
       yaxis = list(hoverformat = '.2f')
     )
+
+  ## for testing ggplotly name output
+  # gg <- ggplotly(p)
+  # unique(sapply(gg$x$data, `[[`, "name"))
 })
+
 
 ```
 
