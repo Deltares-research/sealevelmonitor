@@ -89,7 +89,7 @@ Een van de factoren die de zeespiegelhoogte beïnvloeden is windopzet. De jaarli
 De windopzet wordt berekend voor de periode 1950 - heden. De maandelijkse gemiddelden variëren over de jaren, maar in de winter is de windopzet over het algemeen hoger dan in de zomer.
 
 ```{r GTSM-monthly-means, fig.cap="Maandgemiddelde windopzet voor alle jaren over de periode 1950 - 2024. Zie tekst voor meer uitleg. "}
-knitr::include_graphics("images/GTSM_monthly_means.png")
+knitr::include_graphics("images/GTSM_monthly_means_surge_HoekVanHolland_1950-2025.png")
 ```
 
 De correctie voor windopzet wordt als volgt berekend:
