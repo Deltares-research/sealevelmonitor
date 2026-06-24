@@ -25,6 +25,14 @@ resource_files:
 - data/knmi/knmi21/knmi_df.Rdata
 ---
 
+# ToDo
+
+- surge last year does not compute. mismatch between height and surge_anomaly? check joins.
+  + surge now taken from KNMI budget. change to GTSM surge from SLM
+- check the values of the height after processes are removed. 
+- no effect of surge and tide in Vlissingen last 2 years. strange
+
+
 ```{r global, include=FALSE}
 # you might need to install flexdashboard by hand using
 # install.packages(c("flexdashboard"))
@@ -63,70 +71,52 @@ status = "concept"
 #===== Read data =====================================================
 
 # Station information
-
+### !!!! Needs update from new repos 
 stations <- read_delim("https://raw.githubusercontent.com/Deltares-research/sealevelmonitor/refs/heads/main/data/psmsl/NLstations.csv", delim = ";")
 
-# Read the sealevel dataset 
-# sealevellocatl <- "../data/deltares/results/dutch-sea-level-monitor-export-2020-11-25.csv"
-# sealevelurl <- "https://raw.githubusercontent.com/openearth/sealevel/master/data/deltares/results/dutch-sea-level-monitor-export-2021-11-24.csv"
+sealevel <- read_delim(file = "https://raw.githubusercontent.com/Deltares-research/sealevelmonitor/refs/heads/main/data/deltares/results/dutch-sea-level-products.csv", comment = "#")
 
-sealevelurl <- "https://raw.githubusercontent.com/openearth/sealevel/master/data/deltares/results/dutch-sea-level-monitor-export-2022-01-14.csv"
-
-sealevel <- read_csv(sealevelurl,
-                     comment = "#")
-
-sealevelAllStationsurl <- "https://raw.githubusercontent.com/openearth/sealevel/master/data/deltares/results/dutch-sea-level-monitor-export-stations-2021-11-26.csv"
-
-sealevelAllStations <- read_csv(sealevelAllStationsurl,
-                     comment = "#")
-
-sealevel$`sea_surface_height_due_to_tide` = sealevel$`sea_surface_height_due_to_tide` - mean(sealevel$`sea_surface_height_due_to_tide`)
+sealevelAllStations  <-   read_delim(
+  "https://raw.githubusercontent.com/Deltares-research/sealevelmonitor/refs/heads/main/data/deltares/input/psmsl_gtsm_yr-latest.csv",
+  delim = ";") %>%
+  filter(year >= 1890) %>%
+  filter(source == "psmsl")
 
 
-# Read observed component dataset
-# observed_components_no_tide <- read_csv("../data/deltares/observed_components_no_tide.csv")
-observed_components <- read_csv("../data/deltares/observed_components.csv")
+#=== new knmi projection data (knmi23) ==================
+#=== no processes provided ==============================
 
-observed_components$`Surge [mm]` = observed_components$`Surge [mm]` - mean(observed_components$`Surge [mm]`)
+datadir <- "../data/knmi/knmi23"
+# 
+# # run below code when updating data
+# 
+  # pre_knmi_df <- read.csv(
+  #   file.path(
+  #     datadir,
+  #     "DataKNMI23_SeaLevel_2100_ref_period_1995_2014.csv"
+  #     )
+  # )
+  # 
+  # knmi_df <- pre_knmi_df %>%
+  #   pivot_longer(-time, names_to = "name", values_to = "perc_ts") %>%
+  #   separate(name, c("scenario", "percentiles"), sep = "_") %>%
+  #   mutate(
+  #     percentiles = as.numeric(sub("pc", "", percentiles)),
+  #     proc = "Total"
+  #   )
+  # 
+  # save(knmi_df, file =  file.path(datadir, "knmi_df23.Rdata"))
 
-# import tide into table with other observed components
-observed_components <- observed_components %>% 
-  left_join(sealevel %>% select(year, sea_surface_height_due_to_tide), by = c(Year = "year"))
+load(file.path(datadir, "knmi_df23.Rdata"))
 
-# Read projected data
-# read knmi 2021 scenario data direct from netcdf files
-
-datadir <- "../data/knmi/knmi22"
-
-# run below code when updating data
-if (updateData) {
-  scen = c("ssp126", "ssp245", "ssp585")
-  # scen = scen[1]
-  scenarios <- list()
-  for(scen in scen){
-    con <- file.path(datadir, paste0("SeaLevelPerc_KNMIsignal_BiasCorr_NoWind_",scen,".nc"))
-    df <- tidync::tidync(con, "perc_ts") %>% hyper_tibble()
-    scenarios[[scen]] <- df
-    rm(df)
-  }
-  
-  knmi_df <- data.table::rbindlist(scenarios, use.names = TRUE, idcol = "scenario") %>%
-    mutate(perc_ts = 10*perc_ts)                        # everything in mm
-  rm(scenarios)
-  
-  save(knmi_df, file =  file.path(datadir, "knmi_df22.Rdata"))
-}
-
-load(file.path(datadir, "knmi_df22.Rdata"))
-
-# From correspondence with KNMI: "The dataset is sea level anomalies with respect to the period 1986-2005. So 0 is the mean observed sea level for this period."
-# FB: We will compute the mean observed anual sea level over  the period 1986-2005 and add that sea level with  respect to NAP (>2005) to the KNMI scenarios. This is the conversion from "anomalies" to NAP. 
-# KNMI (2022) - new dataset containing model results with respect to period 1995-2014
-
-sealevelcorrection <- sealevel %>% 
-  # filter(year %in% c(1986:2005)) %>% 
-  filter(year %in% c(1995:2014)) %>%  # for recalculated KNMI scenarios (22) 
-  summarize(meanHeight = mean(height)) %>% 
+# # From correspondence with KNMI: "The dataset is sea level anomalies with respect to the period 1986-2005. So 0 is the mean observed sea level for this period."
+# # FB: We will compute the mean observed anual sea level over  the period 1986-2005 and add that sea level with  respect to NAP (>2005) to the KNMI scenarios. This is the conversion from "anomalies" to NAP. 
+# # KNMI (2022) - new dataset containing model results with respect to period 1995-2014
+# 
+sealevelcorrection <- sealevel %>%
+  # filter(year %in% c(1986:2005)) %>%
+  filter(year %in% c(1995:2014)) %>%  # for recalculated KNMI scenarios (22)
+  summarize(meanHeight = (mean(height))/10) %>%
   unlist() %>% unname()
 
 knmi_df[knmi_df$proc == "Total","perc_ts"] <- knmi_df[knmi_df$proc == "Total","perc_ts"] + sealevelcorrection
@@ -138,35 +128,42 @@ knmi_df[knmi_df$proc == "Total","perc_ts"] <- knmi_df[knmi_df$proc == "Total","p
 # In discussion with RWS, it was decided to remove subsidence from both
 
 # Subtract subsidence from observation (better after discussion with RWS)
+
+# read knmi budgets
+
+budget_url <- "https://raw.githubusercontent.com/Deltares-research/sealevelmonitor/refs/heads/main/data/knmi/slbudget_2025_10_20_ZSM_tide_gauge_1960_2023_ERA5_StericEN4_22_%5B500%2C%204000%5Dm.csv"
+
+knmi_budget <- read_csv(budget_url)
+
 subsidence <- sealevel %>% 
   select(year) %>%
   distinct() %>%
   mutate(subsidence = (year - 2003)*0.45) %>%
   arrange(year)
 
-sealevel <- sealevel %>% left_join(subsidence, by = c(year = "year")) %>%
-  mutate(height = height - subsidence)
+## still best practice? 
+
+# sealevel <- sealevel %>% left_join(subsidence, by = c(year = "year")) %>%
+  # mutate(height = height - subsidence)
 
 # merge 5, 50, and 95 percentiles
-knmi_perc_df <- knmi_df %>% 
+knmi_perc_df <- knmi_df %>%
   filter(percentiles %in% c(5, 50, 95) & proc == "Total") %>%
   pivot_wider(
     id_cols = c(time, scenario, proc),
-    names_from = percentiles, 
-    values_from = perc_ts, 
+    names_from = percentiles,
+    values_from = perc_ts,
     names_prefix = "perc_ts_"
   )
 
-#=== name mappings =============
 observation_mapping <- list(
-  `Surge [mm]` = "surge",  # meenemen als surge
-  `Steric [mean]` = "other", #"steric", (additional work is needed)
-  `Glaciers [mean]` = "glaciers", 
-  `Greenland Ice Sheet [mean]` = "greenland", 
-  `Antarctic Ice Sheet [mean]` = "antarctica", 
-  `Terrestrial Water Storage [mean]` = "terrestrial",	
-  # `GIA [mean]` = "other"#,  #not necessary, because subsidence is already subtracted above
-  `sea_surface_height_due_to_tide` = "tide"
+  `WindPressure` = "surge",  # meenemen als surge
+  `Steric` = "steric", #"steric", (additional work is needed)
+  `Glaciers` = "glaciers", 
+  `Greenland` = "greenland", 
+  `Antarctica` = "antarctica", 
+  `TWS` = "terrestrial",	
+  `GIA` = "gia"#,  #not necessary, because subsidence is already subtracted above
 )
 
 projection_mapping <- list(
@@ -177,32 +174,34 @@ projection_mapping <- list(
   `Greenland SMB` = "greenland",
   `Greenland dynamics` = "greenland",
   `Landwater` = "terrestrial",
-  `sum anta.` = "antarctica"
+  `sum anta.` = "antarctica",
+  Total = "Total"
 )
 
 # Map processes to data
-sealevelPlus <- observed_components %>%
-  pivot_longer(cols = -Year, names_to = "proc") %>%
+sealevelPlus <- knmi_budget %>%
+  select(c(time, names(observation_mapping))) %>%
+  pivot_longer(cols = -time, names_to = "proc") %>%
   mutate(proc = recode(proc, !!!observation_mapping)) %>%  # apply mapping
-  filter(proc %in% unname(unlist(observation_mapping))) %>%  # remove all unmapped processes
+  # filter(proc %in% unname(unlist(observation_mapping))) %>%  # remove all unmapped processes
   rename(component = proc,
          value = value,
-         year = Year) %>%
+         year = time) %>%
   group_by(year, component) %>%
-  summarize(value = sum(value), .groups = "drop") %>% 
+  summarize(value = sum(value), .groups = "drop") %>% # to sum up all "other" if applicable
   pivot_wider(id_cols = c(year), names_from = "component") %>%
-  right_join(sealevel %>% select(year, height)) %>%
+  right_join(sealevel %>% select(year, height, tide = nodal_fit) %>% mutate(height = height)) %>%
   arrange(year)
 
 # Mapping KNMI variables to processes
-knmi_mapped <- knmi_df %>% 
+knmi_mapped <- knmi_df %>%
   filter(percentiles %in% c(50)) %>%
   pivot_wider(
     id_cols = c(time, scenario, proc),
-    names_from = percentiles, 
-    values_from = perc_ts, 
+    names_from = percentiles,
+    values_from = perc_ts,
     names_prefix = "perc_ts_"
-  ) %>% 
+  ) %>%
   mutate(proc = recode(proc, !!!projection_mapping)) %>%
   filter(proc %in% unname(unlist(projection_mapping))) %>%
   rename(component = proc,
@@ -211,7 +210,8 @@ knmi_mapped <- knmi_df %>%
   group_by(year, component, scenario) %>%
   summarize(value = sum(value), .groups = "drop")
 
-processes <- unique(knmi_mapped$component)
+# processes <- unique(knmi_mapped$component)
+processes <- unname(unlist(observation_mapping))
 extraprocesses <- c("tide")
 scenarios <- unique(knmi_mapped$scenario)
 
@@ -308,7 +308,7 @@ observeEvent(
     updateSelectInput(
       session,
       inputId = "fitType",
-      selected = "linear"
+      selected = "broken linear"
     )
   })
 
@@ -414,7 +414,7 @@ conditionalPanel(
                       icon("info-circle", "fa-1x"),
                       id="trend-info")
                   ),
-                  choices = c("linear", "broken linear", "quadratic", "loess", "cyclic"),
+                  choices = c("linear", "broken linear", "quadratic", "loess", "nodal cycle"),
                   width = "100%"
       ),
       
@@ -439,7 +439,7 @@ conditionalPanel(
                                 "*  broken linear: line with breakpoint in certain year", 
                                 "*  quadratic: y = ax<sup>2</sup> + bx + c", 
                                 "*  loess: local regression curve fit", 
-                                "*  cyclic: linear with a nodal cyclic component with a period of 18.6 years", 
+                                "*  nodal cycle: linear with a nodal cycle component with a period of 18.6 years", 
                                 sep = "<br>"), 
                 placement = "top", trigger = "hover",
                 options = list(container = "body")),
@@ -470,7 +470,7 @@ conditionalPanel(
                     ),
                     min = 1950,
                     max = 1995,
-                    value = 1970,
+                    value = 1993,
                     sep = "",
                     width = "100%")
       )
@@ -504,7 +504,7 @@ Column
 
 fillPage(
   fillCol(height = "80%", flex = c(NA,1), 
-          h3("Observed (monitoring) and projected (model scenario) sea level at the Dutch coast, in cm"),  
+          h3("Observed (monitored) and projected (modelled) sea level at the Dutch coast, in cm"),  
           plotlyOutput("combinedPlot", height = "80%", width = "100%")#,
   )
 )
@@ -528,11 +528,11 @@ output$combinedPlot <- renderPlotly({
                               `5th percentile` = perc_ts_5, 
                               `95th percentile` = perc_ts_95
       )
-    ) %>%
-    mutate(subtract = rowSums(across(input$exclude[input$exclude != "tide"]))) %>%
-    mutate(value = `median height` - subtract) %>%
-    mutate(across(c(value, `median height`, `5th percentile`, `95th percentile`), signif, digits = 3)) %>%
-        mutate(across(c(value, `median height`, `5th percentile`, `95th percentile`), function(x) x/10)) # converting mm to cm
+    ) #%>%
+    # mutate(subtract = rowSums(across(input$exclude[input$exclude != "tide"]))) %>%
+    # mutate(value = `median height` - subtract) %>%
+    # mutate(across(c(value, `median height`, `5th percentile`, `95th percentile`), signif, digits = 3)) %>%
+    #     mutate(across(c(value, `median height`, `5th percentile`, `95th percentile`), function(x) x))
 
   
   
@@ -629,7 +629,7 @@ output$combinedPlot <- renderPlotly({
     
   }
 
-  if (input$`fitType` == "cyclic") {
+  if (input$`fitType` == "nodal cycle") {
     cyclic <-
       geom_smooth(
         method = "lm", 
@@ -678,15 +678,15 @@ output$combinedPlot <- renderPlotly({
                    value, 
                    color = "Sea level excluding selected processes"), 
                  size = trendLineSize,
-                 alpha = showSE) +
-      geom_line(data = knmi_mapped2, 
-                aes(
-                  year, value, 
-                  color = "Projection excluding selected processes"
-                ), 
-                linetype = plotLineTypes["projected"],
-              size = 0.8,
-                alpha = 0.8)
+                 alpha = showSE) #+
+      # geom_line(data = knmi_mapped2, 
+      #           aes(
+      #             year, value, 
+      #             color = "Projection excluding selected processes"
+      #           ), 
+      #           linetype = plotLineTypes["projected"],
+      #         size = 0.8,
+      #           alpha = 0.8)
   }
   
   fig = fig + 
@@ -704,11 +704,17 @@ output$combinedPlot <- renderPlotly({
       legend = list(
         title=NA,
         orientation = 'v',
-        x = 1,
-        y = 0.9
+        x = 0.05,
+        y = 0.95
         ),
       yaxis = list(hoverformat = ".3r") # does not work.. 
-      )
+      ) %>%
+  config(
+    displaylogo = FALSE,
+    modeBarButtons = list(
+      list("zoomIn2d", "zoomOut2d", "autoScale2d", "resetScale2d")
+    )
+  )
   
   # further styling of plotly legend: https://plotly.com/r/legend/ 
   
@@ -788,11 +794,11 @@ output$processPlot <- renderPlotly({
 
 
   obsData <- sealevelPlus %>%
-    select(-tide) %>%
+    select(-c(tide, surge)) %>%
     pivot_longer(cols = -c(year, height),
                  names_to = "component", values_to = "value"
     ) %>%
-    mutate(value = value/10) %>%  #convert mm to cm
+    mutate(value = value) %>%  #convert mm to cm
     mutate(
       positive = case_when(
         value >= 0 ~ value,
@@ -806,7 +812,7 @@ output$processPlot <- renderPlotly({
 
   projData <- knmi_mapped %>%
     filter(scenario == input$scenario2) %>%
-    mutate(value = value/10) %>%  #convert mm to cm
+    mutate(value = value) %>%  #convert mm to cm
     mutate(
       positive = case_when(
         value >= 0 ~ value,
@@ -824,12 +830,13 @@ output$processPlot <- renderPlotly({
               position = 'stack', alpha = alphaProcessesObs, color = "darkgrey", size = 0.5) +
     geom_area(data = obsData, aes(x = year, y = negative, fill = component),
               position = 'stack', alpha = alphaProcessesObs, color = "darkgrey", size = 0.5) +
+    geom_line(data = sealevel, aes(x = year, y = (height - surge_anomaly - nodal_fit)/10)) +
     # projections:
     geom_area(data = projData,
-              aes(x = year, y = positive, fill = component),
+              aes(x = year, y = positive),
               position = 'stack', alpha = alphaProcessesProj, color = "darkgrey", size = 0.5) +
     geom_area(data = projData,
-              aes(x = year, y = negative, fill = component),
+              aes(x = year, y = negative),
               position = 'stack', alpha = alphaProcessesProj, color = "darkgrey", size = 0.5) +
     ylab("sea level change (cm)") +
     # ggtitle("Underlying processes for sea level variation") +
@@ -839,7 +846,8 @@ output$processPlot <- renderPlotly({
       axis.ticks = element_blank(),
       axis.title = element_text(face = "italic"),
       legend.title=element_blank()
-    )
+    ) +
+    coord_cartesian(xlim = c(1960, 2050))
 
 
 
@@ -852,7 +860,14 @@ output$processPlot <- renderPlotly({
         y = 0.9
       ),
       yaxis = list(hoverformat = '.2f')
+    ) %>%
+  config(
+    displaylogo = FALSE,
+    modeBarButtons = list(
+      list("zoomIn2d", "zoomOut2d", "autoScale2d", "resetScale2d")
     )
+  )
+
 })
 ```
 
@@ -877,22 +892,33 @@ Column
 fillPage(
   fillCol(height = "80%", flex = c(1,2,10), 
           h3("Observation timeseries per station"),
-          p("The observations per station are shown here for all six main gauge stations at the Dutch coast (points). The lines are linear fits through the data, where the effect of tide and wind is included. The effect of wind can not be included before 1947, because not enough data are available."),
-          plotlyOutput("stationPlot", height = "80%", width = "100%")#,
-  )
+          p("The observations per station are shown here for all six main gauge stations at the Dutch coast (points). The lines the observed yearly avearges, where the effect of tide and wind is excluded. The effect of wind can not be excluded before 1950, because not enough data are available."),
+          plotlyOutput("stationPlot", height = 600, width = "100%")#,
+
+          ## for testing ggplotly output names
+          # shiny::textOutput("stationPlot")
+)
 )
 
+# output$stationPlot <- renderPlotly({
 output$stationPlot <- renderPlotly({
   
   p <- sealevelAllStations %>% 
-    left_join(stations %>% select(ID, StationName), by = c(station = "ID")) %>%
-    mutate(`height in cm` = height / 10,
-           `predicted_linear_with_wind in cm` = predicted_linear_with_wind / 10) %>%
+    filter(!grepl("Netherlands", name, ignore.case = T)) %>%
+    left_join(stations %>% select(ID, StationName), by = c(psmsl_id = "ID")) %>%
+    mutate(`height in cm` = height,
+           `observed_minus_surge_effect in cm` = height - surge_anomaly) %>%
     ggplot() +
-    geom_point(aes(year, `height in cm`, color = StationName)) +
-    geom_line(aes(year, `predicted_linear_with_wind in cm`, color = StationName))
+    # geom_point(aes(year, `height in cm`, color = StationName, group = factor(StationName))) +
+    geom_line(aes(year, `observed_minus_surge_effect in cm`, color = StationName, group = factor(StationName))) +
+    scale_x_continuous(n.breaks = 10)
   
-  ggplotly(p) %>% 
+  gp <- ggplotly(p)
+
+  gp$x$layout$legend$itemdoubleclick <- "toggleothers"
+  gp$x$layout$legend$itemclick <- "toggle"
+
+  gp %>%
     layout(
       legend = list(
         orientation = 'v',
@@ -901,7 +927,12 @@ output$stationPlot <- renderPlotly({
       ),
       yaxis = list(hoverformat = '.2f')
     )
+
+  ## for testing ggplotly name output
+  # gg <- ggplotly(p)
+  # unique(sapply(gg$x$data, `[[`, "name"))
 })
+
 
 ```
 
