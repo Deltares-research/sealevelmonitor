@@ -89,6 +89,7 @@ Een van de factoren die de zeespiegelhoogte beïnvloeden is windopzet. De jaarli
 TODO: GTSM uitleg en referenties
 - GTSM - depth-averaged hydrodynamic model for calculating tides and surges in the global ocean, and their non-linear interactions.
 - In ZSM we use the GTSM-ERA5 dataset, providing a reanalysis of global water levels from 1950 to present (hourly values), generated with the ERA5 reanalysis as atmospheric forcing. 
+- Surge is determined as a difference between the surge-tide and tide-only simulations, and is provided as a separate variable in the dataset.
 - reference to the dataset: https://doi.org/10.24381/cds.a6d42d60
 - reference to papers describing it: Muis et al. 2023 https://doi.org/10.1029/2023EF003479
 
@@ -104,6 +105,10 @@ knitr::include_graphics("images/GTSM_monthly_means_surge_HoekVanHolland_1950-202
 knitr::include_graphics("images/GTSM_monthly_means_surge_HoekVanHolland_2025_timeseries.png")
 ```
 
+```{r GTSM-yearly-means, fig.cap="Jaargemiddelde windopzet voor 1950-2025 voor alle stations. Zie tekst voor meer uitleg. "}
+knitr::include_graphics("images/GTSM_yearly_means_surge_all_stations.png")
+```
+
 De correctie voor windopzet wordt als volgt berekend:
 
 -   Voor elk station wordt jaargemiddeld windopzet berekend.
@@ -116,7 +121,6 @@ Voor het gemiddelde over Nederland worden de gecorrigeerde zeespiegelwaarden gem
 
 De huidige versie van GTSM die gebruikt wordt voor berekening van windopzet voor de Zeespiegelmonitor wordt aangestuurd door een waterpeil inclusief een stijging. De zeespiegelstijging die is toegepast is afgeleid van SLR-projecties in \acr{AR5} van \acr{IPCC}. Deze wijken waarschijnlijk af van de daadwerkelijk waargenomen zeespiegelstijging. Het is daarom belangrijk om te weten of de gebruikte stijging invloed heeft op de berekende windopzet aan de Nederlandse kust. Dit is gecontroleerd door de GTSM-ERA5 modelopstelling voor 2023 te draaien, zodat modelresultaten zowel met als zonder \acr{SLR} (totaal waterpeil en alleen getijdenruns) worden getoond. Deze resultaten zijn vergeleken (zoals te zien in dit [rekendocument](https://github.com/VU-IVM/gtsm3-era5-nrt/blob/main/02_analysis_and_validation/p06_compare_SLR_effect_surge_mean.ipynb).
 
-TODO: add estimate of how large the SLR values are and that at these small values the interaction with the wind setup is negligible. 
 
 Uit deze resultaten kan worden geconcludeerd:
 
