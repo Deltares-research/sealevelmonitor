@@ -9,7 +9,7 @@ acronyms:
 # Bijlagen {.unnumbered}
 
 ## Bodemdaling
-Het is al heel lang bekend dat de zeespiegelmetingen in Nederland worden beïnvloed door bodemdaling [@Veen1945,@Veen1954] en dat ze feitelijk de relatieve zeespiegelbewegingen weergeven. Bodemdaling is de optelsom van verschillende componenten (@fig-bodemdalingscomponenten) en niet alle componenten zijn relevant voor de zeespiegelmetingen.
+Het is al heel lang bekend dat de zeespiegelmetingen in Nederland worden beïnvloed door bodemdaling [@Veen1945,@Veen1954] en dat ze feitelijk de relatieve zeespiegelbewegingen weergeven. Bodemdaling is de optelsom van verschillende componenten (@fig-bodemdalingscomponenten) en niet alle componenten zijn relevant voor de zeespiegelmetingen. Dit komt omdat de stations waarin de meet
 
 ![Lagen van de bodem en componenten van bodemdaling langs de Nederlandse kust. Blauwe componenten zitten in de relatieve zeespiegelstijging, de paarse componenten niet](images/bodemdalingscomponenten.png){#fig-bodemdalingscomponenten}
 
