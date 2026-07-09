@@ -16,9 +16,7 @@ acronyms:
 
 
 ## Bodemdaling en relatieve/absolute zeespiegelstijging
-Bij alle getijdenstations bestaat de relatieve zeespiegelstijging voor een deel uit lange-termijn geologische bodemdaling. Deze daling wordt hoofdzakelijk veroorzaakt door tektonische en glacio-isostatische bodemdaling en heeft dalingssnelheden die van zuid naar noord toenemen van circa 2 naar 5 cm/eeuw
-
-De geologische bijdrage aan de relatieve zeespiegelverandering varieert sterk langs de Nederlandse kust. Deze ruimtelijke variatie wordt weergegeven in @fig-totgeol100yr.
+Bij alle getijdenstations bestaat de relatieve zeespiegelstijging voor een deel uit lange-termijn geologische bodemdaling. Deze daling wordt hoofdzakelijk veroorzaakt door tektonische en glacio-isostatische bodemdaling en heeft dalingssnelheden die van zuid naar noord toenemen van circa 2 naar 5 cm/eeuw (@fig-totgeol100yr).
 
 ![Totale geologische bijdrage over 100 jaar](images/Totgeol100yr_nieuw.png){#fig-totgeol100yr}
 
