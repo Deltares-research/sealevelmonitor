@@ -9,7 +9,13 @@ acronyms:
 # Bijlagen {.unnumbered}
 
 ## Bodemdaling
-Het is al heel lang bekend dat de zeespiegelmetingen in Nederland worden beïnvloed door bodemdaling [@Veen1945,@Veen1954] en dat ze feitelijk de relatieve zeespiegelbewegingen weergeven. Bodemdaling is de optelsom van verschillende componenten (@fig-bodemdalingscomponenten) en niet alle componenten zijn relevant voor de zeespiegelmetingen. Dit komt omdat de stations diep gefundeerd staan en alleen beïnvloed worden door bodemdaling in de lagen onder de fundering. Maaivelddaling door veenoxidatie of verlaging van de grondwaterstand hebben dus geen inlvoed op de zeespiegelmetingen, maar diepere bodemdaling door geologische processen of gaswinning wel. In 
+Het is al heel lang bekend dat de zeespiegelmetingen in Nederland worden beïnvloed door bodemdaling [@Veen1945,@Veen1954] en dat ze feitelijk de relatieve zeespiegelbewegingen weergeven. Bodemdaling is de optelsom van verschillende componenten (@fig-bodemdalingscomponenten) en niet alle componenten zijn relevant voor de zeespiegelmetingen. Dit komt omdat de stations diep gefundeerd staan en alleen beïnvloed worden door bodemdaling in de lagen onder de fundering. Maaivelddaling door veenoxidatie of verlaging van de grondwaterstand hebben dus geen inlvoed op de zeespiegelmetingen, maar diepere bodemdaling door geologische processen of gaswinning wel. In @tbl-bodemdalingscomponenten_uitleg worden de verschillende componenten nader omschreven.
+
+|Hoofdoorzaak|Oorzaak|Beschrijving|
+|-|-|-|
+|Geologische bodembeweging|Tektoniek (0.2-1.5 cm/eeuw|Daling of opheffing die wordt veroorzaakt door spanningen in de ca. 100 km dikke Euraziatische aardplaat waar Nederland deel van uitmaakt. De spanningen hangen samen met het naar elkaar toe bewegen van de Afrikaanse en Euraziatische aardplaat en het uit elkaar drijven van Europa en Noord-Amerika. De snelheid van tektonische bodemdaling neemt toe van Goeree (2 mm/eeuw) tot meer dan 1 cm/eeuw in de Waddenzee.|
+|Geologische bodembeweging|Isostasie(2-5 cm/eeuw)|Daling die samenhangt met het terugbuigen van de aardplaat in Noordwest Europa door het afsmelten van de grote ijskappen die in de laatste glaciale periode op Groot-Brittannië en Scandinavië rustten. Bij het ontstaan van de ijskappen werd de aardplaat onder het gewicht van het vele ijs doorgebogen en in een rand daarom heen kwam de aardplaat juist omhoog. Het proces van herstel (terugbuigen) is nog gaande, en omdat Nederland op de omhoogkomende rand lag daalt Nederland.|
+: De belangrijkste componenten van bodembeweging in Nederland, afgeleid van [@Hijma2017 and @Hijma2018]. {#tbl-bodemdalingscomponenten_uitleg}
 
 ![Lagen van de bodem en componenten van bodemdaling langs de Nederlandse kust. De zwarte lijnen geven de verschillende ondergrondlagen aan, de blauwgroene lijnen de bodemdalingscomponenten.](images/Bodemdalingscomponenten.png){#fig-Bodemdalingscomponenten}
 
