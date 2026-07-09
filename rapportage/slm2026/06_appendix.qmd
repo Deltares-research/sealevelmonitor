@@ -9,4 +9,5 @@ acronyms:
 # Bijlagen {.unnumbered}
 
 ## Bodemdaling
-Hoi
+Het is al heel lang bekend dat de zeespiegelmetingen in Nederland worden beïnvloed door bodemdaling.
+
