@@ -75,11 +75,15 @@ acronyms:
     - acronyms.yml
 
 
-language:
+language: nl
   label:
     fig: "Figuur "
     tab: "Tabel "
     tbl: "Tabel "
+    fig-title: "Figuur"
+    fig-prefix: "Figuur"
+    tbl-title: "Tabel"
+    tbl-prefix: "Tabel"
     eq: "Vergelijking "
     thm: "Theorem "
     lem: "Lemma "
