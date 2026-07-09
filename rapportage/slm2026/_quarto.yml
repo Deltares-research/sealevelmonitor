@@ -75,11 +75,9 @@ acronyms:
     - acronyms.yml
 
 
-language: nl
-
-label:
+language:
+  label:
     fig: "Figuur "
-    tab: "Tabel "
     tbl: "Tabel "
     eq: "Vergelijking "
     thm: "Theorem "
@@ -94,6 +92,7 @@ label:
     proof: "Proof. "
     remark: "Remark. "
     solution: "Solution. "
+
   ui:
     chapter_name: "Hoofdstuk "
     appendix_name: "Bijlage "
