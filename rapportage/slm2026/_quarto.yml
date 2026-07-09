@@ -76,7 +76,8 @@ acronyms:
 
 
 language: nl
-  label:
+
+label:
     fig: "Figuur "
     tab: "Tabel "
     tbl: "Tabel "
