@@ -1,3 +1,11 @@
+---
+acronyms:
+  insert_loa: false
+  loa_title: "Lijst met afkortingen"
+  insert_links: false
+  fromfile:
+    - acronyms.yml
+
 # Bijlagen {.unnumbered}
 
 ## Bodemdaling
