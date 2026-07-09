@@ -79,6 +79,7 @@ language:
   label:
     fig: "Figuur "
     tab: "Tabel "
+    tbl: "Tabel "
     eq: "Vergelijking "
     thm: "Theorem "
     lem: "Lemma "
