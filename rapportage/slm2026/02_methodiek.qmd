@@ -111,7 +111,17 @@ De stijging van de zeespiegel wordt wiskundig beschreven met een model, waaruit 
 
 ## Metingen van het zeeniveau met satellieten (altimetrie) {#altimetrie}
 
-uitleg, voordelen, nadelen, verschillen. Zie ook eerdere rapportages.
+
+In ZSM 2022 word verwezen naar de NASA Tool. Inmiddels kunnen we vanaf Copernicus met de MyOcean Pro viewer een gecombineerd sateliet product downloaden. Een gecombineerd satellietproduct is het beste wat we tot nu oe hebben. Deze satellietdata bevatten altimeter data van alle altimeter Copernicus missions (Sentinel-6A, Sentinel-3A/B) en andere missies zoals Jason-3, Saral[-DP]/AltiKa, Cryosat-2, OSTM/Jason-2, Jason-1, Topex/Poseidon, Envisat, GFO, ERS-1/2, Haiyang-2A/B). De data is beschikbaar vanaf 1993 tot nu. In de periode van 2019-2021 is nog steeds een error factor van 5 cm te verwachten in coastal regions aangezien het product wordt gevalideerd op de oceaan. (https://documentation.marine.copernicus.eu/SQO/CMEMS-SL-SQO-008-033-068.pdf) to be inserted as citation
+
+Voor een nauwkeurige vergelijking is het nodig om de gemeten hoogtes ten opzichte
+van hetzelfde verticale referentie vlak te bepalen. Satellietgegevens worden berekend
+ten opzichte van een gemiddeld niveau over een bepaalde periode (anomaliën),
+zonder informatie over het absolute referentieniveau. Op basis hiervan kunnen we
+alleen trends met elkaar vergelijken. ZSM 2022
+nu vinden we voor ijmuiden en rond vlissingen een SLR van 3,9 cm en voor 4,4 cm per jaar over een periode van 1993 tot 2026. 
+hierbij moet rekening gehouden worden met de error die over de periode van 2019-2021 5 cm was, maar niet duidleijk is wat deze error factor over oudere jaren, in de oudere periode is deze waarschijnlijk hoger. 
+The CMEMS global L4 SLA product is optimized for mesoscale ocean circulation and has a resolution of about 1/8° (~7 km north-south, ~4–5 km east-west in the Netherlands). The Dutch coastal zone is shallow and strongly affected by tides and meteorological surge. Therefore, local water levels near the coast can deviate from the L4 product by more than the global-average ~5 cm error.
 
 ### Beschikbare satellieten en metingen
 
