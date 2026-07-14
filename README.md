@@ -28,12 +28,9 @@ Sea Level Monitor [document](https://github.com/Deltares-research/sealevelmonito
 
 The folder 
 
-/data contains the data, 
-/analysis contains code and intermediate products and procedures, 
-/results contains only tabular results or images, 
-/validation contains code to validate intermediate products and results. 
-
-Set up for the report for 2026 can be found in /rapportage/2026, 
+- /data contains the data, 
+- /analysis contains code and intermediate products and procedures, - /results contains only tabular results or images, 
+- /validation contains code to validate intermediate products and results. 
 
 /docs contains textual explanation and output of analysis, 
 

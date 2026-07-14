@@ -14,6 +14,8 @@ acronyms:
       longname: Atlantic Multidecadal Oscillation
     - shortname: AR
       longname: Autoregressie
+    - shortname: AR5
+      longname: Fifth Assessment Report IPCC
     - shortname: Argo
       longname: Argo, vernoemd naar schip uit de Griekse mythologie
     - shortname: AVISO
@@ -207,6 +209,8 @@ acronyms:
       longname: Principal solar semidiurnal constituent
     - shortname: SaaS
       longname: Software as a Service
+    - shortname: SLR
+      longname: Sea Level Rise
     - shortname: SLF
       longname: Sea Level Fingerprint
     - shortname: STL
