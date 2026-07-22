@@ -104,18 +104,19 @@ Naast windopzet zorgt ook het getij, met name de nodale cyclus, voor een variati
 
 ## Rekenmethode voor de bepaling van de huidige zeespiegelstijging
 
-De stijging van de zeespiegel wordt wiskundig beschreven met een model, waaruit we de meest waarschijnlijk stijging berekenen over de gewenste periode (laatste 15 jaar). De keuze van het model dient ook te voldoen aan de gestelde criteria (#afwegingen). De keus aan modellen die getest worden is over de jaren langzaam uitgebreid. In \@Dillingh2010 werd een kwadratische term toegevoegd aan het initiële lineaire model, om een versnelling al dan niet te accepteren. Er was toen alleen voor station Den Helder een significante toename van de zeespiegestijging met het gebruikte model. In de Zeespiegelmonitor 2014 (\@Baart2014a) is daarom alleen het lineaire model toegepast, met een uitbreiding van een LOESS term om het model beter te laten aansluiten bij projecties. In de Zeespiegel 2018 (\@Baart2019) is opnieuw de kwadratische term als toevoeging op het lineaire model getest, samen met een trendbreuk model (gebroken lineair model) waarbij het breekpunt in 1993 gekozen werd. De keuze voor 1993 was gemotiveerd door:
+De stijging van de zeespiegel wordt wiskundig beschreven met een model, waaruit we de meest waarschijnlijk stijging berekenen over de gewenste periode (laatste 15 jaar). De keuze van het model dient ook te voldoen aan de gestelde criteria (#afwegingen). De keus aan modellen die getest worden is over de jaren langzaam uitgebreid. In [@Dillingh2010] werd een kwadratische term toegevoegd aan het initiële lineaire model, om een versnelling al dan niet te accepteren. Er was toen alleen voor station Den Helder een significante toename van de zeespiegestijging met het gebruikte model. In de Zeespiegelmonitor 2014 ([@Baart2014a]) is daarom alleen het lineaire model toegepast, met een uitbreiding van een LOESS term om het model beter te laten aansluiten bij projecties. In de Zeespiegel 2018 ([@Baart2019]) is opnieuw de kwadratische term als toevoeging op het lineaire model getest, samen met een trendbreuk model (gebroken lineair model) waarbij het breekpunt in 1993 gekozen werd. De keuze voor 1993 was gemotiveerd door:
 
 - 1993 is het startjaar van satellietmetingen. Door de breuk in 1993 te leggen wordt de trend ook berekend vanaf dit jaar, wat vergelijking met satellietmetingen vergemakkelijkt. Tevens wordt de aansluiting met gegevens van vóór 1993 behouden.
 - Rond 1993 stond de zeespiegel vrij laag, deels door de uitbraak van de Pinatubo vulkaan. Gedeeltelijk daardoor laten latere analyses zien dat voor een gebroken lineair model dit het meest waarschijnlijke breekpunt is \[\@\].
 
 ## Metingen van het zeeniveau met satellieten (altimetrie) {#altimetrie}
 ### Beschikbare satellieten en metingen
+![Beschikbare satellieten en metingen](images/TimelineAltimetry_v202504.png)[@Aviso2022Timeline]
 key power of the satelites is the merged products, only one mission, both the temporal range and the spatial coverge is limited. e.g. for SWOT, this meant a return period of ... with temporal coverage of .. days. merging the satelite products together causes a longer temporal converage and also a longer spatial coverage
 
 downloading the product from CMEMS instead of NASA. The bulk of the weight of the work has shifted to DUCAS/AVISO and the processing chain is now handled by aviso
 
-#### Huidig SLR berekend met gecombineerd satelliet product
+#### Huidige zeespiegelstand berekend met gecombineerd satelliet product
 In ZSM 2022 word verwezen naar de NASA Tool. Inmiddels kunnen we vanaf Copernicus met de MyOcean Pro viewer een gecombineerd sateliet product downloaden. Een gecombineerd satellietproduct is het beste wat we tot nu oe hebben. Deze satellietdata bevatten altimeter data van alle altimeter Copernicus missions (Sentinel-6A, Sentinel-3A/B) en andere missies zoals Jason-3, Saral[-DP]/AltiKa, Cryosat-2, OSTM/Jason-2, Jason-1, Topex/Poseidon, Envisat, GFO, ERS-1/2, Haiyang-2A/B). De data is beschikbaar vanaf 1993 tot nu. In de periode van 2019-2021 is nog steeds een error factor van 5 cm te verwachten in coastal regions aangezien het product wordt gevalideerd op de oceaan. (https://documentation.marine.copernicus.eu/SQO/CMEMS-SL-SQO-008-033-068.pdf) to be inserted as citation
 
 Voor een nauwkeurige vergelijking is het nodig om de gemeten hoogtes ten opzichte
@@ -127,7 +128,11 @@ nu vinden we voor ijmuiden en rond vlissingen een SLR van 3,9 cm en voor 4,4 cm 
 hierbij moet rekening gehouden worden met de error die over de periode van 2019-2021 5 cm was, maar niet duidleijk is wat deze error factor over oudere jaren, in de oudere periode is deze waarschijnlijk hoger. 
 The CMEMS global L4 SLA product is optimized for mesoscale ocean circulation and has a resolution of about 1/8° (~7 km north-south, ~4–5 km east-west in the Netherlands). The Dutch coastal zone is shallow and strongly affected by tides and meteorological surge. Therefore, local water levels near the coast can deviate from the L4 product by more than the global-average ~5 cm error.
 
+![ijmuiden CMEMS product](images/satelllite/output/sea_surface_height_trend_ijmuiden.png)
+![Vlissingen CMEMS product](images/satelllite/output/sea_surface_height_trend_vlissingen.png)
 ## Verwachting voor de toekomst en toepassing voor zeespiegelmonitor
+Individuele missies hebben een klein effect op het gebruik van zeespiegelgegevens voor de zeespiegelmonitor. De temporale en ruimtelijke resolutie van 1 sateliet is vaak niet genoeg om een goed beeld te krijgen. Het effe
+
 problemen met inacuracy bij de kust
 het opbouwen van een lange tijdreeks
 knikpunt is bij 1993 momenteel,dit is ook wanneer de satellietmetingen stqrten
