@@ -2,7 +2,7 @@
 # Product: SEALEVEL_GLO_PHY_L4_MY_008_047
 # Dataset: cmems_obs-sl_glo_phy-ssh_my_allsat-demo-l4-duacs-0.125deg_P1D-i
 # Variable: Sea surface height above geoid (adt) m
-# Geometry: POINT (3.48838 51.468115)
+# Geometry: POINT (3.48838 51.468115) (DICHTBIJ VLISSINGEN)
 # Values from graph: value vs. time
 
 time,adt

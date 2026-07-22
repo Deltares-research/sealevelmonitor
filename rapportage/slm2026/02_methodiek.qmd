@@ -110,8 +110,12 @@ De stijging van de zeespiegel wordt wiskundig beschreven met een model, waaruit 
 - Rond 1993 stond de zeespiegel vrij laag, deels door de uitbraak van de Pinatubo vulkaan. Gedeeltelijk daardoor laten latere analyses zien dat voor een gebroken lineair model dit het meest waarschijnlijke breekpunt is \[\@\].
 
 ## Metingen van het zeeniveau met satellieten (altimetrie) {#altimetrie}
+### Beschikbare satellieten en metingen
+key power of the satelites is the merged products, only one mission, both the temporal range and the spatial coverge is limited. e.g. for SWOT, this meant a return period of ... with temporal coverage of .. days. merging the satelite products together causes a longer temporal converage and also a longer spatial coverage
 
+downloading the product from CMEMS instead of NASA. The bulk of the weight of the work has shifted to DUCAS/AVISO and the processing chain is now handled by aviso
 
+#### Huidig SLR berekend met gecombineerd satelliet product
 In ZSM 2022 word verwezen naar de NASA Tool. Inmiddels kunnen we vanaf Copernicus met de MyOcean Pro viewer een gecombineerd sateliet product downloaden. Een gecombineerd satellietproduct is het beste wat we tot nu oe hebben. Deze satellietdata bevatten altimeter data van alle altimeter Copernicus missions (Sentinel-6A, Sentinel-3A/B) en andere missies zoals Jason-3, Saral[-DP]/AltiKa, Cryosat-2, OSTM/Jason-2, Jason-1, Topex/Poseidon, Envisat, GFO, ERS-1/2, Haiyang-2A/B). De data is beschikbaar vanaf 1993 tot nu. In de periode van 2019-2021 is nog steeds een error factor van 5 cm te verwachten in coastal regions aangezien het product wordt gevalideerd op de oceaan. (https://documentation.marine.copernicus.eu/SQO/CMEMS-SL-SQO-008-033-068.pdf) to be inserted as citation
 
 Voor een nauwkeurige vergelijking is het nodig om de gemeten hoogtes ten opzichte
@@ -123,8 +127,14 @@ nu vinden we voor ijmuiden en rond vlissingen een SLR van 3,9 cm en voor 4,4 cm 
 hierbij moet rekening gehouden worden met de error die over de periode van 2019-2021 5 cm was, maar niet duidleijk is wat deze error factor over oudere jaren, in de oudere periode is deze waarschijnlijk hoger. 
 The CMEMS global L4 SLA product is optimized for mesoscale ocean circulation and has a resolution of about 1/8° (~7 km north-south, ~4–5 km east-west in the Netherlands). The Dutch coastal zone is shallow and strongly affected by tides and meteorological surge. Therefore, local water levels near the coast can deviate from the L4 product by more than the global-average ~5 cm error.
 
-### Beschikbare satellieten en metingen
-
-### Nieuwe satellieten
-
-### Wanneer kan overgegaan worden op satellietmetingen
+## Verwachting voor de toekomst en toepassing voor zeespiegelmonitor
+problemen met inacuracy bij de kust
+het opbouwen van een lange tijdreeks
+knikpunt is bij 1993 momenteel,dit is ook wanneer de satellietmetingen stqrten
+largere resolutie in het begin, bron van onzekerheden
+wanneer is de tijdreeks lang genoeg om sateliet als serieuze bron te gebruiken
+is het nodig om een jaarlijkse vergelijking met het sateliet product te maken? 
+not nessecarily by improving satellites but more the improvement in handling coastal data and processes. 
+NASA MEaSUREs is not up to date anymore
+DUCAS -> CNES (French) global processing system (look for some literature)
+interesting to do a yearly comparison with the satelite data next to the observational products, check the error. As we have the knik on 1993, this is also when satelite measurements started and we go to a new observational age. This could help inprove the sea level rise number from 1993 onwards
