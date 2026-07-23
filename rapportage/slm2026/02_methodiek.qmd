@@ -122,7 +122,7 @@ De belangrijkste bron van satellietgegevens voor de zeespiegel is het gecombinee
 
 In [@Stolte2022] wordt een vergelijking gemaakt met zeespiegelstand gemeten door satelieten met gebruik van de MEaSURE dataset, gedownload via de NASA Tool. Inmiddels kan er vanaf Copernicus Marine Services (CMEMS) een gecombineerd sateliet product gedownload. In het huidige CMEMS product kunnen lokale waterhoogtes nog met een errorfactor van ~5 cm verschillen, de resolutie van het huidige CMEMS product ligt rond de 1/8 graden wat ongeveer overeenkomt met 7 km N-Z en ~4-5 km O-W rondom Nederland. Dit heeft ermee te maken dat het product gevalideerd wordt op de open oceaan [@CMEMS2024]. 
 
-Ter vergelijking zijn er twee reeksen geplot met het gecombineerde CMEMS product, een nabij Ijmuiden en een nabij Vlissingen. De resultaten zijn weergegeven 4,6 cm/y Vlissingen, 3,9 cm/y Ijmuiden.
+Ter vergelijking zijn er twee reeksen geplot met het gecombineerde CMEMS product, een nabij Ijmuiden en een nabij Vlissingen. De resultaten zijn weergegeven 4,6 mm/y Vlissingen, 3,9 mm/y Ijmuiden.
 ![SSH Anomalie gecombineerd satellietproduct nabij Ijmuiden](images/satellite/output/sea_surface_height_trend_ijmuiden.png)
 ![SSH Anomalie gecombineerd satellietproduct nabij Vlissingen](images/satellite/output/sea_surface_height_trend_vlissingen.png)
 
