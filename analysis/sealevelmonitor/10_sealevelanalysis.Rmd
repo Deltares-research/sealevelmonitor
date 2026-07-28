@@ -3,12 +3,11 @@ title: "Zeespiegelmonitor analysis"
 author: "Willem Stolte, Nathalie Dees"
 date: "`r format(Sys.time(), '%d %B, %Y')`"
 output:
+  github_document:
   html_document:
     df_print: paged
     code_folding: hide
     outputdir: ../../docs
-  github_document: 
-    fig_path: "figs/sealevelanalysis-"
   pdf_document: default
 always_allow_html: true
 params:
@@ -16,7 +15,7 @@ params:
   startyear: 1890
   wind_or_surge_type: GTSM
   include_ddl: FALSE
-  overwrite: FALSE
+  overwrite: TRUE
   station:
   - Delfzijl
   - Harlingen

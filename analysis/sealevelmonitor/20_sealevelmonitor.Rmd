@@ -12,10 +12,10 @@ params:
   # - Netherlands
   # - linear
   # - broken_squared
-  monitoryear: 2025
+  monitoryear: 2026
   startyear: 1890
   wind_or_surge_type: GTSM
-  include_ddl: TRUE
+  include_ddl: FALSE
   station:
   - Netherlands (without Delfzijl)
   modeltype:
@@ -313,7 +313,7 @@ write_aug_long(df = aug_long, filename = "../../data/deltares/results/dutch-sea-
 ```
 
 
-```{r partials, fig.cap="Contribution of all factors to the trend estimation of Dutch sea level. Contributions of surge_anomaly, nodal_fit and rest have been lowered by 250 mm for presenation reasons. "}
+```{r partials, fig.cap="Bijdrage van de verschillende componenten aan de totale zeespiegel aan de Nederlandse kust. De bijdrage van windopzet (surge_anomaly) is apart berekend met GTSM. De bijdrage van het nodaal getij (nodal_fit) is geschat met het regressiemodel. De bijdragen van windopzet, nodaal getij en residu zijn kunstmatig verlaagd in de grafiek voor de presentatie. In het echt zijn hun bijdragen gecentreerd rond nul."}
 aug_long %>%
   mutate(residual = height - trend_fit - nodal_fit - surge_anomaly) %>%
   select(year, name, height, surge_anomaly, trend_fit, nodal_fit, fitted_total, residual) %>%
@@ -366,7 +366,7 @@ p <- plot_station(
   printNumbers = T,
   plotVline = F,
   startyear = 2010,
-  datayear = 2024)
+  datayear = 2025)
 
   # ggplotly(p) %>% layout(legend = list(x = 0.05, y = 0.95))
   p
