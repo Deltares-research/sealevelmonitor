@@ -26,9 +26,36 @@ We lopen langs de verschillende onderdelen van de resultaten, te weten:
 
 ## Windopzetcorrectie
 
+
+
 De invloed van windopzet op de metingen wordt gecorrigeerd. Hiervoor gebruiken we berekeningen met het \acr{GTSM} (zie paragraaf \@ref(sec-windopzet)). Vergeleken met de vorige rapportage in 2022 zijn de berekeningen met het \acr{GTSM} uitgebreid met de jaren 2022-2025, maar ook voor de periode 1950-1978. Hierdoor is er nu een ruim 70 jaar lange serie voor berekende windopzet.
 
 Voor de correctie van de zeespiegel voor windopzet wordt een gemiddelde opzet gebruikt voor de periode voor 1950, en de (jaargemiddelde) afwijking van het langjarig gemiddelde voor de periode vanaf 1950 (figuur \@ref(fig:gtsm-opzet)).
+
+
+
+## Bodemdaling en zeespiegelstijging
+Bij alle getijdenstations bestaat het gemeten relatieve zeespiegelstijgingssignaal voor een deel uit lange-termijn geologische bodemdaling [@Hijma2025b]. Deze daling wordt hoofdzakelijk veroorzaakt door tektonische en glacio-isostatische bodemdaling en heeft dalingssnelheden die van zuid naar noord toenemen van circa 2 naar 5 cm/eeuw (@fig-totgeol100yr). De metingen worden hier niet voor gecorrigeerd en de via PSMSL beschikbare zeespiegeldata omvatten dus deze lange-termijn geologische bodemdalingscomponent.
+
+![Geologische bodemdaling per 100 jaar [@Hijma2025b]](images/Totgeol100yr_nieuw.png){#fig-totgeol100yr width=80%}
+
+Er zijn twee stations waar ook bodemdaling door gaswinning heeft plaatsgevonden, namelijk Hoek van Holland en Delfzijl. Bij Hoek van Holland gaat het om 1-2 cm in de laatste decennia en gaan we er vanuit dat deze daling in het zeespiegelsignaal zit. De verwachte daling door gaswinning in de komende decennia is minder dan 1 cm [@Hijma2026]. De daling bij Delfzijl is veel groter geweest en bedraagt ongeveer 30 cm sinds 1963. Voor Delfzijl weten we vrij zeker dat de bodemdaling sinds 1973 niet in de zeespiegeldata zit, maar dat de metingen gecorrigeerd worden [@Jong1973, punt 5]. Dit betekent dat de relatieve zeespiegelstijging bij Delfzijl eigenlijk sneller gaat dan in PSMSL gepubliceerd wordt, omdat de daling door gaswinning niet meegenomen wordt. Tussen de start van de gaswinning in Groningen in 1963 en 1973 daalde de bodem bij Delfzijl ongeveer 7 cm. Wij gaan er hier vanuit dat deze daling op dezelfde manier is behandeld als de daling na 1973, conform [@Jong1973, punt 5], en dus niet in het zeespiegelsignaal zit. Door het dichtdraaien van de gaskraan is de daling bij het station sterk afgenomen en naar verwachting zal deze nog slechts enkele centimeters bedragen in de komende decennia [@Hijma2026].
+
+In de toekomst zal station Harlingen waarschijnlijk beïnvloed gaan worden door bodemdaling door zoutwinning. De winning is recent gestart in de Waddenzee ten westen van Harlingen en de bodemdalingsschotel lijkt Harlingen op termijn te gaan bereiken. Dit zal de komende 30 jaar tot meerdere centimeters bodemdaling leiden [@Hijma2025c; @Hijma2026]. De onzekerheid is echter groot en een kleine verschuiving in de vorm of positie van de schotel kan resulteren in geen extra bodemdaling of juist nog enkele centimeters meer. De extra bodemdaling wordt gelukkig gemonitord, waardoor een eventuele impact op de zeespiegelmetingen goed in beeld zal komen.
+
+Bij de meeste stations is de totale bodemdaling dus gelijk aan de geologische bodemdaling, maar bij enkele stations is de totale bodemdaling een optelsom van de geologische bodemdaling en de daling door delfstofwinning. @tbl-bodemdalingscomponenten geeft per station de verschillende bodemdalingscomponenten, de gemeten relatieve zeespiegelstijging en de afgeleide absolute zeespiegelstijging.
+
+|station|Geologische bodemdaling (mm/jaar)|Daling door winning (mm/jaar)|Totale bodemdaling (mm/jaar)|Huidige relatieve ZSS (mm/jaar)|Huidige absolute ZSS (mm/jaar)
+|-|-|-|-|-|-|
+|Vlissingen|0.23|0|0.23|???|????|
+|Hoek van Holland|0.33|0.2|0.53|???|???|
+|IJmuiden|0.42|0|0.42|???|???|
+|Den Helder|0.48|0|0.48|???|???|
+|Harlingen|0.37|0|0.37|???|???|
+|Delfzijl|0.39|4|0.39|???|???|
+: Uitsplitsing bodemdaling [op basis van @Hijma2025b and @Hijma2026] en zeespiegelstijging per station (dit rapport). Geologische bodemdaling is constant op tijdschalen van eeuwen, de dalingssnelheid door winning is berekend voor de periode 1997-2026. De totale bodemdaling bij Hoek van Holland is inclusief daling door winning, bij Delfzijl exclusief daling door winning (zie tekst). De gemiddelde relatieve zeespiegelstijging is gemeten over de periode xxx (gebroken lineair model). {#tbl-bodemdalingscomponenten}
+
+
 
 ![Windopzet, uitgedrukt als jaargemiddelde afwijking van het langjarig gemiddelde. De berekeningen hiervoor zijn gedaan met GTSM.](https://raw.githubusercontent.com/Deltares-research/sealevelmonitor/main/analysis/sealevelmonitor/sealevelanalysis_files/figure-gfm/gtsm-surge-anomalie-1.png)
 
