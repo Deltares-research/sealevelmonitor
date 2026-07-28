@@ -28,6 +28,7 @@ book:
     - 03_resultaten.qmd
     - 04_discussie.qmd
     - 05_literatuur.qmd
+    - 06_appendix.qmd
   # abstract: 
   # description: "metadata for html version"
   # references: "references.bib"
@@ -77,7 +78,7 @@ acronyms:
 language:
   label:
     fig: "Figuur "
-    tab: "Tabel "
+    tbl: "Tabel "
     eq: "Vergelijking "
     thm: "Theorem "
     lem: "Lemma "
@@ -91,6 +92,7 @@ language:
     proof: "Proof. "
     remark: "Remark. "
     solution: "Solution. "
+
   ui:
     chapter_name: "Hoofdstuk "
     appendix_name: "Bijlage "
