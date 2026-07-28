@@ -105,18 +105,22 @@ missingYear <- if(boolMissing(psmsl_yr, gtsm_yr)){
 
 ## Fetch ddl$height for missing year
 
-ddl_annual_dir <- "data\\rijkswaterstaat\\ddl\\annual_means"
-ddl_ann_means <- read_delim(file.path(ddl_annual_dir, paste0(missingYear, ".csv"))) %>%
-  mutate(
-    fetch_date = today()
-  ) %>%
-  select(
-    year,
-    name = station,
-    source, 
-    fetch_date,
-    height
-  )
+if(!is.null(missingYear)){
+  ddl_annual_dir <- "data\\rijkswaterstaat\\ddl\\annual_means"
+  ddl_ann_means <- read_delim(file.path(ddl_annual_dir, paste0(missingYear, ".csv"))) %>%
+    mutate(
+      fetch_date = today()
+    ) %>%
+    select(
+      year,
+      name = station,
+      source, 
+      fetch_date,
+      height
+    )
+  psmsl_yr <- psmsl_yr |>
+    bind_rows(ddl_ann_means)
+}
 
 ## Include in dataframe indicating source = "rws-ddl
 
@@ -124,7 +128,6 @@ ddl_ann_means <- read_delim(file.path(ddl_annual_dir, paste0(missingYear, ".csv"
 #== combine PSMSL, DDL and GTSM surge data ===========================
 
 psmsl_gtsm_yr <- psmsl_yr |>
-  bind_rows(ddl_ann_means) |>
   left_join(gtsm_yr, by = c(name = "name", year = "year")) |>
   mutate(
     surge_anomaly = case_when(

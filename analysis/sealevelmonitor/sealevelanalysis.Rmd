@@ -12,7 +12,7 @@ output:
   pdf_document: default
 always_allow_html: true
 params:
-  monitoryear: 2025
+  monitoryear: 2026
   startyear: 1890
   wind_or_surge_type: GTSM
   include_ddl: FALSE

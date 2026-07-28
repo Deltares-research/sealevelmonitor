@@ -7,24 +7,43 @@ acronyms:
     - acronyms.yml
 ---
 
+```{r}
+config <- RcppTOML::parseToml("../../analysis/sealevelmonitor/_common/configuration.TOML") |> purrr::list_flatten()
+resultaatjaar <- config$runparameters_monitoryear
+```
+
 # Resultaten {#resultaten}
 
-## Voorkeursmodel
+Dit hoofdstuk beschrijft de resultaten voor zeespiegelmetingen tot en met `r resultaatjaar - 1`. De berekeningen die hieraan ten grondslag liggen zijn vastgelegd in een [rekendocument](link-naar-notebook).
 
+We lopen langs de verschillende onderdelen van de resultaten, te weten:
 
-## Huidige zeespiegel(stijging) {#huidige}
+- windopzet
+- voorkeursmodel
+- huidige zeespiegel en -stijging
+- de rol van bodemdaling
+- 
 
+## Windopzetcorrectie
 
-## Bodemdaling en relatieve/absolute zeespiegelstijging
+De invloed van windopzet op de metingen wordt gecorrigeerd. Hiervoor gebruiken we berekeningen met het \acr{GTSM} (zie paragraaf \@ref(sec-windopzet)). Vergeleken met de vorige rapportage in 2022 zijn de berekeningen met het \acr{GTSM} uitgebreid met de jaren 2022-2025, maar ook voor de periode 1950-1978. Hierdoor is er nu een ruim 70 jaar lange serie voor berekende windopzet.
 
+Voor de correctie van de zeespiegel voor windopzet wordt een gemiddelde opzet gebruikt voor de periode voor 1950, en de (jaargemiddelde) afwijking van het langjarig gemiddelde voor de periode vanaf 1950 (figuur \@ref(fig:gtsm-opzet)).
 
-## Vergelijking met scenarios (KNMI)
+![Windopzet, uitgedrukt als jaargemiddelde afwijking van het langjarig gemiddelde. De berekeningen hiervoor zijn gedaan met GTSM.](https://raw.githubusercontent.com/Deltares-research/sealevelmonitor/main/analysis/sealevelmonitor/sealevelanalysis_files/figure-gfm/gtsm-surge-anomalie-1.png)
 
+## Voorkeursmodel {sec-voorkeursmodel}
 
-## Vergelijking met zeespiegelbudgetten
+In paragraaf \@ref(sec-....) wordt uitgelegd how we tot een voorkeursmodel komen om de huidige stijging van de zeespiegel zo goed mogelijk te beschrijven. De berekeningen voor deze keuze staan in een [rekendocument](link-naar-rekendocument-analyse). Dit jaar is, net als in de vorige rapportage, het gebroken lineaire model het best passende model.
 
+## Huidige zeespiegel(stijging) {#sec-huidige}
 
-## Variatie binnen Nederland
+## Bodemdaling en relatieve/absolute zeespiegelstijging {#sec-bodemdaling}
 
+## Vergelijking met scenarios (#sec-scenarios)
+
+## Vergelijking met zeespiegelbudgetten {#sec-budgetten}
+
+## Variatie binnen Nederland {#sec-ruimtelijke-variatie}
 
 ## Vergelijking? met satellietmetingen
