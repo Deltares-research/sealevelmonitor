@@ -16,7 +16,7 @@ acronyms:
 
 
 ## Bodemdaling en zeespiegelstijging
-Test. Bij alle getijdenstations bestaat het gemeten relatieve zeespiegelstijgingssignaal voor een deel uit lange-termijn geologische bodemdaling [@Hijma2025b]. Deze daling wordt hoofdzakelijk veroorzaakt door tektonische en glacio-isostatische bodemdaling en heeft dalingssnelheden die van zuid naar noord toenemen van circa 2 naar 5 cm/eeuw (@fig-totgeol100yr). De metingen worden hier niet voor gecorrigeerd en de via PSMSL beschikbare zeespiegeldata omvatten dus deze lange-termijn geologische bodemdalingscomponent.
+Test met Irene Wagner. Bij alle getijdenstations bestaat het gemeten relatieve zeespiegelstijgingssignaal voor een deel uit lange-termijn geologische bodemdaling [@Hijma2025b]. Deze daling wordt hoofdzakelijk veroorzaakt door tektonische en glacio-isostatische bodemdaling en heeft dalingssnelheden die van zuid naar noord toenemen van circa 2 naar 5 cm/eeuw (@fig-totgeol100yr). De metingen worden hier niet voor gecorrigeerd en de via PSMSL beschikbare zeespiegeldata omvatten dus deze lange-termijn geologische bodemdalingscomponent.
 
 ![Geologische bodemdaling per 100 jaar [@Hijma2025b]](images/Totgeol100yr_nieuw.png){#fig-totgeol100yr width=80%}
 
