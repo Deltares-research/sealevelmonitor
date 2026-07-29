@@ -36,7 +36,7 @@ book:
 #  delete_merged_file: true
 #  before_chapter_script: _common.R
 
-bibliography: [bib/literatuurWillemMod.bib, bib/sealevel.bib]
+bibliography: bib/sealevel.bib
 link-citations: true
 
 format:
