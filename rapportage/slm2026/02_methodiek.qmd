@@ -122,9 +122,10 @@ De belangrijkste bron van satellietgegevens voor de zeespiegel is het gecombinee
 
 In [@Stolte2022] wordt een vergelijking gemaakt met zeespiegelstand gemeten door satelieten met gebruik van de MEaSURE dataset, gedownload via de NASA Tool. Inmiddels kan er vanaf Copernicus Marine Services (CMEMS) een gecombineerd sateliet product gedownload. In het huidige CMEMS product kunnen lokale waterhoogtes nog met een errorfactor van ~5 cm verschillen, de resolutie van het huidige CMEMS product ligt rond de 1/8 graden wat ongeveer overeenkomt met 7 km N-Z en ~4-5 km O-W rondom Nederland. Dit heeft ermee te maken dat het product gevalideerd wordt op de open oceaan [@CMEMS2024]. 
 
-Ter vergelijking zijn er twee reeksen geplot met het gecombineerde CMEMS product, een nabij Ijmuiden en een nabij Vlissingen. De resultaten zijn weergegeven 4,6 mm/y Vlissingen, 3,9 mm/y Ijmuiden.
-![SSH Anomalie gecombineerd satellietproduct nabij Ijmuiden](images/satellite/output/sea_surface_height_trend_ijmuiden.png)
-![SSH Anomalie gecombineerd satellietproduct nabij Vlissingen](images/satellite/output/sea_surface_height_trend_vlissingen.png)
+Ter vergelijking zijn er twee reeksen geplot met het gecombineerde CMEMS product, een nabij Ijmuiden en een nabij Vlissingen. De resultaten zijn weergegeven 4,6 mm/y Vlissingen, 3,9 mm/y Ijmuiden. 
+
+![SSH Anomalie gecombineerd satellietproduct nabij Ijmuiden](https://github.com/Deltares-research/sealevelmonitor/blob/develop-reporting-dees/validation/satelllite/output/sea_surface_height_trend_ijmuiden.png?raw=true)
+![SSH Anomalie gecombineerd satellietproduct nabij Vlissingen](https://github.com/Deltares-research/sealevelmonitor/blob/develop-reporting-dees/validation/satelllite/output/sea_surface_height_trend_vlissingen.png?raw=true)
 
 ### Verwachting voor de toekomst en toepassing voor zeespiegelmonitor
 Het voortzetten van de satelietmeetreeks en het verbeteren van kwaliteit nabij de kust zijn de belangrijkste punten om het gebruik van satelietgegevens in de zeespiegelmonitor te vergroten [@Aviso2022Timeline] [@Ballarotta2022]. In de toekomst zal de lancering van het Sentinel-3 Next Generation (S3NG-T) programma een belangrijke rol spelen in het verbeteren van de kwaliteit van de metingen in kustgebieden. Deze satellieten zullen de klassieke altimetrie combineren met een vergelijkbare sensor als SWOT, daarnaast is het doel om een 5-day revisit periode te realiseren en een ruimtelijke resolutie van 50 km te bereiken. [link](https://lps25.esa.int/lps25-presentations/presentations/329/_329.pdf),, [link](https://database.eohandbook.com/database/missionsummary.aspx?missionID=1469)
