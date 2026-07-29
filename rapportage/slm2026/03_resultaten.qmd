@@ -36,6 +36,8 @@ Bij de meeste stations is de totale bodemdaling dus gelijk aan de geologische bo
 |Delfzijl|0.38 (0.34-0.45)|3.95 (2.96-4.94)|0.38 (0.34-0.45)|???|???|
 : Uitsplitsing bodemdaling [op basis van @Hijma2025b and @Hijma2026] en zeespiegelstijging per station (dit rapport). Geologische bodemdaling is constant op tijdschalen van eeuwen, de dalingssnelheid door winning is berekend voor de periode 1996-2025. De totale bodemdaling bij Hoek van Holland is inclusief daling door winning, bij Delfzijl exclusief daling door winning (zie tekst). De gemiddelde relatieve zeespiegelstijging is gemeten over de periode xxx (gebroken lineair model). Het 66%-betrouwbaarheidsinterval staat tussen haakjes vermeld. {#tbl-bodemdalingscomponenten}
 
+![Totale bodemdaling in de laatste 100 jaar [@Hijma2026]](images/Totaledaling1926_2025.png){#fig-totdaling100yr width=80%}
+
 ## Vergelijking met scenarios (KNMI)
 
 
