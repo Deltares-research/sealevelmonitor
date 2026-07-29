@@ -8,7 +8,7 @@ acronyms:
 ---
 # Bijlagen {.unnumbered}
 
-## Bodemdalingscomponenten
+## Bodemdalingscomponenten {#sec-bodemdalingscomponenten}
 Het is al heel lang bekend dat de zeespiegelmetingen in Nederland worden beïnvloed door bodemdaling [@Veen1945; @Veen1954] en dat ze feitelijk de relatieve zeespiegelbewegingen weergeven. Bodemdaling is de optelsom van verschillende componenten (@fig-Bodemdalingscomponenten) en niet alle componenten hebben invloed op de zeespiegelmetingen. Dit komt omdat de stations diep gefundeerd staan en alleen beïnvloed worden door bodemdaling in de lagen onder de fundering. Maaivelddaling door bijvoorbeeld veenoxidatie heeft dus geen inlvoed op de zeespiegelmetingen, maar diepere bodemdaling door geologische processen of gaswinning wel. In @tbl-bodemdalingscomponenten_uitleg worden de verschillende componenten nader omschreven.
 
 ![Lagen van de bodem en componenten van bodemdaling langs de Nederlandse kust. De zwarte lijnen geven de verschillende ondergrondlagen aan, de blauwgroene lijnen de bodemdalingscomponenten.](images/Bodemdalingscomponenten.png){#fig-Bodemdalingscomponenten}
