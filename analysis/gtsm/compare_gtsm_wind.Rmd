@@ -1,7 +1,7 @@
 ---
 date: "2024-09-12"
 params:
-  monitoryear: 2025
+  monitoryear: 2026
 output:
   github_document:
   html_document:
@@ -69,7 +69,9 @@ list.files("../../data/knmi/metingen")
 kooy_raw = read_delim("../../data/knmi/metingen/etmgeg_235.txt", comment = "#", trim_ws = T)
 
 # uurgemiddelden voor gebruik in windrozen
-kooy_uur_raw = read_delim("../../data/knmi/metingen/dekooy_uurgeg_wind.txt", comment = "#", trim_ws = T) %>%
+
+
+kooy_uur_raw <- rsealevel::read_knmi_hourly("../../data/knmi/metingen/uurgeg_235_2021-2030.txt") %>%
   rename(
     DDVEC = DD,
     FHVEC = FH
@@ -86,7 +88,9 @@ kooy = kooy_raw %>%
    rad = 2*pi - metrad - pi/2,
    rad = ifelse(rad >= 2*pi, rad - 2*pi, rad)
          ) %>%
-  filter(year < params$monitoryear) %>%
+  filter(
+    year < params$monitoryear
+    ) %>%
   group_by(year, STN) %>%
   summarise(
     windspeed = mean(windspeed),
@@ -116,7 +120,11 @@ kooy_raw_last_4_years = kooy_uur_raw %>%
     spd = as.numeric(FHVEC) / 10,
     dir = as.numeric(DDVEC)
   ) %>%
-  filter(year %in% yearsToPlot) %>%
+  filter(
+    year %in% yearsToPlot,
+    dir != 990,
+    !is.na(spd)
+  ) %>%
   select(year, spd, dir) %>%
   group_by(year) %>%
   nest()
