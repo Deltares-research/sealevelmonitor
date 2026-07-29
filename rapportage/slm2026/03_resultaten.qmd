@@ -34,7 +34,7 @@ Bij de meeste stations is de totale bodemdaling dus gelijk aan de geologische bo
 |Den Helder|0.47 (0.43-0.51|0|0.47 (0.43-0.51)|???|???|
 |Harlingen|0.51 (0.46-0.57)|0.20 (0.15-0.25)|0.71 (0.64-0.78)|???|???|
 |Delfzijl|0.38 (0.34-0.45)|3.95 (2.96-4.94)|0.38 (0.34-0.45)|???|???|
-: Uitsplitsing bodemdaling [op basis van @Hijma2025b and @Hijma2026] en zeespiegelstijging per station (dit rapport). Geologische bodemdaling is constant op tijdschalen van eeuwen, de dalingssnelheid door winning is berekend voor de periode 1996-2025. De totale bodemdaling bij Hoek van Holland is inclusief daling door winning, bij Delfzijl exclusief daling door winning (zie tekst). De gemiddelde relatieve zeespiegelstijging is gemeten over de periode xxx (gebroken lineair model). Het 66%-betrouwbaarheidsinterval staat tussen haakjes vermeld.{#tbl-bodemdalingscomponenten}
+: Uitsplitsing bodemdaling [op basis van @Hijma2025b and @Hijma2026] en zeespiegelstijging per station (dit rapport). Geologische bodemdaling is constant op tijdschalen van eeuwen, de dalingssnelheid door winning is berekend voor de periode 1996-2025. De totale bodemdaling bij Hoek van Holland is inclusief daling door winning, bij Delfzijl exclusief daling door winning (zie tekst). De gemiddelde relatieve zeespiegelstijging is gemeten over de periode xxx (gebroken lineair model). Het 66%-betrouwbaarheidsinterval staat tussen haakjes vermeld. {#tbl-bodemdalingscomponenten}
 
 ## Vergelijking met scenarios (KNMI)
 
