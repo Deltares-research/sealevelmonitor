@@ -5,6 +5,7 @@ execute:
   echo: false
   warning: false
   message: false
+  freeze: auto
 
 book:
   # title: "Zeespiegelmonitor 2026"
@@ -43,16 +44,16 @@ format:
   html:
     theme: cosmo
     css: styles.css
-  pdf:
-    # documentclass: scrreprt
-    template: deltares-report-template.tex
-    # extra_dependencies: ["flafter"]
-    include-in-header:
-      - preamble.tex
-    latex_engine: pdflatex
-    keep_tex: true
-    # biblio-config: false
-    cite-method: natbib   # natbib
+  # pdf:
+  #   # documentclass: scrreprt
+  #   template: deltares-report-template.tex
+  #   # extra_dependencies: ["flafter"]
+  #   include-in-header:
+  #     - preamble.tex
+  #   latex_engine: pdflatex
+  #   keep_tex: true
+  #   # biblio-config: false
+  #   cite-method: natbib   # natbib
 
 
 filters:
