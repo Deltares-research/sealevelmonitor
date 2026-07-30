@@ -22,8 +22,6 @@ Sea level analysis of the six main tide stations in the Netherlands is presented
 
 Sea Level Monitor [document](https://github.com/Deltares-research/sealevelmonitor/blob/main/analysis/sealevelmonitor/sealevelmonitor.md) presents the results for an average of the Dutch stations, using the preferred model (from Sea Level Analysis)
 
-
-
 ## Data
 
 The folder 
