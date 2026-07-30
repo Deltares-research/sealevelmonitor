@@ -1,0 +1,332 @@
+[
+  {
+    "objectID": "index.html",
+    "href": "index.html",
+    "title": "Preface",
+    "section": "",
+    "text": "Preface",
+    "crumbs": [
+      "Preface"
+    ]
+  },
+  {
+    "objectID": "index.html#lijst-met-afkortingen",
+    "href": "index.html#lijst-met-afkortingen",
+    "title": "Preface",
+    "section": "Lijst met afkortingen",
+    "text": "Lijst met afkortingen\n\n20CR\n\n20th Century (Climate) Reanalysis\n\nAGRS\n\nActief GNSS Referentie Systeem\n\nAHN\n\nActueel Hoogtebestand Nederland\n\nAIC\n\nAkaike Informatie Criterium, (een maat voor de goodness-of-fit van een model)\n\nAMO\n\nAtlantic Multidecadal Oscillation\n\nAR\n\nAutoregressie\n\nAR5\n\nFifth Assessment Report IPCC\n\nAVISO\n\nArchiving, Validation and Interpretation of Satellite Oceanographic data\n\nArgo\n\nArgo, vernoemd naar schip uit de Griekse mythologie\n\nBGT\n\nBasisregistratie Grootschalige Topografie\n\nBKL\n\nBasis KustLijn\n\nBMA\n\nBayesian Model Averaging\n\nBRK\n\nBasisregistratie Kadaster\n\nCBS\n\nCentraal Bureau voor de Statistiek\n\nCIV\n\nCentrale Informatievoorziening\n\nCPB\n\nCentraal Plan Bureau\n\nCSIRO\n\nCommonwealth Scientific and Industrial Research Organisation\n\nDCSM\n\nDutch Continental Shelf Model\n\nDG\n\nDirectoraat-generaal\n\nDNM\n\nDigitale Niveau Meter\n\nECCO\n\nEstimating the Circulation and Climate of the Ocean\n\nEGM2008\n\nEarth Gravitational Model 2008\n\nEGM96\n\nEarth Gravitational Model 1996\n\nENSO\n\nEl Niño–Southern Oscillation\n\nENW\n\nExpertisenetwerk Waterveiligheid\n\nERSST\n\nExtended Reconstructed Sea Surface Temperature\n\nETRS89\n\nEuropean Terrestrial Reference System 1989\n\nEZK\n\nMinisterie van Economische Zaken en Klimaat\n\nGAM\n\nGeneralized Additive Model\n\nGIA\n\nGlacial Isostatic Adjustment, postglaciale opheffing\n\nGLM\n\nGeneralized Linear Model\n\nGLOSSIS\n\nGlobal Storm Surge Forecasting and Information System\n\nGMSL\n\nGlobal Mean Sea Level, globaal gemiddeld zeeniveau\n\nGNSS\n\nGlobal Navigation Satellite System\n\nGODAS\n\nGlobal Ocean Data Assimilation System\n\nGPS\n\nGlobal Positioning System\n\nGRACE\n\nGravity Recovery and Climate Experiment\n\nGRACE-FO\n\nGravity Recovery and Climate Experiment Follow-on\n\nGTSM\n\nGlobal Tidal Surge Model\n\nGTSR\n\nGlobal Tidal Surge Reanalysis\n\nHAC\n\nHeteroskedasticity and Autocorrelation Consistent\n\nHHNK\n\nHoogheemraadschap Hollands Noorderkwartier\n\nHKV\n\nHKV lijn in water\n\nIB\n\nInverse Barometer\n\nIHM\n\nInformatieHuis Marien\n\nIHO\n\nInternational Hydrographic Organization\n\nIHW\n\nInformatieHuis Water\n\nIOOS\n\nIntegrated Ocean Observing System\n\nIPCC\n\nIntergovernmental Panel on Climate Change\n\nIV\n\nInformatie Voorziening\n\nIaaS\n\nInfrastructure as a Service\n\nIenW\n\nMinisterie van Infrastructuur en Water\n\nJASON\n\nJoint Altimetry Satellite Oceanography Network\n\nK1\n\nLunar diurnal constituent\n\nKNMI\n\nKoninklijk Nederlands Meteorologisch Instituut\n\nKPP\n\nKennis voor Primaire Processen\n\nL2\n\nSmaller lunar elliptic semidiurnal constituent\n\nLAT\n\nLowest Astronomical Tide\n\nLMW\n\nLandelijk Meetnet Water\n\nLOESS\n\nLOcal regrESSion (a later generalization of LOWESS)\n\nLOWESS\n\nLocally weighted scatterplot smoothing\n\nLSTM\n\nLong Short-Term Memory\n\nM2\n\nPrincipal lunar semidiurnal constituent\n\nM4\n\nShallow water overtides of principal lunar constituent\n\nMAP\n\nMaximum A Posteriori\n\nMCMC\n\nMarkov chain Monte Carlo\n\nMDN\n\nMixture density networks\n\nMLLW\n\nMean Lower Low Water. The average of the lower low water height of each tidal day observed over the National Tidal Datum Epoch. https://tidesandcurrents.noaa.gov/datum_options.html\n\nMLW\n\nMean Low Water. The average of all the low water heights observed over the National Tidal Datum Epoch. https://tidesandcurrents.noaa.gov/datum_options.html\n\nMN4\n\nShallow water quarter diurnal constituent\n\nMS4\n\nShallow water quarter diurnal constituent\n\nMSL\n\nMean Sea Level\n\nMSLA\n\nMonthly mean climatology maps of Sea Level Anomalies\n\nMU2\n\nVariational constituent\n\nMWP\n\nMeltwater Pulse\n\nMorphAn\n\nMorphological Analysis\n\nN2\n\nLarger lunar elliptic semidiurnal constituent\n\nNAO\n\nNorth Atlantic Oscillation\n\nNAP\n\nNormaal Amsterdams Peil\n\nNASA\n\nNational Aeronautics and Space Administration\n\nNCAR\n\nNational Center for Atmospheric Research\n\nNCEP\n\nNational Centers for Environmental Prediction\n\nNCEP1\n\nNational Centers for Environmental Prediction\n\nNCG\n\nNederlands Centrum voor Geodesie en Geo-informatica\n\nNLGEO2004\n\nNederlands Geoïdemodel 2004\n\nNOAA\n\nNational Oceanic and Atmospheric Administration\n\nNWP\n\nNationaal Water Plan\n\nO1\n\nLunar diurnal constituent\n\nOGC\n\nOpen Geospatial Consortium\n\nPBL\n\nPlanbureau voor de Leefomgeving\n\nPGB\n\nPostglaciale bodembeweging\n\nPSMSL\n\nPermanent Service for Mean Sea Level\n\nPVDA\n\nPartij van de Arbeid\n\nPaaS\n\nPlatform as a Service\n\nRCP\n\nRepresentative Concentration Pathway\n\nRD\n\nRijksdriehoeksstelsel\n\nRLR\n\nRevised Local Reference\n\nRMS\n\nRoot Mean Square\n\nROFI\n\nRegion Of Freshwater Influence\n\nRWS\n\nRijkswaterstaat\n\nS2\n\nPrincipal solar semidiurnal constituent\n\nSLF\n\nSea Level Fingerprint\n\nSLR\n\nSea Level Rise\n\nSTL\n\nSeasonal Decomposition of Time Series by Loess\n\nSaaS\n\nSoftware as a Service\n\nTGBM\n\nTide Gauge Benchmark\n\nTNO\n\nNederlandse Organisatie voor Toegepast Natuurwetenschappelijk Onderzoek\n\nWBI\n\nWettelijke BeoordelingsInstrumentarium\n\nWCRP\n\nWorld Climate Research Programme\n\nWGS84\n\nWorld Geodetic System 1984",
+    "crumbs": [
+      "Preface"
+    ]
+  },
+  {
+    "objectID": "samenvatting.html",
+    "href": "samenvatting.html",
+    "title": "1  Samenvatting",
+    "section": "",
+    "text": "De Zeespiegelmonitor rapporteert eens in de vier jaar over de Nederlandse staat en trend van de zeespiegel. Ook wordt de stand van de wetenschap toegelicht, alsook de onderzoeken die binnen de Zeespiegelmonitor zijn gedaan.\n…. meer later…",
+    "crumbs": [
+      "<span class='chapter-number'>1</span>  <span class='chapter-title'>Samenvatting</span>"
+    ]
+  },
+  {
+    "objectID": "01_inleiding.html",
+    "href": "01_inleiding.html",
+    "title": "2  Inleiding",
+    "section": "",
+    "text": "2.1 Doel\nDit rapport beschrijft de lange-termijn ontwikkeling van de hoogte van de gemiddelde zeespiegel langs de Nederlandse kust gebaseerd op metingen op zes hoofdstations. Dit gebeurt volgens een methodiek die is ontwikkeld in dienst van het Nederlandse kustbeleid. De hoeveelheid zandsuppleties die nodig is om de Nederlandse kust te handhaven is namelijk afhankelijk van de opgetreden relatieve zeespiegelstijging (de stijging ten opzichte van een land dat ook bodemdaling kent) op een tijdschaal van ca 15 jaar. De ontwikkelde methodiek bepaalt de gemiddelde zeespiegelstijging door filtering van korte-termijn fluctuaties (veroorzaakt door golven, getij, windopzet etc.) uit historische data. De schatting van de recente gemiddelde zeespiegelstijging wordt als indicatie gebruikt voor de verwachte zeespiegelstijging in de nabije toekomst1. In het syntheserapport van Kustgenese 2.0 is uitgebreid uiteengezet hoe het benodigde zandvolume wordt vastgesteld.\nHet zand is nodig om invulling te geven aan het kustonderhoudsdoel dat we meegroeien met de zeespiegel. Omdat het gaat om een aanvulling wordt de hoeveelheid zand die hiervoor nodig is achteraf bepaald. Om die reden beschouwen we in deze rapportage de opgetreden zeespiegel tot nu toe. Voor budgetplanning en signalering is ook de zeespiegel in de nabije toekomst van belang.\nBehalve voor de bepaling van de jaarlijkse suppletiehoeveelheid is de opgetreden zeespiegelstijging van belang voor de vergunningen rondom zout- en gaswinning in het Waddengebied en voor ontwerpparameters van waterkeringen. Dit uiteraard naast algemenere doeleinden, waaronder het informeren van het publiek. Een overzicht van de indicatoren en toepassingen staat in bijlage @ref(toepassingen) . Voor een deel van deze indicatoren wordt gebruik gemaakt van zeespiegelprojecties.\nIn de vorige rapportages 2014, 2018 en 2022 zijn overzichten te vinden van eerder onderzoek en hoe deze tot keuzes in de methodiek leidden. De rapportage 2018 doet ook verslag van onderzoek om tot nauwkeuriger waarden voor de zeespiegel te komen. Het rapport geeft ook aanbevelingen aangaande de aansluiting van metingen en projecties en versterken van de reproduceerbaarheid.\nDe methode die is gebruikt voor de bepaling van de zeespiegel en stijging ervan staat in hoofdstuk @ref(methodiek). De waarden worden elk jaar geactualiseerd in de online zeespiegelmonitor.\nVoorliggend rapport heeft ook als doel een verslag te geven van het onderzoek dat in de afgelopen jaren is gedaan. De keuzes in dat onderzoek volgen uit de vooraf opgestelde onderzoeksagenda. In paragraaf @ref(onderzoeksvragen) staat een overzicht. Een aantal onderzoeken zijn ook als aparte memo’s of rapporten gepresenteerd. Dit staat aangegeven in het overzicht.",
+    "crumbs": [
+      "<span class='chapter-number'>2</span>  <span class='chapter-title'>Inleiding</span>"
+    ]
+  },
+  {
+    "objectID": "01_inleiding.html#onderzoeksvragen",
+    "href": "01_inleiding.html#onderzoeksvragen",
+    "title": "2  Inleiding",
+    "section": "2.2 Onderzoeksvragen",
+    "text": "2.2 Onderzoeksvragen\nDit rapport heeft als doel om een overzicht te geven van het werk dat in de afgelopen jaren is gedaan in het kader van het onderzoek Kustbeleid. Vanaf 2018 is er richting gegeven aan dit onderzoek vanuit een met de opdrachtgevers afgestemde onderzoeksagenda. Deze agenda is in 2023 vastgesteld voor de periode 2023 - 2025. In dit rapport worden deze centrale vraagstellingen beantwoord.\nJaarlijkse zeespiegelmonitor\n\nWat is de huidige stijging van de zeespiegel? Wat zijn de laatste ontwikkelingen op het gebied van de toestand van de globale en lokale zeespiegel?\n\nDeze vraag wordt beantwoord in paragraaf @ref(huidige).",
+    "crumbs": [
+      "<span class='chapter-number'>2</span>  <span class='chapter-title'>Inleiding</span>"
+    ]
+  },
+  {
+    "objectID": "01_inleiding.html#toepassingen",
+    "href": "01_inleiding.html#toepassingen",
+    "title": "2  Inleiding",
+    "section": "2.3 Toepassingen",
+    "text": "2.3 Toepassingen",
+    "crumbs": [
+      "<span class='chapter-number'>2</span>  <span class='chapter-title'>Inleiding</span>"
+    ]
+  },
+  {
+    "objectID": "01_inleiding.html#onderzoeksvragen-afgelopen-periode",
+    "href": "01_inleiding.html#onderzoeksvragen-afgelopen-periode",
+    "title": "2  Inleiding",
+    "section": "2.4 Onderzoeksvragen afgelopen periode",
+    "text": "2.4 Onderzoeksvragen afgelopen periode",
+    "crumbs": [
+      "<span class='chapter-number'>2</span>  <span class='chapter-title'>Inleiding</span>"
+    ]
+  },
+  {
+    "objectID": "01_inleiding.html#stand-van-zaken-in-de-literatuur",
+    "href": "01_inleiding.html#stand-van-zaken-in-de-literatuur",
+    "title": "2  Inleiding",
+    "section": "2.5 Stand van zaken in de literatuur",
+    "text": "2.5 Stand van zaken in de literatuur\ntest",
+    "crumbs": [
+      "<span class='chapter-number'>2</span>  <span class='chapter-title'>Inleiding</span>"
+    ]
+  },
+  {
+    "objectID": "01_inleiding.html#footnotes",
+    "href": "01_inleiding.html#footnotes",
+    "title": "2  Inleiding",
+    "section": "",
+    "text": "Zie voor nadere uitwerking @Dillingh2010↩︎",
+    "crumbs": [
+      "<span class='chapter-number'>2</span>  <span class='chapter-title'>Inleiding</span>"
+    ]
+  },
+  {
+    "objectID": "02_methodiek.html",
+    "href": "02_methodiek.html",
+    "title": "3  Methodiek",
+    "section": "",
+    "text": "3.1 Afwegingen\nIn hoofdstuk Chapter 2 wordt uitgelegd dat er een ‘huidige zeespiegel’ nodig is, onder andere om de suppletiebehoefte te bepalen. Huidig is in de context van deze toepassing eigenlijk geen tijdspunt, maar een tijdsspanne. Het gaat niet om de zeespiegel vandaag, maar om de zeespiegel van enkele jaren terug tot nu.\nIn de bijlage @ref(metingen) wordt uitgelegd hoe de metingen precies tot stand komen.\nBij het selecteren van de methode worden er diverse afwegingen gemaakt, waarbij we gebruik maken van onderstaande criteria. Dit hoofdstuk geeft een overzicht van de belangrijkste modelkeuzes en de bijbehorende onderbouwing. Uitgangspunt voor de afwegingen is het bepalen van een goede maat voor de huidige zeespiegelstijging ten behoeve van het suppletieprogramma en de suppletiebehoefte.\nStabiliteit - de gebruikte methodiek moet niet van jaar tot jaar te veel variëren.\nSpaarzaamheid - parcimonie: principe dat de eenvoudigste van twee ongeveer even plausibele verklaringen voor hetzelfde fenomeen de voorkeur heeft\nRobuustheid - trend moet niet te veel afhangen van modelkeuzes\nVoorspelkracht - toepassing van model in het verleden moet een goede hindcast opleveren voor een voorspelhorizon die vergelijkbaar is met de lengte van de gewenste periode (10-15 jaar)\nBehoudend - methode moet temporeel aansluiten oftewel over de gehele periode met metingen toepasbaar zijn zonder onderbreking of verspringing.\nGeneraliseerbaarheid - methode moet ook werken bij andere stations dan in Nederland\nPower - als er een verandering is moet de methode dat snel detecteren\nFysisch verklaarbaar - de gekozen formulering moet verklaarbaar zijn vanuit fysisch oogpunt",
+    "crumbs": [
+      "<span class='chapter-number'>3</span>  <span class='chapter-title'>Methodiek</span>"
+    ]
+  },
+  {
+    "objectID": "02_methodiek.html#algemene-methodiek",
+    "href": "02_methodiek.html#algemene-methodiek",
+    "title": "3  Methodiek",
+    "section": "3.2 Algemene methodiek",
+    "text": "3.2 Algemene methodiek\nIn dit onderzoek maken we gebruik van een Generalized Linear Model (GLM), een gegeneralizeerde vorm van een lineair regressiemodel. Vooral omdat de variatie goed verklaard wordt (Watson 2016). We gaan er vanuit dat de zeespiegel sneller aan het stijgen is of binnenkort sneller gaat stijgen dan in het verleden (ruwweg de twintigste eeuw)1. Dit heeft implicaties voor de verwachte zeespiegel en zeespiegelstijging. Daarom maken we gebruik van schattingen van de versnelling, zie @ref(versnelling-methods). Merk op dat een lineair model niet impliceert dat de zeespiegelstijging een rechte lijn moet volgen. Ook polynome, sinusoïde, exponentiële en loglineaire modellen vallen onder de GLM familie.",
+    "crumbs": [
+      "<span class='chapter-number'>3</span>  <span class='chapter-title'>Methodiek</span>"
+    ]
+  },
+  {
+    "objectID": "02_methodiek.html#bronnen",
+    "href": "02_methodiek.html#bronnen",
+    "title": "3  Methodiek",
+    "section": "3.3 Meetgegevens",
+    "text": "3.3 Meetgegevens\nIn dit onderzoek maken we gebruik van gegevens voor de 6 zogenaamde hoofdstations Vlissingen, Hoek van Holland, IJmuiden, Den Helder, Harlingen en Delfzijl. Deze kuststations leveren sinds 1890, toen het Normaal Amsterdams Peil (NAP) overal was doorgevoerd, betrouwbare metingen. Gegevens worden betrokken uit de Permanent Service for Mean Sea Level (PSMSL) database. Rijkswaterstaat draagt zorg voor de aanlevering van gegevens aan PSMSL.\nDe overige stations waarvan gegevens in PSMSL opvraagbaar zijn worden niet gebruikt. Het station van West-Terschelling (1921) wordt buiten beschouwing gelaten omdat het in de buurt ligt van Den Helder en Harlingen. Het station van Maassluis (1848) ligt kustinwaarts ten opzichte van Hoek van Holland en kan afgesloten worden door de Maeslantkering. Daardoor is de waterstand niet meer gelijk aan die van de open zee. Het station Roompot Buiten heeft een relatief korte historie (jaargemiddelden beschikbaar sinds 1982) en overlapt met Vlissingen. Roompot Buiten heeft wel een belangrijke functie in de operationele toepassing, waarin Roompot Buiten wel en IJmuiden niet als een hoofdstation wordt gezien. Roompot Buiten is in de Zeespiegelmonitor niet meegenomen als hoofdstation.\nWe maken geen onderscheid naar in welke mate de stations zijn beïnvloed door de diverse ingrepen aan de Nederlandse kust. Er hebben diverse kleinere en grotere ingrepen plaatsgevonden die invloed hebben op de metingen. Denk hierbij aan de aanleg van de Afsluitdijk, de aanleg van de Deltawerken, sinds de jaren 1990 het dynamisch kustbeheer en vooral de diverse lokale aanpassingen binnen de havens. Hoewel bekend is dat deze ingrepen over kortere of langere tijd een effect hebben op de waterstand (Becker2009?) hebben ontbreekt op dit moment de kennis om hier op een kwantitatieve manier voor te corrigeren. Wel is het zo dat door het middelen van waterstanden gemeten bij de hoofdstations een deel van deze effekten uitgemiddeld zullen worden.\nSinds de vorige Zeespiegelmonitor is aangenomen dat de waarden bij Station Delfzijl onzeker zijn doordat de vertikale positie de laatste 10-15 jaar niet correct is doorgevoerd (Honingh, Leenders, and Strijker 2021). Rijkswaterstaat heeft begin 2022 geconstateerd dat een inhaalslag nodig is voor de verticale correctie van de waterstandsmetingen bij Delfzijl. Deze correctie is bij het schrijven van dit rapport wel herberekend maar nog niet via de geijkte manieren (WADAR, PSMSL) gepubliceerd. Daarom berekenen we de zeespiegel en -stijging op basis van het gemiddelde van alleen de 5 andere hoofdstations.",
+    "crumbs": [
+      "<span class='chapter-number'>3</span>  <span class='chapter-title'>Methodiek</span>"
+    ]
+  },
+  {
+    "objectID": "02_methodiek.html#sec-metingen-en-recente-correcties",
+    "href": "02_methodiek.html#sec-metingen-en-recente-correcties",
+    "title": "3  Methodiek",
+    "section": "3.4 Metingen en recente correcties",
+    "text": "3.4 Metingen en recente correcties\nVoor de Zeespiegelmonitor worden jaargemiddelden gebruikt die beschikbaar zijn in PSMSL. Deze gegevens worden door Rijkswaterstaat (RWS) jaarlijks berekend en aan PSMSL aangeleverd. Voorafgaand aan de berekening van gemiddelden worden de meetgegevens gecontroleerd, en waar nodig aangevuld of gecorrigeerd (Honingh, Leenders, and Strijker (2021)).\nRecent heeft een extra controle en correctie plaatsgevonden voor de getijdemetingen. Dit betreft 2 typen correcties:\n\nherberekening van gemiddelden op basis van 10-minutenreeksen (dit werd tot nu toe gedaan op basis van uurgegevens)\nHerberekening van NAP referentiewaarden voor station Delfzijl\n\nDe maand- en jaargemiddelden zijn op dit moment (februari 2026) preliminair uitgerekend, maar zijn nog niet aangeleverd aan {PSMSL}.\n consequenties voor zeespiegel, zss en keuze stations uitleggen (maar pas toepassen als gegevens in PSMSL staan)",
+    "crumbs": [
+      "<span class='chapter-number'>3</span>  <span class='chapter-title'>Methodiek</span>"
+    ]
+  },
+  {
+    "objectID": "02_methodiek.html#uitleg-relatieve-zeespiegelstijging-aan-de-hand-van-infographic",
+    "href": "02_methodiek.html#uitleg-relatieve-zeespiegelstijging-aan-de-hand-van-infographic",
+    "title": "3  Methodiek",
+    "section": "3.5 Uitleg relatieve zeespiegelstijging (aan de hand van infographic)",
+    "text": "3.5 Uitleg relatieve zeespiegelstijging (aan de hand van infographic)",
+    "crumbs": [
+      "<span class='chapter-number'>3</span>  <span class='chapter-title'>Methodiek</span>"
+    ]
+  },
+  {
+    "objectID": "02_methodiek.html#uitleg-gnss-stations",
+    "href": "02_methodiek.html#uitleg-gnss-stations",
+    "title": "3  Methodiek",
+    "section": "3.6 Uitleg GNSS stations",
+    "text": "3.6 Uitleg GNSS stations",
+    "crumbs": [
+      "<span class='chapter-number'>3</span>  <span class='chapter-title'>Methodiek</span>"
+    ]
+  },
+  {
+    "objectID": "02_methodiek.html#sec-windopzet",
+    "href": "02_methodiek.html#sec-windopzet",
+    "title": "3  Methodiek",
+    "section": "3.7 Windopzet",
+    "text": "3.7 Windopzet\nEen van de factoren die de zeespiegelhoogte beïnvloeden is windopzet. De jaarlijks gemiddelde windopzet wordt berekend met het Global Tidal Surge Model (GTSM). Modelresultaten voor windopzet (surge) uit GTSM runs worden geselecteerd per hoofdstation. Deze worden daarna gemiddeld per maand voor elk hoofdstation en tijdelijk opgeslagen voor later gebruik in de Zeespiegelmonitor (zie dit rekendocument).\nDe windopzet wordt berekend voor de periode 1950 - heden. De maandelijkse gemiddelden variëren over de jaren, maar in de winter is de windopzet over het algemeen hoger dan in de zomer.\n\n\n\n\n\nMaandgemiddelde windopzet voor alle jaren over de periode 1950 - 2024. Zie tekst voor meer uitleg.\n\n\n\n\nDe correctie voor windopzet wordt als volgt berekend:\n\nWindopzet wordt gemiddeld per jaar en station\nJaargemiddelde windopzet wordt getransformeerd tot jaarlijkse afwijking (opzetanomalie) van het gemiddelde\nDe opzetanomalie per jaar en station wordt afgetrokken van de zeespiegelhoogte om tot de gecorrigeerde zeespiegel te komen\n\nVoor het gemiddelde over Nederland worden de gecorrigeerde zeespiegelwaarden gemiddeld over de stations.\nDe huidige versie van GTSM die gebruikt wordt voor berekening van windopzet voor de Zeespiegelmonitor wordt aangestuurd door een waterpeil inclusief een stijging. De zeespiegelstijging die is toegepast is afgeleid van SLR-projecties in Fifth Assessment Report IPCC (AR5) van Intergovernmental Panel on Climate Change (IPCC). Deze wijken waarschijnlijk af van de daadwerkelijk waargenomen zeespiegelstijging. Het is daarom belangrijk om te weten of de gebruikte stijging invloed heeft op de berekende windopzet aan de Nederlandse kust. Dit is gecontroleerd door de GTSM-ERA5 modelopstelling voor 2023 te draaien, zodat modelresultaten zowel met als zonder Sea Level Rise (SLR) (totaal waterpeil en alleen getijdenruns) worden getoond. Deze resultaten zijn vergeleken (zoals te zien in dit rekendocument.\nUit deze resultaten kan worden geconcludeerd:\n\nSLR in 2023, die in onze modelruns is opgenomen, is ~0,1 m. !! Ten opzichte van welk jaar? !!\nDit niveau van SLR heeft geen significant effect op de gemiddelde windopzet. Het verschil dat het model veroorzaakt is verwaarloosbaar (minder dan 1 mm).\nOp enkele locaties diep in de Waddenzee is er enig verschil in windopzet tussen de twee runs, maar dit zijn locaties in relatief afgesloten gebieden in ondiep water. Het verschil blijft beperkt tot enkele millimeters ().\n\n\n\n\n\n\nGemiddelde windopzet op de zeespiegel voor 2023 inclusief zeespiegelstijging zoals gedefinieerd in GTSM (linker figuur) en het verschil in windopzet tussen modelruns met en zonder zeespiegelstijging (rechter figuur). Voor verder uitleg zie de tekst.\n\n\n\n\nHieruit concluderen we dat de windopzet uit GTSM inclusief zeespiegelstijging, die we op dit moment gebruiken voor de Zeespiegelmonitor, niet wordt beïnvloed door de gebruikte zeespiegelprojectie. Het verdient wel aanbeveling om in de toekomst GTSM ook zonder SLR en/of met de gemeten /acr{SLR} te laten rekenen.",
+    "crumbs": [
+      "<span class='chapter-number'>3</span>  <span class='chapter-title'>Methodiek</span>"
+    ]
+  },
+  {
+    "objectID": "02_methodiek.html#getij",
+    "href": "02_methodiek.html#getij",
+    "title": "3  Methodiek",
+    "section": "3.8 Getij",
+    "text": "3.8 Getij\nNaast windopzet zorgt ook het getij, met name de nodale cyclus, voor een variatie in de zeespiegel over de jaren (Baart2012?). Daarom wordt de variatie door de nodale cyclus meegenomen als gelinearizeerde amplitude en fase, in de vorm van een u en v component (vergelijking (2.2)). Het is ook mogelijk om het equilibrium getij (Fedor Baart, van Gelder, et al. 2012) op te leggen. Het equilibrium getij is het getij dat zou optreden zonder invloed van land of ondiepte op de propagatie van de getijgolf. In Nederland en op veel andere plaatsen is de amplitude en fase van het in de regressie meegenomen nodaal getij niet hetzelfde als het equilibrium getij. Er is lange tijd discussie geweest over welk getij het meest geschikt is om mee te rekenen in langjarige analyses (Woodworth vs Baart). Recent is aangetoond dat het waargenomen nodaal getij aan de Nederlandse kust verklaarbaar beïnvloed wordt door modulatie van de M2 getijgolf in de Noordzee (Lebars et al., ). Dit brengt de twee denkbeelden dichter bij elkaar. Het lijkt er hierbij op dat de in de regressie geschatte nodale cyclus min of meer precies beantwoord aan het beeld van een gemoduleerd M2 getij.",
+    "crumbs": [
+      "<span class='chapter-number'>3</span>  <span class='chapter-title'>Methodiek</span>"
+    ]
+  },
+  {
+    "objectID": "02_methodiek.html#rekenmethode-voor-de-bepaling-van-de-huidige-zeespiegelstijging",
+    "href": "02_methodiek.html#rekenmethode-voor-de-bepaling-van-de-huidige-zeespiegelstijging",
+    "title": "3  Methodiek",
+    "section": "3.9 Rekenmethode voor de bepaling van de huidige zeespiegelstijging",
+    "text": "3.9 Rekenmethode voor de bepaling van de huidige zeespiegelstijging\nDe stijging van de zeespiegel wordt wiskundig beschreven met een model, waaruit we de meest waarschijnlijk stijging berekenen over de gewenste periode (laatste 15 jaar). De keuze van het model dient ook te voldoen aan de gestelde criteria (#afwegingen). De keus aan modellen die getest worden is over de jaren langzaam uitgebreid. In @Dillingh2010 werd een kwadratische term toegevoegd aan het initiële lineaire model, om een versnelling al dan niet te accepteren. Er was toen alleen voor station Den Helder een significante toename van de zeespiegestijging met het gebruikte model. In de Zeespiegelmonitor 2014 (@Baart2014a) is daarom alleen het lineaire model toegepast, met een uitbreiding van een LOESS term om het model beter te laten aansluiten bij projecties. In de Zeespiegel 2018 (@Baart2019) is opnieuw de kwadratische term als toevoeging op het lineaire model getest, samen met een trendbreuk model (gebroken lineair model) waarbij het breekpunt in 1993 gekozen werd. De keuze voor 1993 was gemotiveerd door:\n\n1993 is het startjaar van satellietmetingen. Door de breuk in 1993 te leggen wordt de trend ook berekend vanaf dit jaar, wat vergelijking met satellietmetingen vergemakkelijkt. Tevens wordt de aansluiting met gegevens van vóór 1993 behouden.\nRond 1993 stond de zeespiegel vrij laag, deels door de uitbraak van de Pinatubo vulkaan. Gedeeltelijk daardoor laten latere analyses zien dat voor een gebroken lineair model dit het meest waarschijnlijke breekpunt is [@].",
+    "crumbs": [
+      "<span class='chapter-number'>3</span>  <span class='chapter-title'>Methodiek</span>"
+    ]
+  },
+  {
+    "objectID": "02_methodiek.html#altimetrie",
+    "href": "02_methodiek.html#altimetrie",
+    "title": "3  Methodiek",
+    "section": "3.10 Metingen van het zeeniveau met satellieten (altimetrie)",
+    "text": "3.10 Metingen van het zeeniveau met satellieten (altimetrie)\nuitleg, voordelen, nadelen, verschillen. Zie ook eerdere rapportages.\n\n3.10.1 Beschikbare satellieten en metingen\n\n\n3.10.2 Nieuwe satellieten\n\n\n3.10.3 Wanneer kan overgegaan worden op satellietmetingen\n\n\n\n\nHoningh, D, J Leenders, and B Strijker. 2021. “Werkwijze inmeten zeespiegelstand hoofdgetijdenstations.” Lelystad: HKV.\n\n\nWatson, Phil J. 2016. “Identifying the Best Performing Time Series Analytics for Sea Level Research.” In Time Series Analysis and Forecasting, 261–78. Springer.\n\n\nWoodworth, Philip L. 2012. “A note on the nodal tide in sea level records.” Journal of Coastal Research 28 (2): 316–23. https://doi.org/10.2112/JCOASTRES-D-11A-00023.1.",
+    "crumbs": [
+      "<span class='chapter-number'>3</span>  <span class='chapter-title'>Methodiek</span>"
+    ]
+  },
+  {
+    "objectID": "02_methodiek.html#footnotes",
+    "href": "02_methodiek.html#footnotes",
+    "title": "3  Methodiek",
+    "section": "",
+    "text": "Zie ook laatste IPCC rapport: https://www.ipcc.ch/report/ar6/wg1/chapter/chapter-9/↩︎",
+    "crumbs": [
+      "<span class='chapter-number'>3</span>  <span class='chapter-title'>Methodiek</span>"
+    ]
+  },
+  {
+    "objectID": "03_resultaten.html",
+    "href": "03_resultaten.html",
+    "title": "4  Resultaten",
+    "section": "",
+    "text": "4.1 Voorkeursmodel",
+    "crumbs": [
+      "<span class='chapter-number'>4</span>  <span class='chapter-title'>Resultaten</span>"
+    ]
+  },
+  {
+    "objectID": "03_resultaten.html#huidige",
+    "href": "03_resultaten.html#huidige",
+    "title": "4  Resultaten",
+    "section": "4.2 Huidige zeespiegel(stijging)",
+    "text": "4.2 Huidige zeespiegel(stijging)",
+    "crumbs": [
+      "<span class='chapter-number'>4</span>  <span class='chapter-title'>Resultaten</span>"
+    ]
+  },
+  {
+    "objectID": "03_resultaten.html#bodemdaling-en-zeespiegelstijging",
+    "href": "03_resultaten.html#bodemdaling-en-zeespiegelstijging",
+    "title": "4  Resultaten",
+    "section": "4.3 Bodemdaling en zeespiegelstijging",
+    "text": "4.3 Bodemdaling en zeespiegelstijging\nBij alle getijdenstations bestaat het gemeten relatieve zeespiegelstijgingssignaal voor een deel uit lange-termijn geologische bodemdaling (Hijma 2025b). Deze daling wordt hoofdzakelijk veroorzaakt door tektonische en glacio-isostatische bodemdaling en heeft dalingssnelheden die van zuid naar noord toenemen van circa 2 naar 5 cm/eeuw (Figure 4.1). De metingen worden hier niet voor gecorrigeerd en de via PSMSL beschikbare zeespiegeldata omvatten dus deze lange-termijn geologische bodemdalingscomponent.\n\n\n\n\n\n\nFigure 4.1: Geologische bodemdaling per 100 jaar (Hijma 2025b)\n\n\n\nEr zijn twee stations waar ook bodemdaling door gaswinning heeft plaatsgevonden, namelijk Hoek van Holland en Delfzijl. Bij Hoek van Holland gaat het om 1-2 cm in de laatste decennia en gaan we er vanuit dat deze daling in het zeespiegelsignaal zit. De verwachte daling door gaswinning in de komende decennia is minder dan 1 cm (Hijma, Bleichrodt, and Onselen 2026, verwacht). De daling bij Delfzijl is veel groter geweest en bedraagt ongeveer 30 cm sinds 1963. Voor Delfzijl weten we vrij zeker dat de bodemdaling sinds 1973 niet in de zeespiegeldata zit, maar dat de metingen gecorrigeerd worden (de Jong 1973, punt 5). Dit betekent dat de relatieve zeespiegelstijging bij Delfzijl eigenlijk sneller gaat dan in PSMSL gepubliceerd wordt, omdat de daling door gaswinning niet meegenomen wordt. Tussen de start van de gaswinning in Groningen in 1963 en 1973 daalde de bodem bij Delfzijl ongeveer 7 cm. Wij gaan er hier vanuit dat deze daling op dezelfde manier is behandeld als de daling na 1973, conform (de Jong 1973, punt 5), en dus niet in het zeespiegelsignaal zit. Door het dichtdraaien van de gaskraan is de daling bij het station sterk afgenomen en naar verwachting zal deze nog slechts enkele centimeters bedragen in de komende decennia (Hijma, Bleichrodt, and Onselen 2026, verwacht).\nIn de toekomst zal station Harlingen waarschijnlijk beïnvloed gaan worden door bodemdaling door zoutwinning. De winning is recent gestart in de Waddenzee ten westen van Harlingen en de bodemdalingsschotel lijkt Harlingen op termijn te gaan bereiken. Dit zal de komende 30 jaar tot meerdere centimeters bodemdaling leiden (Hijma 2025a; Hijma, Bleichrodt, and Onselen 2026, verwacht). De onzekerheid is echter groot en een kleine verschuiving in de vorm of positie van de schotel kan resulteren in geen extra bodemdaling of juist nog enkele centimeters meer. De extra bodemdaling wordt gelukkig gemonitord, waardoor een eventuele impact op de zeespiegelmetingen goed in beeld zal komen.\nBij de meeste stations is de totale bodemdaling dus gelijk aan de geologische bodemdaling, maar bij enkele stations is de totale bodemdaling een optelsom van de geologische bodemdaling en de daling door delfstofwinning. Table 4.1 geeft per station de verschillende bodemdalingscomponenten, de gemeten relatieve zeespiegelstijging en de afgeleide absolute zeespiegelstijging.\n\n\n\nTable 4.1: Uitsplitsing bodemdaling Hijma, Bleichrodt, and Onselen (2026, verwacht) en zeespiegelstijging per station (dit rapport). Geologische bodemdaling is constant op tijdschalen van eeuwen, de dalingssnelheid door winning is berekend voor de periode 1997-2026. De totale bodemdaling bij Hoek van Holland is inclusief daling door winning, bij Delfzijl exclusief daling door winning (zie tekst). De gemiddelde relatieve zeespiegelstijging is gemeten over de periode xxx (gebroken lineair model).\n\n\n\n\n\n\n\n\n\n\n\n\n\nstation\nGeologische bodemdaling (mm/jaar)\nDaling door winning (mm/jaar)\nTotale bodemdaling (mm/jaar)\nHuidige relatieve ZSS (mm/jaar)\nHuidige absolute ZSS (mm/jaar)\n\n\n\n\nVlissingen\n0.23\n0\n0.23\n???\n????\n\n\nHoek van Holland\n0.33\n0.2\n0.53\n???\n???\n\n\nIJmuiden\n0.42\n0\n0.42\n???\n???\n\n\nDen Helder\n0.48\n0\n0.48\n???\n???\n\n\nHarlingen\n0.37\n0\n0.37\n???\n???\n\n\nDelfzijl\n0.39\n4\n0.39\n???\n???",
+    "crumbs": [
+      "<span class='chapter-number'>4</span>  <span class='chapter-title'>Resultaten</span>"
+    ]
+  },
+  {
+    "objectID": "03_resultaten.html#vergelijking-met-scenarios-knmi",
+    "href": "03_resultaten.html#vergelijking-met-scenarios-knmi",
+    "title": "4  Resultaten",
+    "section": "4.4 Vergelijking met scenarios (KNMI)",
+    "text": "4.4 Vergelijking met scenarios (KNMI)",
+    "crumbs": [
+      "<span class='chapter-number'>4</span>  <span class='chapter-title'>Resultaten</span>"
+    ]
+  },
+  {
+    "objectID": "03_resultaten.html#vergelijking-met-zeespiegelbudgetten",
+    "href": "03_resultaten.html#vergelijking-met-zeespiegelbudgetten",
+    "title": "4  Resultaten",
+    "section": "4.5 Vergelijking met zeespiegelbudgetten",
+    "text": "4.5 Vergelijking met zeespiegelbudgetten",
+    "crumbs": [
+      "<span class='chapter-number'>4</span>  <span class='chapter-title'>Resultaten</span>"
+    ]
+  },
+  {
+    "objectID": "03_resultaten.html#variatie-binnen-nederland",
+    "href": "03_resultaten.html#variatie-binnen-nederland",
+    "title": "4  Resultaten",
+    "section": "4.6 Variatie binnen Nederland",
+    "text": "4.6 Variatie binnen Nederland",
+    "crumbs": [
+      "<span class='chapter-number'>4</span>  <span class='chapter-title'>Resultaten</span>"
+    ]
+  },
+  {
+    "objectID": "03_resultaten.html#vergelijking-met-satellietmetingen",
+    "href": "03_resultaten.html#vergelijking-met-satellietmetingen",
+    "title": "4  Resultaten",
+    "section": "4.7 Vergelijking? met satellietmetingen",
+    "text": "4.7 Vergelijking? met satellietmetingen\n\n\n\n\nde Jong, H. 1973. “Bodemdaling Veroorzaakt Door Aardgaswinningen in de Provincie Groningen.” Rijkswaterstaat.\n\n\nHijma, Marc. 2025a. “Bodemdalingsmonitor 2024 Geologische bodemdaling in het kustfundament - Bodemdaling bij Harlingen door zoutwinning op de Waddenzee.” 11210366-003-ZKS-0004. Deltares.\n\n\n———. 2025b. “Bodemdalingsmonitor 2025 Geologische bodemdaling in het kustfundament - Een actualisatie.” 11211567-003-ZKS-0001. Deltares.\n\n\nHijma, Marc, Juliëtte Bleichrodt, and Erik van Onselen. 2026, verwacht. “Bodemdalingsmonitor 2025 Geologische bodemdaling in het kustfundament - Actualisatie van de totale bodemdaling.” 11200538-008. Deltares.",
+    "crumbs": [
+      "<span class='chapter-number'>4</span>  <span class='chapter-title'>Resultaten</span>"
+    ]
+  },
+  {
+    "objectID": "04_discussie.html",
+    "href": "04_discussie.html",
+    "title": "5  Discussie",
+    "section": "",
+    "text": "5.1 Toepassingsbereik van de gebruikte methodiek",
+    "crumbs": [
+      "<span class='chapter-number'>5</span>  <span class='chapter-title'>Discussie</span>"
+    ]
+  },
+  {
+    "objectID": "04_discussie.html#zss-vergelijking",
+    "href": "04_discussie.html#zss-vergelijking",
+    "title": "5  Discussie",
+    "section": "5.2 Vergelijking met andere methoden om zeespiegelstijging vast te stellen",
+    "text": "5.2 Vergelijking met andere methoden om zeespiegelstijging vast te stellen\n(KNMI, Staatstoezicht op de mijnen, TNO, PBL)",
+    "crumbs": [
+      "<span class='chapter-number'>5</span>  <span class='chapter-title'>Discussie</span>"
+    ]
+  },
+  {
+    "objectID": "04_discussie.html#verschillen-binnen-nederland-verschillen-binnen-nederland",
+    "href": "04_discussie.html#verschillen-binnen-nederland-verschillen-binnen-nederland",
+    "title": "5  Discussie",
+    "section": "5.3 Verschillen binnen Nederland {verschillen-binnen-nederland}",
+    "text": "5.3 Verschillen binnen Nederland {verschillen-binnen-nederland}",
+    "crumbs": [
+      "<span class='chapter-number'>5</span>  <span class='chapter-title'>Discussie</span>"
+    ]
+  },
+  {
+    "objectID": "05_literatuur.html",
+    "href": "05_literatuur.html",
+    "title": "Literatuur",
+    "section": "",
+    "text": "de Jong, H. 1973. “Bodemdaling Veroorzaakt Door Aardgaswinningen\nin de Provincie Groningen.” Rijkswaterstaat.\n\n\nHijma, Marc. 2025a. “Bodemdalingsmonitor 2024\nGeologische bodemdaling in het kustfundament - Bodemdaling bij Harlingen\ndoor zoutwinning op de Waddenzee.” 11210366-003-ZKS-0004.\nDeltares.\n\n\n———. 2025b. “Bodemdalingsmonitor 2025\nGeologische bodemdaling in het kustfundament - Een\nactualisatie.” 11211567-003-ZKS-0001. Deltares.\n\n\nHijma, Marc, Juliëtte Bleichrodt, and Erik van Onselen. 2026, verwacht.\n“Bodemdalingsmonitor 2025 Geologische\nbodemdaling in het kustfundament - Actualisatie van de totale\nbodemdaling.” 11200538-008. Deltares.\n\n\nHijma, Marc, and Henk Kooi. 2017. “Bodemdaling in Het\nKustfundament En de Getijdenbekkens.” 11200538-008. Deltares.\n\n\nHoningh, D, J Leenders, and B Strijker. 2021. “Werkwijze inmeten zeespiegelstand\nhoofdgetijdenstations.” Lelystad: HKV.\n\n\nvan Veen, J. 1945. “Bestaat Er Een Geologische Bodemdaling Te\nAmsterdam Sedert 1700.” Tijdschrift Koninklijk Nederlandsch\nAardrijkskundig Genootschap 2 (62): 2–36.\n\n\nWatson, Phil J. 2016. “Identifying the Best Performing Time Series\nAnalytics for Sea Level Research.” In Time Series Analysis\nand Forecasting, 261–78. Springer.\n\n\nWoodworth, Philip L. 2012. “A note on the\nnodal tide in sea level records.” Journal of Coastal\nResearch 28 (2): 316–23. https://doi.org/10.2112/JCOASTRES-D-11A-00023.1.",
+    "crumbs": [
+      "Literatuur"
+    ]
+  },
+  {
+    "objectID": "06_appendix.html",
+    "href": "06_appendix.html",
+    "title": "Bijlagen",
+    "section": "",
+    "text": "Bodemdaling\nHet is al heel lang bekend dat de zeespiegelmetingen in Nederland worden beïnvloed door bodemdaling van Veen (1954) en dat ze feitelijk de relatieve zeespiegelbewegingen weergeven. Bodemdaling is de optelsom van verschillende componenten (Figure 1) en niet alle componenten zijn relevant voor de zeespiegelmetingen. Dit komt omdat de stations diep gefundeerd staan en alleen beïnvloed worden door bodemdaling in de lagen onder de fundering. Maaivelddaling door veenoxidatie of verlaging van de grondwaterstand hebben dus geen inlvoed op de zeespiegelmetingen, maar diepere bodemdaling door geologische processen of gaswinning wel. In Table 1 worden de verschillende componenten nader omschreven.",
+    "crumbs": [
+      "Bijlagen"
+    ]
+  },
+  {
+    "objectID": "06_appendix.html#bodemdaling",
+    "href": "06_appendix.html#bodemdaling",
+    "title": "Bijlagen",
+    "section": "",
+    "text": "Figure 1: Lagen van de bodem en componenten van bodemdaling langs de Nederlandse kust. De zwarte lijnen geven de verschillende ondergrondlagen aan, de blauwgroene lijnen de bodemdalingscomponenten.\n\n\n\n\n\n\nTable 1: De belangrijkste componenten van bodembeweging in Nederland, afgeleid van Hijma and Kooi (2018).\n\n\n\n\n\n\n\n\n\n\nHoofdoorzaak\nOorzaak\nBeschrijving\n\n\n\n\nGeologische bodembeweging\nTektoniek (0.2-1.5 cm/eeuw\nDaling of opheffing die wordt veroorzaakt door spanningen in de ca. 100 km dikke Euraziatische aardplaat waar Nederland deel van uitmaakt. De spanningen hangen samen met het naar elkaar toe bewegen van de Afrikaanse en Euraziatische aardplaat en het uit elkaar drijven van Europa en Noord-Amerika. De snelheid van tektonische bodemdaling neemt toe van Goeree (2 mm/eeuw) tot meer dan 1 cm/eeuw in de Waddenzee.\n\n\nGeologische bodembeweging\nIsostasie(2-5 cm/eeuw)\nDaling die samenhangt met het terugbuigen van de aardplaat in Noordwest Europa door het afsmelten van de grote ijskappen die in de laatste glaciale periode op Groot-Brittannië en Scandinavië rustten. Bij het ontstaan van de ijskappen werd de aardplaat onder het gewicht van het vele ijs doorgebogen en in een rand daarom heen kwam de aardplaat juist omhoog. Het proces van herstel (terugbuigen) is nog gaande, en omdat Nederland op de omhoogkomende rand lag daalt Nederland.\n\n\nGeologische bodembeweging\nAutocompactie (&lt;&lt; 1 cm/eeuw)\nSamendrukking van afzettingen tussen het maaiveld en honderden meters diepte. Deze compactie vindt\n\n\nplaats onder het eigen gewicht en door toename van dat gewicht in het recente geologische verleden door jonge afzettingen.\n\n\n\n\nAntropogene bodemdaling\nOlie-/gaswinning(cm-dm per eeuw)\nDaling aan het maaiveld die wordt veroorzaakt door de drukverlaging in olie- of gasvelden en die zorgt voor samendrukking van de betreffende lagen. Speelt bij Hoek van Holland en Delfzijl.\n\n\nAntropogene bodemdaling\nZoutwinning (cm-m per eeuw)\nDaling die wordt veroorzaakt door de lage druk in de cavernes die ontstaan door het winnen van zout. De cavernes worden langzaam dichtgedrukt en zorgen voor inzakking van bovenliggende lagen. Speelt mogelijk over enige tijd bij Harlingen.\n\n\nAntropogene bodemdaling\nGrondwaterwinning (cm-dm per eeuw)\nDaling die wordt veroorzaakt door de waterdrukverlaging in de bodemlagen in de omgeving van de winning waardoor de laag waaruit wordt gewonnen, maar ook boven en/of onderliggende lagen, worden samengedrukt.\n\n\nAntropogene bodemdaling\nPeilbeheer (cm-dm per eeuw)\nDaling die samenhangt met periodische aanpassing/verlaging (t.o.v. NAP) van het waterpeil in sloten\n\n\nen vaarten in gebieden met maaivelddaling om een gewenste drooglegging (verschil tussen maaiveld en waterpeil) te handhaven.\n\n\n\n\nAntropogene bodemdaling\nZetting (cm-dm per eeuw)\nDaling onder invloed van extra gewicht dat op het maaiveld (of waterbodem) wordt aangebracht door de mens en waardoor lagen in de ondergrond worden samengedrukt.\n\n\n\n\n\n\n\n\n\n\nHijma, Marc, and Henk Kooi. 2017. “Bodemdaling in Het Kustfundament En de Getijdenbekkens.” 11200538-008. Deltares.\n\n\n———. 2018. “Bodemdaling in Het Kustfundament En de Getijdenbekkens (Deel 2).” 11202190-001-ZKS-0001. Deltares.\n\n\nvan Veen, J. 1945. “Bestaat Er Een Geologische Bodemdaling Te Amsterdam Sedert 1700.” Tijdschrift Koninklijk Nederlandsch Aardrijkskundig Genootschap 2 (62): 2–36.\n\n\n———. 1954. “Tide-gauges, subsidence-gauges and flood-stones in the Netherlands.” Geol. Mijnbouw.",
+    "crumbs": [
+      "Bijlagen"
+    ]
+  }
+]
