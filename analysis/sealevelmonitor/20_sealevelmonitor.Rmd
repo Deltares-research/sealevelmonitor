@@ -4,10 +4,10 @@ author: "Willem Stolte, Nathalie Dees"
 date: "`r format(Sys.time(), '%d %B, %Y')`"
 output:
   github_document: default
-  pdf_document: default
-  html_document:
-    df_print: paged
-    code_folding: hide
+  # pdf_document: default
+  # html_document:
+  #   df_print: paged
+  #   code_folding: hide
 params:
   # - Netherlands
   # - linear
@@ -135,6 +135,9 @@ cat("Het voorkeursmodel voor de bepaling van de huidige zeespiegelstijging is he
 ```
 In voorliggend rekendocument wordt daarom gerekend met het `r params$modeltype` modeltype en gegevens van het (virtuele) station `r params$station`. 
 
+<details>
+<summary>Show build-model code</summary>
+
 ```{r build-model}
 selectedmodel <- params$modeltype
 
@@ -169,6 +172,8 @@ models <- df %>%
   )
 
 ```
+
+</details>
 
 ### Omgaan met autocorrelatie
 
@@ -239,11 +244,9 @@ plot(models$model[[1]])
 
 Bovenstaande diagnostische grafieken wijzen erop dat het regressiemodel over het algemeen voldoet aan de belangrijkste modelaannames. Hoewel er enkele lichte afwijkingen zichtbaar zijn — voornamelijk in de residustructuur en de verdelingsuiteinden — zijn er geen aanwijzingen voor ernstige schendingen. Het model kan daarom als adequaat worden beschouwd voor verdere interpretatie.
 
-
 ## Zeespiegelstijging resultaten
 
-
-```{r}
+```{r, include=FALSE}
 
 # vertaaltabel voor presentatie van parameters
 
@@ -260,8 +263,6 @@ lookup <- c(
 all_predictions <- makePredictionTable(models, lookup)
 
 ```
-
-
 
 
 ```{r plotdatauitvoer, include=FALSE}
@@ -289,9 +290,6 @@ write_csv(uitvoer_df, file = "../../results/plotdata2024.csv")
 
 
 ## Bijdrage van de verschillende componenten in het regressiemodel aan de totale zeespiegel  
-
-
-
 
 ```{r predict_partial}
 
@@ -332,6 +330,7 @@ aug_long %>%
 # ggsave("c:\\OneDriveTemp\\ZSM_for_infographic.svg")
   
 ```
+
 
 ## Zeespiegel met de verschillende termen
 
@@ -486,7 +485,7 @@ parameterTable <- models %>%
 
 
 
-```{r broken_linear_trends}
+```{r broken_linear_trends, include=FALSE}
 
 # calculate trends and SE before and after 1993
 
@@ -523,9 +522,10 @@ trends <- models %>%
 ```
 
 
+<details>
+<summary>Show code</summary>
 
-
-```{r, results='asis'}
+```{r}
 
 zeespiegel2023_cm <- df$height[df$year==params$monitoryear-1]/10
 zeespiegel_gem_getij_gem_opzet_cm <- all_predictions %>% 
@@ -533,23 +533,24 @@ zeespiegel_gem_getij_gem_opzet_cm <- all_predictions %>%
   mutate(zsp_nod_surge = (`data_height-surge_anomaly` - nodal_tide)/10) %>%
   select(zsp_nod_surge) %>% unlist %>% unname
 
-cat("## Uitspraken over de zeespiegel trend \n\n" )
+output <- "## Uitspraken over de zeespiegel trend \n\n"
 
-cat("De volgende uitspraken gelden voor berekeningen gedaan aan het virtuele station ", params$station, "en het voorkeursmodel ", params$modeltype, ".", "De analyse houdt rekening met wind en nodaal getij. \n\n")
+output = paste0(output, "\nDe volgende uitspraken gelden voor berekeningen gedaan aan het virtuele station ", params$station, " en het voorkeursmodel ", params$modeltype, ".", " De analyse houdt rekening met wind en nodaal getij. \n\n")
 
 if(params$modeltype == "broken_linear"){
-  trend_message = cat(
-    paste("De lineaire trend tot 1993 bedraagt", 
+  trend_message = paste0(
+    output,
+    paste("\n\nDe lineaire trend tot 1993 bedraagt", 
           round(parameterTable$estimate[parameterTable$short_term == "Trend"], 1), 
           " +/- ", 
           round(parameterTable$std.error[parameterTable$short_term == "Trend"], 1), 
           "mm/jaar."),
-    paste("De extra trend na 1993 bedraagt", 
+    paste("\n\nDe extra trend na 1993 bedraagt", 
           round(parameterTable$estimate[parameterTable$short_term == "+ trend 1993"], 1), 
           " +/- ", 
           round(parameterTable$std.error[parameterTable$short_term == "+ trend 1993"], 1), 
           "mm/jaar."),
-    paste("Na 1993 is de totale trend verhoogd en bedraagt", 
+    paste("\n\nNa 1993 is de totale trend verhoogd en bedraagt", 
           round(trends$post1993_trend, 1),
           " +/- ", 
           round(trends$post1993_se, 1), 
@@ -585,21 +586,24 @@ if(params$modeltype == "broken_squared"){
   )
   
   
-  trend_message = cat(
-    
-    "## Uitspraken over de zeespiegel trend",
-    
-    paste("De lineaire trend tot 1960 bedroeg", 
+  trend_message = paste0(
+    output,
+    paste("\n\nDe lineaire trend tot 1960 bedroeg", 
           Trend, " +/- ", SE_trend, "mm/jaar."),
-    paste("De extra trend na 1960 is stijgende en bedroeg in het jaar ", params$monitoryear - 1, 
+    paste("\n\nDe extra trend na 1960 is stijgende en bedroeg in het jaar ", params$monitoryear - 1, 
          `+trend_current`, " +/- ", `SE_+trend_current`, "mm/jaar."),
-    paste("Na 1960 is de totale trend ook stijgende en bedroeg in het jaar ", config$runparameters$monitoryear - 1, 
+    paste("\n\nNa 1960 is de totale trend ook stijgende en bedroeg in het jaar ", config$runparameters$monitoryear - 1, 
           Trend + `+trend_current`, " +/- ", SE_trend + `SE_+trend_current`, "mm/jaar."),
     sep = "\n\n"
   )
 }
+```
 
+</details>
 
+```{r, results='asis'}
+
+cat(trend_message)
 
 ```
 
