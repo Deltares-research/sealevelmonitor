@@ -13,6 +13,45 @@ acronyms:
 
 ## Toepassingsbereik van de gebruikte methodiek {#toepassingsbereik}
 
+Is de gebruikte methode doelmatig voor het beoogde gebruik? Hiervoor is het nodig om de methode op te splitsen in de verschillende onderdelen.
+
+Er is gekozen voor de hoofdstations langs de Nederlandse kust, omdat deze het beste de relatieve zeespiegel aangeven voor onze kust. Satellietgegevens hebben een grotere ruimtelijke dekking, maar zijn niet gedetailleerd genoeg in de kustzone (zie bijlage \@ref(satellietmetingen)). Van het hoofdstation Delfzijl is gebleken dat er een achterstand is in de verticale correcties t.o.v. \acr{NAP}. Daarom is dit station niet meegenomen in de hoofdresultaten (hoofstuk \@ref(resultaten)). Rijkswaterstaat is wel bezig om voor deze achterstand met terugwerkende kracht te corrigeren. Mogelijk wordt in een volgende monitor Delfzijl dan weer toegevoegd.
+
+Het effect van wind of storm is een belangrijke bron van variatie voor de jaarlijkse zeespiegel aan de Nederlandse kust [@Baart2014a; @Gerkema2017]. Sinds de rapportage in 2022 gebruikern we resultaten van het \acr{GTSM} model om voor het effect van wind op de gemiddelde waterstand te corrigeren. Eerst was dit allen nog beschikbaar voor de periode van 1979 tot nu, maar voor de huidige rapportage is het model uitgebreid met jaren 1950 tot nu. \acr{GTSM} is zeer geschikt om het effect van wind op de zeespiegel te schatten omdat het geheel onafhankelijk is van het gebruikte regressiemodel dat gebruikt wordt om de zeespiegelstijging te schatten. 
+
+<placeholder> Vergelijking GTSM - DCSM
+
+Behalve wind, is ook het nodale getij een bron van variatie voor de jaarlijkse gemiddelde zeespiegel. Dit is uitgelegd in paragraaf \@ref(methodiek). Vanwege de lange periode van deze terugkerende variatie (ruim 18 jaar) is het belangrijk om te weten of de zeespiegel op weg is naar een hoger of lager jaargemiddeld getij. Een onafhankelijke schatting van het nodaal getij is mogelijk door middel van berekening van het zgn. equilibrium getij. Echter, het geobserveerde getij aan de Nederlandse kust blijkt daarvan af te wijken, door fysische processen die de doorwerking van het nodale getij op het contentinale plat bepalen (zie paragraaf \@ref(sec-getij) voor meer details. Om die reden wordt het nodaal getij meegenomen als term in de regressie, waardoor de variatie door het getij beter verklaard wordt.  
+
+Volgens de criteria die we hanteren voor modelkeuze (\acr{AIC}) is, net als bij de voorgaande rapportage, een keuze gemaakt voor het gebroken lineaire model met een knikpunt in 1993 (zie dit [rekendocument](https://github.com/Deltares-research/sealevelmonitor/blob/main/analysis/sealevelmonitor/sealevelanalysis.md)). Dit is het meest geschikte model voor schatting van de huidige zeespiegel, en de zeespiegelstijging over de afgelopen decennia. De methode is geschikt om over relatief korte tijd een verandering van zeespiegelstijging te detecteren (gegeven het feit dat we een knik veronderstellen is dit een beter model dan het lineaire). De gebruikte methodiek zegt echter niet veel over de oorzaak van deze verandering.
+
+Voor kustonderhoud via zandsuppletie is de huidige methode geschikt. Zandsuppletie is een reactief proces, bedoeld om het volume zand dat nodig is om het kustfundament mee te laten groeien met de zeespiegel aan te vullen. Hiervoor is een zo betrouwbaar mogelijke schatting van de zeespiegelstijging over de afgelopen jaren nodig. De methode die gebruikt wordt voor het presenteren van de resultaten in hoofdstuk \@ref(resultaten) voldoet daaraan.
+
+
+
+De zeespiegelmonitor is niet bedoeld om de verwachte zeespiegelstand langere tijd vooruit (bijvoorbeeld in 2050 of 2100) te bepalen. Tegelijkertijd zien we dat zeespiegelscenario's niet bedoeld zijn om op korte termijn de zeespiegel te voorspellen. Voor de planning van zandsuppletie op middellange termijn (10-15 jaar vooruit) is het nodig om een zo nauwkeurig mogelijke schatting te maken van de zeespiegelstijging over die periode. Hiervoor is binnen de zeespiegelmonitor geen methodiek vastgelegd. Totdat een betere methode beschikbaar is, kiezen we een periode van tot 15 jaar vooruit, als de periode waarvoor we het gebruik van de huidige zeespiegel en -stijging zoals beschreven in het voorkeursmodel aanraden. 
+
+Een huidige zeespiegelstand op zichzelf is niet geschikt voor beoordelingen van veiligheid. Daarvoor is de verwachte maximale zeespiegel nodig (getij + absolute zeespiegel + bodemdaling + hoogwater + golven) ten opzichte van de hoogte van de keringen. Het kan wel als component gebruikt worden.
+
+## Waarom een model met een versnellingsterm {#versnelling-discussie}
+
+De zeespiegel aan de Nederlandse kust stijgt, en stijgt versneld sinds de jaren negentig, blijkt uit de resultaten. We concluderen dit uit het feit dat het gebroken lineaire model al een aantal jaren significant beter is dan het tot 2018 toe gebruikte lineaire model. Een versnelde zeespiegel aan de Nederlandse kust was met andere methodieken eerder ook aangetoond door @Steffelbauer2022 en @Keizer2022. 
+
+<tot hier gekomen. hieronder nog herzien>
+
+@Steffelbauer2022 onderzocht met een soortgelijke methodiek als de Zeespiegelmonitor of er een significant gezamelijk knikpunt was in de tijdreeks van waterhoogte van de Nederlandse hoofdstations. Er is een grotere subset van stations gebruikt (Maassluis en Terschelling zijn ook meegenomen) inclusief Delfzijl. Ook is het knikpunt bepaald aan de afzonderlijke stations (maar wel gezamenlijk), en niet aan het gemiddelde zoals in de Zeespiegelmonitor. Geconstateerd werd dat er een gezamenlijk knikpunt was in 1993. Deze constatering vinden we nu ook in de Zeespiegelmonitor. Gemiddeld over de stations werd door @Steffelbauer2022 een zeespiegelstijging gevonden van 2.7 ± 0.4 mm/jaar voor de periode na 1993. 
+
+<Herziening met update berekening methode Keizer ?>
+
+@Keizer2022 onderzocht de trend in zeespiegelstijging over een lange termijn met een geavanceerd statistische methode. Voor correctie door windopzet is de \acr{20CR} heranalyse gebruikt. Na een correctie van de zeespiegel voor de lange termijn windveranderingen is de zeespiegelstijging en het verschil daarin over tijd geschat met behulp van \acr{GAM}. Er is ook rekening gehouden met seizoensvariatie in windopzet. De conclusie uit dit artikel is dat de zeespiegelstijging in de periode 2000-2019 (3.0[2.4 - 3.5] mm/jaar) significant hoger is dan in de periode 1940-1959 (1.5[1.1 - 1.8] mm/jaar).
+
+De huidige stijging in de zeespiegelmonitor ($2.9 \pm 0.4\,mm/jaar$) is dus consistent met de hierboven genoemde studies.
+
+In de Zeespiegelmonitor werd windopzet tot vorig jaar geschat door een wind-heranalyse (\acr{NCEP}) als covariabele mee te nemen in het verklaren van de trend. Dit was nodig, omdat op voorhand niet het exacte effect van wind op de windopzet bekend is. Dit jaar is deze analyse uitgevoerd met \acr{NCEP} en \acr{20CR} heranalyses en een combinatie van deze twee. Tevens is een analyse toegevoegd waarbij met windopzet uit het \acr{GTSM} model direct is gebruikt als correctievariabele. Hierbij is de mate van windopzet onafhankelijk geschat van de trendbepalingsmethode. We concluderen dat deze laatste methodiek beter geschikt is voor correctie van landelijke opzet, het nadeel is dat het \acr{GTSM} model voor een kortere periode (1979 - nu) beschikbaar is dan de wind heranalyses. We bevelen daarom aan om het GTSM model uit te breiden naar jaren voor 1979. Het GTSM model is een mondiaal dekkend model. Het verdient aanbeveling om de geschiktheid van deze manier van opzet berekenen voor de individuele stations te bepalen.
+
+<Onderstaand moet nog gecontroleerd worden>
+Sommerend komen we op de volgende balans van de wereldwijde versus de Nederlandse zeespiegelstijging over de periode 1993-2021. De zeespiegelstijging over deze periode is in Nederlands hoger dan over de periode voor 1993, zoals besproken in paragraaf \@ref(versnelling-results). Eigenlijk zou de zeespiegelstijging hoger moeten zijn dan globaal, omdat in Nederland naast de zeespiegelstijging ook nog bodemdaling is. Maar omdat 3cm van de globale zeespiegelstijging een correctie is die niet aan de kust gemeten wordt en omdat we op een gunstige plek liggen wat betreft de bijdrage van Groenlands massaverlies aan de zeespiegelstijging (9cm) zien we aan de kust van Nederland toch een lagere zeespiegelstijging dan globaal. Andere effecten, zoals veranderingen in dichtheid, zijn hier buiten beschouwing gelaten.
+
 
 
 ## Vergelijking met andere methoden om zeespiegelstijging vast te stellen {#zss-vergelijking}
@@ -23,4 +62,4 @@ acronyms:
 
 ## Verschillen binnen Nederland {verschillen-binnen-nederland}
 
-
+De gemiddelde zeespiegelstijging over alle zes (minus Delfzijl) hoofdstations is .. . Er zijn echter verschillen tussen de stations. De grootste verschillen doen zich voor in de zeespiegelstijging van vóór 1993. In die periode vertonen Harlingen, en in mindere mate ook Den Helder en Delfzijl een lagere stijging dan de stations aan de HOllandse kust (Vlissingen, Hoek van Holland en IJmuiden. Er zijn sterke aanwijzingen dat de verschillen zijn veroorzaakt door de gevolgen van de afsluiting van de Zuiderzee. Hierdoor is er over lange tijd (grofweg 1930 - 2000) een dynamische aanpassing geweest in bodemligging, stroming, getij, en zoetwaterafvoer in de westerlijke Waddenzee, die deels ook onderling afhankelijkheid vertonen. Veranderingen in spuidebieten van het IJsselmeer hebben nog meer bijgedragen aan veranderingen in de zoutverspreiding. Hierdoor is het aannemelijk dat er langjarige veranderingen zijn geweest in de zeespiegelstijging bij stations in de (westlijke) Waddenzee. Het lijkt er sterk op dat rond 1990 - 2000 de aanpassingssnelheid van de Waddenzee aan de afsluiting sterk afgezwakte. Gelijktijdig hiermee is te zien dat de zeespiegelstijging voor de verschillende stations sinds het begin van de jaren 1990 weer min of meer gelijk opgaat. 
