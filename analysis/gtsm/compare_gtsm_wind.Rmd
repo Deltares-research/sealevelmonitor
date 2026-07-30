@@ -63,6 +63,7 @@ KNMI daily average wind observations were downloaded via https://www.knmi.nl/ned
 
 
 ```{r readKNMIwind}
+
 list.files("../../data/knmi/metingen")
 
 # daggemiddelden (alleen gebruikt voor het berekenen van jaargemiddelden)
@@ -147,7 +148,6 @@ walk(1:length(kooy_raw_last_4_years$data),
 
 ```{r readERA5wind}
 
-
 eraURL <- "data/copernicus/era5/era5_wind_for_analysis.csv"
 
 era5wind <- read_delim(file.path("../../", eraURL)) %>%
@@ -179,7 +179,7 @@ era5wind %>%
     label = "Annual average wind",
     subtitle = "ERA5 reanalysis for Den Helder - KNMI measured wind at De Kooy."
     ) +
-  theme_minimal()
+  theme_grey()
   # left_join(kooy, by = c(year = "year")) %>%
   
 
