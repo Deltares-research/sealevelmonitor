@@ -8,9 +8,9 @@ execute:
   freeze: auto
 
 book:
-  # title: "Zeespiegelmonitor 2026"
-  # author: "Willem Stolte, Dewi Lebars, Dorien Honingh, Nathalie Dees, Marc Hijma"
-  # date: today
+  title: "Zeespiegelmonitor 2026"
+  author: "Willem Stolte, Dewi Lebars, Dorien Honingh, Nathalie Dees, Marc Hijma, Martin Verlaan"
+  date: today
   page-navigation: true
   favicon: assets/icon-deltares.svg
   page-footer: 
@@ -36,8 +36,10 @@ book:
   output-file: "Zeespiegelmonitor_2026"
 #  delete_merged_file: true
 #  before_chapter_script: _common.R
+bibliography: 
+  - bib/sealevel.bib
+  - bib/dees.bib
 
-bibliography: [bib/literatuurWillemMod.bib, bib/sealevel.bib]
 link-citations: true
 
 format:
