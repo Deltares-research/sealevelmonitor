@@ -1,0 +1,174 @@
+---
+title: "Zeespiegelmonitor harmonic analysis"
+author: "Willem Stolte"
+date: "`r format(Sys.time(), '%d %B, %Y')`"
+output:
+  github_document: 
+    fig_path: "figs/sealevelanalysis-"
+params:
+  monitoryear: 2025
+  startyear: 1890
+  station:
+  - Delfzijl
+  - Harlingen
+  - Den Helder
+  - IJmuiden
+  - Hoek van Holland
+  - Vlissingen
+  - Netherlands
+  - Netherlands (without Delfzijl)
+---
+
+## Harmonische analyse
+
+```{r setup, include=FALSE}
+
+knitr::opts_chunk$set(
+  echo = TRUE,
+  comment=FALSE,
+  message=FALSE,
+  warning = FALSE
+)
+
+require(leaflet)
+require(plotly)
+require(nlme)
+require(tidyverse)
+require(rsealevel)
+
+# require(reticulate)
+
+config <- RcppTOML::parseToml("_common/configuration.TOML")
+config_flat <- list_flatten(config)
+source("_common/functions.R")
+source("_common/plotfunctions.R")
+epoch = config$constants$epoch
+mainstations_df <- readMainStationInfo(filepath = "../../")
+mainstations_locs <- readMainStationLocations(path = "../../")
+nstations = length(params$station)
+nmodels  = length(params$modeltype)
+nsurge  = length(params$wind_or_surge_type)
+select = dplyr::select
+
+```
+
+
+
+## Get latest data from file
+
+In an other script, annual average sea level data for the Dutch main stations is downloaded from the [Permanent Service for Mean Sea Level site](http://www.psmsl.org) and combined with the Global Tide and Surge Model (GTSM) annual average surge values. 
+
+```{r}
+
+aug_long <- read_delim(file = "../../data/deltares/results/dutch-sea-level-products.csv", comment = "#")
+
+seaLevelClean <- aug_long %>%
+  select(year, name, height, fitted_total) %>%
+  mutate(corr_height = height - fitted_total)
+
+ggplot(seaLevelClean, aes(year, corr_height)) + geom_point()
+
+```
+
+## Eerste stap: spectrum bekijken (essentieel)
+
+```{r}
+
+spec <- spectrum(seaLevelClean$corr_height, log = "yes")
+
+plot(1/spec$freq, spec$spec, log = "y",
+     xlab = "periode (jaar)",
+     ylab = "spectrum")
+
+```
+
+## Automatisch pieken selecteren (semi-automatisch)
+
+```{r}
+
+library(pracma)
+
+spec <- spectrum(seaLevelClean$corr_height, plot = TRUE)
+
+peaks <- findpeaks(spec$spec, npeaks = 10)
+
+freqs <- spec$freq[peaks[,2]]  # per jaar
+1/freqs
+
+```
+
+## Lomb–Scargle (veel robuuster, aanrader)
+
+```{r}
+
+library(lomb)
+
+lsp <- lsp(seaLevelClean$corr_height, times = seaLevelClean$year, type = "period",
+           from = 1, to = 20)  # cycli/jaar
+
+
+```
+
+Pieken rond 5-6 jaar kunnen duiden op NAO (quasi-periodische klimaatmodus)
+
+Pieken rond 12 jaar: decadal variability of mogelijk zonnecyclus imprint (maar meestal zwak in MSL)
+
+
+
+✅ Wat werkt hier beter (echt belangrijk)
+🔹 Optie 1 — band-gebaseerde modellering
+In plaats van exacte frequenties:
+
+```{r}
+Rlibrary(mgcv)
+model <- gam(msl ~ s(t, k = 30))
+```
+
+👉 dit modelleert:
+
+langzame variaties
+zonder te doen alsof ze perfect periodiek zijn
+
+
+🔹 Optie 2 — smalle set “quasi-harmonischen”
+Gebruik alleen de duidelijke band (~5–6 jaar):
+```{r}
+Rlm(msl ~    sin(2*pi*(1/5.5)*t) +    cos(2*pi*(1/5.5)*t))
+```
+
+Maar:
+👉 verwacht:
+
+fase drift
+amplitude variatie
+
+
+🔹 Optie 3 — sliding window analyse (sterk aanbevolen)
+Check of frequenties stabiel zijn:
+```{r}
+Rlibrary(zoo)
+roll_spec <- rollapply(
+  df$msl, width = 240, FUN = function(x) {  
+    sp <- spectrum(x, plot = FALSE)  
+    sp$freq[which.max(sp$spec)]
+  }
+)
+```
+
+👉 Als frequentie verschuift → geen echte harmonische component
+
+🔹 Optie 4 — SSA (beste match voor jouw probleem)
+Dit is eigenlijk perfect hier:
+```{r}
+Rlibrary(Rssa)
+s <- ssa(df$msl, L = 200)
+plot(s)
+```
+
+👉 SSA:
+
+vindt oscillaties zonder vaste frequentie
+scheidt:
+
+trendachtige componenten
+quasi-cycli

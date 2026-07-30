@@ -1,0 +1,187 @@
+# Workshop Zeespiegelmonitor
+
+Locatie: Firma van Buiten, Delft
+
+Datum: 16-4-2026
+
+Deelnemers:
+
+| Organisatie     | Deelnemer            |
+|-----------------|----------------------|
+| DGWB            | Hermine Ehrenstein   |
+| Rijkswaterstaat | Quirijn Lodder       |
+| Rijkswaterstaat | Saskia van Gool      |
+| Rijkswaterstaat | Martijn Klein Obbin  |
+| Deltares        | Marcel Taal          |
+| Deltares        | Martin Verlaan       |
+| Deltares        | Willem Stolte        |
+| Deltares        | Nathalie Dees        |
+| Deltares        | Natalia Aleksandrova |
+| Deltares        | Marc Hijma           |
+| KNMI            | Dewi Le Bars         |
+| KNMI            | Roderik van de wal   |
+| NIOZ            | Aimée Slangen        |
+| NIOZ            | Theo Gerkema         |
+| TU-Delft        | Ricardo Riva         |
+| HKV             | Dorien Honingh       |
+| HSEC            | Hessel Voortman      |
+| PBL             | Jelle van Minnen     |
+| TNO             | Samantha Kim         |
+| TNO             | Joost Roholl         |
+| voormalig PBL   | Hans Visser          |
+
+Programma van de workshop
+
+| tijd | onderdeel | inleiding door |
+|------------------------|------------------------|------------------------|
+| 9:00 | Inloop en introductie | Marcel (moderator) |
+| 09:20:00 | Introductie Zeespiegelmonitor 2026 | Quirijn Lodder - RWS |
+| 09:40:00 | Waterstandsmetingen en getijdenstations in NL | Dorien Honingh - HKV |
+| Martijn Kleinobbink - RWS |  |  |
+| 10:10:00 | Toegepaste correcties voor wind en getij | Martin Verlaan - Deltares |
+| Natalia Aleksandrova - Deltares |  |  |
+| 10:40:00 | break |  |
+| 11:05:00 | Toegepaste statistiek in de Zeespiegelmonitor | Willem Stolte - Deltares |
+| 11:40:00 | Conclusies, presentatie en communicatie | Willem Stolte - Deltares |
+| Martijn Kleinobbink - RWS |  |  |
+| 12:15:00 | grab your lunch |  |
+| 12:25:00 | Connection to projections | Dewi Lebars - KNMI |
+| 13:00:00 | Closure |  |
+
+## Inleiding Zeespiegelmonitor
+
+Quirijn Lodder, Rijkswaterstaat WVL
+
+[link naar presentatie]()
+
+Discussiepunten:
+
+-   Als PBL kijken ze naar de toekomst, wordt voor zandsuppletie ook verder gekeken? (30 -40 jaar)
+    -   Voor de uitvoering wordt de mate zeespiegelstijging nu toegepast , extreme waarde statistiek geldt voor 2035 ong
+    -   Voor het ontwerp van keringen en de levensduur moet je wel verder in de toekomst kijken
+-   Als je kijkt naar de directe toepassing in het waterbeheer het waterbeheer is ook de stijging van de laagwaterlijn (bijvoorbeeld voor spuibeheer) belangrijk
+-   Quirijn legt uit wat 2 directe toepassingen zijn voor de Zeespiegelmonitor in de uitvoering en benadrukt dat er ook toegelicht moet worden waar niet in voorzien wordt (vbv effect laagwaterlijn).
+-   vraag: In hoeverre komt het getal wat uit de formule komt ook daadwerkelijk gesuppleerd aan de kust?
+    -   antwoord: Komt redelijk in de buurt, is ook een politieke keuze
+
+## Metingen
+
+Martijn Kleinobbink (Rijkswaterstaat WVL) en Dorien Honingh (HKV lijn in water)
+
+[link naar presentatie]()
+
+Discussiepunten en aanvullingen uit antwoorden:
+
+-   In WADAR zouden de reeksen + correctiereeksen van de waterhoogte metingen beschikbaar moeten komen. Wadar is nu al wel in gebruik, maar qua inhoud nog in ontwikkeling.
+-   In het artikel van Riva gelezen over bodemstijging door ijs van Groenland. Zou dat de bodembewegingbalans neutraal maken?
+    -   De geoïde verandert ook mee met de opvering door het verdwijnende ijs op Groenland, daarom is het niet zo dat de opvering als bodemstijging in het licht van relatieve zeespiegel gebruikt kan worden.
+-   Hoogtemetingen met GNSS en vertaling naar relatieve vertikale beweging van de waterhoogtemetingsensor is een complex proces, er zijn nu nog veel onzekerheden rondom het getal.
+-   Vraag over de fundering van de peilhuizen. De funderingsiepte is niet voor alle peilhuizen bekend. Het is dus niet zeker dat ze allemaal in het pleistoceen gefundeerd zijn? Bijna alle nulpalen zijn dat wel.
+    -   Zou je dit kunnen zien in de ondiepe geologie?
+    -   Staat het op staal?
+    -   Mooi dat alle verificaties en correcties ontsloten gaan worden. Tot hoe ver terug gaat dit ontsloten worden?
+        -   Vanaf jaren 70 tot 80 wordt het waarschijnlijk ontsloten. Voor die tijd zijn geen gegevens digitaal beschikbaar.
+-   Er is een GNSS meetserie van 10 jaar nodig om iets te zeggen over bodembeweging. Wat gebeurt er nu met de gegevens?
+    -   In de al bestaande GNSS stations zijn hier en daar rare dingen te zien in de metingen. Bij IJmuiden lijkt de bodemdaling heel hoog te zijn. Het kan zo zijn dat de antenne meer beweegt dan de omgeving. De gemeten waterhoogte op dit stations vertoont ook onverklaarde onregelmatigheden. Er moet eerst goed naar gekeken worden wat de antenne nu precies meet voordat de metingen goed geïnterpreteerd kunnen worden.
+-   Hoe verhoudt de meetprocedure in NL zich tot internationale standaarden? Wat doet Duitsland bijv en kunnen we dit goed vergelijken?
+    -   Duitslandse stations worden ook via PSMSL ontsloten. Het is niet bekend of zij de correcties op dezelfde manier uitvoeren. De meetmethode is daarom mogelijk in details niet gelijk. We nemen echter wel aan dat de landen rond Nederland op een vergelijkbare manier werken.
+-   Delfzijl valt nu uit reeksen weg, heeft het hiermee te maken? Waarom is dit?
+    -   Gegevens van Delfzijl worden over de laatste 20 jaar gecorrigeerd en dan in WADAR gestopt. Nu te veel onzekerheid over de laatste 15 jaar. Dit komt o.a. door bodemdaling door gaswinning. Hierdoor is de NAP hoogte van de ondergrondse merken in de buurt van Delfzijl op een gegeven moment niet meer ingemeten (de verandering was te snel). Hierdoor was er lange tijd onzekerheid over de vertikale referentie voor de waterhoogtemeting bij Delfzijl. Dit wordt als het goed is dit jaar (2026) hersteld.
+-   Wat download ik nu als ik de data download van waterinfo? - Waterhoogte ten opzichte van het op dat moment geldende NAP referentievlak. - Dit vlak is in 2005 iets bijgesteld (trendbreuk in ruwe data) - mWanneer gecorrigeerd wordt voor deze trendbreuk door metingen van vóór 2005 "op te tillen" tot NAP-na-2005, is de bepaalde trend ten opzichte van de pleistocene zandlaag.
+-   Beweegt het Pleistoceen dan ook nog en wat betekent dit?
+    -   Over lange tijdsschalen is de beweging van deze laag bekend. Op kortere tijdschalen is er niets over te zeggen.
+-   Wordt de GNSS data ontsloten? (vraag werd ook hierboven gesteld)
+    -   Hier Wordt aan gewerkt. Je kunt de gegevens al opvragen maar er moet nog een portaal komen waar je dit kan downloaden. Op dit moment zijn de metingen deels via websites van TU Delft beschikbaar.
+
+## Correcties voor getij en windopzet
+
+Martin Verlaan (Deltares, TU Delft) en Natalia Aleksandrova (Deltares))
+
+[link naar presentatie]()
+
+Discussiepunten:
+
+-   Op het oog lijkt er nog een periodiek signaal (oscillatie) in het residue te zitten. Is er een harmonische analyse op uitgevoerd? Vind je daar nog een signaal terug?
+    -   Dat is nu nog niet uitgevoerd maar wel goed om te doen, op de lijst van uitvoering
+-   If you remove the equilibrium tide from the measurement time series, you still see some nodal signal which is not explained. This part is due to ocean mixing effedts on M2 tidal amplitude. In ZSM, the nodal signal is derived directly from measurements, and both signals are therefore estimated simultaneously. The residue is therefore not expected to show any harmonic signal with a frequency of the nodal tide.
+-   Does GTSM use wind data and reanalysis? Based on this, does it affect the storm surge?
+    -   GTSM uses wind and pressure data but does not do any computations on the weather/climate part. ERA5 is used as input.
+-   Do you find any trend in storm surge?
+    -   We did not look into this yet, would be interesting.
+    -   In ZSM, regression analysis does not reveal any trend for the Dutch stations.
+-   Het GTSM reconstrueert de zwaartekracht deel en het getijdedeel, maar dit verklaart niet het hele 18,6 jaar periodieke signaal aan de NL kust. Er is ook een deel dat gegenereerd wordt door dichtheidsverschillen, dat zit niet in GTSM. Pogingen om deze informatie uit GLORYS (CMEMS) te halen zijn vastgelopen doordat GLORYS waarschijnlijk de nodale cyclus oplegt.
+-   Het hoofdfiguur in 2022 zsm leek op het figuur van de workshop. Er wordt voorgesteldom alleen de gemeten waarden te tonen en niet de (GTSM) gecorrigeerde waarden, en ook om de analyse daarop uit te voeren. Het signaal is dan beter representatief voor de waterstand die daadwerkelijk voor de kust staat.
+    -   Marcel: focus op de correcties nu, later de vraag nog beantwoorden.
+    -   (later toegevoegd)": Bij doorvragen is er een misverstand geweest. Er werd verondersteld dat de absolute waarde van de opzet afgetrokken was van het signaal. In ZSM wordt echter de afwijking van het langjarig gemiddelde afgetrokken. Dit neutraliseert het punt voor een groot deel.
+-   Wat is de rol van de dichtheid? Wat is het effect op het getij ect ?
+    -   Het verschil in dichtheid door menging door het getij kan een van de processen zijn die een effect hebben op de waterstanden. Dit komt ook nog naar voren in een later deel van de workshop.
+-   Er zijn natuurlijk meer langjarige cycli in het getijsignaal, in NL is ook de 9 jaar cyclus aanwezig. Internationaal is er in de oceaan 60 jarige cycli (3x nodaal). Mogelijk niet nuttig voor de NL kust. Is de nodaal de enige voor de kust of zijn meer cycli belangrijk?
+    -   Willem (verwijzend naar volgende deel): In het analysedocument wordt een autocorrelatie-analyse uitgevoerd. Hier komt niet een duidelijk correlatie met een lag van 9 of 10 jaar uit. Het zou nog netter zijn om een harmonische analyse uit te voeren.
+
+## Statistiek,en afleiding zeespiegelgetallen
+
+Willem Stolte (Deltares)
+
+[link naar presentatie]()
+
+Discussiepunten:
+
+-   Terugverwijzend naar punt van vorige blok. Je kunt ook nog een spectrale analyse uitvoeren om de residuen te checken. Wordt nu nog niet gedaan. Is wel een goed idee voor toekomstig werk.
+-   2023, 2024 heel hoge zeespiegel, hoe komt dat?
+    -   Mondiaal heel warme jaren, een van die jaren had ook een hele lage gemiddelde luchtdruk.
+-   Gebroken Lineair model met een knik komt kunstmatig over (mogelijk communicatie). In dat opzicht zou kwadratisch logisch zijn. Er is geen duidelijk fysisch argument voor een knik. Een geleidelijke stijging lijkt meer waarschijnlijk, maar waarschijnlijk ook niet precies kwadratisch
+    -   De keuze van het model hangt af van het doel. Een model met weinig parameters is geloofwaardiger door te trekken naar een paar jaar vooruit. Vandaar het gebinsel "Spaarzaamheid".
+    -   Maar, als het kwadratische model statistisch een beter model is (lager AIC dan gebroken lineair) dan kiezen we daar voor.
+-   Waarom 1993 als knikpunt?
+    -   Dit is deels door statistiek bepaald, maar er is wat onzekerheid over het precieze jaar. Een ander argument om een knikpunt precies in 1993 te kiezen is dat de helling sinds dat jaar goed te vergelijken is met satelliet metingen.
+-   Er zijn veranderingen geweest van de registratiefrequentie van de waterstanden, wat is het effect hiervan? Zie ik nu niet. Is het de vraag of je dit dan kan middelen? Goed aangeven wat is er nu precies gedaan in de ZSM.
+    -   Deze vraag is niet in zijn geheel behandeld gedurende de workshop. Later toegevoegd: De berekening van jaargemiddelden die zijn toegeleverd aan PSMSL is indertijd goed beschreven, inclusief correcties voor lage meetfrequenties [@VandenHoekOstende1989].
+-   Saskia: Is er geen model die de overgang tussen verschillende stijgingssnelheden gelijkmatiger maakt. Dat zou de uitleg gemakkelijker maken.
+    -   Willem: die zijn er wel, bijvoorbeeld een GAM fit. Waar het uiteindelijk voor het beleid omgaat is de zeespiegel voor de laatste 15 jaar en dat is er niet noodzakelijk van afhankelijk. Het is nog onduidelijk hoe de onzekerheid dan verandert aan het eind van de tijdreeks.
+-   Heb je überhaupt een model nodig als je alle correcties heb uitgevoerd?
+    -   Een model blijft nodig voor het schatten van de stijging, en de onzekerheid daarvan, inclusief een extrapolatie naar de komende jaren.
+-   RR komt zelf ook ongeveer op 1995 uit voor een knik. Het gaat niet om het specifieke jaar waar de knik zit meer dan er een onderscheidsmoment is tussen de verschillende trends
+-   Opmerking: GAM is niet "De KNMI methode". De KNMI trendmethode is namelijk anders dan de methode van [@Keizer2023]. De KNMI methode is van Van der Valk ("LOESS plus" methode)
+-   Verschil tussen de Noordelijke stations en de Hollandsche kust. Waar komt het verschil vandaan?
+    -   Dat komt in het volgende blok aan bod.
+-   It is problemematic to use wind correction from 1950, either focus on the period after 1950. Or focus on the whole period but then use a wind correction which is homogeneous. One of those two is better than stitching two corrections together.
+    -   Willem: Het is geen probleem om de analyse te laten starten in 1950 te beginnen, maar er komt dan wel iets ander uit. Dit ligt vooral aan de korte voorlooptijd voor de knikpunten in 1960 of 1993. In dat geval lijkt het voorbarig om de informatie van vóór 1950 weg te gooien. Bij analyse van gegevens vanaf 1950 wordt het voorkeuzemodel het gebroken kwadratische. Echter is de periode vóór de "knik" (1960 - 1950 = 10 jaar) veel te kort om klimatologisch zinnig te zijn.
+-   Moet deze variant in de rapportage terugkomen?
+    -   Dat kan wel, maar duidelijk het verschil benoemen en uitleggen in de rapportage.
+
+## Presentatie, communicatie
+
+Willem Stolte (Deltares) en Martijn Kleinobbink (Rijkswaterstaat WVL)
+
+[link naar presentatie]()
+
+Discussiepunten:
+
+-   Als je getallen van de Waddenzee en de Hollandsche kust afzonderlijk kwantificeert, wat betekent dat dan? Is dat dan een getal wat nog significant verschillend is voor de toepassing of valt het binnen de marges?
+    -   Binnen de onzekerheid verschillen ze niet van elkaar voor de periode vanaf 1993.
+-   Moet er bij GTSM opzet niet ook verschil worden gemaakt tussen Wadden en Hollandse kust?
+    -   Martin: GTSM windopzet wordt voor elk afzonderlijk station uitgerekend, en is dus de facto verschillend tusssen Hollandse kust en Waddenzee. Niettemin zijn de verschillen tussen de stations relatief klein.
+-   Moeten sedimenttransporten en morfologische veranderingen meegenomen worden om meer inzicht te krijgen over wat in de Waddenzee gebeurt?
+    -   Martin: We hebben mogelijk de tools ervoor in huis, maar dat is wel een grote inspanning. Is dit de inspanning waard?
+    -   Quirijn: voor het schatten van de sedimentbehoefte doen we dit op basis van de sedimentbalans. Die gebruiken we voor het advies van de kamer. In de sedimentbalans zit al het onderscheid tussen de Waddenzee en de Hollandsche kust
+-   Zie je de verschillen tussen Waddenzee en Hollandse kust ook terug in de metingen van de secundaire stations in de Waddenzee?
+    -   De kwaliteit van de stations is niet goed genoeg, door onvoldoende goede verticale referentie en/of doordat de meetreeksen vaak korter zijn. Vooral de verticale referentie van stations op de eilanden is erg lastig. Ricardo zegt dat hij Terschelling West gebruikt en die lijkt overeen te komen met de andere stations.
+-   Hoe verder je teruggaat in de tijd, hoe minder de kwaliteit wordt. Waarom zou je dan zo veel terug willen naar 1920? In feite wordt het verhaal steeds ingewikkelder en dit spiegelt dan af op de huidige data.
+    -   Nuttige opmerking. We zullen hier de komende periode naar kijken.
+-   In het plaatje met veranderende morfologie over de periode 1930-nu, en vooral ook de veranderde saliniteit over die tijd, zie je ook het gedrag van de spuisluizen. De beheerkeuze is dat altijd eerst Den Oever (de meest westelijke) wordt ingezet voor spuien uit IJsselmeer. Kornwerderzand wordt alleen ingezet wanneer het spuidebiet bij Den Oever niet voldoende is. Dit kan de saliniteitsverandering door veranderende stromingen hebben versterkt.
+
+## **Connecting to Sea Level projections**
+
+Dewi Lebars (Koninklijk Nederlands Meteorologisch Instituut)
+
+[link naar presentatie]()
+
+Discussiepunten:
+
+-   Keizer et al. found that the wind slowed down the sealevel rise which is why you see a negative wind effect in sea level change. A change in direction of the wind can also have an influence.
+-   In ZSM there is no trend in the wind effect (GTSM). Both use ERA5. It is not known why there is this difference. In KNMI study, wind effect is estimated by including ERA5 wind and pressure in the regression using the GAM model. In the Deltares study, ERA5 reanalysed wind and pressure is used as input in GTSM, which calculates surge on top of the normal tides, based on wind setup and pressure differences.
+
+## Overige vragen/opmerkingen achteraf
+
+-   Voorzien we een leesronde van deze groep voor de rapportage? Zodat deze groep kan meekijken?
+    -   Dit is niet gepland
