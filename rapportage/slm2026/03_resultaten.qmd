@@ -7,14 +7,10 @@ acronyms:
     - acronyms.yml
 ---
 
-```{r}
-config <- RcppTOML::parseToml("../../analysis/sealevelmonitor/_common/configuration.TOML") |> purrr::list_flatten()
-resultaatjaar <- config$runparameters_monitoryear
-```
 
 # Resultaten {#resultaten}
 
-Dit hoofdstuk beschrijft de resultaten voor zeespiegelmetingen tot en met `r resultaatjaar - 1`. De berekeningen die hieraan ten grondslag liggen zijn vastgelegd in een [rekendocument](link-naar-notebook).
+Dit hoofdstuk beschrijft de resultaten voor zeespiegelmetingen tot en met 2025. De berekeningen die hieraan ten grondslag liggen zijn vastgelegd in een [rekendocument](link-naar-notebook).
 
 We lopen langs de verschillende onderdelen van de resultaten, te weten:
 
