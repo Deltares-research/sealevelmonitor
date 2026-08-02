@@ -12,6 +12,13 @@ acronyms:
 
 # Preface {.unnumbered}
 
+**Disclaimer**
+
+Dit is een work-in-progress versie van de Zeespiegelmonitor. Niets hieruit mag worden gebruikt zonder expliciete toestemming van de eerste auteur. 
+
+De Zeespiegelmonitor rapporteert elke 4 jaar uitgebreid over de stand van zaken omtrent de zeespiegel aan de Nederlandse kust. Het onderzoek wordt uitgevoerd in opdracht van het Ministerie van Infrastructuur en Water Management, in het kader van het kustbeleid. 
+
+
 
 ## Lijst met afkortingen
 
