@@ -7,14 +7,10 @@ acronyms:
     - acronyms.yml
 ---
 
-```{r}
-config <- RcppTOML::parseToml("../../analysis/sealevelmonitor/_common/configuration.TOML") |> purrr::list_flatten()
-resultaatjaar <- config$runparameters_monitoryear
-```
 
 # Resultaten {#resultaten}
 
-Dit hoofdstuk beschrijft de resultaten voor zeespiegelmetingen tot en met `r resultaatjaar - 1`. De berekeningen die hieraan ten grondslag liggen zijn vastgelegd in een [rekendocument](link-naar-notebook).
+Dit hoofdstuk beschrijft de resultaten voor zeespiegelmetingen tot en met 2025. De berekeningen die hieraan ten grondslag liggen zijn vastgelegd in een [rekendocument](link-naar-notebook).
 
 We lopen langs de verschillende onderdelen van de resultaten, te weten:
 
@@ -24,7 +20,7 @@ We lopen langs de verschillende onderdelen van de resultaten, te weten:
 - de rol van bodemdaling
 - 
 
-## Windopzetcorrectie {sec-winsopzetcorrectie}
+## Windopzetcorrectie {#sec-winsopzetcorrectie}
 
 De invloed van windopzet op de metingen wordt gecorrigeerd. Hiervoor gebruiken we berekeningen met het \acr{GTSM} (zie paragraaf \@ref(sec-windopzet)). Vergeleken met de vorige rapportage in 2022 zijn de berekeningen met het \acr{GTSM} uitgebreid met de jaren 2022-2025, maar ook voor de periode 1950-1978. Hierdoor is er nu een ruim 70 jaar lange serie voor berekende windopzet.
 
@@ -32,7 +28,7 @@ Voor de correctie van de zeespiegel voor windopzet wordt een gemiddelde opzet ge
 
 ![Windopzet langs de Nederlandse kust uitgedrukt als afwijking van het langjarige gemiddelde. De berekeningen hiervoor zijn gedaan met GTSM.](https://github.com/Deltares-research/sealevelmonitor/raw/main/analysis/sealevelmonitor/sealevelanalysis_files/figure-gfm/gtsm-surge-anomalie-1.png)
 
-## Voorkeursmodel {sec-voorkeursmodel}
+## Voorkeursmodel {#sec-voorkeursmodel}
 
 In paragraaf \@ref(sec-....) wordt uitgelegd hoe we tot een voorkeursmodel komen om de huidige stijging van de zeespiegel zo goed mogelijk te beschrijven. De berekeningen voor deze keuze staan in een [online rekendocument](link-naar-rekendocument-analyse). Dit jaar is, net als in de vorige rapportage, het gebroken lineaire model het best passende model. Een aanname daarbij is dat de zeespiegel vanaf het begin van de jaren '90 sneller is gaan stijgen.
 
@@ -45,6 +41,8 @@ De extra trend na 1993 bedraagt 1.4 +/- 0.3 mm/jaar.
 Na 1993 is de totale trend verhoogd en bedraagt 3.2 +/- 0.3 mm/jaar.
 
 ![Gemeten zeespiegel (height), trend (fitted_total) en de bijdragen van de verschillende processen in het verloop van de zeespiegel in de tijd.](https://github.com/Deltares-research/sealevelmonitor/raw/main/analysis/sealevelmonitor/sealevelmonitor_files/figure-gfm/partials-1.png)
+
+
 
 ## Bodemdaling en zeespiegelstijging {#sec-bodemdaling}
 
