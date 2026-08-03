@@ -71,11 +71,11 @@ De gemiddelde zeespiegelstijging over alle zes (minus Delfzijl) hoofdstations is
 
 Met de huidige methodiek lopen we tegen een paar uitdagingen aan. Dit ligt onder andere aan het feit dat er slechts vanaf 1950 gecorrigeerd kan worden voor de jaarlijks variërende windopzet met GTSM. Hoewel dit in principe het zeespiegelsignaal verbetert, zorgt dit ook voor een inhomogene variantie. Hiermee wordt op dit moment niet rekening gehouden. Een ander punt is dat op termijn de zeespiegelveranderingen niet meer goed voldoen aan de relatief beperkte set die we nu testen (lineair, gebroken lineair, en gebroken kwadratisch). Het is de bedoeling om deze vraag de komende jaren uit te werken. Hieronder volgt een korte uitkijk naar hoe de methodiek zich verder zou kunnen ontwikkelen. 
 
-### Kort de tijdserie in
+### Verwijder jaren vóór 1950
 
-Door alleen metingen vanaf 1950 mee te nemen in de analyse wordt het probleem voorkomen van verschillen in variantie over de tijd. Er is nog een reden om de tijdserie in te korten. Hoe verder terug de metingen gedaan zijn, hoe onzekerder de gegevens. Dit heeft te maken met de frequentie van meten () en de precisie van de verticale correcties (). 
+Door alleen metingen vanaf 1950 mee te nemen in de analyse wordt het probleem van verschillen in variantie over de tijd omzeild. Er is nog een reden om de tijdserie in te korten. Oudere metingen zijn zijn onzekerder dan nieuwere. Dit heeft te maken met de frequentie van meten () en het feit dat de absolute verticale referentie van de zeespiegelmetingen vóór de invoering van nulpalen (1958) een grotere onzekerheid kende dan daarna.  
 
-Nadelen zijn er ook. Door de tijdserie in te korten wordt waardevolle informatie niet gebruikt. Ook kan het toelaten van een knikpunt onzekerder resultaten opleveren als deze dichter bij het begin van de tijdserie komt te liggen. 
+Mogelijke nadelen zijn er ook. Door de tijdserie in te korten wordt mogelijk waardevolle informatie niet gebruikt. Ook kan het toelaten van een knikpunt onzekerder resultaten opleveren als deze dichter bij het begin van de tijdserie komt te liggen. Ook moet nagedacht worden hoe om te gaan als bijvoorbeeld het voorkeursmodel verandert bij het verkorten van de tijdserie. 
 
 <voorbeelden van analyse met kortere tijdserie>
 
@@ -83,8 +83,9 @@ Nadelen zijn er ook. Door de tijdserie in te korten wordt waardevolle informatie
 
 
 
-### Het toevoegen van meer flexibele modellen
+### Het toevoegen van meer modellen
 
+Op dit moment wordt een lineaire (\acr{LM}) of gegeneralizeerde lineaire modelfunctie (\acr{GLM}) gebruikt. In andere studies wordt ook wel een \acr{GAM} gebruikt. Het belangrijkste verschil is dat een GLM een vooraf gespecificeerde parametrische relatie tussen voorspellers en respons veronderstelt, terwijl een GAM deze relatie flexibel en niet-parametrisch uit de data schat.Dit verondersteld dat, al dan niet na transformatie, het model is terug te voeren op een lineair verband in de tijd. Hoewel dit .  In sommige andere studies worden niet-lineaire 
 LOESS, GAM
 
 
