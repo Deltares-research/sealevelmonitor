@@ -119,6 +119,8 @@ acronyms:
       longname: Smaller lunar elliptic semidiurnal constituent
     - shortname: LAT
       longname: Lowest Astronomical Tide
+    - shortname: LM
+      longname: Linear Model
     - shortname: LMW
       longname: Landelijk Meetnet Water
     - shortname: LOESS
