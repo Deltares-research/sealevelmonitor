@@ -2,7 +2,7 @@
   workflow_dispatch:
   push:
     branches:
-      - develop-report**
+      - develop_report**
 
 name: Quarto Publish
 
