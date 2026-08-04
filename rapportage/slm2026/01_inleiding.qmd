@@ -17,7 +17,6 @@ De Zeespiegelmonitor wordt elk jaar sinds 2010 bijgehouden na advies van \acr{EN
 
 ## Toepassingen
 
-
 Elk jaar wordt de zeespiegel van het afgelopen jaar, en de zeespiegelstijging over de laatste 15 jaar vastgesteld en gerapporteerd aan Ministerie van Infrastructuur en Watermanagement. Deze getallen worden primair toegepast in:
 
 ::: {.callout-note}
