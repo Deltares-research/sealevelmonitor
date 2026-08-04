@@ -1,10 +1,10 @@
-name: Quarto Preview
-
-on:
+"on":
   workflow_dispatch:
   push:
     branches:
       - develop_reporting*
+
+name: Quarto Preview
 
 permissions:
   contents: write
