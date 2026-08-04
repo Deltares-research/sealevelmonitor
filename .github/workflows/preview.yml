@@ -2,7 +2,7 @@
   workflow_dispatch:
   push:
     branches:
-      - develop_reporting*
+      - develop_reporting26_willem
 
 name: Quarto Preview
 
