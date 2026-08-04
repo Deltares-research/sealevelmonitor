@@ -85,7 +85,7 @@ Mogelijke nadelen zijn er ook. Door de tijdserie in te korten wordt mogelijk waa
 
 ### Het toevoegen van meer modellen
 
-Op dit moment wordt een lineaire (\acr{LM}) of gegeneralizeerde lineaire modelfunctie (\acr{GLM}) gebruikt. In andere studies wordt ook wel een \acr{GAM} gebruikt. Het belangrijkste verschil is dat een GLM een vooraf gespecificeerde parametrische relatie tussen voorspellers en respons veronderstelt, terwijl een GAM deze relatie flexibel en niet-parametrisch uit de data schat.Dit verondersteld dat, al dan niet na transformatie, het model is terug te voeren op een lineair verband in de tijd. Hoewel dit .  In sommige andere studies worden niet-lineaire 
-LOESS, GAM
+Op dit moment wordt een lineaire (\acr{LM}) of gegeneralizeerde lineaire modelfunctie (\acr{GLM}) gebruikt. In andere studies wordt ook wel een \acr{GAM} of \acr{LOESS} gebruikt (Keizer, ?). Het belangrijkste verschil is dat een GLM een vooraf gespecificeerde parametrische relatie tussen voorspellers en respons veronderstelt, terwijl een GAM deze relatie flexibel en niet-parametrisch uit de data schat. Een \GAM zou de variatie van de meetgegevens beter kunnen beschrijven wanneer een spline functie wordt toegevoegd. Deze betere beschrijving komt niet door een betere duiding van natuurkundige principes, maar door een hogere graad van vrijheid.
+
 
 
