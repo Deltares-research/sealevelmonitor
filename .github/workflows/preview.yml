@@ -1,23 +1,10 @@
-"on":
+name: Quarto Preview
+
+on:
   workflow_dispatch:
   push:
     branches:
-      - develop_report**
-
-name: Quarto Publish
-
-env:
-  PAGES_ARTIFACT_NAME: github-pages-${{ github.run_id }}-${{ github.run_attempt }}
-
-permissions:
-  contents: read
-  pages: write
-  id-token: write
-
-on:
-  push:
-    branches:
-      - develop
+      - develop_reporting*
 
 permissions:
   contents: write
