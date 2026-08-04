@@ -1,12 +1,3 @@
----
-acronyms:
-  insert_loa: false
-  loa_title: "Lijst met afkortingen"
-  insert_links: false
-  fromfile:
-    - acronyms.yml
----
-
 
 # Resultaten {#resultaten}
 
@@ -30,15 +21,17 @@ Voor de correctie van de zeespiegel voor windopzet wordt een gemiddelde opzet ge
 
 ## Voorkeursmodel {#sec-voorkeursmodel}
 
-In paragraaf \@ref(sec-....) wordt uitgelegd hoe we tot een voorkeursmodel komen om de huidige stijging van de zeespiegel zo goed mogelijk te beschrijven. De berekeningen voor deze keuze staan in een [online rekendocument](link-naar-rekendocument-analyse). Dit jaar is, net als in de vorige rapportage, het gebroken lineaire model het best passende model. Een aanname daarbij is dat de zeespiegel vanaf het begin van de jaren '90 sneller is gaan stijgen.
+In paragraaf \@ref(sec-....) wordt uitgelegd hoe we tot een voorkeursmodel komen om de huidige stijging van de zeespiegel zo goed mogelijk te beschrijven. De berekeningen voor deze keuze staan in een [online rekendocument](link-naar-rekendocument-analyse). Dit jaar is, net als in de vorige rapportage, het gebroken lineaire model het best passende model en dit model blijkt het gemeten signaal (inclusief correctie voor windopzet en getij) significant beter te beschrijven dan een lineair model. De aanname bij dit model is dat de zeespiegel vanaf het begin van de jaren '90 sneller is gaan stijgen. 
 
 ## Huidige zeespiegel(stijging) {#sec-huidige}
 
-De lineaire trend tot 1993 bedraagt 1.8 +/- 0.1 mm/jaar.
+Op basis van de gegevens en het voorkeursmodel kunnen we de volgende conclusies trekken over de stijging van de zeespiegel aan de Nederlandse kust:
 
-De extra trend na 1993 bedraagt 1.4 +/- 0.3 mm/jaar.
+- De lineaire trend tot 1993 bedraagt 1.8 +/- 0.1 mm/jaar.
+- De extra trend na 1993 bedraagt 1.4 +/- 0.3 mm/jaar.
+- Na 1993 is de totale trend verhoogd en bedraagt 3.2 +/- 0.3 mm/jaar.
 
-Na 1993 is de totale trend verhoogd en bedraagt 3.2 +/- 0.3 mm/jaar.
+
 
 ![Gemeten zeespiegel (height), trend (fitted_total) en de bijdragen van de verschillende processen in het verloop van de zeespiegel in de tijd.](https://github.com/Deltares-research/sealevelmonitor/raw/main/analysis/sealevelmonitor/sealevelmonitor_files/figure-gfm/partials-1.png)
 
@@ -73,4 +66,8 @@ Bij de meeste stations is de totale bodemdaling dus gelijk aan de geologische bo
 
 ## Variatie binnen Nederland {#sec-ruimtelijke-variatie}
 
-## Vergelijking? met satellietmetingen
+
+
+## Vergelijking met satellietmetingen
+
+

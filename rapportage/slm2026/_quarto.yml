@@ -45,9 +45,9 @@ link-citations: true
 format:
   html:
     theme: cosmo
-    css:
-      - styles.css
-      - draft.css
+    css: 
+        - styles.css
+        - draft.css
   # pdf:
   #   # documentclass: scrreprt
   #   template: deltares-report-template.tex
