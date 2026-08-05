@@ -19,9 +19,22 @@ De Zeespiegelmonitor wordt elk jaar sinds 2010 bijgehouden na advies van \acr{EN
 
 Elk jaar wordt de zeespiegel van het afgelopen jaar, en de zeespiegelstijging over de laatste 15 jaar vastgesteld en gerapporteerd aan Ministerie van Infrastructuur en Watermanagement. Deze getallen worden primair toegepast in:
 
+
+
+
 ::: {.callout-note}
 
 ### Rapportages aan de Tweede Kamer en bij Kamervragen
+
+Deltaprogramma
+Waddenzee beleid
+Delfstoffenwinning
+
+:::
+
+::: {.callout-note}
+
+### Bepaling sedimentbehoefte van de kust (en afgeleide daarvan suppletievolumes) 
 
 De hoeveelheid zandsuppleties die nodig is om de Nederlandse kust te handhaven is namelijk afhankelijk van de opgetreden relatieve zeespiegelstijging (de stijging ten opzichte van een land dat ook bodemdaling kent) op een tijdschaal van ca 15 jaar. De ontwikkelde methodiek bepaalt de gemiddelde zeespiegelstijging door filtering van korte-termijn fluctuaties (veroorzaakt door golven, getij, windopzet etc.) uit historische data. De schatting van de recente gemiddelde zeespiegelstijging wordt als indicatie gebruikt voor de verwachte zeespiegelstijging in de nabije toekomst[^inleiding-1]. In het [syntheserapport van Kustgenese 2.0](https://www.helpdeskwater.nl/publish/pages/188194/170065_m2_rapport_kustgenese-2_a4_v11_digitaal.pdf) is uitgebreid uiteengezet hoe het benodigde zandvolume wordt vastgesteld.
 
@@ -32,12 +45,11 @@ Het zand is nodig om invulling te geven aan het kustonderhoudsdoel dat het land 
 :::
 
 
-- Bepaling sedimentbehoefte van de kust (en afgeleide daarvan suppletievolumes) 
+::: {.callout-note}
 
+### Actualiseren van de hydraulische belastingen voor de waterkeringen en andere hydraulische parameters (onderdeel Beoordeling en Ontwerp Instrumentarium) 
 
-
-
-- Actualiseren van de hydraulische belastingen voor de waterkeringen en andere hydraulische parameters (onderdeel Beoordeling en Ontwerp Instrumentarium) 
+:::
 
 
 
