@@ -1,3 +1,11 @@
+---
+acronyms:
+  include_unused: false
+  insert_loa: false
+  loa_title: ""
+  fromfile:
+  - acronyms.yml
+---
 
 # Resultaten {#resultaten}
 
@@ -60,7 +68,9 @@ Bij de meeste stations is de totale bodemdaling dus gelijk aan de geologische bo
 
 : Uitsplitsing bodemdaling [op basis van @Hijma2025b and @Hijma2026] en zeespiegelstijging per station (dit rapport). Geologische bodemdaling is constant op tijdschalen van eeuwen, de dalingssnelheid door winning is berekend voor de periode 1997-2026. De totale bodemdaling bij Hoek van Holland is inclusief daling door winning, bij Delfzijl exclusief daling door winning (zie tekst). De gemiddelde relatieve zeespiegelstijging is gemeten over de periode xxx (gebroken lineair model).
 
-## Vergelijking met scenarios (#sec-scenarios)
+## Vergelijking met projecties (#sec-scenarios)
+
+![Gemeten zeespiegel gefit met het gebroken lineaire model, en de KNMI projecties (jaar?) voor de Nederlandse kust afgeleid van het laagste ICPP scenario. ](images/vergelijking-projecties-metingen-concept-26.png)
 
 ## Vergelijking met zeespiegelbudgetten {#sec-budgetten}
 
@@ -69,5 +79,10 @@ Bij de meeste stations is de totale bodemdaling dus gelijk aan de geologische bo
 
 
 ## Vergelijking met satellietmetingen
+
+
+## Lijst met gebruikte afkortingen
+
+\printacronyms
 
 

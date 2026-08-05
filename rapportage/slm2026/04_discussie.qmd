@@ -1,10 +1,10 @@
 ---
 acronyms:
+  include_unused: false
   insert_loa: false
-  loa_title: "Lijst met afkortingen"
-  insert_links: false
+  loa_title: ""
   fromfile:
-    - acronyms.yml
+  - acronyms.yml
 ---
 
 # Discussie {#discussie}
@@ -78,3 +78,8 @@ Op dit moment wordt een lineaire (\acr{LM}) of gegeneralizeerde lineaire modelfu
 ![Vergelijking GAM en "broken linear" model voor de Nederlandse zeespiegelmetingen.](https://github.com/Deltares-research/sealevelmonitor/raw/main/analysis/sealevelmonitor/gam-knmi-analyse_files/figure-gfm/unnamed-chunk-6-1.png)
 
 ![Vergelijking van de snelheid van zeespiegelstijging zoals geschat met het GAM model en het "broken linear" model.](https://github.com/Deltares-research/sealevelmonitor/raw/main/analysis/sealevelmonitor/gam-knmi-analyse_files/figure-gfm/plot-derivatives-1.png)
+
+
+## Lijst met gebruikte afkortingen
+
+\printacronyms

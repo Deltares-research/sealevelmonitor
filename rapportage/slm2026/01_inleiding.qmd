@@ -1,10 +1,10 @@
 ---
 acronyms:
+  include_unused: false
   insert_loa: false
-  loa_title: "Lijst met afkortingen"
-  insert_links: false
+  loa_title: ""
   fromfile:
-    - acronyms.yml
+  - acronyms.yml
 ---
 
 # Inleiding {#sec-inleiding}
@@ -26,17 +26,13 @@ Rapportages aan de Tweede Kamer en bij Kamervragen
 
 
 Bepaling sedimentbehoefte van de kust (en afgeleide daarvan suppletievolumes) 
-: De hoeveelheid zandsuppleties die nodig is om de Nederlandse kust te handhaven is afhankelijk van de opgetreden relatieve zeespiegelstijging (de stijging ten opzichte van een land dat ook bodemdaling kent) op een tijdschaal van ca 15 jaar. Het zand is nodig om invulling te geven aan het kustonderhoudsdoel dat het land meegroeit met de zeespiegel. Omdat het gaat om een aanvulling wordt de hoeveelheid zand die hiervoor nodig is achteraf bepaald. Om die reden beschouwen we in deze rapportage de opgetreden zeespiegel tot nu toe. Voor budgetplanning en signalering is ook de zeespiegel in de nabije toekomst van belang. De zeespiegelstijging op langere tijdschalen is ook de drijver van kustverandering. Het doel van zandsuppletie is om voldoende sediment toe te voegen aan de kust om aan te kunnen passen aan die veranderingen. Hiervoor is zeespiegelstijging informatie nodig exclusief de variatie op jaarlijkse en decade tijdschaal, zoals nu berekend wordt in de Zeespiegelmonitor. De ontwikkelde methodiek binnen /acr{ZSM} bepaalt de gemiddelde zeespiegelstijging door filtering van korte-termijn fluctuaties (veroorzaakt door golven, getij, windopzet etc.) uit historische data en sluit hier dus goed bij aan. De schatting van de recente gemiddelde zeespiegelstijging wordt ook als indicatie gebruikt voor de verwachte zeespiegelstijging in de nabije toekomst (@Dillingh2010). In het [syntheserapport van Kustgenese 2.0](https://open.rijkswaterstaat.nl/@260414/basiskustlijn-bkl-herzieningen-rapporten/#:~:text=Basiskustlijn%202023%20:%20Herziening%20van%20de%20ligging,mei%202023.%20Ministerie%20van%20Infrastructuur%20en%20Waterstaat.)  en herzieningen is uitgebreid uiteengezet hoe het benodigde zandvolume wordt vastgesteld.
+: De hoeveelheid zandsuppleties die nodig is om de Nederlandse kust te handhaven is afhankelijk van de opgetreden relatieve zeespiegelstijging (de stijging ten opzichte van een land dat ook bodemdaling kent) op een tijdschaal van ca 15 jaar. Het zand is nodig om invulling te geven aan het kustonderhoudsdoel dat het land meegroeit met de zeespiegel. Omdat het gaat om een aanvulling wordt de hoeveelheid zand die hiervoor nodig is achteraf bepaald. Om die reden beschouwen we in deze rapportage de opgetreden zeespiegel tot nu toe. Voor budgetplanning en signalering is ook de zeespiegel in de nabije toekomst van belang. De zeespiegelstijging op langere tijdschalen is ook de drijver van kustverandering. Het doel van zandsuppletie is om voldoende sediment toe te voegen aan de kust om aan te kunnen passen aan die veranderingen. Hiervoor is zeespiegelstijging informatie nodig exclusief de variatie op jaarlijkse en decade tijdschaal, zoals nu berekend wordt in de Zeespiegelmonitor. De ontwikkelde methodiek binnen \acr{ZSM} bepaalt de gemiddelde zeespiegelstijging door filtering van korte-termijn fluctuaties (veroorzaakt door golven, getij, windopzet etc.) uit historische data en sluit hier dus goed bij aan. De schatting van de recente gemiddelde zeespiegelstijging wordt ook als indicatie gebruikt voor de verwachte zeespiegelstijging in de nabije toekomst (@Dillingh2010). In het [syntheserapport van Kustgenese 2.0](https://open.rijkswaterstaat.nl/@260414/basiskustlijn-bkl-herzieningen-rapporten/#:~:text=Basiskustlijn%202023%20:%20Herziening%20van%20de%20ligging,mei%202023.%20Ministerie%20van%20Infrastructuur%20en%20Waterstaat.)  en herzieningen daarvan is uitgebreid uiteengezet hoe het benodigde zandvolume wordt vastgesteld.
 
-
-
-Actualiseren van de hydraulische belastingen voor de waterkeringen en andere hydraulische parameters (onderdeel Beoordeling en Ontwerp Instrumentarium) 
+Actualiseren van de hydraulische belastingen voor de waterkeringen en andere hydraulische parameters (onderdeel van Beoordeling en Ontwerp Instrumentarium) 
 : De hydraulische belastingen die worden gebruikt voor toetsen en ontwerpen van waterkeringen zijn sterk afhankelijk van het gemiddelde zeeniveau. Wanneer de zeespiegel stijgt, verschuift de volledige verdeling van extreme waterstanden naar boven. De Zeespiegelmonitor levert hiervoor:  
 - Actuele schattingen van de relatieve zeespiegelstijging langs de Nederlandse kust.
 - Inzicht in trendveranderingen en versnelling van de zeespiegelstijging.
 - Een representatieve trend voor de komende circa 15 jaar.
-
-
 
 In de vorige rapportages [2014](https://publications.deltares.nl/1209426_202.pdf), [2018](https://www.deltares.nl/app/uploads/2019/03/Zeespiegelmonitor-2018-final.pdf) en [2022](https://publications.deltares.nl/11209266_000.pdf) zijn overzichten te vinden van eerder onderzoek en hoe deze tot keuzes in de methodiek leidden. In grote lijnen is de methodiek over de gehele periode dezelfde geweest. Wel zijn er aanpassingen geweest aan de exacte modelformuleringen waaruit gekozen kan worden. 
 
@@ -53,7 +49,7 @@ Voorspelkracht
 : 
 
 Draagvlak
-: De methodiek en resultaten van de Zeespiegelmonitor worden regelmatig besproken met experts van andere Nederlandse Instituten in een workshop. De laatste workshop was op 16 april met experts van o.a. \acr{NIOZ}, \acr{KNMI}, \acr{TNO}, \acr{PBL} en \acr{UU}
+: De methodiek en resultaten van de Zeespiegelmonitor worden regelmatig besproken met experts van andere Nederlandse Instituten in een workshop. De laatste workshop was op 16 april 2026 met experts van \acr{NIOZ}, \acr{KNMI}, \acr{TNO}, \acr{PBL}, \acr{HKV}, \acr{TUD}, \acr{RWS}, \acr{HVEC} en \acr{UU}
 
 
 ## Inhoud van dit rapport {#leeswijzer}
@@ -84,3 +80,6 @@ Infographic voor bepaling van de relatieve zeespiegelstijging.
 
 ## Stand van zaken in de literatuur
 
+## Lijst met gebruikte afkortingen
+
+\printacronyms
