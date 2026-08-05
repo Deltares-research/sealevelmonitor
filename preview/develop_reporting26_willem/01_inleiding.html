@@ -26,7 +26,26 @@ ul.task-list li input[type="checkbox"] {
   margin: 0 0.8em 0.2em -1em; /* quarto-specific, see https://github.com/quarto-dev/quarto-cli/issues/4556 */ 
   vertical-align: middle;
 }
-</style>
+/* CSS for citations */
+div.csl-bib-body { }
+div.csl-entry {
+  clear: both;
+}
+.hanging-indent div.csl-entry {
+  margin-left:2em;
+  text-indent:-2em;
+}
+div.csl-left-margin {
+  min-width:2em;
+  float:left;
+}
+div.csl-right-inline {
+  margin-left:2em;
+  padding-left:1em;
+}
+div.csl-indent {
+  margin-left: 2em;
+}</style>
 
 
 <script src="site_libs/quarto-nav/quarto-nav.js"></script>
@@ -193,10 +212,12 @@ ul.task-list li input[type="checkbox"] {
   <ul>
   <li><a href="#doel" id="toc-doel" class="nav-link active" data-scroll-target="#doel"><span class="header-section-number">2.1</span> Doel</a></li>
   <li><a href="#toepassingen" id="toc-toepassingen" class="nav-link" data-scroll-target="#toepassingen"><span class="header-section-number">2.2</span> Toepassingen</a></li>
-  <li><a href="#onderzoeksvragen" id="toc-onderzoeksvragen" class="nav-link" data-scroll-target="#onderzoeksvragen"><span class="header-section-number">2.3</span> Onderzoeksvragen</a></li>
-  <li><a href="#toepassingen-1" id="toc-toepassingen-1" class="nav-link" data-scroll-target="#toepassingen-1"><span class="header-section-number">2.4</span> Toepassingen</a></li>
-  <li><a href="#onderzoeksvragen" id="toc-onderzoeksvragen" class="nav-link" data-scroll-target="#onderzoeksvragen"><span class="header-section-number">2.5</span> Onderzoeksvragen afgelopen periode</a></li>
-  <li><a href="#stand-van-zaken-in-de-literatuur" id="toc-stand-van-zaken-in-de-literatuur" class="nav-link" data-scroll-target="#stand-van-zaken-in-de-literatuur"><span class="header-section-number">2.6</span> Stand van zaken in de literatuur</a></li>
+  <li><a href="#inhoud-van-dit-rapport" id="toc-inhoud-van-dit-rapport" class="nav-link" data-scroll-target="#inhoud-van-dit-rapport"><span class="header-section-number">2.3</span> Inhoud van dit rapport</a>
+  <ul class="collapse">
+  <li><a href="#jaarlijkse-zeespiegelmonitor" id="toc-jaarlijkse-zeespiegelmonitor" class="nav-link" data-scroll-target="#jaarlijkse-zeespiegelmonitor"><span class="header-section-number">2.3.1</span> Jaarlijkse zeespiegelmonitor</a></li>
+  <li><a href="#onderzoeksvragen" id="toc-onderzoeksvragen" class="nav-link" data-scroll-target="#onderzoeksvragen"><span class="header-section-number">2.3.2</span> Onderzoeksvragen afgelopen periode</a></li>
+  </ul></li>
+  <li><a href="#stand-van-zaken-in-de-literatuur" id="toc-stand-van-zaken-in-de-literatuur" class="nav-link" data-scroll-target="#stand-van-zaken-in-de-literatuur"><span class="header-section-number">2.4</span> Stand van zaken in de literatuur</a></li>
   </ul>
 </nav>
     </div>
@@ -229,98 +250,82 @@ ul.task-list li input[type="checkbox"] {
 </section>
 <section id="toepassingen" class="level2" data-number="2.2">
 <h2 data-number="2.2" class="anchored" data-anchor-id="toepassingen"><span class="header-section-number">2.2</span> Toepassingen</h2>
-<p>Elk jaar wordt de zeespiegel van het afgelopen jaar, en de zeespiegelstijging over de laatste 15 jaar vastgesteld en gerapporteerd aan Ministerie van Infrastructuur en Watermanagement. Deze getallen worden primair toegepast in:</p>
-<div class="callout callout-style-default callout-note callout-titled">
-<div class="callout-header d-flex align-content-center">
-<div class="callout-icon-container">
-<i class="callout-icon"></i>
-</div>
-<div class="callout-title-container flex-fill">
-<span class="screen-reader-only">Note</span>Rapportages aan de Tweede Kamer en bij Kamervragen
-</div>
-</div>
-<div class="callout-body-container callout-body">
-<p>Deltaprogramma Waddenzee beleid Delfstoffenwinning</p>
-</div>
-</div>
-<div class="callout callout-style-default callout-note callout-titled">
-<div class="callout-header d-flex align-content-center">
-<div class="callout-icon-container">
-<i class="callout-icon"></i>
-</div>
-<div class="callout-title-container flex-fill">
-<span class="screen-reader-only">Note</span>Bepaling sedimentbehoefte van de kust (en afgeleide daarvan suppletievolumes)
-</div>
-</div>
-<div class="callout-body-container callout-body">
-<p>De hoeveelheid zandsuppleties die nodig is om de Nederlandse kust te handhaven is namelijk afhankelijk van de opgetreden relatieve zeespiegelstijging (de stijging ten opzichte van een land dat ook bodemdaling kent) op een tijdschaal van ca 15 jaar. De ontwikkelde methodiek bepaalt de gemiddelde zeespiegelstijging door filtering van korte-termijn fluctuaties (veroorzaakt door golven, getij, windopzet etc.) uit historische data. De schatting van de recente gemiddelde zeespiegelstijging wordt als indicatie gebruikt voor de verwachte zeespiegelstijging in de nabije toekomst<a href="#fn1" class="footnote-ref" id="fnref1" role="doc-noteref"><sup>1</sup></a>. In het <a href="https://www.helpdeskwater.nl/publish/pages/188194/170065_m2_rapport_kustgenese-2_a4_v11_digitaal.pdf">syntheserapport van Kustgenese 2.0</a> is uitgebreid uiteengezet hoe het benodigde zandvolume wordt vastgesteld.</p>
-<p>Het zand is nodig om invulling te geven aan het kustonderhoudsdoel dat het land meegroeit met de zeespiegel. Omdat het gaat om een aanvulling wordt de hoeveelheid zand die hiervoor nodig is achteraf bepaald. Om die reden beschouwen we in deze rapportage de opgetreden zeespiegel tot nu toe. Voor budgetplanning en signalering is ook de zeespiegel in de nabije toekomst van belang.</p>
-</div>
-</div>
-<div class="callout callout-style-default callout-note callout-empty-content callout-titled">
-<div class="callout-header d-flex align-content-center">
-<div class="callout-icon-container">
-<i class="callout-icon"></i>
-</div>
-<div class="callout-title-container flex-fill">
-<span class="screen-reader-only">Note</span>Actualiseren van de hydraulische belastingen voor de waterkeringen en andere hydraulische parameters (onderdeel Beoordeling en Ontwerp Instrumentarium)
-</div>
-</div>
-<div class="callout-body-container callout-body">
+<p>Elk jaar wordt de zeespiegel van het afgelopen jaar, en de zeespiegelstijging over de laatste 15 jaar vastgesteld en gerapporteerd aan Ministerie van Infrastructuur en Watermanagement. Deze getallen worden primair toegepast in onderstaande processen.</p>
+<p>Behalve voor de bepaling van de jaarlijkse suppletiehoeveelheid is de opgetreden zeespiegelstijging van belang voor de vergunningen rondom zout- en gaswinning in het Waddengebied en voor ontwerpparameters van waterkeringen. Dit uiteraard naast algemenere doeleinden, waaronder het informeren van het publiek. Een uitgebreider overzicht van de indicatoren en toepassingen kan ook gevonden worden in &lt;Zeespiegelmonitor 2018 en 2022&gt;.</p>
+<dl>
+<dt>Rapportages aan de Tweede Kamer en bij Kamervragen</dt>
+<dd>
+De Zeespiegelmonitor informeert de Tweede Kamer via het Ministerie een keer per jaar over de actuele getallen. Verder kunnen er op elk moment kamervragen komen over details van de zeespiegelstijging, bijvoorbeeld in het kader van het Deltaprogramma, het Waddenzeebeleid, of Delfstoffenwinning.
+</dd>
+<dt>Bepaling sedimentbehoefte van de kust (en afgeleide daarvan suppletievolumes)</dt>
+<dd>
+De hoeveelheid zandsuppleties die nodig is om de Nederlandse kust te handhaven is afhankelijk van de opgetreden relatieve zeespiegelstijging (de stijging ten opzichte van een land dat ook bodemdaling kent) op een tijdschaal van ca 15 jaar. Het zand is nodig om invulling te geven aan het kustonderhoudsdoel dat het land meegroeit met de zeespiegel. Omdat het gaat om een aanvulling wordt de hoeveelheid zand die hiervoor nodig is achteraf bepaald. Om die reden beschouwen we in deze rapportage de opgetreden zeespiegel tot nu toe. Voor budgetplanning en signalering is ook de zeespiegel in de nabije toekomst van belang. De zeespiegelstijging op langere tijdschalen is ook de drijver van kustverandering. Het doel van zandsuppletie is om voldoende sediment toe te voegen aan de kust om aan te kunnen passen aan die veranderingen. Hiervoor is zeespiegelstijging informatie nodig exclusief de variatie op jaarlijkse en decade tijdschaal, zoals nu berekend wordt in de Zeespiegelmonitor. De ontwikkelde methodiek binnen /acr{ZSM} bepaalt de gemiddelde zeespiegelstijging door filtering van korte-termijn fluctuaties (veroorzaakt door golven, getij, windopzet etc.) uit historische data en sluit hier dus goed bij aan. De schatting van de recente gemiddelde zeespiegelstijging wordt ook als indicatie gebruikt voor de verwachte zeespiegelstijging in de nabije toekomst (<span class="citation" data-cites="Dillingh2010"><span class="nocase">Dillingh et al.</span> (<a href="05_literatuur.html#ref-Dillingh2010" role="doc-biblioref">2010</a>)</span>). In het <a href="https://open.rijkswaterstaat.nl/@260414/basiskustlijn-bkl-herzieningen-rapporten/#:~:text=Basiskustlijn%202023%20:%20Herziening%20van%20de%20ligging,mei%202023.%20Ministerie%20van%20Infrastructuur%20en%20Waterstaat.">syntheserapport van Kustgenese 2.0</a> en herzieningen is uitgebreid uiteengezet hoe het benodigde zandvolume wordt vastgesteld.
+</dd>
+<dt>Actualiseren van de hydraulische belastingen voor de waterkeringen en andere hydraulische parameters (onderdeel Beoordeling en Ontwerp Instrumentarium)</dt>
+<dd>
+De hydraulische belastingen die worden gebruikt voor toetsen en ontwerpen van waterkeringen zijn sterk afhankelijk van het gemiddelde zeeniveau. Wanneer de zeespiegel stijgt, verschuift de volledige verdeling van extreme waterstanden naar boven. De Zeespiegelmonitor levert hiervoor:<br>
 
-</div>
-</div>
-<p>Behalve voor de bepaling van de jaarlijkse suppletiehoeveelheid is de opgetreden zeespiegelstijging van belang voor de vergunningen rondom zout- en gaswinning in het Waddengebied en voor ontwerpparameters van waterkeringen. Dit uiteraard naast algemenere doeleinden, waaronder het informeren van het publiek. Een overzicht van de indicatoren en toepassingen kan ook gevonden worden in &lt;Zeespiegelmonitor 2018 en 2022&gt;.</p>
+</dd>
+</dl>
+<ul>
+<li>Actuele schattingen van de relatieve zeespiegelstijging langs de Nederlandse kust.</li>
+<li>Inzicht in trendveranderingen en versnelling van de zeespiegelstijging.</li>
+<li>Een representatieve trend voor de komende circa 15 jaar.</li>
+</ul>
 <p>In de vorige rapportages <a href="https://publications.deltares.nl/1209426_202.pdf">2014</a>, <a href="https://www.deltares.nl/app/uploads/2019/03/Zeespiegelmonitor-2018-final.pdf">2018</a> en <a href="https://publications.deltares.nl/11209266_000.pdf">2022</a> zijn overzichten te vinden van eerder onderzoek en hoe deze tot keuzes in de methodiek leidden. In grote lijnen is de methodiek over de gehele periode dezelfde geweest. Wel zijn er aanpassingen geweest aan de exacte modelformuleringen waaruit gekozen kan worden.</p>
 <p>De methode die is gebruikt voor de bepaling van de zeespiegel en stijging ervan staat in hoofdstuk @ref(methodiek). De waarden worden elk jaar geactualiseerd in de online zeespiegelmonitor.</p>
 <p>Voorliggend rapport heeft ook als doel een verslag te geven van het onderzoek dat in de afgelopen jaren is gedaan. De keuzes in dat onderzoek volgen uit de vooraf opgestelde onderzoeksagenda. In paragraaf @ref(onderzoeksvragen) staat een overzicht. Een aantal onderzoeken zijn ook als aparte memo’s of rapporten gepresenteerd. Dit staat aangegeven in het overzicht.</p>
 </section>
-<section id="onderzoeksvragen" class="level2" data-number="2.3">
-<h2 data-number="2.3" class="anchored" data-anchor-id="onderzoeksvragen"><span class="header-section-number">2.3</span> Onderzoeksvragen</h2>
-<p>Dit rapport heeft als doel om een overzicht te geven van het werk dat in de afgelopen jaren is gedaan in het kader van het onderzoek Kustbeleid. Vanaf 2022 is er richting gegeven aan dit onderzoek vanuit een met de opdrachtgevers afgestemde onderzoeksagenda. Deze agenda is in 2023 vastgesteld voor de periode 2023 - 2025. In dit rapport worden deze centrale vraagstellingen beantwoord.</p>
-<p><strong>Jaarlijkse zeespiegelmonitor</strong></p>
-<ul>
-<li>Wat is de huidige stijging van de zeespiegel aan de Nederlandse kust?</li>
-</ul>
-<p>Deze vraag wordt beantwoord in paragraaf @ref(huidige).</p>
+<section id="inhoud-van-dit-rapport" class="level2" data-number="2.3">
+<h2 data-number="2.3" class="anchored" data-anchor-id="inhoud-van-dit-rapport"><span class="header-section-number">2.3</span> Inhoud van dit rapport</h2>
+<p>Dit rapport heeft als doel om een overzicht te geven van het werk dat in de afgelopen jaren is gedaan in het kader van het onderzoek Kustbeleid. Allereerst gaat het om de berekeningen van de zeespiegel en zeespiegelstijging. Verder is er ook ruimte geweest voor onderzoek met als doel om de gebruikte methodieken te verbeteren, of om de resultaten beter te kunnen interpreteren. Vanaf 2022 is er richting gegeven aan dit onderzoek vanuit een met de opdrachtgevers afgestemde onderzoeksagenda. Deze agenda is in 2023 vastgesteld voor de periode 2023 - 2025. In dit rapport worden deze centrale vraagstellingen beantwoord.</p>
+<section id="jaarlijkse-zeespiegelmonitor" class="level3" data-number="2.3.1">
+<h3 data-number="2.3.1" class="anchored" data-anchor-id="jaarlijkse-zeespiegelmonitor"><span class="header-section-number">2.3.1</span> Jaarlijkse zeespiegelmonitor</h3>
+<dl>
+<dt>Wat is de huidige stijging van de zeespiegel aan de Nederlandse kust?</dt>
+<dd>
+Deze vraag wordt beantwoord in paragraaf @ref(huidige).
+</dd>
+</dl>
 </section>
-<section id="toepassingen-1" class="level2" data-number="2.4">
-<h2 data-number="2.4" class="anchored" data-anchor-id="toepassingen-1"><span class="header-section-number">2.4</span> Toepassingen</h2>
-<p>Korte toelichting over de toepassingen</p>
+<section id="onderzoeksvragen" class="level3" data-number="2.3.2">
+<h3 data-number="2.3.2" class="anchored" data-anchor-id="onderzoeksvragen"><span class="header-section-number">2.3.2</span> Onderzoeksvragen afgelopen periode</h3>
+<dl>
+<dt>Wat gebeurt er met de gemiddelde zeespiegel bij veranderend getij.</dt>
+<dd>
+Deze vraag wordt beantwoord in paragraaf @ref().
+</dd>
+<dt>Zeespiegel in de Wadden. Wat heeft de achterblijvende zeespiegel in de Waddenzee kunnen veroorzaken?</dt>
+<dd>
+Deze vraag wordt beantwoord in paragraaf @ref().
+</dd>
+<dt>Verbeter de schatting van de zeespiegelstijging door een betere schatting van de invloed van getij en wind door GTSM her-analyses</dt>
+<dd>
+
+</dd>
+</dl>
+<p>Deze vraag wordt beantwoord in paragraaf @ref().</p>
+<dl>
+<dt>Bodemdaling vs zeespiegelstijging. Hoe om te gaan met GNSS hoogtebepaling van de meetstaions?</dt>
+<dd>
+Deze vraag wordt beantwoord in paragraaf @ref().
+</dd>
+<dt>Infographic voor bepaling van de relatieve zeespiegelstijging.</dt>
+<dd>
+Deze vraag wordt beantwoord in paragraaf @ref().
+</dd>
+</dl>
 </section>
-<section id="onderzoeksvragen" class="level2" data-number="2.5">
-<h2 data-number="2.5" class="anchored" data-anchor-id="onderzoeksvragen"><span class="header-section-number">2.5</span> Onderzoeksvragen afgelopen periode</h2>
-<ul>
-<li>Wat gebeurt er met de gemiddelde zeespiegel bij veranderend getij.</li>
-</ul>
-<p>Deze vraag wordt beantwoord in paragraaf @ref().</p>
-<ul>
-<li>Zeespiegel in de Wadden. Wat heeft de achterblijvende zeespiegel in de Waddenzee kunnen veroorzaken?</li>
-</ul>
-<p>Deze vraag wordt beantwoord in paragraaf @ref().</p>
-<ul>
-<li>Verbeter de schatting van de zeespiegelstijging door een betere schatting van de invloed van getij en wind door GTSM her-analyses</li>
-</ul>
-<p>Deze vraag wordt beantwoord in paragraaf @ref().</p>
-<ul>
-<li>Bodemdaling vs zeespiegelstijging. Hoe om te gaan met GNSS hoogtebepaling van de meetstaions?</li>
-</ul>
-<p>Deze vraag wordt beantwoord in paragraaf @ref().</p>
-<ul>
-<li>Infographic voor bepaling van de relatieve zeespiegelstijging.</li>
-</ul>
-<p>Deze vraag wordt beantwoord in paragraaf @ref().</p>
 </section>
-<section id="stand-van-zaken-in-de-literatuur" class="level2" data-number="2.6">
-<h2 data-number="2.6" class="anchored" data-anchor-id="stand-van-zaken-in-de-literatuur"><span class="header-section-number">2.6</span> Stand van zaken in de literatuur</h2>
+<section id="stand-van-zaken-in-de-literatuur" class="level2" data-number="2.4">
+<h2 data-number="2.4" class="anchored" data-anchor-id="stand-van-zaken-in-de-literatuur"><span class="header-section-number">2.4</span> Stand van zaken in de literatuur</h2>
 
 
-</section>
-<section id="footnotes" class="footnotes footnotes-end-of-document" role="doc-endnotes">
-<hr>
-<ol>
-<li id="fn1"><p>Zie voor nadere uitwerking @Dillingh2010<a href="#fnref1" class="footnote-back" role="doc-backlink">↩︎</a></p></li>
-</ol>
+<div id="refs" class="references csl-bib-body hanging-indent" role="list" style="display: none">
+<div id="ref-Dillingh2010" class="csl-entry" role="listitem">
+<span class="nocase">Dillingh, D, F Baart, and J de Ronde</span>. 2010. <em>Definitie Zeespiegelstijging Voor Bepaling Suppletiebehoefte</em>. Nos. 1201993–002. Deltares.
+</div>
+</div>
 </section>
 
 </main> <!-- /main -->
