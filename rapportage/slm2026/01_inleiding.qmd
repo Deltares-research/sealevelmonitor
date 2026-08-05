@@ -17,43 +17,26 @@ De Zeespiegelmonitor wordt elk jaar sinds 2010 bijgehouden na advies van \acr{EN
 
 ## Toepassingen
 
-Elk jaar wordt de zeespiegel van het afgelopen jaar, en de zeespiegelstijging over de laatste 15 jaar vastgesteld en gerapporteerd aan Ministerie van Infrastructuur en Watermanagement. Deze getallen worden primair toegepast in:
+Elk jaar wordt de zeespiegel van het afgelopen jaar, en de zeespiegelstijging over de laatste 15 jaar vastgesteld en gerapporteerd aan Ministerie van Infrastructuur en Watermanagement. Deze getallen worden primair toegepast in onderstaande processen. 
+
+Behalve voor de bepaling van de jaarlijkse suppletiehoeveelheid is de opgetreden zeespiegelstijging van belang voor de vergunningen rondom zout- en gaswinning in het Waddengebied en voor ontwerpparameters van waterkeringen. Dit uiteraard naast algemenere doeleinden, waaronder het informeren van het publiek. Een uitgebreider overzicht van de indicatoren en toepassingen kan ook gevonden worden in <Zeespiegelmonitor 2018 en 2022>. 
+
+Rapportages aan de Tweede Kamer en bij Kamervragen
+: De Zeespiegelmonitor informeert de Tweede Kamer via het Ministerie een keer per jaar over de actuele getallen. Verder kunnen er op elk moment kamervragen komen over details van de zeespiegelstijging, bijvoorbeeld in het kader van het Deltaprogramma, het Waddenzeebeleid, of Delfstoffenwinning. 
+
+
+Bepaling sedimentbehoefte van de kust (en afgeleide daarvan suppletievolumes) 
+: De hoeveelheid zandsuppleties die nodig is om de Nederlandse kust te handhaven is afhankelijk van de opgetreden relatieve zeespiegelstijging (de stijging ten opzichte van een land dat ook bodemdaling kent) op een tijdschaal van ca 15 jaar. Het zand is nodig om invulling te geven aan het kustonderhoudsdoel dat het land meegroeit met de zeespiegel. Omdat het gaat om een aanvulling wordt de hoeveelheid zand die hiervoor nodig is achteraf bepaald. Om die reden beschouwen we in deze rapportage de opgetreden zeespiegel tot nu toe. Voor budgetplanning en signalering is ook de zeespiegel in de nabije toekomst van belang. De zeespiegelstijging op langere tijdschalen is ook de drijver van kustverandering. Het doel van zandsuppletie is om voldoende sediment toe te voegen aan de kust om aan te kunnen passen aan die veranderingen. Hiervoor is zeespiegelstijging informatie nodig exclusief de variatie op jaarlijkse en decade tijdschaal, zoals nu berekend wordt in de Zeespiegelmonitor. De ontwikkelde methodiek binnen /acr{ZSM} bepaalt de gemiddelde zeespiegelstijging door filtering van korte-termijn fluctuaties (veroorzaakt door golven, getij, windopzet etc.) uit historische data en sluit hier dus goed bij aan. De schatting van de recente gemiddelde zeespiegelstijging wordt ook als indicatie gebruikt voor de verwachte zeespiegelstijging in de nabije toekomst (@Dillingh2010). In het [syntheserapport van Kustgenese 2.0](https://open.rijkswaterstaat.nl/@260414/basiskustlijn-bkl-herzieningen-rapporten/#:~:text=Basiskustlijn%202023%20:%20Herziening%20van%20de%20ligging,mei%202023.%20Ministerie%20van%20Infrastructuur%20en%20Waterstaat.)  en herzieningen is uitgebreid uiteengezet hoe het benodigde zandvolume wordt vastgesteld.
 
 
 
-
-::: {.callout-note}
-
-### Rapportages aan de Tweede Kamer en bij Kamervragen
-
-Deltaprogramma
-Waddenzee beleid
-Delfstoffenwinning
-
-:::
-
-::: {.callout-note}
-
-### Bepaling sedimentbehoefte van de kust (en afgeleide daarvan suppletievolumes) 
-
-De hoeveelheid zandsuppleties die nodig is om de Nederlandse kust te handhaven is namelijk afhankelijk van de opgetreden relatieve zeespiegelstijging (de stijging ten opzichte van een land dat ook bodemdaling kent) op een tijdschaal van ca 15 jaar. De ontwikkelde methodiek bepaalt de gemiddelde zeespiegelstijging door filtering van korte-termijn fluctuaties (veroorzaakt door golven, getij, windopzet etc.) uit historische data. De schatting van de recente gemiddelde zeespiegelstijging wordt als indicatie gebruikt voor de verwachte zeespiegelstijging in de nabije toekomst[^inleiding-1]. In het [syntheserapport van Kustgenese 2.0](https://www.helpdeskwater.nl/publish/pages/188194/170065_m2_rapport_kustgenese-2_a4_v11_digitaal.pdf) is uitgebreid uiteengezet hoe het benodigde zandvolume wordt vastgesteld.
-
-[^inleiding-1]: Zie voor nadere uitwerking \@Dillingh2010
-
-Het zand is nodig om invulling te geven aan het kustonderhoudsdoel dat het land meegroeit met de zeespiegel. Omdat het gaat om een aanvulling wordt de hoeveelheid zand die hiervoor nodig is achteraf bepaald. Om die reden beschouwen we in deze rapportage de opgetreden zeespiegel tot nu toe. Voor budgetplanning en signalering is ook de zeespiegel in de nabije toekomst van belang.
-
-:::
+Actualiseren van de hydraulische belastingen voor de waterkeringen en andere hydraulische parameters (onderdeel Beoordeling en Ontwerp Instrumentarium) 
+: De hydraulische belastingen die worden gebruikt voor toetsen en ontwerpen van waterkeringen zijn sterk afhankelijk van het gemiddelde zeeniveau. Wanneer de zeespiegel stijgt, verschuift de volledige verdeling van extreme waterstanden naar boven. De Zeespiegelmonitor levert hiervoor:  
+- Actuele schattingen van de relatieve zeespiegelstijging langs de Nederlandse kust.
+- Inzicht in trendveranderingen en versnelling van de zeespiegelstijging.
+- Een representatieve trend voor de komende circa 15 jaar.
 
 
-::: {.callout-note}
-
-### Actualiseren van de hydraulische belastingen voor de waterkeringen en andere hydraulische parameters (onderdeel Beoordeling en Ontwerp Instrumentarium) 
-
-:::
-
-
-
-Behalve voor de bepaling van de jaarlijkse suppletiehoeveelheid is de opgetreden zeespiegelstijging van belang voor de vergunningen rondom zout- en gaswinning in het Waddengebied en voor ontwerpparameters van waterkeringen. Dit uiteraard naast algemenere doeleinden, waaronder het informeren van het publiek. Een overzicht van de indicatoren en toepassingen kan ook gevonden worden in <Zeespiegelmonitor 2018 en 2022>. 
 
 In de vorige rapportages [2014](https://publications.deltares.nl/1209426_202.pdf), [2018](https://www.deltares.nl/app/uploads/2019/03/Zeespiegelmonitor-2018-final.pdf) en [2022](https://publications.deltares.nl/11209266_000.pdf) zijn overzichten te vinden van eerder onderzoek en hoe deze tot keuzes in de methodiek leidden. In grote lijnen is de methodiek over de gehele periode dezelfde geweest. Wel zijn er aanpassingen geweest aan de exacte modelformuleringen waaruit gekozen kan worden. 
 
@@ -61,45 +44,37 @@ De methode die is gebruikt voor de bepaling van de zeespiegel en stijging ervan 
 
 Voorliggend rapport heeft ook als doel een verslag te geven van het onderzoek dat in de afgelopen jaren is gedaan. De keuzes in dat onderzoek volgen uit de vooraf opgestelde onderzoeksagenda. In paragraaf \@ref(onderzoeksvragen) staat een overzicht. Een aantal onderzoeken zijn ook als aparte memo's of rapporten gepresenteerd. Dit staat aangegeven in het overzicht.
 
-## Onderzoeksvragen 
-
-Dit rapport heeft als doel om een overzicht te geven van het werk dat in de afgelopen jaren is gedaan in het kader van het onderzoek Kustbeleid. Vanaf 2022 is er richting gegeven aan dit onderzoek vanuit een met de opdrachtgevers afgestemde onderzoeksagenda. Deze agenda is in 2023 vastgesteld voor de periode 2023 - 2025. In dit rapport worden deze centrale vraagstellingen beantwoord.
-
-**Jaarlijkse zeespiegelmonitor**
-
-- Wat is de huidige stijging van de zeespiegel aan de Nederlandse kust?
-
-Deze vraag wordt beantwoord in paragraaf \@ref(huidige).
-
-## Toepassingen
-
-Korte toelichting over de toepassingen
 
 
 
 
+## Inhoud van dit rapport 
 
-## Onderzoeksvragen afgelopen periode {#onderzoeksvragen}
+Dit rapport heeft als doel om een overzicht te geven van het werk dat in de afgelopen jaren is gedaan in het kader van het onderzoek Kustbeleid. Allereerst gaat het om de berekeningen van de zeespiegel en zeespiegelstijging. Verder is er ook ruimte geweest voor onderzoek met als doel om de gebruikte methodieken te verbeteren, of om de resultaten beter te kunnen interpreteren. Vanaf 2022 is er richting gegeven aan dit onderzoek vanuit een met de opdrachtgevers afgestemde onderzoeksagenda. Deze agenda is in 2023 vastgesteld voor de periode 2023 - 2025. In dit rapport worden deze centrale vraagstellingen beantwoord.
 
-- Wat gebeurt er met de gemiddelde zeespiegel bij veranderend getij.
+### Jaarlijkse zeespiegelmonitor
 
-Deze vraag wordt beantwoord in paragraaf \@ref().
+Wat is de huidige stijging van de zeespiegel aan de Nederlandse kust?
+: Deze vraag wordt beantwoord in paragraaf \@ref(huidige).
 
-- Zeespiegel in de Wadden. Wat heeft de achterblijvende zeespiegel in de Waddenzee kunnen veroorzaken?
+### Onderzoeksvragen afgelopen periode {#onderzoeksvragen}
+
+Wat gebeurt er met de gemiddelde zeespiegel bij veranderend getij.
+: Deze vraag wordt beantwoord in paragraaf \@ref().
+
+Zeespiegel in de Wadden. Wat heeft de achterblijvende zeespiegel in de Waddenzee kunnen veroorzaken?
+: Deze vraag wordt beantwoord in paragraaf \@ref().
+
+Verbeter de schatting van de zeespiegelstijging door een betere schatting van de invloed van getij en wind door GTSM her-analyses
+: 
 
 Deze vraag wordt beantwoord in paragraaf \@ref().
 
-- Verbeter de schatting van de zeespiegelstijging door een betere schatting van de invloed van getij en wind door GTSM her-analyses
+Bodemdaling vs zeespiegelstijging. Hoe om te gaan met GNSS hoogtebepaling van de meetstaions?
+: Deze vraag wordt beantwoord in paragraaf \@ref().
 
-Deze vraag wordt beantwoord in paragraaf \@ref().
-
-- Bodemdaling vs zeespiegelstijging. Hoe om te gaan met GNSS hoogtebepaling van de meetstaions?
-
-Deze vraag wordt beantwoord in paragraaf \@ref().
-
-- Infographic voor bepaling van de relatieve zeespiegelstijging.
-
-Deze vraag wordt beantwoord in paragraaf \@ref().
+Infographic voor bepaling van de relatieve zeespiegelstijging.
+: Deze vraag wordt beantwoord in paragraaf \@ref().
 
 ## Stand van zaken in de literatuur
 
