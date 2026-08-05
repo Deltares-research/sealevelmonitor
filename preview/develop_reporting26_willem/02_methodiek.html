@@ -243,7 +243,7 @@ window.Quarto = {
   <li><a href="#algemene-methodiek" id="toc-algemene-methodiek" class="nav-link" data-scroll-target="#algemene-methodiek"><span class="header-section-number">3.2</span> Algemene methodiek</a></li>
   <li><a href="#bronnen" id="toc-bronnen" class="nav-link" data-scroll-target="#bronnen"><span class="header-section-number">3.3</span> Meetgegevens</a></li>
   <li><a href="#sec-metingen-en-recente-correcties" id="toc-sec-metingen-en-recente-correcties" class="nav-link" data-scroll-target="#sec-metingen-en-recente-correcties"><span class="header-section-number">3.4</span> Metingen en recente correcties</a></li>
-  <li><a href="#uitleg-relatieve-zeespiegelstijging-aan-de-hand-van-infographic" id="toc-uitleg-relatieve-zeespiegelstijging-aan-de-hand-van-infographic" class="nav-link" data-scroll-target="#uitleg-relatieve-zeespiegelstijging-aan-de-hand-van-infographic"><span class="header-section-number">3.5</span> Uitleg relatieve zeespiegelstijging (aan de hand van infographic)</a></li>
+  <li><a href="#relatieve-zeespiegelstijging" id="toc-relatieve-zeespiegelstijging" class="nav-link" data-scroll-target="#relatieve-zeespiegelstijging"><span class="header-section-number">3.5</span> Relatieve zeespiegelstijging</a></li>
   <li><a href="#welke-termen" id="toc-welke-termen" class="nav-link" data-scroll-target="#welke-termen"><span class="header-section-number">3.6</span> Welke termen?</a>
   <ul class="collapse">
   <li><a href="#versnelling-methods" id="toc-versnelling-methods" class="nav-link" data-scroll-target="#versnelling-methods"><span class="header-section-number">3.6.1</span> Versnelling?</a></li>
@@ -257,6 +257,7 @@ window.Quarto = {
   <li><a href="#huidige-zeespiegelstand-berekend-met-gecombineerd-satelliet-product" id="toc-huidige-zeespiegelstand-berekend-met-gecombineerd-satelliet-product" class="nav-link" data-scroll-target="#huidige-zeespiegelstand-berekend-met-gecombineerd-satelliet-product"><span class="header-section-number">3.10.2</span> Huidige zeespiegelstand berekend met gecombineerd satelliet product</a></li>
   <li><a href="#verwachting-voor-de-toekomst-en-toepassing-voor-zeespiegelmonitor" id="toc-verwachting-voor-de-toekomst-en-toepassing-voor-zeespiegelmonitor" class="nav-link" data-scroll-target="#verwachting-voor-de-toekomst-en-toepassing-voor-zeespiegelmonitor"><span class="header-section-number">3.10.3</span> Verwachting voor de toekomst en toepassing voor zeespiegelmonitor</a></li>
   </ul></li>
+  <li><a href="#lijst-met-gebruikte-afkortingen" id="toc-lijst-met-gebruikte-afkortingen" class="nav-link" data-scroll-target="#lijst-met-gebruikte-afkortingen"><span class="header-section-number">3.11</span> Lijst met gebruikte afkortingen</a></li>
   </ul>
 </nav>
     </div>
@@ -298,24 +299,24 @@ window.Quarto = {
 </section>
 <section id="algemene-methodiek" class="level2" data-number="3.2">
 <h2 data-number="3.2" class="anchored" data-anchor-id="algemene-methodiek"><span class="header-section-number">3.2</span> Algemene methodiek</h2>
-<p>In dit onderzoek maken we gebruik van een Generalized Linear Model (GLM), een gegeneralizeerde vorm van een lineair regressiemodel. Vooral omdat de variatie goed verklaard wordt <span class="citation" data-cites="Watson2016">(<a href="05_literatuur.html#ref-Watson2016" role="doc-biblioref">Watson 2016</a>)</span>. We gaan er vanuit dat de zeespiegel sneller aan het stijgen is of binnenkort sneller gaat stijgen dan in het verleden (ruwweg de twintigste eeuw)<a href="#fn1" class="footnote-ref" id="fnref1" role="doc-noteref"><sup>1</sup></a>. Dit heeft implicaties voor de verwachte zeespiegel en zeespiegelstijging. Daarom maken we gebruik van schattingen van de versnelling, zie @ref(versnelling-methods). Merk op dat een lineair model niet impliceert dat de zeespiegelstijging een rechte lijn moet volgen. Ook polynome, sinusoïde, exponentiële en loglineaire modellen vallen onder de GLM familie.</p>
+<p>In dit onderzoek maken we gebruik van een <a href="#acronyms_GLM">Generalized Linear Model (GLM)</a>, een gegeneralizeerde vorm van een lineair regressiemodel. Vooral omdat de variatie goed verklaard wordt <span class="citation" data-cites="Watson2016">(<a href="05_literatuur.html#ref-Watson2016" role="doc-biblioref">Watson 2016</a>)</span>. We gaan er vanuit dat de zeespiegel sneller aan het stijgen is of binnenkort sneller gaat stijgen dan in het verleden (ruwweg de twintigste eeuw)<a href="#fn1" class="footnote-ref" id="fnref1" role="doc-noteref"><sup>1</sup></a>. Dit heeft implicaties voor de verwachte zeespiegel en zeespiegelstijging. Daarom maken we gebruik van schattingen van de versnelling, zie @ref(versnelling-methods). Merk op dat een lineair model niet impliceert dat de zeespiegelstijging een rechte lijn moet volgen. Ook polynome, sinusoïde, exponentiële en loglineaire modellen vallen onder de <a href="#acronyms_GLM">GLM</a> familie.</p>
 </section>
 <section id="bronnen" class="level2" data-number="3.3">
 <h2 data-number="3.3" class="anchored" data-anchor-id="bronnen"><span class="header-section-number">3.3</span> Meetgegevens</h2>
-<p>In dit onderzoek maken we gebruik van gegevens voor de 6 zogenaamde hoofdstations Vlissingen, Hoek van Holland, IJmuiden, Den Helder, Harlingen en Delfzijl. Deze kuststations leveren sinds 1890, toen het Normaal Amsterdams Peil (NAP) overal was doorgevoerd, betrouwbare metingen. Gegevens worden betrokken uit de <a href="https://psmsl.org/data/">Permanent Service for Mean Sea Level (PSMSL) database</a>. Rijkswaterstaat draagt zorg voor de aanlevering van gegevens aan PSMSL.</p>
-<p>De overige stations waarvan gegevens in PSMSL opvraagbaar zijn worden niet gebruikt. Het station van West-Terschelling (1921) wordt buiten beschouwing gelaten omdat het in de buurt ligt van Den Helder en Harlingen. Het station van Maassluis (1848) ligt kustinwaarts ten opzichte van Hoek van Holland en kan afgesloten worden door de Maeslantkering. Daardoor is de waterstand niet meer gelijk aan die van de open zee. Het station Roompot Buiten heeft een relatief korte historie (jaargemiddelden beschikbaar sinds 1982) en overlapt met Vlissingen. Roompot Buiten heeft wel een belangrijke functie in de operationele toepassing, waarin Roompot Buiten wel en IJmuiden niet als een hoofdstation wordt gezien. Roompot Buiten is in de Zeespiegelmonitor niet meegenomen als hoofdstation.</p>
+<p>In dit onderzoek maken we gebruik van gegevens voor de 6 zogenaamde hoofdstations Vlissingen, Hoek van Holland, IJmuiden, Den Helder, Harlingen en Delfzijl. Deze kuststations leveren sinds 1890, toen het <a href="#acronyms_NAP">Normaal Amsterdams Peil (NAP)</a> overal was doorgevoerd, betrouwbare metingen. Gegevens worden betrokken uit de <a href="https://psmsl.org/data/"><span>Permanent Service for Mean Sea Level (PSMSL)</span> database</a>. Rijkswaterstaat draagt zorg voor de aanlevering van gegevens aan <a href="#acronyms_PSMSL">PSMSL</a>.</p>
+<p>De overige stations waarvan gegevens in <a href="#acronyms_PSMSL">PSMSL</a> opvraagbaar zijn worden niet gebruikt. Het station van West-Terschelling (1921) wordt buiten beschouwing gelaten omdat het vanwege zijn ligging minder nauwkeurig verticaal gerefereerd is. Bovendien ligt het in de buurt van Den Helder en Harlingen. Het station van Maassluis (1848) ligt kustinwaarts ten opzichte van Hoek van Holland en kan afgesloten worden door de Maeslantkering. Daardoor is de waterstand niet meer gelijk aan die van de open zee. Het station Roompot Buiten heeft een relatief korte historie (jaargemiddelden beschikbaar sinds 1982) en overlapt met Vlissingen. Roompot Buiten heeft wel een belangrijke functie in de operationele toepassing, waarin Roompot Buiten wel en IJmuiden niet als een hoofdstation wordt gezien. Roompot Buiten is in de Zeespiegelmonitor niet meegenomen als hoofdstation.</p>
 <div class="quarto-figure quarto-figure-center">
 <figure class="figure">
 <p><img src="images/station-map.png" class="img-fluid figure-img"></p>
 <figcaption>Locatie van de zes hoofdstations</figcaption>
 </figure>
 </div>
-<p>We maken in de analyse geen onderscheid naar in welke mate de stations zijn beïnvloed door ingrepen aan de kust. Het is bekend dat sommige ingrepen wel invloed hebben op de metingen. Denk hierbij aan de aanleg van de Afsluitdijk, de aanleg van de Deltawerken, en sinds de jaren 1990 het dynamisch kustbeheer en vooral ook nog de diverse lokale aanpassingen binnen en vlak buiten de havens. Hoewel bekend is dat deze ingrepen over kortere of langere tijd een effect hebben op de waterstand <span class="citation" data-cites="Becker2009">(<a href="05_literatuur.html#ref-Becker2009" role="doc-biblioref">Becker et al. 2009</a>)</span> ontbreekt op dit moment de kennis om hier op een kwantitatieve manier voor te corrigeren. Wel is het zo dat door het middelen van waterstanden gemeten bij de hoofdstations een deel van deze effecten verzwakt zullen worden.</p>
+<p>We houden in de analyse geen rekening met in welke mate de stations zijn beïnvloed door ingrepen aan de kust. Het is bekend dat sommige ingrepen wel invloed hebben op de metingen. Denk hierbij aan de aanleg van de Afsluitdijk, de aanleg van de Deltawerken, en sinds de jaren 1990 het dynamisch kustbeheer en vooral ook nog de diverse lokale aanpassingen binnen en vlak buiten de havens. Ook de verdeling van de zoetwaterdebieten kunnen een rol spelen. Hoewel bekend is dat deze ingrepen over kortere of langere tijd een effect hebben op de waterstand <span class="citation" data-cites="Becker2009">(bijvoorbeeld in <a href="05_literatuur.html#ref-Becker2009" role="doc-biblioref">Becker et al. 2009</a>)</span> ontbreekt op dit moment de kennis om hier op een kwantitatieve manier voor te corrigeren. Wel is het zo dat door het middelen van waterstanden gemeten bij de hoofdstations een deel van deze effecten verzwakt zullen worden.</p>
 <p>Sinds de vorige Zeespiegelmonitor is aangenomen dat de waarden bij Station Delfzijl onzeker zijn doordat de verticale positie de laatste 10-15 jaar niet correct is doorgevoerd <span class="citation" data-cites="Honingh2021">(<a href="05_literatuur.html#ref-Honingh2021" role="doc-biblioref">Honingh et al. 2021</a>)</span>. Rijkswaterstaat heeft begin 2022 geconstateerd dat een inhaalslag nodig is voor de verticale correctie van de waterstandsmetingen bij Delfzijl. Deze correctie is bij het schrijven van dit rapport wel berekend maar nog niet via de geijkte manieren (WADAR, PSMSL) gepubliceerd. Daarom berekenen we de zeespiegel en -stijging op basis van het gemiddelde van alleen de 5 andere hoofdstations (Netherlands (without Delfzijl)).</p>
 </section>
 <section id="sec-metingen-en-recente-correcties" class="level2" data-number="3.4">
 <h2 data-number="3.4" class="anchored" data-anchor-id="sec-metingen-en-recente-correcties"><span class="header-section-number">3.4</span> Metingen en recente correcties</h2>
-<p>Voor de Zeespiegelmonitor worden jaargemiddelden gebruikt die beschikbaar zijn in PSMSL. Deze gegevens worden door Rijkswaterstaat (RWS) jaarlijks berekend en aan PSMSL aangeleverd. Voorafgaand aan de berekening van gemiddelden worden de meetgegevens gecontroleerd, en waar nodig aangevuld of gecorrigeerd (<span class="citation" data-cites="Honingh2021">Honingh et al. (<a href="05_literatuur.html#ref-Honingh2021" role="doc-biblioref">2021</a>)</span>).</p>
+<p>Voor de Zeespiegelmonitor worden jaargemiddelden gebruikt die beschikbaar zijn in <a href="#acronyms_PSMSL">PSMSL</a>. Deze gegevens worden door <a href="#acronyms_RWS">Rijkswaterstaat (RWS)</a> jaarlijks berekend en aan <a href="#acronyms_PSMSL">PSMSL</a> aangeleverd. Voorafgaand aan de berekening van gemiddelden worden de meetgegevens gecontroleerd, en waar nodig aangevuld of gecorrigeerd. Dit staat uitgebreid beschreven in <span class="citation" data-cites="Honingh2021">(<a href="05_literatuur.html#ref-Honingh2021" role="doc-biblioref">Honingh et al. 2021</a>)</span>.</p>
 <p>Recent heeft een extra controle en correctie plaatsgevonden voor de getijdemetingen. Dit betreft 2 typen correcties:</p>
 <ul>
 <li>herberekening van gemiddelden op basis van 10-minutenreeksen (dit werd tot nu toe gedaan op basis van uurgegevens)</li>
@@ -324,14 +325,14 @@ window.Quarto = {
 <p><placeholder>De maand- en jaargemiddelden zijn op dit moment (februari 2026) preliminair uitgerekend, maar zijn nog niet aangeleverd aan {PSMSL}.</placeholder></p>
 <p><placeholder> consequenties voor zeespiegel, zss en keuze stations uitleggen (maar pas toepassen als gegevens in PSMSL staan)</placeholder></p>
 </section>
-<section id="uitleg-relatieve-zeespiegelstijging-aan-de-hand-van-infographic" class="level2" data-number="3.5">
-<h2 data-number="3.5" class="anchored" data-anchor-id="uitleg-relatieve-zeespiegelstijging-aan-de-hand-van-infographic"><span class="header-section-number">3.5</span> Uitleg relatieve zeespiegelstijging (aan de hand van infographic)</h2>
-<p>De methode in dit onderzoek bouwt verder op de aanpak zoals beschreven in <span class="citation" data-cites="Baart2015"><span class="nocase">Baart et al.</span> (<a href="05_literatuur.html#ref-Baart2015" role="doc-biblioref">2015</a>)</span>. De variatie in de zeespiegel wordt in een aantal componenten uitgesplitst. Het uitsplitsen van de variatie van jaargemiddelde zeespiegel wordt gedaan met behulp van een GLM. Een lineair model wordt gebruikt als onderdelen tot elkaar optellen. In deze sectie beschrijven we welke termen in dit model meegenomen worden en waarom.</p>
-<p>In eenvoudige vorm wordt de waterstand beschreven als de volgende vergelijking:</p>
-<p><span id="eq-trend"><span class="math display">\[h_t = constante + trend + versnelling? + getij + wind + residu \tag{3.1}\]</span></span></p>
+<section id="relatieve-zeespiegelstijging" class="level2" data-number="3.5">
+<h2 data-number="3.5" class="anchored" data-anchor-id="relatieve-zeespiegelstijging"><span class="header-section-number">3.5</span> Relatieve zeespiegelstijging</h2>
+<p>De methode in dit onderzoek bouwt verder op de aanpak zoals beschreven in <span class="citation" data-cites="Baart2015"><span class="nocase">Baart et al.</span> (<a href="05_literatuur.html#ref-Baart2015" role="doc-biblioref">2015</a>)</span>. De variatie in de zeespiegel wordt in een aantal componenten uitgesplitst. Het uitsplitsen van de variatie van jaargemiddelde zeespiegel wordt gedaan met behulp van een <a href="#acronyms_GLM">GLM</a>. Een lineair model wordt gebruikt als onderdelen tot elkaar optellen. In deze sectie beschrijven we welke termen in dit model meegenomen worden en waarom.</p>
 </section>
 <section id="welke-termen" class="level2" data-number="3.6">
 <h2 data-number="3.6" class="anchored" data-anchor-id="welke-termen"><span class="header-section-number">3.6</span> Welke termen?</h2>
+<p>In eenvoudige vorm wordt de waterstand beschreven als de volgende vergelijking:</p>
+<p><span id="eq-trend"><span class="math display">\[h_t = constante + trend + versnelling? + getij + wind + residu \tag{3.1}\]</span></span></p>
 <p>De versnelling is optioneel (zie sectie @ref(versnelling-methods). In @ref(eq:gedetailleerdevergelijking) is de gedetailleerde wiskundige vergelijking van het regressiemodel voor de zeewaterstand opgenomen.</p>
 <section id="versnelling-methods" class="level3" data-number="3.6.1">
 <h3 data-number="3.6.1" class="anchored" data-anchor-id="versnelling-methods"><span class="header-section-number">3.6.1</span> Versnelling?</h3>
@@ -348,7 +349,7 @@ window.Quarto = {
 <li>De <em>gebroken lineaire</em> methode gaat ervan uit dat de zeespiegelstijging abrupt versneld is. Een abrupte versnelling kan optreden als een groot gebied tegelijk boven het 0 punt komt te liggen. In de praktijk wordt het ook gebruikt om een aparte trend uit te rekenen voor het satelliettijdperk. Sinds 1993 (na de lancering van de <a href="https://eospso.nasa.gov/missions/topexposeidon">TOPEX/Poseidon</a> satelliet) meten we de zeespiegel ook met satellieten . De satellietmetingen laten een hogere zeespiegelstijging zien dan de gemeten waterstanden in het getijstationtijdperk (‘tide gauge era’). Hierbij wordt 1993 vaakgenoemd als de start van de versnelde zeespiegel <span class="citation" data-cites="Stocker2013">(bijvoorbeeld <a href="05_literatuur.html#ref-Stocker2013" role="doc-biblioref"><span class="nocase">Stocker et al.</span> 2013</a>)</span>. Om goede vergelijkingen te maken is het daarom nodig om ook voor deze periode een trend te bepalen. In deze methode kan de trendparameter vanaf het jaar 1993 wijzigen. Op de significantie van de trendbreuk wordt statistisch getoetst. Dit gebroken trendmodel wordt weergegeven in vergelijking @ref(eq:brokentrend).</li>
 <li>De <em>gebroken kwadratische</em> versnelling gaat er van uit dat de zeespiegel in de jaren 60 van de vorige eeuw is gaan versnellen als gevolg van de verhoogde uitstoot van broeikasgassen na de tweede wereldoorlog (Slangen et al.&nbsp;2016, Dangendorf et al.&nbsp;2019). Met een geavanceerd statische methode is dit ook gevonden door Keizer et al (submitted). Voor toepassing hier wordt vóór 1960 een lineaire toename aangenomen. De versnelling vanaf 1960 wordt berekend op de manier die hierboven is beschreven bij de kwadratische versnelling. Dit gebroken trendmodel wordt weergegeven in vergelijking @ref(eq:brokenquadratic).</li>
 </ol>
-<p>De keuze van het model heeft implicaties voor de huidige zeespiegel, immers het bepaalt deels hoeveel zeespiegel er wordt toegekend aan veranderingen in getij of windopzet. Het is dus belangrijk om het model te kiezen dat met de grootst mogelijke waarschijnlijkheid de huidige zeespiegelstijging beschrijft. Tegelijkertijd houden we vast aan de uitgangspunten in paragraaf @ref(afwegingen). De uiteindelijke modelkeuze (welk model is beter dan het simpelste, dus lineaire, model) vindt plaats op twee criteria. Er moet sprake zijn van een significante acceleratie of deceleratie en er moet sprake zijn van een beter model. Dat laatste wordt vastgesteld met behulp van het Akaike Informatie Criterium, (een maat voor de goodness-of-fit van een model) (AIC), waarbij een afweging wordt gemaakt tussen de complexiteit en de toegevoegde waarde. Het AIC criterium is een afweging op basis van de statische eigenschappen van de verschillende modellen. Het doet geen uitspraak over de juistheid van onderliggende fysische processen.</p>
+<p>De keuze van het model heeft implicaties voor de huidige zeespiegel, immers het bepaalt deels hoeveel zeespiegel er wordt toegekend aan veranderingen in getij of windopzet. Het is dus belangrijk om het model te kiezen dat met de grootst mogelijke waarschijnlijkheid de huidige zeespiegelstijging beschrijft. Tegelijkertijd houden we vast aan de uitgangspunten in paragraaf @ref(afwegingen). De uiteindelijke modelkeuze (welk model is beter dan het simpelste, dus lineaire, model) vindt plaats op twee criteria. Er moet sprake zijn van een significante acceleratie of deceleratie en er moet sprake zijn van een beter model. Dat laatste wordt vastgesteld met behulp van het <a href="#acronyms_AIC">Akaike Informatie Criterium, (een maat voor de goodness-of-fit van een model) (AIC)</a>, waarbij een afweging wordt gemaakt tussen de complexiteit en de toegevoegde waarde. Het <a href="#acronyms_AIC">AIC</a> criterium is een afweging op basis van de statische eigenschappen van de verschillende modellen. Het doet geen uitspraak over de juistheid van onderliggende fysische processen.</p>
 <ol start="5" type="1">
 <li>Een andere methode is om een <em>discontinue lineaire</em> trend te berekenen. Door over aparte perioden trends uit te rekenen krijg je trends waarvan de intercepts niet aansluit op de vorige periode. Dit is de methode zoals gebruikt in het laatste <a href="https://www.ipcc.ch/report/ar6/wg1/chapter/chapter-9/">IPCC rapport</a>. Hierbij worden trends over verschillende perioden apart uitgerekend.</li>
 <li><em>Lokaal polynoom</em> is een methode met meer vrijheidsgraden en wat exploratiever van aard. De parameters worden gebaseerd op “expert judgement” en “trial en error” <span class="citation" data-cites="Cleveland1996">(<a href="05_literatuur.html#ref-Cleveland1996" role="doc-biblioref">Cleveland and Loader 1996</a>)</span>. Het voordeel van deze methode is dat deze de mogelijkheid open laat van een meer variërende trend over tijd. Het nadeel is dat deze methode door het grotere aantal vrijheidsgraden ook wat meer kan “wapperen”, vooral aan het uiteinde. Dat wil zeggen dat de trend aan het eind van de reeks, met nieuwe data, snel van richtingscoefficient kan veranderen.</li>
@@ -358,7 +359,7 @@ window.Quarto = {
 </section>
 <section id="sec-windopzet" class="level2" data-number="3.7">
 <h2 data-number="3.7" class="anchored" data-anchor-id="sec-windopzet"><span class="header-section-number">3.7</span> Windopzet</h2>
-<p>Een van de factoren die de zeespiegel beïnvloeden is de windopzet (storm surge). Om de bijdrage hiervan te kwantificeren, is de gemiddelde jaarlijkse windopzet berekend op basis van de GTSM-ERA5 dataset, die uurlijkse mondiale waterstanden en windopzet tijdreeksen bevat voor de periode vanaf 1950 tot heden. De dataset is gebaseerd op het (Global Tidal Surge Model (GTSM)), een dieptegemiddeld hydrodynamisch model dat getijden, windopzet en hun niet-lineaire interacties in de wereldoceaan simuleert, aangestuurd door de ERA5 atmosferische heranalyse. De stormopzet wordt bepaald als het verschil tussen een gecombineerde windopzet-getijdensimulatie en een simulatie met uitsluitend astronomisch getij en is als afzonderlijke variabele beschikbaar in de dataset. Meer informatie is beschikbaar in de documentatie van de <a href="https://doi.org/10.24381/cds.a6d42d60">GTSM-ERA5-dataset</a> en in <span class="citation" data-cites="Muis2023">(<a href="05_literatuur.html#ref-Muis2023" role="doc-biblioref">Muis et al. 2023</a>)</span>, <span class="citation" data-cites="Aleksandrova2026">(<a href="05_literatuur.html#ref-Aleksandrova2026" role="doc-biblioref">Aleksandrova et al. 2025</a>)</span>.</p>
+<p>Een van de factoren die de zeespiegel beïnvloeden is de windopzet (storm surge). Om de bijdrage hiervan te kwantificeren, is de gemiddelde jaarlijkse windopzet berekend op basis van de GTSM-ERA5 dataset, die uurlijkse mondiale waterstanden en windopzet tijdreeksen bevat voor de periode vanaf 1950 tot heden. De dataset is gebaseerd op het (<a href="#acronyms_GTSM">Global Tidal Surge Model (GTSM)</a>), een dieptegemiddeld hydrodynamisch model dat getijden, windopzet en hun niet-lineaire interacties in de wereldoceaan simuleert, aangestuurd door de ERA5 atmosferische heranalyse. De stormopzet wordt bepaald als het verschil tussen een gecombineerde windopzet-getijdensimulatie en een simulatie met uitsluitend astronomisch getij en is als afzonderlijke variabele beschikbaar in de dataset. Meer informatie is beschikbaar in de documentatie van de <a href="https://doi.org/10.24381/cds.a6d42d60">GTSM-ERA5-dataset</a> en in <span class="citation" data-cites="Muis2023">(<a href="05_literatuur.html#ref-Muis2023" role="doc-biblioref">Muis et al. 2023</a>)</span>, <span class="citation" data-cites="Aleksandrova2026">(<a href="05_literatuur.html#ref-Aleksandrova2026" role="doc-biblioref">Aleksandrova et al. 2025</a>)</span>.</p>
 <p>Modelresultaten voor windopzet uit GTSM runs worden geselecteerd per hoofdstation. Deze worden daarna gemiddeld per maand voor elk hoofdstation en opgeslagen voor later gebruik in de Zeespiegelmonitor (zie dit <a href="https://github.com/Deltares-research/sealevelmonitor/blob/develop_reporting26_aleksandrova/analysis/gtsm/get_monthly_means_surge.ipynb">rekendocument</a>). In de onderstaande figuur zijn, ter illustratie voor Hoek van Holland, de uurlijkse tijdreeks van de windopzet in 2025 en de daaruit afgeleide maand- en jaargemiddelden weergegeven.</p>
 <div class="quarto-figure quarto-figure-center">
 <figure class="figure">
@@ -387,7 +388,7 @@ window.Quarto = {
 <li><p>De opzetanomalie per jaar en station wordt afgetrokken van de zeespiegelhoogte om tot de gecorrigeerde zeespiegel te komen.</p></li>
 </ul>
 <p>Voor het gemiddelde over Nederland worden de gecorrigeerde zeespiegelwaarden gemiddeld over de stations.</p>
-<p>De huidige versie van GTSM die gebruikt wordt voor berekening van windopzet voor de Zeespiegelmonitor wordt aangestuurd door een waterpeil inclusief een stijging. De zeespiegelstijging die is toegepast is afgeleid van SLR-projecties in Fifth Assessment Report IPCC (AR5) van Intergovernmental Panel on Climate Change (IPCC). Deze wijken waarschijnlijk af van de daadwerkelijk waargenomen zeespiegelstijging. De bijdrage van zeespiegelstijging wordt bij de berekening van de windopzet grotendeels opgeheven doordat de stormopzet wordt gedefinieerd als het verschil tussen de totale waterstand (getij en windopzet) en een simulatie met uitsluitend getij. Wel kan zeespiegelstijging een geringe indirecte invloed hebben op de berekende stormopzet, doordat veranderingen in de waterdiepte de hydrodynamische processen beïnvloeden. Het is daarom belangrijk om te weten of de gebruikte stijging invloed heeft op de berekende windopzet aan de Nederlandse kust. Dit is gecontroleerd door de GTSM-ERA5 modelopstelling voor 2023 te draaien, zodat modelresultaten zowel met als zonder Sea Level Rise (SLR) (totaal waterpeil en alleen getijdenruns) worden getoond. Deze resultaten zijn vergeleken (zoals te zien in dit <a href="https://github.com/VU-IVM/gtsm3-era5-nrt/blob/main/02_analysis_and_validation/p06_compare_SLR_effect_surge_mean.ipynb">rekendocument</a>. Uit deze resultaten kan worden geconcludeerd:</p>
+<p>De huidige versie van GTSM die gebruikt wordt voor berekening van windopzet voor de Zeespiegelmonitor wordt aangestuurd door een waterpeil inclusief een stijging. De zeespiegelstijging die is toegepast is afgeleid van SLR-projecties in <a href="#acronyms_AR5">Fifth Assessment Report IPCC (AR5)</a> van <a href="#acronyms_IPCC">Intergovernmental Panel on Climate Change (IPCC)</a>. Deze wijken waarschijnlijk af van de daadwerkelijk waargenomen zeespiegelstijging. De bijdrage van zeespiegelstijging wordt bij de berekening van de windopzet grotendeels opgeheven doordat de stormopzet wordt gedefinieerd als het verschil tussen de totale waterstand (getij en windopzet) en een simulatie met uitsluitend getij. Wel kan zeespiegelstijging een geringe indirecte invloed hebben op de berekende stormopzet, doordat veranderingen in de waterdiepte de hydrodynamische processen beïnvloeden. Het is daarom belangrijk om te weten of de gebruikte stijging invloed heeft op de berekende windopzet aan de Nederlandse kust. Dit is gecontroleerd door de GTSM-ERA5 modelopstelling voor 2023 te draaien, zodat modelresultaten zowel met als zonder <a href="#acronyms_SLR">Sea Level Rise (SLR)</a> (totaal waterpeil en alleen getijdenruns) worden getoond. Deze resultaten zijn vergeleken (zoals te zien in dit <a href="https://github.com/VU-IVM/gtsm3-era5-nrt/blob/main/02_analysis_and_validation/p06_compare_SLR_effect_surge_mean.ipynb">rekendocument</a>. Uit deze resultaten kan worden geconcludeerd:</p>
 <ul>
 <li>SLR in 2023, die in onze modelruns is opgenomen, is ~0.1 m te opzichte van het referentie periode 1986-2005.</li>
 <li>Dit niveau van SLR heeft geen significant effect op de gemiddelde windopzet. Het verschil dat het model veroorzaakt is verwaarloosbaar (minder dan 1 mm).</li>
@@ -399,7 +400,7 @@ window.Quarto = {
 <figcaption>Gemiddelde windopzet op de zeespiegel voor 2023 inclusief zeespiegelstijging zoals gedefinieerd in GTSM (linker figuur) en het verschil in windopzet tussen modelruns met en zonder zeespiegelstijging (rechter figuur).</figcaption>
 </figure>
 </div>
-<p>Hieruit concluderen we dat de windopzet uit GTSM inclusief zeespiegelstijging, die we op dit moment gebruiken voor de Zeespiegelmonitor, niet wordt beïnvloed door de gebruikte zeespiegelprojectie.</p>
+<p>Hieruit concluderen we dat de windopzet uit <a href="#acronyms_GTSM">GTSM</a> inclusief zeespiegelstijging, die we op dit moment gebruiken voor de Zeespiegelmonitor, niet wordt beïnvloed door de gebruikte zeespiegelprojectie.</p>
 </section>
 <section id="sec-getij" class="level2" data-number="3.8">
 <h2 data-number="3.8" class="anchored" data-anchor-id="sec-getij"><span class="header-section-number">3.8</span> Getij</h2>
@@ -415,6 +416,46 @@ window.Quarto = {
 </section>
 <section id="altimetrie" class="level2" data-number="3.10">
 <h2 data-number="3.10" class="anchored" data-anchor-id="altimetrie"><span class="header-section-number">3.10</span> Metingen van het zeeniveau met satellieten (altimetrie)</h2>
+<p>Bij het meten van de waterhoogte worden satellieten op twee manieren ingezet.</p>
+<ul>
+<li>Het meten van de hoogte van het wateroppervlak ten opzichte van het middelpunt van de aarde of een zgn geoïde (@ref(fig:hoogtemetingen a)).</li>
+<li>Het meten van de hoogte van het meetinstrument (direct of indirect) van een getijdemeetstation (@ref(fig:hoogtemetingen b)).</li>
+</ul>
+<div id="fig-hoogtemetingen" class="quarto-layout-panel">
+<figure class="quarto-float quarto-float-fig figure">
+<div aria-describedby="fig-hoogtemetingen-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+<div class="quarto-layout-row">
+<div class="quarto-layout-cell-subref quarto-layout-cell" data-ref-parent="fig-hoogtemetingen" style="flex-basis: 50.0%;justify-content: flex-start;">
+<div id="fig-altimeter" class="quarto-float quarto-figure quarto-figure-center anchored">
+<figure class="quarto-float quarto-subfloat-fig figure">
+<div aria-describedby="fig-altimeter-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+<img src="images/altimeter.png" class="img-fluid figure-img" data-ref-parent="fig-hoogtemetingen">
+</div>
+<figcaption class="quarto-float-caption-bottom quarto-subfloat-caption quarto-subfloat-fig" id="fig-altimeter-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+(a) Altimeter
+</figcaption>
+</figure>
+</div>
+</div>
+<div class="quarto-layout-cell-subref quarto-layout-cell" data-ref-parent="fig-hoogtemetingen" style="flex-basis: 50.0%;justify-content: flex-start;">
+<div id="fig-gnssmeting" class="quarto-float quarto-figure quarto-figure-center anchored">
+<figure class="quarto-float quarto-subfloat-fig figure">
+<div aria-describedby="fig-gnssmeting-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+<img src="images/gnss_satelliet.png" class="img-fluid figure-img" data-ref-parent="fig-hoogtemetingen">
+</div>
+<figcaption class="quarto-float-caption-bottom quarto-subfloat-caption quarto-subfloat-fig" id="fig-gnssmeting-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+(b) GNSS satellietmetingen
+</figcaption>
+</figure>
+</div>
+</div>
+</div>
+</div>
+<figcaption class="quarto-float-caption-bottom quarto-float-caption quarto-float-fig" id="fig-hoogtemetingen-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+Figure&nbsp;3.1: Hoogtemetingen in de kustzone. Directe metingen van het zeeoppervlak met behulp van satellietaltimetrie (a) en hoogtemeting van het meetinstrument in de getijdestations met GNSS (b).
+</figcaption>
+</figure>
+</div>
 <section id="beschikbare-satellieten-en-metingen" class="level3" data-number="3.10.1">
 <h3 data-number="3.10.1" class="anchored" data-anchor-id="beschikbare-satellieten-en-metingen"><span class="header-section-number">3.10.1</span> Beschikbare satellieten en metingen</h3>
 <div class="quarto-figure quarto-figure-center">
@@ -436,6 +477,48 @@ window.Quarto = {
 <section id="verwachting-voor-de-toekomst-en-toepassing-voor-zeespiegelmonitor" class="level3" data-number="3.10.3">
 <h3 data-number="3.10.3" class="anchored" data-anchor-id="verwachting-voor-de-toekomst-en-toepassing-voor-zeespiegelmonitor"><span class="header-section-number">3.10.3</span> Verwachting voor de toekomst en toepassing voor zeespiegelmonitor</h3>
 <p>Het voortzetten van de satelietmeetreeks en het verbeteren van kwaliteit nabij de kust zijn de belangrijkste punten om het gebruik van satelietgegevens in de zeespiegelmonitor te vergroten <span class="citation" data-cites="Aviso2022Timeline">(<a href="05_literatuur.html#ref-Aviso2022Timeline" role="doc-biblioref">Aviso+ 2022</a>)</span> <span class="citation" data-cites="Ballarotta2022">(<a href="05_literatuur.html#ref-Ballarotta2022" role="doc-biblioref"><strong>Ballarotta2022?</strong></a>)</span>. In de toekomst zal de lancering van het Sentinel-3 Next Generation (S3NG-T) programma een belangrijke rol spelen in het verbeteren van de kwaliteit van de metingen in kustgebieden. Deze satellieten zullen de klassieke altimetrie combineren met een vergelijkbare sensor als SWOT, daarnaast is het doel om een 5-day revisit periode te realiseren en een ruimtelijke resolutie van 50 km te bereiken. <a href="https://lps25.esa.int/lps25-presentations/presentations/329/_329.pdf">link</a>,, <a href="https://database.eohandbook.com/database/missionsummary.aspx?missionID=1469">link</a> Echter zijn deze ontwikkelingen nog in de startfase, met verschillende verwachtingen van lanceringsdatum (2030-2034), tot die tijd is de voortzetting van de huidige satelietmeetreeks het belangrijkste punt.</p>
+</section>
+</section>
+<section id="lijst-met-gebruikte-afkortingen" class="level2" data-number="3.11">
+<h2 data-number="3.11" class="anchored" data-anchor-id="lijst-met-gebruikte-afkortingen"><span class="header-section-number">3.11</span> Lijst met gebruikte afkortingen</h2>
+<dl>
+<dt><span id="acronyms_AIC">AIC</span></dt>
+<dd>
+Akaike Informatie Criterium, (een maat voor de goodness-of-fit van een model)
+</dd>
+<dt><span id="acronyms_AR5">AR5</span></dt>
+<dd>
+Fifth Assessment Report IPCC
+</dd>
+<dt><span id="acronyms_GLM">GLM</span></dt>
+<dd>
+Generalized Linear Model
+</dd>
+<dt><span id="acronyms_GTSM">GTSM</span></dt>
+<dd>
+Global Tidal Surge Model
+</dd>
+<dt><span id="acronyms_IPCC">IPCC</span></dt>
+<dd>
+Intergovernmental Panel on Climate Change
+</dd>
+<dt><span id="acronyms_NAP">NAP</span></dt>
+<dd>
+Normaal Amsterdams Peil
+</dd>
+<dt><span id="acronyms_PSMSL">PSMSL</span></dt>
+<dd>
+Permanent Service for Mean Sea Level
+</dd>
+<dt><span id="acronyms_RWS">RWS</span></dt>
+<dd>
+Rijkswaterstaat
+</dd>
+<dt><span id="acronyms_SLR">SLR</span></dt>
+<dd>
+Sea Level Rise
+</dd>
+</dl>
 
 
 <div id="refs" class="references csl-bib-body hanging-indent" role="list" style="display: none">
@@ -485,7 +568,6 @@ Watson, Phil J. 2016. <span>“Identifying the Best Performing Time Series Analy
 Woodworth, Philip L. 2012. <span>“<span class="nocase">A note on the nodal tide in sea level records</span>.”</span> <em>Journal of Coastal Research</em> 28 (2): 316–23. <a href="https://doi.org/10.2112/JCOASTRES-D-11A-00023.1">https://doi.org/10.2112/JCOASTRES-D-11A-00023.1</a>.
 </div>
 </div>
-</section>
 </section>
 <section id="footnotes" class="footnotes footnotes-end-of-document" role="doc-endnotes">
 <hr>

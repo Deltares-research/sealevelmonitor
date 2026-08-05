@@ -249,6 +249,7 @@ window.Quarto = {
   <li><a href="#corrigeren-voor-of-expliciet-opnemen-van-de-verandering-in-variantie-door-windopzetcorrectie" id="toc-corrigeren-voor-of-expliciet-opnemen-van-de-verandering-in-variantie-door-windopzetcorrectie" class="nav-link" data-scroll-target="#corrigeren-voor-of-expliciet-opnemen-van-de-verandering-in-variantie-door-windopzetcorrectie"><span class="header-section-number">5.5.2</span> Corrigeren voor, of expliciet opnemen van de verandering in variantie door windopzetcorrectie</a></li>
   <li><a href="#het-toevoegen-van-meer-modellen" id="toc-het-toevoegen-van-meer-modellen" class="nav-link" data-scroll-target="#het-toevoegen-van-meer-modellen"><span class="header-section-number">5.5.3</span> Het toevoegen van meer modellen</a></li>
   </ul></li>
+  <li><a href="#lijst-met-gebruikte-afkortingen" id="toc-lijst-met-gebruikte-afkortingen" class="nav-link" data-scroll-target="#lijst-met-gebruikte-afkortingen"><span class="header-section-number">5.6</span> Lijst met gebruikte afkortingen</a></li>
   </ul>
 </nav>
     </div>
@@ -277,11 +278,11 @@ window.Quarto = {
 <section id="toepassingsbereik" class="level2" data-number="5.1">
 <h2 data-number="5.1" class="anchored" data-anchor-id="toepassingsbereik"><span class="header-section-number">5.1</span> Toepassingsbereik van de gebruikte methodiek</h2>
 <p>Is de gebruikte methode doelmatig voor het beoogde gebruik? Hiervoor is het nodig om de methode op te splitsen in de verschillende onderdelen.</p>
-<p>Er is gekozen voor de hoofdstations langs de Nederlandse kust, omdat deze het beste de relatieve zeespiegel aangeven voor onze kust. Satellietgegevens hebben een grotere ruimtelijke dekking, maar zijn niet gedetailleerd genoeg in de kustzone (zie bijlage @ref(satellietmetingen)). Van het hoofdstation Delfzijl is gebleken dat er een achterstand is in de verticale correcties t.o.v. Normaal Amsterdams Peil (NAP). Daarom is dit station niet meegenomen in de hoofdresultaten (hoofstuk @ref(resultaten)). Rijkswaterstaat is wel bezig om voor deze achterstand met terugwerkende kracht te corrigeren. Mogelijk wordt in een volgende monitor Delfzijl dan weer toegevoegd.</p>
-<p>Het effect van wind of storm is een belangrijke bron van variatie voor de jaarlijkse zeespiegel aan de Nederlandse kust <span class="citation" data-cites="Baart2014a Gerkema2017">(<a href="05_literatuur.html#ref-Baart2014a" role="doc-biblioref"><span class="nocase">Baart et al.</span> 2014</a>; <a href="05_literatuur.html#ref-Gerkema2017" role="doc-biblioref"><strong>Gerkema2017?</strong></a>)</span>. Sinds de rapportage in 2022 gebruikern we resultaten van het Global Tidal Surge Model (GTSM) model om voor het effect van wind op de gemiddelde waterstand te corrigeren. Eerst was dit allen nog beschikbaar voor de periode van 1979 tot nu, maar voor de huidige rapportage is het model uitgebreid met jaren 1950 tot nu. GTSM is zeer geschikt om het effect van wind op de zeespiegel te schatten omdat het geheel onafhankelijk is van het gebruikte regressiemodel dat gebruikt wordt om de zeespiegelstijging te schatten.</p>
+<p>Er is gekozen voor de hoofdstations langs de Nederlandse kust, omdat deze het beste de relatieve zeespiegel aangeven voor onze kust. Satellietgegevens hebben een grotere ruimtelijke dekking, maar zijn niet gedetailleerd genoeg in de kustzone (zie bijlage @ref(satellietmetingen)). Van het hoofdstation Delfzijl is gebleken dat er een achterstand is in de verticale correcties t.o.v. <a href="#acronyms_NAP">Normaal Amsterdams Peil (NAP)</a>. Daarom is dit station niet meegenomen in de hoofdresultaten (hoofstuk @ref(resultaten)). Rijkswaterstaat is wel bezig om voor deze achterstand met terugwerkende kracht te corrigeren. Mogelijk wordt in een volgende monitor Delfzijl dan weer toegevoegd.</p>
+<p>Het effect van wind of storm is een belangrijke bron van variatie voor de jaarlijkse zeespiegel aan de Nederlandse kust <span class="citation" data-cites="Baart2014a Gerkema2017">(<a href="05_literatuur.html#ref-Baart2014a" role="doc-biblioref"><span class="nocase">Baart et al.</span> 2014</a>; <a href="05_literatuur.html#ref-Gerkema2017" role="doc-biblioref"><strong>Gerkema2017?</strong></a>)</span>. Sinds de rapportage in 2022 gebruikern we resultaten van het <a href="#acronyms_GTSM">Global Tidal Surge Model (GTSM)</a> model om voor het effect van wind op de gemiddelde waterstand te corrigeren. Eerst was dit allen nog beschikbaar voor de periode van 1979 tot nu, maar voor de huidige rapportage is het model uitgebreid met jaren 1950 tot nu. <a href="#acronyms_GTSM">GTSM</a> is zeer geschikt om het effect van wind op de zeespiegel te schatten omdat het geheel onafhankelijk is van het gebruikte regressiemodel dat gebruikt wordt om de zeespiegelstijging te schatten.</p>
 <p><placeholder> Vergelijking GTSM - DCSM</placeholder></p>
 <p>Behalve wind, is ook het nodale getij een bron van variatie voor de jaarlijkse gemiddelde zeespiegel. Dit is uitgelegd in paragraaf @ref(methodiek). Vanwege de lange periode van deze terugkerende variatie (ruim 18 jaar) is het belangrijk om te weten of de zeespiegel op weg is naar een hoger of lager jaargemiddeld getij. Een onafhankelijke schatting van het nodaal getij is mogelijk door middel van berekening van het zgn. equilibrium getij. Echter, het geobserveerde getij aan de Nederlandse kust blijkt daarvan af te wijken, door fysische processen die de doorwerking van het nodale getij op het contentinale plat bepalen (zie paragraaf @ref(sec-getij) voor meer details. Om die reden wordt het nodaal getij meegenomen als term in de regressie, waardoor de variatie door het getij beter verklaard wordt.</p>
-<p>Volgens de criteria die we hanteren voor modelkeuze (Akaike Informatie Criterium, (een maat voor de goodness-of-fit van een model) (AIC)) is, net als bij de voorgaande rapportage, een keuze gemaakt voor het gebroken lineaire model met een knikpunt in 1993 (zie dit <a href="https://github.com/Deltares-research/sealevelmonitor/blob/main/analysis/sealevelmonitor/sealevelanalysis.md">rekendocument</a>). Dit is het meest geschikte model voor schatting van de huidige zeespiegel, en de zeespiegelstijging over de afgelopen decennia. De methode is geschikt om over relatief korte tijd een verandering van zeespiegelstijging te detecteren (gegeven het feit dat we een knik veronderstellen is dit een beter model dan het lineaire). De gebruikte methodiek zegt echter niet veel over de oorzaak van deze verandering.</p>
+<p>Volgens de criteria die we hanteren voor modelkeuze (<a href="#acronyms_AIC">Akaike Informatie Criterium, (een maat voor de goodness-of-fit van een model) (AIC)</a>) is, net als bij de voorgaande rapportage, een keuze gemaakt voor het gebroken lineaire model met een knikpunt in 1993 (zie dit <a href="https://github.com/Deltares-research/sealevelmonitor/blob/main/analysis/sealevelmonitor/sealevelanalysis.md">rekendocument</a>). Dit is het meest geschikte model voor schatting van de huidige zeespiegel, en de zeespiegelstijging over de afgelopen decennia. De methode is geschikt om over relatief korte tijd een verandering van zeespiegelstijging te detecteren (gegeven het feit dat we een knik veronderstellen is dit een beter model dan het lineaire). De gebruikte methodiek zegt echter niet veel over de oorzaak van deze verandering.</p>
 <p>Voor kustonderhoud via zandsuppletie is de huidige methode geschikt. Zandsuppletie is een reactief proces, bedoeld om het volume zand dat nodig is om het kustfundament mee te laten groeien met de zeespiegel aan te vullen. Hiervoor is een zo betrouwbaar mogelijke schatting van de zeespiegelstijging over de afgelopen jaren nodig. De methode die gebruikt wordt voor het presenteren van de resultaten in hoofdstuk @ref(resultaten) voldoet daaraan.</p>
 <p>De zeespiegelmonitor is niet bedoeld om de verwachte zeespiegelstand langere tijd vooruit (bijvoorbeeld in 2050 of 2100) te bepalen. Tegelijkertijd zien we dat zeespiegelscenario’s niet bedoeld zijn om op korte termijn de zeespiegel te voorspellen. Voor de planning van zandsuppletie op middellange termijn (10-15 jaar vooruit) is het nodig om een zo nauwkeurig mogelijke schatting te maken van de zeespiegelstijging over die periode. Hiervoor is binnen de zeespiegelmonitor geen methodiek vastgelegd. Totdat een betere methode beschikbaar is, kiezen we een periode van tot 15 jaar vooruit, als de periode waarvoor we het gebruik van de huidige zeespiegel en -stijging zoals beschreven in het voorkeursmodel aanraden.</p>
 <p>Een huidige zeespiegelstand op zichzelf is niet geschikt voor beoordelingen van veiligheid. Daarvoor is de verwachte maximale zeespiegel nodig (getij + absolute zeespiegel + bodemdaling + hoogwater + golven) ten opzichte van de hoogte van de keringen. Het kan wel als component gebruikt worden.</p>
@@ -292,9 +293,9 @@ window.Quarto = {
 <p>&lt;tot hier gekomen. hieronder nog herzien&gt;</p>
 <p><volgend stuk="" inkorten=""> <span class="citation" data-cites="Steffelbauer2022">Steffelbauer et al. (<a href="05_literatuur.html#ref-Steffelbauer2022" role="doc-biblioref">2022</a>)</span> onderzocht met een soortgelijke methodiek als de Zeespiegelmonitor of er een significant gezamelijk knikpunt was in de tijdreeks van waterhoogte van de Nederlandse hoofdstations. Er is een grotere subset van stations gebruikt (Maassluis en Terschelling zijn ook meegenomen) inclusief Delfzijl. Ook is het knikpunt bepaald aan de afzonderlijke stations (maar wel gezamenlijk), en niet aan het gemiddelde zoals in de Zeespiegelmonitor. Geconstateerd werd dat er een gezamenlijk knikpunt was in 1993. Deze constatering vinden we nu ook in de Zeespiegelmonitor. Gemiddeld over de stations werd door <span class="citation" data-cites="Steffelbauer2022">Steffelbauer et al. (<a href="05_literatuur.html#ref-Steffelbauer2022" role="doc-biblioref">2022</a>)</span> een zeespiegelstijging gevonden van 2.7 ± 0.4 mm/jaar voor de periode na 1993.</volgend></p>
 <p>&lt;Herziening met update berekening methode Keizer ?&gt;</p>
-<p><span class="citation" data-cites="Keizer2022"><span class="nocase">Keizer et al.</span> (<a href="05_literatuur.html#ref-Keizer2022" role="doc-biblioref">2022</a>)</span> onderzocht de trend in zeespiegelstijging over een lange termijn met een geavanceerd statistische methode. Voor correctie door windopzet is de 20th Century (Climate) Reanalysis (20CR) heranalyse gebruikt. Na een correctie van de zeespiegel voor de lange termijn windveranderingen is de zeespiegelstijging en het verschil daarin over tijd geschat met behulp van Generalized Additive Model (GAM). Er is ook rekening gehouden met seizoensvariatie in windopzet. De conclusie uit dit artikel is dat de zeespiegelstijging in de periode 2000-2019 (3.0[2.4 - 3.5] mm/jaar) significant hoger is dan in de periode 1940-1959 (1.5[1.1 - 1.8] mm/jaar).</p>
+<p><span class="citation" data-cites="Keizer2022"><span class="nocase">Keizer et al.</span> (<a href="05_literatuur.html#ref-Keizer2022" role="doc-biblioref">2022</a>)</span> onderzocht de trend in zeespiegelstijging over een lange termijn met een geavanceerd statistische methode. Voor correctie door windopzet is de <a href="#acronyms_20CR">20th Century (Climate) Reanalysis (20CR)</a> heranalyse gebruikt. Na een correctie van de zeespiegel voor de lange termijn windveranderingen is de zeespiegelstijging en het verschil daarin over tijd geschat met behulp van <a href="#acronyms_GAM">Generalized Additive Model (GAM)</a>. Er is ook rekening gehouden met seizoensvariatie in windopzet. De conclusie uit dit artikel is dat de zeespiegelstijging in de periode 2000-2019 (3.0[2.4 - 3.5] mm/jaar) significant hoger is dan in de periode 1940-1959 (1.5[1.1 - 1.8] mm/jaar).</p>
 <p>De huidige stijging in de zeespiegelmonitor (<span class="math inline">\(3.2 \pm 0.3\,mm/jaar\)</span>) is dus consistent met de hierboven genoemde studies.</p>
-<p>In de vorige Zeespiegelmonitor is geconcludeerd dat de windopzet het best geschat kon worden door windopzet berekend uit het GTSM model direct te gebruiken als correctie. Hierbij is de mate van windopzet onafhankelijk geschat van de trendbepalingsmethode. In de tussentijd is het aantal jaren waarvoor deze opzet berekend is toegenomen van 1979 - 2022 (een serie van 43 jaar) in de vorige rapportage tot 1950 - 2025 (75 jaar) in de huidige rapportage.</p>
+<p>In de vorige Zeespiegelmonitor is geconcludeerd dat de windopzet het best geschat kon worden door windopzet berekend uit het <a href="#acronyms_GTSM">GTSM</a> model direct te gebruiken als correctie. Hierbij is de mate van windopzet onafhankelijk geschat van de trendbepalingsmethode. In de tussentijd is het aantal jaren waarvoor deze opzet berekend is toegenomen van 1979 - 2022 (een serie van 43 jaar) in de vorige rapportage tot 1950 - 2025 (75 jaar) in de huidige rapportage.</p>
 <p>De wereldwijde stijging van de zeespiegel is … (uit satellietgegevens)</p>
 <p><onderstaand moet="" nog="" gecontroleerd="" worden=""> Sommerend komen we op de volgende balans van de wereldwijde versus de Nederlandse zeespiegelstijging over de periode 1993-2021. De zeespiegelstijging over deze periode is in Nederlands hoger dan over de periode voor 1993, zoals besproken in paragraaf @ref(versnelling-results). Eigenlijk zou de zeespiegelstijging hoger moeten zijn dan globaal, omdat in Nederland naast de zeespiegelstijging ook nog bodemdaling is. Maar omdat 3cm van de globale zeespiegelstijging een correctie is die niet aan de kust gemeten wordt en omdat we op een gunstige plek liggen wat betreft de bijdrage van Groenlands massaverlies aan de zeespiegelstijging (9cm) zien we aan de kust van Nederland toch een lagere zeespiegelstijging dan globaal. Andere effecten, zoals veranderingen in dichtheid, zijn hier buiten beschouwing gelaten.</onderstaand></p>
 </section>
@@ -320,7 +321,7 @@ window.Quarto = {
 </section>
 <section id="het-toevoegen-van-meer-modellen" class="level3" data-number="5.5.3">
 <h3 data-number="5.5.3" class="anchored" data-anchor-id="het-toevoegen-van-meer-modellen"><span class="header-section-number">5.5.3</span> Het toevoegen van meer modellen</h3>
-<p>Op dit moment wordt een lineaire (Linear Model (LM)) of gegeneralizeerde lineaire modelfunctie (Generalized Linear Model (GLM)) gebruikt. In andere studies wordt ook wel een GAM of LOcal regrESSion (a later generalization of LOWESS) (LOESS) gebruikt (Keizer, ?). Het belangrijkste verschil is dat een GLM een vooraf gespecificeerde parametrische relatie tussen voorspellers en respons veronderstelt, terwijl een GAM deze relatie flexibel en niet-parametrisch uit de data schat. Een zou de variatie van de meetgegevens beter kunnen beschrijven wanneer een spline functie wordt toegevoegd. Deze betere beschrijving komt niet door een betere duiding van natuurkundige principes, maar door een hogere graad van vrijheid.</p>
+<p>Op dit moment wordt een lineaire (<a href="#acronyms_LM">Linear Model (LM)</a>) of gegeneralizeerde lineaire modelfunctie (<a href="#acronyms_GLM">Generalized Linear Model (GLM)</a>) gebruikt. In andere studies wordt ook wel een <a href="#acronyms_GAM">GAM</a> of <a href="#acronyms_LOESS">LOcal regrESSion (a later generalization of LOWESS) (LOESS)</a> gebruikt (Keizer, ?). Het belangrijkste verschil is dat een GLM een vooraf gespecificeerde parametrische relatie tussen voorspellers en respons veronderstelt, terwijl een GAM deze relatie flexibel en niet-parametrisch uit de data schat. Een zou de variatie van de meetgegevens beter kunnen beschrijven wanneer een spline functie wordt toegevoegd. Deze betere beschrijving komt niet door een betere duiding van natuurkundige principes, maar door een hogere graad van vrijheid.</p>
 <div class="quarto-figure quarto-figure-center">
 <figure class="figure">
 <p><img src="https://github.com/Deltares-research/sealevelmonitor/raw/main/analysis/sealevelmonitor/gam-knmi-analyse_files/figure-gfm/unnamed-chunk-6-1.png" class="img-fluid figure-img"></p>
@@ -333,6 +334,44 @@ window.Quarto = {
 <figcaption>Vergelijking van de snelheid van zeespiegelstijging zoals geschat met het GAM model en het “broken linear” model.</figcaption>
 </figure>
 </div>
+</section>
+</section>
+<section id="lijst-met-gebruikte-afkortingen" class="level2" data-number="5.6">
+<h2 data-number="5.6" class="anchored" data-anchor-id="lijst-met-gebruikte-afkortingen"><span class="header-section-number">5.6</span> Lijst met gebruikte afkortingen</h2>
+<dl>
+<dt><span id="acronyms_20CR">20CR</span></dt>
+<dd>
+20th Century (Climate) Reanalysis
+</dd>
+<dt><span id="acronyms_AIC">AIC</span></dt>
+<dd>
+Akaike Informatie Criterium, (een maat voor de goodness-of-fit van een model)
+</dd>
+<dt><span id="acronyms_GAM">GAM</span></dt>
+<dd>
+Generalized Additive Model
+</dd>
+<dt><span id="acronyms_GLM">GLM</span></dt>
+<dd>
+Generalized Linear Model
+</dd>
+<dt><span id="acronyms_GTSM">GTSM</span></dt>
+<dd>
+Global Tidal Surge Model
+</dd>
+<dt><span id="acronyms_LM">LM</span></dt>
+<dd>
+Linear Model
+</dd>
+<dt><span id="acronyms_LOESS">LOESS</span></dt>
+<dd>
+LOcal regrESSion (a later generalization of LOWESS)
+</dd>
+<dt><span id="acronyms_NAP">NAP</span></dt>
+<dd>
+Normaal Amsterdams Peil
+</dd>
+</dl>
 
 
 <div id="refs" class="references csl-bib-body hanging-indent" role="list" style="display: none">
@@ -346,7 +385,6 @@ window.Quarto = {
 Steffelbauer, David B, Riccardo E M Riva, Jos S Timmermans, Jan H Kwakkel, and Mark Bakker. 2022. <span>“<span class="nocase">Evidence of regional sea-level rise acceleration for the North Sea</span>.”</span> <em>Environmental Research Letters</em> 17.
 </div>
 </div>
-</section>
 </section>
 
 </main> <!-- /main -->
