@@ -44,18 +44,26 @@ De methode die is gebruikt voor de bepaling van de zeespiegel en stijging ervan 
 
 Voorliggend rapport heeft ook als doel een verslag te geven van het onderzoek dat in de afgelopen jaren is gedaan. De keuzes in dat onderzoek volgen uit de vooraf opgestelde onderzoeksagenda. In paragraaf \@ref(onderzoeksvragen) staat een overzicht. Een aantal onderzoeken zijn ook als aparte memo's of rapporten gepresenteerd. Dit staat aangegeven in het overzicht.
 
+De getallen van de Zeespiegelmonitor zijn belangrijk voor het kustbeleid. Om die redenen is de wens dat de bepaling van deze indicatoren voldoet aan:
+
+Openbaarheid, toegankelijkheid en reproduceerbaarheid
+: Om dit te bewerkstelligen worden alle berekeningen en analyses van de Zeespiegelmonitor, inclusief de bron van dit rapport, met scripts uitgevoerd, die gedeeld worden op een openbare [Github repository](https://github.com/Deltares-research/sealevelmonitor), onder versiebeheer.
+
+Voorspelkracht
+: 
+
+Draagvlak
+: De methodiek en resultaten van de Zeespiegelmonitor worden regelmatig besproken met experts van andere Nederlandse Instituten in een workshop. De laatste workshop was op 16 april met experts van o.a. \acr{NIOZ}, \acr{KNMI}, \acr{TNO}, \acr{PBL} en \acr{UU}
 
 
-
-
-## Inhoud van dit rapport 
+## Inhoud van dit rapport {#leeswijzer}
 
 Dit rapport heeft als doel om een overzicht te geven van het werk dat in de afgelopen jaren is gedaan in het kader van het onderzoek Kustbeleid. Allereerst gaat het om de berekeningen van de zeespiegel en zeespiegelstijging. Verder is er ook ruimte geweest voor onderzoek met als doel om de gebruikte methodieken te verbeteren, of om de resultaten beter te kunnen interpreteren. Vanaf 2022 is er richting gegeven aan dit onderzoek vanuit een met de opdrachtgevers afgestemde onderzoeksagenda. Deze agenda is in 2023 vastgesteld voor de periode 2023 - 2025. In dit rapport worden deze centrale vraagstellingen beantwoord.
 
 ### Jaarlijkse zeespiegelmonitor
 
 Wat is de huidige stijging van de zeespiegel aan de Nederlandse kust?
-: Deze vraag wordt beantwoord in paragraaf \@ref(huidige).
+: De huidige zeespiegel en -stijging wordt elk jaar uitgerekend. In deze rapportage worden de resultaten verder uitgewerkt en bediscussieerd. Deze vraag wordt beantwoord in paragraaf \@ref(huidige).
 
 ### Onderzoeksvragen afgelopen periode {#onderzoeksvragen}
 
@@ -66,9 +74,7 @@ Zeespiegel in de Wadden. Wat heeft de achterblijvende zeespiegel in de Waddenzee
 : Deze vraag wordt beantwoord in paragraaf \@ref().
 
 Verbeter de schatting van de zeespiegelstijging door een betere schatting van de invloed van getij en wind door GTSM her-analyses
-: 
-
-Deze vraag wordt beantwoord in paragraaf \@ref().
+: Deze vraag wordt beantwoord in paragraaf \@ref().
 
 Bodemdaling vs zeespiegelstijging. Hoe om te gaan met GNSS hoogtebepaling van de meetstaions?
 : Deze vraag wordt beantwoord in paragraaf \@ref().
