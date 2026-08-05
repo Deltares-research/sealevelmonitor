@@ -1,0 +1,928 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en"><head>
+
+<meta charset="utf-8">
+<meta name="generator" content="quarto-1.10.18">
+
+<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
+
+
+<title>3&nbsp; Methodiek – Zeespiegelmonitor 2026</title>
+<style>
+/* Default styles provided by pandoc.
+** See https://pandoc.org/MANUAL.html#variables-for-html for config info.
+*/
+span.smallcaps{font-variant: small-caps;}
+div.columns{display: flex; gap: 1.5em;}
+div.column{flex: auto;}
+@media screen {
+div.columns{gap: min(4vw, 1.5em);}
+div.column{overflow-x: auto;}
+}
+div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+ul.task-list{list-style: none;}
+ul.task-list li input[type="checkbox"] {
+  width: 0.8em;
+  margin: 0 0.8em 0.2em -1em; /* quarto-specific, see https://github.com/quarto-dev/quarto-cli/issues/4556 */ 
+  vertical-align: middle;
+}
+/* CSS for citations */
+div.csl-bib-body { }
+div.csl-entry {
+  clear: both;
+}
+.hanging-indent div.csl-entry {
+  margin-left:2em;
+  text-indent:-2em;
+}
+div.csl-left-margin {
+  min-width:2em;
+  float:left;
+}
+div.csl-right-inline {
+  margin-left:2em;
+  padding-left:1em;
+}
+div.csl-indent {
+  margin-left: 2em;
+}</style>
+
+
+<script src="site_libs/quarto-nav/quarto-nav.js"></script>
+<script src="site_libs/clipboard/clipboard.min.js"></script>
+<script src="site_libs/quarto-search/autocomplete.umd.js"></script>
+<script src="site_libs/quarto-search/fuse.min.js"></script>
+<script src="site_libs/quarto-search/quarto-search.js"></script>
+<meta name="quarto:offset" content="./">
+<link href="./03_resultaten.html" rel="next">
+<link href="./01_inleiding.html" rel="prev">
+<link href="./assets/icon-deltares.svg" rel="icon" type="image/svg+xml">
+<script src="site_libs/quarto-html/quarto.js" type="module"></script>
+<script src="site_libs/quarto-html/tabsets/tabsets.js" type="module"></script>
+<script src="site_libs/quarto-html/popper.min.js"></script>
+<script src="site_libs/quarto-html/tippy.umd.min.js"></script>
+<script src="site_libs/quarto-html/anchor.min.js"></script>
+<link href="site_libs/quarto-html/tippy.css" rel="stylesheet">
+<link href="site_libs/quarto-html/quarto-syntax-highlighting-64a204ab8560d761af7679ceaba22944.css" rel="stylesheet" id="quarto-text-highlighting-styles">
+<script src="site_libs/bootstrap/bootstrap.min.js"></script>
+<link href="site_libs/bootstrap/bootstrap-icons.css" rel="stylesheet">
+<link href="site_libs/bootstrap/bootstrap-7e6642c3ec51c0f90360e8da1dba21af.min.css" rel="stylesheet" append-hash="true" id="quarto-bootstrap" data-mode="light">
+<script id="quarto-search-options" type="application/json">{
+  "location": "navbar",
+  "copy-button": false,
+  "collapse-after": 3,
+  "panel-placement": "end",
+  "type": "overlay",
+  "limit": 50,
+  "keyboard-shortcut": [
+    "f",
+    "/",
+    "s"
+  ],
+  "show-item-context": false,
+  "language": {
+    "search-no-results-text": "No results",
+    "search-matching-documents-text": "matching documents",
+    "search-copy-link-title": "Copy link to search",
+    "search-hide-matches-text": "Hide additional matches",
+    "search-more-match-text": "more match in this document",
+    "search-more-matches-text": "more matches in this document",
+    "search-clear-button-title": "Clear",
+    "search-text-placeholder": "",
+    "search-detached-cancel-button-title": "Cancel",
+    "search-submit-button-title": "Submit",
+    "search-label": "Search"
+  }
+}</script>
+
+  <script src="https://cdnjs.cloudflare.com/polyfill/v3/polyfill.min.js?features=es6"></script>
+  <script defer="" src="https://cdn.jsdelivr.net/npm/mathjax@4/tex-chtml.js" type="text/javascript"></script>
+
+<script type="text/javascript">
+const typesetMath = (el) => {
+  if (window.MathJax) {
+    // MathJax Typeset
+    window.MathJax.typeset([el]);
+  } else if (window.katex) {
+    // KaTeX Render
+    var mathElements = el.getElementsByClassName("math");
+    var macros = [];
+    for (var i = 0; i < mathElements.length; i++) {
+      var texText = mathElements[i].firstChild;
+      if (mathElements[i].tagName == "SPAN" && texText && texText.data) {
+        window.katex.render(texText.data, mathElements[i], {
+          displayMode: mathElements[i].classList.contains('display'),
+          throwOnError: false,
+          macros: macros,
+          fleqn: false
+        });
+      }
+    }
+  }
+}
+window.Quarto = {
+  typesetMath
+};
+</script>
+
+<link rel="stylesheet" href="styles.css">
+<link rel="stylesheet" href="draft.css">
+</head>
+
+<body class="nav-sidebar floating nav-fixed quarto-light">
+
+<div id="quarto-search-results"></div>
+  <header id="quarto-header" class="headroom fixed-top">
+    <nav class="navbar navbar-expand-lg " data-bs-theme="dark">
+      <div class="navbar-container container-fluid">
+      <div class="navbar-brand-container mx-auto">
+    <a class="navbar-brand" href="./index.html">
+    <span class="navbar-title">Zeespiegelmonitor 2026</span>
+    </a>
+  </div>
+        <div class="quarto-navbar-tools tools-end">
+</div>
+          <div id="quarto-search" class="" title="Search"></div>
+      </div> <!-- /container-fluid -->
+    </nav>
+  <nav class="quarto-secondary-nav">
+    <div class="container-fluid d-flex">
+      <button type="button" class="quarto-btn-toggle btn" data-bs-toggle="collapse" role="button" data-bs-target=".quarto-sidebar-collapse-item" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Toggle sidebar navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">
+        <i class="bi bi-layout-text-sidebar-reverse"></i>
+      </button>
+        <nav class="quarto-page-breadcrumbs" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="./02_methodiek.html"><span class="chapter-number">3</span>&nbsp; <span class="chapter-title">Methodiek</span></a></li></ol></nav>
+        <a class="flex-grow-1" role="navigation" data-bs-toggle="collapse" data-bs-target=".quarto-sidebar-collapse-item" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Toggle sidebar navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">      
+        </a>
+    </div>
+  </nav>
+</header>
+<!-- content -->
+<div id="quarto-content" class="quarto-container page-columns page-rows-contents page-layout-article page-navbar">
+<!-- sidebar -->
+  <nav id="quarto-sidebar" class="sidebar collapse collapse-horizontal quarto-sidebar-collapse-item sidebar-navigation floating overflow-auto">
+    <div class="sidebar-menu-container"> 
+    <ul class="list-unstyled mt-1">
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./index.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Voorwoord</span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./samenvatting.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">1</span>&nbsp; <span class="chapter-title">Samenvatting</span></span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./01_inleiding.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">2</span>&nbsp; <span class="chapter-title">Inleiding</span></span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./02_methodiek.html" class="sidebar-item-text sidebar-link active">
+ <span class="menu-text"><span class="chapter-number">3</span>&nbsp; <span class="chapter-title">Methodiek</span></span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./03_resultaten.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">4</span>&nbsp; <span class="chapter-title">Resultaten</span></span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./04_discussie.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">5</span>&nbsp; <span class="chapter-title">Discussie</span></span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./05_literatuur.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Literatuur</span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./06_appendix.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Bijlagen</span></a>
+  </div>
+</li>
+    </ul>
+    </div>
+<div class="quarto-sidebar-footer"><div class="sidebar-footer-item">
+
+
+  
+    <div class="sidebar-footer">
+      <p class="sidebar-footer__label">Author</p>
+      <p class="sidebar-footer__author">
+        Deltares, Ministery of Infrastructure and Water Management</p>
+      <div class="sidebar-footer__logos">
+        <svg data-name="Layer 1" xmlns="http://www.w3.org/2000/svg" viewbox="0 0 400 130">
+          <path d="M86.5 63.9c0-22.4-12.6-31.6-33-31.6-6.4 0-12.6 0-15.8.2s-5.2.6-5.2 3.8v61.2a177.7 177.7 0 0 0 18.2 1c20.8 0 35.8-12.2 35.8-34.6Zm-13.4 1c0 14.4-8.8 23-21.2 23a42.74 42.74 0 0 1-6.8-.5V43s3.6-.3 7.6-.3c14.4 0 20.4 7.8 20.4 22.2Zm20.2 9c0 16.4 8 24.6 24.4 24.6a43.47 43.47 0 0 0 15.2-2.6v-9.4a43.59 43.59 0 0 1-13.6 2.4c-8.8 0-13.6-4.6-13.6-13.4h24.6c4 0 5.6-1 5.6-3.8v-1.8c0-12-6.4-21.4-20-21.4-14.4 0-22.6 11-22.6 25.4Zm22.2-16.2c5.2 0 8 3.6 8 9.6h-17.6c.8-6 4.4-9.6 9.6-9.6Zm42-25.2h-6.8c-4 0-5.6 1-5.6 3.8v46.4c0 11.2 3.4 15.8 12.6 15.8a28.39 28.39 0 0 0 8.2-1.3v-9.1a18.68 18.68 0 0 1-4.2.6c-2.5 0-4.2-1.2-4.2-6.4Zm28.4 0h-6.6c-4 0-5.6 1-5.6 3.8v46.4c0 11.2 3.6 15.8 14 15.8a36.59 36.59 0 0 0 9.8-1.3v-9.5a26.19 26.19 0 0 1-5.8.8c-3.6 0-5.8-1.8-5.8-7.8V59.1h6c4 0 5.6-1 5.6-3.8v-5.8h-11.6Zm17.6 43.4c0 16.4 10.4 22.6 23.2 22.6 8 0 16.2-1.6 21-3.6V51.1a62.22 62.22 0 0 0-17.2-2.6c-16.8 0-27 11-27 27.4Zm12.8-1.2c0-11.6 5.8-16.6 13-16.6a26.3 26.3 0 0 1 6.2.7v28.9s-2.6 1.2-7.8 1.2c-8 0-11.4-5.4-11.4-14.2Zm44 22.8h12.4V68.3c0-6.8 1.8-9.2 6.6-9.2h.6c3.6 0 5.4-.6 5.4-3.8v-5.8h-7.6c-13.6 0-17.4 8.4-17.4 18.8Zm27.8-23.6c0 16.4 8 24.6 24.4 24.6a43.47 43.47 0 0 0 15.2-2.6v-9.4a43.59 43.59 0 0 1-13.6 2.4c-8.8 0-13.6-4.6-13.6-13.4h24.6c4 0 5.6-1 5.6-3.8v-1.8c0-12-6.4-21.4-20-21.4-14.4 0-22.6 11-22.6 25.4Zm22.2-16.2c5.2 0 8 3.6 8 9.6h-17.6c.8-6 4.4-9.6 9.6-9.6Zm28 6.2c0 16 19.5 11.6 19.5 20 0 3.2-3.1 5-7.9 5a40.07 40.07 0 0 1-10.3-1.4l-.2 10a48.7 48.7 0 0 0 9.9 1c12.8 0 21.3-6.2 21.3-15.8 0-15.6-19.7-12.4-19.7-20 0-3.2 2.8-4.8 7.2-4.8 1.6 0 3.2.1 4.4.1 2.8 0 5-.5 5-5.3v-3.4a56.4 56.4 0 0 0-8.8-.8c-13.6 0-20.4 7-20.4 15.4Z" style="fill: #0a28a3"></path>
+          <path style="fill: none" d="M0 0h400v130H0z"></path>
+        </svg>
+        <img class="infrastructure-logo" src="assets/ministery_logo.png" alt="Ministery of infrastructure and water management">
+      </div>
+    </div>
+  
+
+
+</div></div></nav>
+<div id="quarto-sidebar-glass" class="quarto-sidebar-collapse-item" data-bs-toggle="collapse" data-bs-target=".quarto-sidebar-collapse-item"></div>
+<!-- margin-sidebar -->
+    <div id="quarto-margin-sidebar" class="sidebar margin-sidebar">
+        <nav id="TOC" role="doc-toc" class="toc-active">
+    <h2 id="toc-title">Table of contents</h2>
+   
+  <ul>
+  <li><a href="#afwegingen" id="toc-afwegingen" class="nav-link active" data-scroll-target="#afwegingen"><span class="header-section-number">3.1</span> Afwegingen</a></li>
+  <li><a href="#algemene-methodiek" id="toc-algemene-methodiek" class="nav-link" data-scroll-target="#algemene-methodiek"><span class="header-section-number">3.2</span> Algemene methodiek</a></li>
+  <li><a href="#bronnen" id="toc-bronnen" class="nav-link" data-scroll-target="#bronnen"><span class="header-section-number">3.3</span> Meetgegevens</a></li>
+  <li><a href="#sec-metingen-en-recente-correcties" id="toc-sec-metingen-en-recente-correcties" class="nav-link" data-scroll-target="#sec-metingen-en-recente-correcties"><span class="header-section-number">3.4</span> Metingen en recente correcties</a></li>
+  <li><a href="#uitleg-relatieve-zeespiegelstijging-aan-de-hand-van-infographic" id="toc-uitleg-relatieve-zeespiegelstijging-aan-de-hand-van-infographic" class="nav-link" data-scroll-target="#uitleg-relatieve-zeespiegelstijging-aan-de-hand-van-infographic"><span class="header-section-number">3.5</span> Uitleg relatieve zeespiegelstijging (aan de hand van infographic)</a></li>
+  <li><a href="#welke-termen" id="toc-welke-termen" class="nav-link" data-scroll-target="#welke-termen"><span class="header-section-number">3.6</span> Welke termen?</a>
+  <ul class="collapse">
+  <li><a href="#versnelling-methods" id="toc-versnelling-methods" class="nav-link" data-scroll-target="#versnelling-methods"><span class="header-section-number">3.6.1</span> Versnelling?</a></li>
+  </ul></li>
+  <li><a href="#sec-windopzet" id="toc-sec-windopzet" class="nav-link" data-scroll-target="#sec-windopzet"><span class="header-section-number">3.7</span> Windopzet</a></li>
+  <li><a href="#sec-getij" id="toc-sec-getij" class="nav-link" data-scroll-target="#sec-getij"><span class="header-section-number">3.8</span> Getij</a></li>
+  <li><a href="#rekenmethode-voor-de-bepaling-van-de-huidige-zeespiegelstijging" id="toc-rekenmethode-voor-de-bepaling-van-de-huidige-zeespiegelstijging" class="nav-link" data-scroll-target="#rekenmethode-voor-de-bepaling-van-de-huidige-zeespiegelstijging"><span class="header-section-number">3.9</span> Rekenmethode voor de bepaling van de huidige zeespiegelstijging</a></li>
+  <li><a href="#altimetrie" id="toc-altimetrie" class="nav-link" data-scroll-target="#altimetrie"><span class="header-section-number">3.10</span> Metingen van het zeeniveau met satellieten (altimetrie)</a>
+  <ul class="collapse">
+  <li><a href="#beschikbare-satellieten-en-metingen" id="toc-beschikbare-satellieten-en-metingen" class="nav-link" data-scroll-target="#beschikbare-satellieten-en-metingen"><span class="header-section-number">3.10.1</span> Beschikbare satellieten en metingen</a></li>
+  <li><a href="#huidige-zeespiegelstand-berekend-met-gecombineerd-satelliet-product" id="toc-huidige-zeespiegelstand-berekend-met-gecombineerd-satelliet-product" class="nav-link" data-scroll-target="#huidige-zeespiegelstand-berekend-met-gecombineerd-satelliet-product"><span class="header-section-number">3.10.2</span> Huidige zeespiegelstand berekend met gecombineerd satelliet product</a></li>
+  <li><a href="#verwachting-voor-de-toekomst-en-toepassing-voor-zeespiegelmonitor" id="toc-verwachting-voor-de-toekomst-en-toepassing-voor-zeespiegelmonitor" class="nav-link" data-scroll-target="#verwachting-voor-de-toekomst-en-toepassing-voor-zeespiegelmonitor"><span class="header-section-number">3.10.3</span> Verwachting voor de toekomst en toepassing voor zeespiegelmonitor</a></li>
+  </ul></li>
+  </ul>
+</nav>
+    </div>
+<!-- main -->
+<main class="content" id="quarto-document-content">
+
+<header id="title-block-header" class="quarto-title-block default">
+<div class="quarto-title">
+<h1 class="title"><span id="methodiek" class="quarto-section-identifier"><span class="chapter-number">3</span>&nbsp; <span class="chapter-title">Methodiek</span></span></h1>
+</div>
+
+
+
+<div class="quarto-title-meta">
+
+    
+  
+    
+  </div>
+  
+
+
+</header>
+
+
+<p>In hoofdstuk <a href="01_inleiding.html" class="quarto-xref"><span>Chapter 2</span></a> wordt uitgelegd dat er een ‘huidige zeespiegel’ nodig is, onder andere om de suppletiebehoefte te bepalen. Huidig is in de context van deze toepassing eigenlijk geen tijdspunt, maar een tijdsspanne. Het gaat niet om de zeespiegel vandaag, maar om de zeespiegel van enkele jaren terug tot nu.</p>
+<p>In de bijlage @ref(metingen) wordt uitgelegd hoe de metingen precies tot stand komen.</p>
+<section id="afwegingen" class="level2" data-number="3.1">
+<h2 data-number="3.1" class="anchored" data-anchor-id="afwegingen"><span class="header-section-number">3.1</span> Afwegingen</h2>
+<p>Bij het selecteren van de methode worden er diverse afwegingen gemaakt, waarbij we gebruik maken van onderstaande criteria. Dit hoofdstuk geeft een overzicht van de belangrijkste modelkeuzes en de bijbehorende onderbouwing. Uitgangspunt voor de afwegingen is het bepalen van een goede maat voor de huidige zeespiegelstijging ten behoeve van het suppletieprogramma en de suppletiebehoefte.</p>
+<p><strong>Stabiliteit</strong> - de gebruikte methodiek moet niet van jaar tot jaar te veel variëren.</p>
+<p><strong>Spaarzaamheid</strong> - parcimonie: principe dat de eenvoudigste van twee ongeveer even plausibele verklaringen voor hetzelfde fenomeen de voorkeur heeft</p>
+<p><strong>Robuustheid</strong> - trend moet niet te veel afhangen van modelkeuzes</p>
+<p><strong>Voorspelkracht</strong> - toepassing van model in het verleden moet een goede hindcast opleveren voor een voorspelhorizon die vergelijkbaar is met de lengte van de gewenste periode (10-15 jaar)</p>
+<p><strong>Behoudend</strong> - methode moet temporeel aansluiten oftewel over de gehele periode met metingen toepasbaar zijn zonder onderbreking of verspringing.</p>
+<p><strong>Generaliseerbaarheid</strong> - methode moet ook werken bij andere stations dan in Nederland</p>
+<p><strong>Power</strong> - als er een verandering is moet de methode dat snel detecteren</p>
+<p><strong>Fysisch verklaarbaar</strong> - de gekozen formulering moet verklaarbaar zijn vanuit fysisch oogpunt</p>
+</section>
+<section id="algemene-methodiek" class="level2" data-number="3.2">
+<h2 data-number="3.2" class="anchored" data-anchor-id="algemene-methodiek"><span class="header-section-number">3.2</span> Algemene methodiek</h2>
+<p>In dit onderzoek maken we gebruik van een Generalized Linear Model (GLM), een gegeneralizeerde vorm van een lineair regressiemodel. Vooral omdat de variatie goed verklaard wordt <span class="citation" data-cites="Watson2016">(<a href="05_literatuur.html#ref-Watson2016" role="doc-biblioref">Watson 2016</a>)</span>. We gaan er vanuit dat de zeespiegel sneller aan het stijgen is of binnenkort sneller gaat stijgen dan in het verleden (ruwweg de twintigste eeuw)<a href="#fn1" class="footnote-ref" id="fnref1" role="doc-noteref"><sup>1</sup></a>. Dit heeft implicaties voor de verwachte zeespiegel en zeespiegelstijging. Daarom maken we gebruik van schattingen van de versnelling, zie @ref(versnelling-methods). Merk op dat een lineair model niet impliceert dat de zeespiegelstijging een rechte lijn moet volgen. Ook polynome, sinusoïde, exponentiële en loglineaire modellen vallen onder de GLM familie.</p>
+</section>
+<section id="bronnen" class="level2" data-number="3.3">
+<h2 data-number="3.3" class="anchored" data-anchor-id="bronnen"><span class="header-section-number">3.3</span> Meetgegevens</h2>
+<p>In dit onderzoek maken we gebruik van gegevens voor de 6 zogenaamde hoofdstations Vlissingen, Hoek van Holland, IJmuiden, Den Helder, Harlingen en Delfzijl. Deze kuststations leveren sinds 1890, toen het Normaal Amsterdams Peil (NAP) overal was doorgevoerd, betrouwbare metingen. Gegevens worden betrokken uit de <a href="https://psmsl.org/data/">Permanent Service for Mean Sea Level (PSMSL) database</a>. Rijkswaterstaat draagt zorg voor de aanlevering van gegevens aan PSMSL.</p>
+<p>De overige stations waarvan gegevens in PSMSL opvraagbaar zijn worden niet gebruikt. Het station van West-Terschelling (1921) wordt buiten beschouwing gelaten omdat het in de buurt ligt van Den Helder en Harlingen. Het station van Maassluis (1848) ligt kustinwaarts ten opzichte van Hoek van Holland en kan afgesloten worden door de Maeslantkering. Daardoor is de waterstand niet meer gelijk aan die van de open zee. Het station Roompot Buiten heeft een relatief korte historie (jaargemiddelden beschikbaar sinds 1982) en overlapt met Vlissingen. Roompot Buiten heeft wel een belangrijke functie in de operationele toepassing, waarin Roompot Buiten wel en IJmuiden niet als een hoofdstation wordt gezien. Roompot Buiten is in de Zeespiegelmonitor niet meegenomen als hoofdstation.</p>
+<div class="quarto-figure quarto-figure-center">
+<figure class="figure">
+<p><img src="images/station-map.png" class="img-fluid figure-img"></p>
+<figcaption>Locatie van de zes hoofdstations</figcaption>
+</figure>
+</div>
+<p>We maken in de analyse geen onderscheid naar in welke mate de stations zijn beïnvloed door ingrepen aan de kust. Het is bekend dat sommige ingrepen wel invloed hebben op de metingen. Denk hierbij aan de aanleg van de Afsluitdijk, de aanleg van de Deltawerken, sinds de jaren 1990 het dynamisch kustbeheer en vooral de diverse lokale aanpassingen binnen de havens. Hoewel bekend is dat deze ingrepen over kortere of langere tijd een effect hebben op de waterstand <span class="citation" data-cites="Becker2009">(<a href="05_literatuur.html#ref-Becker2009" role="doc-biblioref">Becker et al. 2009</a>)</span> ontbreekt op dit moment de kennis om hier op een kwantitatieve manier voor te corrigeren. Wel is het zo dat door het middelen van waterstanden gemeten bij de hoofdstations een deel van deze effecten uitgemiddeld zullen worden.</p>
+<p>Sinds de vorige Zeespiegelmonitor is aangenomen dat de waarden bij Station Delfzijl onzeker zijn doordat de vertikale positie de laatste 10-15 jaar niet correct is doorgevoerd <span class="citation" data-cites="Honingh2021">(<a href="05_literatuur.html#ref-Honingh2021" role="doc-biblioref">Honingh et al. 2021</a>)</span>. Rijkswaterstaat heeft begin 2022 geconstateerd dat een inhaalslag nodig is voor de verticale correctie van de waterstandsmetingen bij Delfzijl. Deze correctie is bij het schrijven van dit rapport wel herberekend maar nog niet via de geijkte manieren (WADAR, PSMSL) gepubliceerd. Daarom berekenen we de zeespiegel en -stijging op basis van het gemiddelde van alleen de 5 andere hoofdstations.</p>
+</section>
+<section id="sec-metingen-en-recente-correcties" class="level2" data-number="3.4">
+<h2 data-number="3.4" class="anchored" data-anchor-id="sec-metingen-en-recente-correcties"><span class="header-section-number">3.4</span> Metingen en recente correcties</h2>
+<p>Voor de Zeespiegelmonitor worden jaargemiddelden gebruikt die beschikbaar zijn in PSMSL. Deze gegevens worden door Rijkswaterstaat (RWS) jaarlijks berekend en aan PSMSL aangeleverd. Voorafgaand aan de berekening van gemiddelden worden de meetgegevens gecontroleerd, en waar nodig aangevuld of gecorrigeerd (<span class="citation" data-cites="Honingh2021">Honingh et al. (<a href="05_literatuur.html#ref-Honingh2021" role="doc-biblioref">2021</a>)</span>).</p>
+<p>Recent heeft een extra controle en correctie plaatsgevonden voor de getijdemetingen. Dit betreft 2 typen correcties:</p>
+<ul>
+<li>herberekening van gemiddelden op basis van 10-minutenreeksen (dit werd tot nu toe gedaan op basis van uurgegevens)</li>
+<li>Herberekening van NAP referentiewaarden voor station Delfzijl</li>
+</ul>
+<p><placeholder>De maand- en jaargemiddelden zijn op dit moment (februari 2026) preliminair uitgerekend, maar zijn nog niet aangeleverd aan {PSMSL}.</placeholder></p>
+<p><placeholder> consequenties voor zeespiegel, zss en keuze stations uitleggen (maar pas toepassen als gegevens in PSMSL staan)</placeholder></p>
+</section>
+<section id="uitleg-relatieve-zeespiegelstijging-aan-de-hand-van-infographic" class="level2" data-number="3.5">
+<h2 data-number="3.5" class="anchored" data-anchor-id="uitleg-relatieve-zeespiegelstijging-aan-de-hand-van-infographic"><span class="header-section-number">3.5</span> Uitleg relatieve zeespiegelstijging (aan de hand van infographic)</h2>
+<p>De methode in dit onderzoek bouwt verder op de aanpak zoals beschreven in <span class="citation" data-cites="Baart2015"><span class="nocase">Baart et al.</span> (<a href="05_literatuur.html#ref-Baart2015" role="doc-biblioref">2015</a>)</span>. De variatie in de zeespiegel wordt in een aantal componenten uitgesplitst. Het uitsplitsen van de variatie van jaargemiddelde zeespiegel wordt gedaan met behulp van een GLM. Een lineair model wordt gebruikt als onderdelen tot elkaar optellen. In deze sectie beschrijven we welke termen in dit model meegenomen worden en waarom.</p>
+<p>In eenvoudige vorm wordt de waterstand beschreven als de volgende vergelijking:</p>
+<p><span id="eq-trend"><span class="math display">\[h_t = constante + trend + versnelling? + getij + wind + residu \tag{3.1}\]</span></span></p>
+</section>
+<section id="welke-termen" class="level2" data-number="3.6">
+<h2 data-number="3.6" class="anchored" data-anchor-id="welke-termen"><span class="header-section-number">3.6</span> Welke termen?</h2>
+<p>De versnelling is optioneel (zie sectie @ref(versnelling-methods). In @ref(eq:gedetailleerdevergelijking) is de gedetailleerde wiskundige vergelijking van het regressiemodel voor de zeewaterstand opgenomen.</p>
+<section id="versnelling-methods" class="level3" data-number="3.6.1">
+<h3 data-number="3.6.1" class="anchored" data-anchor-id="versnelling-methods"><span class="header-section-number">3.6.1</span> Versnelling?</h3>
+<p>In de vorige Zeespiegelmonitor is geconstateerd dat een versnellingsterm noodzakelijk is voor de correcte beschrijving van de gemiddelde zeespiegelstijging langs de Nederlandse kust. Om de versnelling van de zeespiegel te beschrijven zijn er in de literatuur verschillende varianten in omloop. Deze worden hieronder schematisch weergegeven en beschreven.</p>
+<div class="quarto-figure quarto-figure-center">
+<figure class="figure">
+<p><img src="images/accelerations.png" class="img-fluid figure-img"></p>
+<figcaption>Verschillende modelvarianten om een al dan niet veranderende zeespiegelstijging te beschrijven.</figcaption>
+</figure>
+</div>
+<ol type="1">
+<li>Een <em>lineaire</em> aanpak gaat ervan uit dat de versnelling afwezig is. Deze methode wordt toegepast door NOAA voor <a href="https://tidesandcurrents.noaa.gov/sltrends/mslUSTrendsTable.html">historische reeksen</a>. Vanuit het spaarzaamheidsprincipe veronderstellen we dat dit model geldt (nulhypothese) tenzij het verworpen wordt.</li>
+<li>Een <em>kwadratische versnelling</em>. Dit is de gebruikelijke <span class="citation" data-cites="Jevrejeva2014 Church2011">(<a href="05_literatuur.html#ref-Jevrejeva2014" role="doc-biblioref">Jevrejeva et al. 2014</a>; <a href="05_literatuur.html#ref-Church2011" role="doc-biblioref">Church and White 2011</a>)</span> en formele manier om de versnelling mee te nemen. De methode bevat naast een parameter voor de lineaire trend in de zeespiegelstijging een extra parameter voor de versnelling in de zeespiegelstijging (zie @ref(eq:trend)). Op de significantie van deze parameter wordt statistisch getoetst. Deze methode wordt weergegeven met vergelijking @ref(eq:quadratictrend).</li>
+<li>De <em>gebroken lineaire</em> methode gaat ervan uit dat de zeespiegelstijging abrupt versneld is. Een abrupte versnelling kan optreden als een groot gebied tegelijk boven het 0 punt komt te liggen. In de praktijk wordt het ook gebruikt om een aparte trend uit te rekenen voor het satelliettijdperk. Sinds 1993 (na de lancering van de <a href="https://eospso.nasa.gov/missions/topexposeidon">TOPEX/Poseidon</a> satelliet) meten we de zeespiegel ook met satellieten . De satellietmetingen laten een hogere zeespiegelstijging zien dan de gemeten waterstanden in het getijstationtijdperk (‘tide gauge era’). Hierbij wordt 1993 vaakgenoemd als de start van de versnelde zeespiegel <span class="citation" data-cites="Stocker2013">(bijvoorbeeld <a href="05_literatuur.html#ref-Stocker2013" role="doc-biblioref"><span class="nocase">Stocker et al.</span> 2013</a>)</span>. Om goede vergelijkingen te maken is het daarom nodig om ook voor deze periode een trend te bepalen. In deze methode kan de trendparameter vanaf het jaar 1993 wijzigen. Op de significantie van de trendbreuk wordt statistisch getoetst. Dit gebroken trendmodel wordt weergegeven in vergelijking @ref(eq:brokentrend).</li>
+<li>De <em>gebroken kwadratische</em> versnelling gaat er van uit dat de zeespiegel in de jaren 60 van de vorige eeuw is gaan versnellen als gevolg van de verhoogde uitstoot van broeikasgassen na de tweede wereldoorlog (Slangen et al.&nbsp;2016, Dangendorf et al.&nbsp;2019). Met een geavanceerd statische methode is dit ook gevonden door Keizer et al (submitted). Voor toepassing hier wordt vóór 1960 een lineaire toename aangenomen. De versnelling vanaf 1960 wordt berekend op de manier die hierboven is beschreven bij de kwadratische versnelling. Dit gebroken trendmodel wordt weergegeven in vergelijking @ref(eq:brokenquadratic).</li>
+</ol>
+<p>De keuze van het model heeft implicaties voor de huidige zeespiegel, immers het bepaalt deels hoeveel zeespiegel er wordt toegekend aan veranderingen in getij of windopzet. Het is dus belangrijk om het model te kiezen dat met de grootst mogelijke waarschijnlijkheid de huidige zeespiegelstijging beschrijft. Tegelijkertijd houden we vast aan de uitgangspunten in paragraaf @ref(afwegingen). De uiteindelijke modelkeuze (welk model is beter dan het simpelste, dus lineaire, model) vindt plaats op twee criteria. Er moet sprake zijn van een significante acceleratie of deceleratie en er moet sprake zijn van een beter model. Dat laatste wordt vastgesteld met behulp van het Akaike Informatie Criterium, (een maat voor de goodness-of-fit van een model) (AIC), waarbij een afweging wordt gemaakt tussen de complexiteit en de toegevoegde waarde. Het AIC criterium is een afweging op basis van de statische eigenschappen van de verschillende modellen. Het doet geen uitspraak over de juistheid van onderliggende fysische processen.</p>
+<ol start="5" type="1">
+<li>Een andere methode is om een <em>discontinue lineaire</em> trend te berekenen. Door over aparte perioden trends uit te rekenen krijg je trends waarvan de intercepts niet aansluit op de vorige periode. Dit is de methode zoals gebruikt in het laatste <a href="https://www.ipcc.ch/report/ar6/wg1/chapter/chapter-9/">IPCC rapport</a>. Hierbij worden trends over verschillende perioden apart uitgerekend.</li>
+<li><em>Lokaal polynoom</em> is een methode met meer vrijheidsgraden en wat exploratiever van aard. De parameters worden gebaseerd op “expert judgement” en “trial en error” <span class="citation" data-cites="Cleveland1996">(<a href="05_literatuur.html#ref-Cleveland1996" role="doc-biblioref">Cleveland and Loader 1996</a>)</span>. Het voordeel van deze methode is dat deze de mogelijkheid open laat van een meer variërende trend over tijd. Het nadeel is dat deze methode door het grotere aantal vrijheidsgraden ook wat meer kan “wapperen”, vooral aan het uiteinde. Dat wil zeggen dat de trend aan het eind van de reeks, met nieuwe data, snel van richtingscoefficient kan veranderen.</li>
+</ol>
+<p>De laatste twee methoden hebben we in deze rapportage niet gebruikt vanwege de genoemde nadelen.## Uitleg GNSS stations</p>
+</section>
+</section>
+<section id="sec-windopzet" class="level2" data-number="3.7">
+<h2 data-number="3.7" class="anchored" data-anchor-id="sec-windopzet"><span class="header-section-number">3.7</span> Windopzet</h2>
+<p>Een van de factoren die de zeespiegel beïnvloeden is de windopzet (storm surge). Om de bijdrage hiervan te kwantificeren, is de gemiddelde jaarlijkse windopzet berekend op basis van de GTSM-ERA5 dataset, die uurlijkse mondiale waterstanden en windopzet tijdreeksen bevat voor de periode vanaf 1950 tot heden. De dataset is gebaseerd op het (Global Tidal Surge Model (GTSM)), een dieptegemiddeld hydrodynamisch model dat getijden, windopzet en hun niet-lineaire interacties in de wereldoceaan simuleert, aangestuurd door de ERA5 atmosferische heranalyse. De stormopzet wordt bepaald als het verschil tussen een gecombineerde windopzet-getijdensimulatie en een simulatie met uitsluitend astronomisch getij en is als afzonderlijke variabele beschikbaar in de dataset. Meer informatie is beschikbaar in de documentatie van de <a href="https://doi.org/10.24381/cds.a6d42d60">GTSM-ERA5-dataset</a> en in <span class="citation" data-cites="Muis2023">(<a href="05_literatuur.html#ref-Muis2023" role="doc-biblioref">Muis et al. 2023</a>)</span>, <span class="citation" data-cites="Aleksandrova2026">(<a href="05_literatuur.html#ref-Aleksandrova2026" role="doc-biblioref">Aleksandrova et al. 2025</a>)</span>.</p>
+<p>Modelresultaten voor windopzet uit GTSM runs worden geselecteerd per hoofdstation. Deze worden daarna gemiddeld per maand voor elk hoofdstation en opgeslagen voor later gebruik in de Zeespiegelmonitor (zie dit <a href="https://github.com/Deltares-research/sealevelmonitor/blob/develop_reporting26_aleksandrova/analysis/gtsm/get_monthly_means_surge.ipynb">rekendocument</a>). In de onderstaande figuur zijn, ter illustratie voor Hoek van Holland, de uurlijkse tijdreeks van de windopzet in 2025 en de daaruit afgeleide maand- en jaargemiddelden weergegeven.</p>
+<div class="quarto-figure quarto-figure-center">
+<figure class="figure">
+<p><img src="images/gtsm_monthly_means_surge_HOEKVHLD_2025_timeseries.png" class="img-fluid figure-img"></p>
+<figcaption>Windopzet tijdreeks en maandgemiddelde windopzet voor 2025 voor Hoek van Holland</figcaption>
+</figure>
+</div>
+<p>De maandgemiddelden vertonen interjaarlijkse variaties, maar zijn in het algemeen hoger gedurende het winterseizoen. De onderstaande figuur toont de spreiding van de maandgemiddelden van de windopzet voor Hoek van Holland voor de periode 1950–2025.</p>
+<div class="quarto-figure quarto-figure-center">
+<figure class="figure">
+<p><img src="images/gtsm_monthly_means_surge_HOEKVHLD.png" class="img-fluid figure-img"></p>
+<figcaption>Maandgemiddelde windopzet voor alle jaren over de periode 1950 - 2025 voor Hoek van Holland</figcaption>
+</figure>
+</div>
+<p>De gemiddelde jaarlijkse stormopzet varieert tussen locaties en individuele meetstations, afhankelijk van de weersomstandigheden in een bepaald jaar en de blootstelling van de getijdestationlocatie aan wind- en storminvloeden. De onderstaande figuur toont de tijdreeks van de jaarlijkse gemiddelde stormopzet voor de hoofdstations.</p>
+<div class="quarto-figure quarto-figure-center">
+<figure class="figure">
+<p><img src="images/gtsm_annual_means_surge_all_stations.png" class="img-fluid figure-img"></p>
+<figcaption>Jaargemiddelde windopzet voor 1950-2025 voor alle stations</figcaption>
+</figure>
+</div>
+<p>In de Zeespiegelmonitor analyse wordt de correctie voor windopzet als volgt berekend:</p>
+<ul>
+<li><p>Voor elk station wordt jaargemiddeld windopzet berekend.</p></li>
+<li><p>Jaargemiddelde windopzet wordt getransformeerd tot jaarlijkse afwijking (opzetanomalie) van het gemiddelde.</p></li>
+<li><p>De opzetanomalie per jaar en station wordt afgetrokken van de zeespiegelhoogte om tot de gecorrigeerde zeespiegel te komen.</p></li>
+</ul>
+<p>Voor het gemiddelde over Nederland worden de gecorrigeerde zeespiegelwaarden gemiddeld over de stations.</p>
+<p>De huidige versie van GTSM die gebruikt wordt voor berekening van windopzet voor de Zeespiegelmonitor wordt aangestuurd door een waterpeil inclusief een stijging. De zeespiegelstijging die is toegepast is afgeleid van SLR-projecties in Fifth Assessment Report IPCC (AR5) van Intergovernmental Panel on Climate Change (IPCC). Deze wijken waarschijnlijk af van de daadwerkelijk waargenomen zeespiegelstijging. De bijdrage van zeespiegelstijging wordt bij de berekening van de windopzet grotendeels opgeheven doordat de stormopzet wordt gedefinieerd als het verschil tussen de totale waterstand (getij en windopzet) en een simulatie met uitsluitend getij. Wel kan zeespiegelstijging een geringe indirecte invloed hebben op de berekende stormopzet, doordat veranderingen in de waterdiepte de hydrodynamische processen beïnvloeden. Het is daarom belangrijk om te weten of de gebruikte stijging invloed heeft op de berekende windopzet aan de Nederlandse kust. Dit is gecontroleerd door de GTSM-ERA5 modelopstelling voor 2023 te draaien, zodat modelresultaten zowel met als zonder Sea Level Rise (SLR) (totaal waterpeil en alleen getijdenruns) worden getoond. Deze resultaten zijn vergeleken (zoals te zien in dit <a href="https://github.com/VU-IVM/gtsm3-era5-nrt/blob/main/02_analysis_and_validation/p06_compare_SLR_effect_surge_mean.ipynb">rekendocument</a>. Uit deze resultaten kan worden geconcludeerd:</p>
+<ul>
+<li>SLR in 2023, die in onze modelruns is opgenomen, is ~0.1 m te opzichte van het referentie periode 1986-2005.</li>
+<li>Dit niveau van SLR heeft geen significant effect op de gemiddelde windopzet. Het verschil dat het model veroorzaakt is verwaarloosbaar (minder dan 1 mm).</li>
+<li>Op enkele locaties diep in de Waddenzee is er enig verschil in windopzet tussen de twee runs, maar dit zijn locaties in relatief afgesloten gebieden in ondiep water. Het verschil blijft beperkt tot enkele millimeters.</li>
+</ul>
+<div class="quarto-figure quarto-figure-center">
+<figure class="figure">
+<p><img src="images/GTSM_SLR_diff.png" class="img-fluid figure-img"></p>
+<figcaption>Gemiddelde windopzet op de zeespiegel voor 2023 inclusief zeespiegelstijging zoals gedefinieerd in GTSM (linker figuur) en het verschil in windopzet tussen modelruns met en zonder zeespiegelstijging (rechter figuur).</figcaption>
+</figure>
+</div>
+<p>Hieruit concluderen we dat de windopzet uit GTSM inclusief zeespiegelstijging, die we op dit moment gebruiken voor de Zeespiegelmonitor, niet wordt beïnvloed door de gebruikte zeespiegelprojectie.</p>
+</section>
+<section id="sec-getij" class="level2" data-number="3.8">
+<h2 data-number="3.8" class="anchored" data-anchor-id="sec-getij"><span class="header-section-number">3.8</span> Getij</h2>
+<p>Naast windopzet zorgt ook het getij, met name de nodale cyclus, voor een variatie in de zeespiegel over de jaren <span class="citation" data-cites="Woodworth2012"><span class="nocase">Baart et al.</span> (<a href="05_literatuur.html#ref-Baart2012f" role="doc-biblioref">2012</a>)</span>. Daarom wordt de variatie door de nodale cyclus meegenomen als gelinearizeerde amplitude en fase, in de vorm van een u en v component (vergelijking (2.2)). Het is ook mogelijk om het equilibrium getij (Fedor Baart, van Gelder, et al.&nbsp;2012) op te leggen. Het equilibrium getij is het getij dat zou optreden zonder invloed van land of ondiepte op de propagatie van de getijgolf. In Nederland en op veel andere plaatsen is de amplitude en fase van het in de regressie meegenomen nodaal getij niet hetzelfde als het equilibrium getij. Er is lange tijd discussie geweest over welk getij het meest geschikt is om mee te rekenen in langjarige analyses (Woodworth vs Baart). Recent is aangetoond dat het waargenomen nodaal getij aan de Nederlandse kust verklaarbaar beïnvloed wordt door modulatie van de M2 getijgolf in de Noordzee (Lebars et al., ). Dit brengt de twee denkbeelden dichter bij elkaar. Het lijkt er hierbij op dat de in de regressie geschatte nodale cyclus min of meer precies beantwoord aan het beeld van een gemoduleerd M2 getij.</p>
+</section>
+<section id="rekenmethode-voor-de-bepaling-van-de-huidige-zeespiegelstijging" class="level2" data-number="3.9">
+<h2 data-number="3.9" class="anchored" data-anchor-id="rekenmethode-voor-de-bepaling-van-de-huidige-zeespiegelstijging"><span class="header-section-number">3.9</span> Rekenmethode voor de bepaling van de huidige zeespiegelstijging</h2>
+<p>De stijging van de zeespiegel wordt wiskundig beschreven met een model, waaruit we de meest waarschijnlijk stijging berekenen over de gewenste periode (laatste 15 jaar). De keuze van het model dient ook te voldoen aan de gestelde criteria (#afwegingen). De keus aan modellen die getest worden is over de jaren langzaam uitgebreid. In <span class="citation" data-cites="Dillingh2010">(<a href="05_literatuur.html#ref-Dillingh2010" role="doc-biblioref"><span class="nocase">Dillingh et al.</span> 2010</a>)</span> werd een kwadratische term toegevoegd aan het initiële lineaire model, om een versnelling al dan niet te accepteren. Er was toen alleen voor station Den Helder een significante toename van de zeespiegestijging met het gebruikte model. In de Zeespiegelmonitor 2014 (<span class="citation" data-cites="Baart2014a">(<a href="05_literatuur.html#ref-Baart2014a" role="doc-biblioref"><span class="nocase">Baart et al.</span> 2014</a>)</span>) is daarom alleen het lineaire model toegepast, met een uitbreiding van een LOESS term om het model beter te laten aansluiten bij projecties. In de Zeespiegel 2018 (<span class="citation" data-cites="Baart2019">(<a href="05_literatuur.html#ref-Baart2019" role="doc-biblioref"><strong>Baart2019?</strong></a>)</span>) is opnieuw de kwadratische term als toevoeging op het lineaire model getest, samen met een trendbreuk model (gebroken lineair model) waarbij het breekpunt in 1993 gekozen werd. De keuze voor 1993 was gemotiveerd door:</p>
+<ul>
+<li>1993 is het startjaar van satellietmetingen. Door de breuk in 1993 te leggen wordt de trend ook berekend vanaf dit jaar, wat vergelijking met satellietmetingen vergemakkelijkt. Tevens wordt de aansluiting met gegevens van vóór 1993 behouden.</li>
+<li>Rond 1993 stond de zeespiegel vrij laag, deels door de uitbraak van de Pinatubo vulkaan. Gedeeltelijk daardoor laten latere analyses zien dat voor een gebroken lineair model dit het meest waarschijnlijke breekpunt is [@].</li>
+</ul>
+</section>
+<section id="altimetrie" class="level2" data-number="3.10">
+<h2 data-number="3.10" class="anchored" data-anchor-id="altimetrie"><span class="header-section-number">3.10</span> Metingen van het zeeniveau met satellieten (altimetrie)</h2>
+<section id="beschikbare-satellieten-en-metingen" class="level3" data-number="3.10.1">
+<h3 data-number="3.10.1" class="anchored" data-anchor-id="beschikbare-satellieten-en-metingen"><span class="header-section-number">3.10.1</span> Beschikbare satellieten en metingen</h3>
+<div class="quarto-figure quarto-figure-center">
+<figure class="figure">
+<p><img src="images/TimelineAltimetry_v202504.png" class="img-fluid figure-img"></p>
+<figcaption>Tijdlijn van satellieten vanaf 1993 tot 2030 [@Aviso2022Timeline]</figcaption>
+</figure>
+</div>
+<p>In 1993 begonnen de eerste altimetrie satelieten met meten. De eerste satelliet was Topex/Poseidon, gevolgd door Jason-1, Jason-2, Jason-3 en de Sentinel-6A/B satellieten <span class="citation" data-cites="Aviso2022Timeline">(<a href="05_literatuur.html#ref-Aviso2022Timeline" role="doc-biblioref">Aviso+ 2022</a>)</span>. In het begin van de metingen was de resolutie van de satellietmetingen beperkt tot 1 keer per 10 dagen.</p>
+<p>Voor een nauwkeurige vergelijking met de in-situ metingen van de getijdestations is het nodig om de gemeten hoogtes ten opzichte van hetzelfde verticale referentievlak te bepalen. Satellietgegevens worden berekend ten opzichte van een gemiddeld niveau over een bepaalde periode (anomaliën), zonder informatie over het absolute referentieniveau. Op basis hiervan kunnen we alleen trends met elkaar vergelijken <span class="citation" data-cites="Stolte2022">(<a href="05_literatuur.html#ref-Stolte2022" role="doc-biblioref"><strong>Stolte2022?</strong></a>)</span>. Daarom worden de gegevens meer ter verificatie gebruikt dan als primaire bron. We monitoren wel de wetenschappelijke ontwikkelingen op het gebied van satellietmetingen en de verwerking hiervan, om bij te houden of satellietdata ook een andere rol in de zeespiegelmonitor kan gaan spelen.</p>
+</section>
+<section id="huidige-zeespiegelstand-berekend-met-gecombineerd-satelliet-product" class="level3" data-number="3.10.2">
+<h3 data-number="3.10.2" class="anchored" data-anchor-id="huidige-zeespiegelstand-berekend-met-gecombineerd-satelliet-product"><span class="header-section-number">3.10.2</span> Huidige zeespiegelstand berekend met gecombineerd satelliet product</h3>
+<p>De belangrijkste bron van satellietgegevens voor de zeespiegel is het gecombineerde product van meerdere satelieten. Om observaties van één missie voor de zeespiegelstand te gebruiken, zijn zowel de temporale als ruimtelijke resolutie te beperkt. Inmiddels is er vanaf 1993 tot heden een langere tijdreeks opgebouwd van het gecombineerde product. Echter, blijft het probleem van de beperkte kwaliteit bij de kust bestaan. Nieuwe technieken, bijvoorbeeld het toevoegen van SWOT (Surface Water Ocean Topography) hebben gezorgd voor een verkleining van die fout, maar voor de toepassing van de zeespiegelmonitor is deze onzekerheid nog te hoog.</p>
+<p>In <span class="citation" data-cites="Stolte2022">(<a href="05_literatuur.html#ref-Stolte2022" role="doc-biblioref"><strong>Stolte2022?</strong></a>)</span> wordt een vergelijking gemaakt met zeespiegelstand gemeten door satelieten met gebruik van de MEaSURE dataset, gedownload via de NASA Tool. Inmiddels kan er vanaf Copernicus Marine Services (CMEMS) een gecombineerd sateliet product gedownload. In het huidige CMEMS product kunnen lokale waterhoogtes nog met een onzekerheid van ~5 cm verschillen, de resolutie van het huidige CMEMS product ligt rond de 1/8 graden wat ongeveer overeenkomt met 7 km N-Z en ~4-5 km O-W rondom Nederland. Dit heeft ermee te maken dat het product gevalideerd wordt op de open oceaan <span class="citation" data-cites="CMEMS2024">(<a href="05_literatuur.html#ref-CMEMS2024" role="doc-biblioref"><strong>CMEMS2024?</strong></a>)</span>.</p>
+<p>Ter vergelijking zijn er twee reeksen geplot met het gecombineerde CMEMS product, een nabij IJmuiden en een nabij Vlissingen. De resultaten zijn weergegeven 4,6 mm/y Vlissingen, 3,9 mm/y IJmuiden.</p>
+<p><img src="https://github.com/Deltares-research/sealevelmonitor/blob/develop-reporting-dees/validation/satelllite/output/sea_surface_height_trend_ijmuiden.png?raw=true" class="img-fluid" alt="SSH Anomalie gecombineerd satellietproduct nabij Ijmuiden"> <img src="https://github.com/Deltares-research/sealevelmonitor/blob/develop-reporting-dees/validation/satelllite/output/sea_surface_height_trend_vlissingen.png?raw=true" class="img-fluid" alt="SSH Anomalie gecombineerd satellietproduct nabij Vlissingen"></p>
+</section>
+<section id="verwachting-voor-de-toekomst-en-toepassing-voor-zeespiegelmonitor" class="level3" data-number="3.10.3">
+<h3 data-number="3.10.3" class="anchored" data-anchor-id="verwachting-voor-de-toekomst-en-toepassing-voor-zeespiegelmonitor"><span class="header-section-number">3.10.3</span> Verwachting voor de toekomst en toepassing voor zeespiegelmonitor</h3>
+<p>Het voortzetten van de satelietmeetreeks en het verbeteren van kwaliteit nabij de kust zijn de belangrijkste punten om het gebruik van satelietgegevens in de zeespiegelmonitor te vergroten <span class="citation" data-cites="Aviso2022Timeline">(<a href="05_literatuur.html#ref-Aviso2022Timeline" role="doc-biblioref">Aviso+ 2022</a>)</span> <span class="citation" data-cites="Ballarotta2022">(<a href="05_literatuur.html#ref-Ballarotta2022" role="doc-biblioref"><strong>Ballarotta2022?</strong></a>)</span>. In de toekomst zal de lancering van het Sentinel-3 Next Generation (S3NG-T) programma een belangrijke rol spelen in het verbeteren van de kwaliteit van de metingen in kustgebieden. Deze satellieten zullen de klassieke altimetrie combineren met een vergelijkbare sensor als SWOT, daarnaast is het doel om een 5-day revisit periode te realiseren en een ruimtelijke resolutie van 50 km te bereiken. <a href="https://lps25.esa.int/lps25-presentations/presentations/329/_329.pdf">link</a>,, <a href="https://database.eohandbook.com/database/missionsummary.aspx?missionID=1469">link</a> Echter zijn deze ontwikkelingen nog in de startfase, met verschillende verwachtingen van lanceringsdatum (2030-2034), tot die tijd is de voortzetting van de huidige satelietmeetreeks het belangrijkste punt.</p>
+
+
+<div id="refs" class="references csl-bib-body hanging-indent" role="list" style="display: none">
+<div id="ref-Aleksandrova2026" class="csl-entry" role="listitem">
+Aleksandrova, N., J. Veenstra, and S. Muis. 2025. <span>“Global Dataset of Storm Surges and Extreme Sea Levels for 1950–2024 Based on the ERA5 Climate Reanalysis.”</span> <em>Earth System Science Data Discussions</em> 2025: 1–22. <a href="https://doi.org/10.5194/essd-2025-471">https://doi.org/10.5194/essd-2025-471</a>.
+</div>
+<div id="ref-Aviso2022Timeline" class="csl-entry" role="listitem">
+Aviso+. 2022. <span>“Timeline of Modern Radar Altimetry Missions.”</span> Version 2025/04. Aviso+. <a href="https://doi.org/10.24400/527896/A02-2022.001">https://doi.org/10.24400/527896/A02-2022.001</a>.
+</div>
+<div id="ref-Baart2014a" class="csl-entry" role="listitem">
+<span class="nocase">Baart, Fedor, Robert Leander, John de Ronde, Hylke de Vries, Vincent Vuik, and Robin Nicolai</span>. 2014. <em><span>Zeespiegelmonitor 2014</span></em>. 1209426.202. Deltares.
+</div>
+<div id="ref-Baart2012f" class="csl-entry" role="listitem">
+<span class="nocase">Baart, Fedor, Mark van Koningsveld, and M. J. F. Stive</span>. 2012. <span>“Trends in Sea-Level Trend Analysis.”</span> <em>Journal of Coastal Research</em> 28 (2): 311–15. <a href="https://doi.org/10.2112/JCOASTRES-11A-00024.1">https://doi.org/10.2112/JCOASTRES-11A-00024.1</a>.
+</div>
+<div id="ref-Baart2015" class="csl-entry" role="listitem">
+<span class="nocase">Baart, F., R. Leander, J. G. de Ronde, H. de Vries, V. Vuik, and R. Nicolai</span>. 2015. <em>Zeespiegelmonitor 2014</em>. 1209426.202. Deltares, HKV en KNMI.
+</div>
+<div id="ref-Becker2009" class="csl-entry" role="listitem">
+Becker, M., M. Karpytchev, M. Davy, and K. Doekes. 2009. <span>“<span class="nocase">Impact of a shift in mean on the sea level rise: Application to the tide gauges in the Southern Netherlands</span>.”</span> <em>Continental Shelf Research</em> 29 (4): 741–49. <a href="https://doi.org/10.1016/j.csr.2008.12.005">https://doi.org/10.1016/j.csr.2008.12.005</a>.
+</div>
+<div id="ref-Church2011" class="csl-entry" role="listitem">
+Church, John A., and Neil J. White. 2011. <span>“Sea-Level Rise from the Late 19th to the Early 21st Century.”</span> <em>Surveys in Geophysics</em> 32: 585–602. <a href="https://doi.org/10.1007/s10712-011-9119-1">https://doi.org/10.1007/s10712-011-9119-1</a>.
+</div>
+<div id="ref-Cleveland1996" class="csl-entry" role="listitem">
+Cleveland, William S, and Clive Loader. 1996. <span>“<span class="nocase">Smoothing by Local Regression: Principles and Methods</span>.”</span> In <em>Statistical Theory and Computational Aspects of Smoothing</em>, edited by Wolfgang Härdle and Michael G Schimek. Physica-Verlag HD.
+</div>
+<div id="ref-Dillingh2010" class="csl-entry" role="listitem">
+<span class="nocase">Dillingh, D, F Baart, and J de Ronde</span>. 2010. <em>Definitie Zeespiegelstijging Voor Bepaling Suppletiebehoefte</em>. Nos. 1201993–002. Deltares.
+</div>
+<div id="ref-Honingh2021" class="csl-entry" role="listitem">
+Honingh, D, J Leenders, and B Strijker. 2021. <em><span class="nocase">Werkwijze inmeten zeespiegelstand hoofdgetijdenstations</span></em>. HKV.
+</div>
+<div id="ref-Jevrejeva2014" class="csl-entry" role="listitem">
+Jevrejeva, S., J. C. Moore, A. Grinsted, A. P. Matthews, and G. Spada. 2014. <span>“Trends and Acceleration in Global and Regional Sea Levels Since 1807.”</span> <em>Global and Planetary Change</em> 113 (0): 11–22. https://doi.org/<a href="http://dx.doi.org/10.1016/j.gloplacha.2013.12.004">http://dx.doi.org/10.1016/j.gloplacha.2013.12.004</a>.
+</div>
+<div id="ref-Muis2023" class="csl-entry" role="listitem">
+Muis, Sanne, Jeroen C. J. H. Aerts, José A. Á. Antolínez, et al. 2023. <span>“Global Projections of Storm Surges Using High-Resolution CMIP6 Climate Models.”</span> <em>Earth’s Future</em> 11 (9): e2023EF003479. https://doi.org/<a href="https://doi.org/10.1029/2023EF003479">https://doi.org/10.1029/2023EF003479</a>.
+</div>
+<div id="ref-Stocker2013" class="csl-entry" role="listitem">
+<span class="nocase">Stocker, Thomas F, Dahe Qin, Gian-Kasper Plattner, et al.</span> 2013. <em>Climate Change 2013. The Physical Science Basis. Working Group i Contribution to the Fifth Assessment Report of the Intergovernmental Panel on Climate Change-Abstract for Decision-Makers</em>. Groupe d’experts intergouvernemental sur l’evolution du climat/Intergovernmental Panel on Climate Change-IPCC.
+</div>
+<div id="ref-Watson2016" class="csl-entry" role="listitem">
+Watson, Phil J. 2016. <span>“Identifying the Best Performing Time Series Analytics for Sea Level Research.”</span> In <em>Time Series Analysis and Forecasting</em>. Springer.
+</div>
+<div id="ref-Woodworth2012" class="csl-entry" role="listitem">
+Woodworth, Philip L. 2012. <span>“<span class="nocase">A note on the nodal tide in sea level records</span>.”</span> <em>Journal of Coastal Research</em> 28 (2): 316–23. <a href="https://doi.org/10.2112/JCOASTRES-D-11A-00023.1">https://doi.org/10.2112/JCOASTRES-D-11A-00023.1</a>.
+</div>
+</div>
+</section>
+</section>
+<section id="footnotes" class="footnotes footnotes-end-of-document" role="doc-endnotes">
+<hr>
+<ol>
+<li id="fn1"><p>Zie ook laatste IPCC rapport: <a href="https://www.ipcc.ch/report/ar6/wg1/chapter/chapter-9/" class="uri">https://www.ipcc.ch/report/ar6/wg1/chapter/chapter-9/</a><a href="#fnref1" class="footnote-back" role="doc-backlink">↩︎</a></p></li>
+</ol>
+</section>
+
+</main> <!-- /main -->
+<script id="quarto-html-after-body" type="application/javascript">
+  window.document.addEventListener("DOMContentLoaded", function (event) {
+    const icon = "";
+    const anchorJS = new window.AnchorJS();
+    anchorJS.options = {
+      placement: 'right',
+      icon: icon
+    };
+    anchorJS.add('.anchored');
+    const isCodeAnnotation = (el) => {
+      for (const clz of el.classList) {
+        if (clz.startsWith('code-annotation-')) {                     
+          return true;
+        }
+      }
+      return false;
+    }
+    const onCopySuccess = function(e) {
+      // button target
+      const button = e.trigger;
+      // don't keep focus
+      button.blur();
+      // flash "checked"
+      button.classList.add('code-copy-button-checked');
+      var currentTitle = button.getAttribute("title");
+      button.setAttribute("title", "Copied!");
+      let tooltip;
+      if (window.bootstrap) {
+        button.setAttribute("data-bs-toggle", "tooltip");
+        button.setAttribute("data-bs-placement", "left");
+        button.setAttribute("data-bs-title", "Copied!");
+        tooltip = new bootstrap.Tooltip(button, 
+          { trigger: "manual", 
+            customClass: "code-copy-button-tooltip",
+            offset: [0, -8]});
+        tooltip.show();    
+      }
+      setTimeout(function() {
+        if (tooltip) {
+          tooltip.hide();
+          button.removeAttribute("data-bs-title");
+          button.removeAttribute("data-bs-toggle");
+          button.removeAttribute("data-bs-placement");
+        }
+        button.setAttribute("title", currentTitle);
+        button.classList.remove('code-copy-button-checked');
+      }, 1000);
+      // clear code selection
+      e.clearSelection();
+    }
+    const getTextToCopy = function(trigger) {
+      const outerScaffold = trigger.parentElement.cloneNode(true);
+      const codeEl = outerScaffold.querySelector('code');
+      for (const childEl of codeEl.children) {
+        if (isCodeAnnotation(childEl)) {
+          childEl.remove();
+        }
+      }
+      return codeEl.innerText;
+    }
+    const clipboard = new window.ClipboardJS('.code-copy-button:not([data-in-quarto-modal])', {
+      text: getTextToCopy
+    });
+    clipboard.on('success', onCopySuccess);
+    if (window.document.getElementById('quarto-embedded-source-code-modal')) {
+      const clipboardModal = new window.ClipboardJS('.code-copy-button[data-in-quarto-modal]', {
+        text: getTextToCopy,
+        container: window.document.getElementById('quarto-embedded-source-code-modal')
+      });
+      clipboardModal.on('success', onCopySuccess);
+    }
+      var localhostRegex = new RegExp(/^(?:http|https):\/\/localhost\:?[0-9]*\//);
+      var mailtoRegex = new RegExp(/^mailto:/);
+        var filterRegex = new RegExp('/' + window.location.host + '/');
+      var isInternal = (href) => {
+          return filterRegex.test(href) || localhostRegex.test(href) || mailtoRegex.test(href);
+      }
+      // Inspect non-navigation links and adorn them if external
+     var links = window.document.querySelectorAll('a[href]:not(.nav-link):not(.navbar-brand):not(.toc-action):not(.sidebar-link):not(.sidebar-item-toggle):not(.pagination-link):not(.no-external):not([aria-hidden]):not(.dropdown-item):not(.quarto-navigation-tool):not(.about-link)');
+      for (var i=0; i<links.length; i++) {
+        const link = links[i];
+        if (!isInternal(link.href)) {
+          // undo the damage that might have been done by quarto-nav.js in the case of
+          // links that we want to consider external
+          if (link.dataset.originalHref !== undefined) {
+            link.href = link.dataset.originalHref;
+          }
+        }
+      }
+    function tippyHover(el, contentFn, onTriggerFn, onUntriggerFn) {
+      const config = {
+        allowHTML: true,
+        maxWidth: 500,
+        delay: 100,
+        arrow: false,
+        appendTo: function(el) {
+            return el.parentElement;
+        },
+        interactive: true,
+        interactiveBorder: 10,
+        theme: 'quarto',
+        placement: 'bottom-start',
+      };
+      if (contentFn) {
+        config.content = contentFn;
+      }
+      if (onTriggerFn) {
+        config.onTrigger = onTriggerFn;
+      }
+      if (onUntriggerFn) {
+        config.onUntrigger = onUntriggerFn;
+      }
+      window.tippy(el, config); 
+    }
+    const noterefs = window.document.querySelectorAll('a[role="doc-noteref"]');
+    for (var i=0; i<noterefs.length; i++) {
+      const ref = noterefs[i];
+      tippyHover(ref, function() {
+        // use id or data attribute instead here
+        let href = ref.getAttribute('data-footnote-href') || ref.getAttribute('href');
+        try { href = new URL(href).hash; } catch {}
+        const id = href.replace(/^#\/?/, "");
+        const note = window.document.getElementById(id);
+        if (note) {
+          return note.innerHTML;
+        } else {
+          return "";
+        }
+      });
+    }
+    const xrefs = window.document.querySelectorAll('a.quarto-xref');
+    const processXRef = (id, note) => {
+      // Strip column container classes
+      const stripColumnClz = (el) => {
+        el.classList.remove("page-full", "page-columns");
+        if (el.children) {
+          for (const child of el.children) {
+            stripColumnClz(child);
+          }
+        }
+      }
+      stripColumnClz(note)
+      if (id === null || id.startsWith('sec-')) {
+        // Special case sections, only their first couple elements
+        const container = document.createElement("div");
+        if (note.children && note.children.length > 2) {
+          container.appendChild(note.children[0].cloneNode(true));
+          for (let i = 1; i < note.children.length; i++) {
+            const child = note.children[i];
+            if (child.tagName === "P" && child.innerText === "") {
+              continue;
+            } else {
+              container.appendChild(child.cloneNode(true));
+              break;
+            }
+          }
+          if (window.Quarto?.typesetMath) {
+            window.Quarto.typesetMath(container);
+          }
+          return container.innerHTML
+        } else {
+          if (window.Quarto?.typesetMath) {
+            window.Quarto.typesetMath(note);
+          }
+          return note.innerHTML;
+        }
+      } else {
+        // Remove any anchor links if they are present
+        const anchorLink = note.querySelector('a.anchorjs-link');
+        if (anchorLink) {
+          anchorLink.remove();
+        }
+        if (window.Quarto?.typesetMath) {
+          window.Quarto.typesetMath(note);
+        }
+        if (note.classList.contains("callout")) {
+          return note.outerHTML;
+        } else {
+          return note.innerHTML;
+        }
+      }
+    }
+    for (var i=0; i<xrefs.length; i++) {
+      const xref = xrefs[i];
+      tippyHover(xref, undefined, function(instance) {
+        instance.disable();
+        let url = xref.getAttribute('href');
+        let hash = undefined; 
+        if (url.startsWith('#')) {
+          hash = url;
+        } else {
+          try { hash = new URL(url).hash; } catch {}
+        }
+        if (hash) {
+          const id = hash.replace(/^#\/?/, "");
+          const note = window.document.getElementById(id);
+          if (note !== null) {
+            try {
+              const html = processXRef(id, note.cloneNode(true));
+              instance.setContent(html);
+            } finally {
+              instance.enable();
+              instance.show();
+            }
+          } else {
+            // See if we can fetch this
+            fetch(url.split('#')[0])
+            .then(res => res.text())
+            .then(html => {
+              const parser = new DOMParser();
+              const htmlDoc = parser.parseFromString(html, "text/html");
+              const note = htmlDoc.getElementById(id);
+              if (note !== null) {
+                const html = processXRef(id, note);
+                instance.setContent(html);
+              } 
+            }).finally(() => {
+              instance.enable();
+              instance.show();
+            });
+          }
+        } else {
+          // See if we can fetch a full url (with no hash to target)
+          // This is a special case and we should probably do some content thinning / targeting
+          fetch(url)
+          .then(res => res.text())
+          .then(html => {
+            const parser = new DOMParser();
+            const htmlDoc = parser.parseFromString(html, "text/html");
+            const note = htmlDoc.querySelector('main.content');
+            if (note !== null) {
+              // This should only happen for chapter cross references
+              // (since there is no id in the URL)
+              // remove the first header
+              if (note.children.length > 0 && note.children[0].tagName === "HEADER") {
+                note.children[0].remove();
+              }
+              const html = processXRef(null, note);
+              instance.setContent(html);
+            } 
+          }).finally(() => {
+            instance.enable();
+            instance.show();
+          });
+        }
+      }, function(instance) {
+      });
+    }
+        let selectedAnnoteEl;
+        const selectorForAnnotation = ( cell, annotation) => {
+          let cellAttr = 'data-code-cell="' + cell + '"';
+          let lineAttr = 'data-code-annotation="' +  annotation + '"';
+          const selector = 'span[' + cellAttr + '][' + lineAttr + ']';
+          return selector;
+        }
+        const selectCodeLines = (annoteEl) => {
+          const doc = window.document;
+          const targetCell = annoteEl.getAttribute("data-target-cell");
+          const targetAnnotation = annoteEl.getAttribute("data-target-annotation");
+          const annoteSpan = window.document.querySelector(selectorForAnnotation(targetCell, targetAnnotation));
+          const lines = annoteSpan.getAttribute("data-code-lines").split(",");
+          const lineIds = lines.map((line) => {
+            return targetCell + "-" + line;
+          })
+          let top = null;
+          let height = null;
+          let parent = null;
+          if (lineIds.length > 0) {
+              //compute the position of the single el (top and bottom and make a div)
+              const el = window.document.getElementById(lineIds[0]);
+              top = el.offsetTop;
+              height = el.offsetHeight;
+              parent = el.parentElement.parentElement;
+            if (lineIds.length > 1) {
+              const lastEl = window.document.getElementById(lineIds[lineIds.length - 1]);
+              const bottom = lastEl.offsetTop + lastEl.offsetHeight;
+              height = bottom - top;
+            }
+            if (top !== null && height !== null && parent !== null) {
+              // cook up a div (if necessary) and position it 
+              let div = window.document.getElementById("code-annotation-line-highlight");
+              if (div === null) {
+                div = window.document.createElement("div");
+                div.setAttribute("id", "code-annotation-line-highlight");
+                div.style.position = 'absolute';
+                parent.appendChild(div);
+              }
+              div.style.top = top - 2 + "px";
+              div.style.height = height + 4 + "px";
+              div.style.left = 0;
+              let gutterDiv = window.document.getElementById("code-annotation-line-highlight-gutter");
+              if (gutterDiv === null) {
+                gutterDiv = window.document.createElement("div");
+                gutterDiv.setAttribute("id", "code-annotation-line-highlight-gutter");
+                gutterDiv.style.position = 'absolute';
+                const codeCell = window.document.getElementById(targetCell);
+                const gutter = codeCell.querySelector('.code-annotation-gutter');
+                gutter.appendChild(gutterDiv);
+              }
+              gutterDiv.style.top = top - 2 + "px";
+              gutterDiv.style.height = height + 4 + "px";
+            }
+            selectedAnnoteEl = annoteEl;
+          }
+        };
+        const unselectCodeLines = () => {
+          const elementsIds = ["code-annotation-line-highlight", "code-annotation-line-highlight-gutter"];
+          elementsIds.forEach((elId) => {
+            const div = window.document.getElementById(elId);
+            if (div) {
+              div.remove();
+            }
+          });
+          selectedAnnoteEl = undefined;
+        };
+          // Handle positioning of the toggle
+      window.addEventListener(
+        "resize",
+        throttle(() => {
+          elRect = undefined;
+          if (selectedAnnoteEl) {
+            selectCodeLines(selectedAnnoteEl);
+          }
+        }, 10)
+      );
+      function throttle(fn, ms) {
+      let throttle = false;
+      let timer;
+        return (...args) => {
+          if(!throttle) { // first call gets through
+              fn.apply(this, args);
+              throttle = true;
+          } else { // all the others get throttled
+              if(timer) clearTimeout(timer); // cancel #2
+              timer = setTimeout(() => {
+                fn.apply(this, args);
+                timer = throttle = false;
+              }, ms);
+          }
+        };
+      }
+        // Attach click handler to the DT
+        const annoteDls = window.document.querySelectorAll('dt[data-target-cell]');
+        for (const annoteDlNode of annoteDls) {
+          annoteDlNode.addEventListener('click', (event) => {
+            const clickedEl = event.target;
+            if (clickedEl !== selectedAnnoteEl) {
+              unselectCodeLines();
+              const activeEl = window.document.querySelector('dt[data-target-cell].code-annotation-active');
+              if (activeEl) {
+                activeEl.classList.remove('code-annotation-active');
+              }
+              selectCodeLines(clickedEl);
+              clickedEl.classList.add('code-annotation-active');
+            } else {
+              // Unselect the line
+              unselectCodeLines();
+              clickedEl.classList.remove('code-annotation-active');
+            }
+          });
+        }
+    const findCites = (el) => {
+      const parentEl = el.parentElement;
+      if (parentEl) {
+        const cites = parentEl.dataset.cites;
+        if (cites) {
+          return {
+            el,
+            cites: cites.split(' ')
+          };
+        } else {
+          return findCites(el.parentElement)
+        }
+      } else {
+        return undefined;
+      }
+    };
+    var bibliorefs = window.document.querySelectorAll('a[role="doc-biblioref"]');
+    for (var i=0; i<bibliorefs.length; i++) {
+      const ref = bibliorefs[i];
+      const citeInfo = findCites(ref);
+      if (citeInfo) {
+        tippyHover(citeInfo.el, function() {
+          var popup = window.document.createElement('div');
+          citeInfo.cites.forEach(function(cite) {
+            var citeDiv = window.document.createElement('div');
+            citeDiv.classList.add('hanging-indent');
+            citeDiv.classList.add('csl-entry');
+            var biblioDiv = window.document.getElementById('ref-' + cite);
+            if (biblioDiv) {
+              citeDiv.innerHTML = biblioDiv.innerHTML;
+            }
+            popup.appendChild(citeDiv);
+          });
+          return popup.innerHTML;
+        });
+      }
+    }
+  });
+  </script>
+<nav class="page-navigation">
+  <div class="nav-page nav-page-previous">
+      <a href="./01_inleiding.html" class="pagination-link" aria-label="Inleiding">
+        <i class="bi bi-arrow-left-short"></i> <span class="nav-page-text"><span class="chapter-number">2</span>&nbsp; <span class="chapter-title">Inleiding</span></span>
+      </a>          
+  </div>
+  <div class="nav-page nav-page-next">
+      <a href="./03_resultaten.html" class="pagination-link" aria-label="Resultaten">
+        <span class="nav-page-text"><span class="chapter-number">4</span>&nbsp; <span class="chapter-title">Resultaten</span></span> <i class="bi bi-arrow-right-short"></i>
+      </a>
+  </div>
+</nav>
+</div> <!-- /content -->
+<footer class="footer">
+  <div class="nav-footer">
+    <div class="nav-footer-left">
+      &nbsp;
+    </div>   
+    <div class="nav-footer-center">
+<p>Zeespiegelmonitor 2026</p>
+</div>
+    <div class="nav-footer-right">
+      &nbsp;
+    </div>
+  </div>
+</footer>
+
+
+
+
+</body></html>
