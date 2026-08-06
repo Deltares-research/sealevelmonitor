@@ -237,7 +237,7 @@ plot_station_website_broken_linear <- function(
     # "gecorrigeerde zeespiegel (gemiddelde windopzet)" = pal[3],
     "meting gecorrigeerd voor getij in het specifieke jaar en gemiddelde wind " = pal[3],
     "eerste 100 jaar: 1,8 mm/jr" = "darkblue",
-    "laatste 30 jaar: 3,1 mm/jr" = "darkgreen"
+    "laatste 30 jaar: 3,2 mm/jr" = "darkgreen"
   )
 
   plotFills = c(
@@ -268,18 +268,18 @@ plot_station_website_broken_linear <- function(
               size = symbolsize, 
               alpha = 1) +
     geom_line(data = predictions_all2 %>% filter(preds_year >= accellerationyear),
-              aes(x = preds_year, y = pre_accelleration/10, color = ifelse(preds_year>=1993, "eerste 100 jaar: 1,8 mm/jr", "Laatste 30 jaar: 3,1 mm/jr")),
+              aes(x = preds_year, y = pre_accelleration/10, color = ifelse(preds_year>=1993, "eerste 100 jaar: 1,8 mm/jr", "Laatste 30 jaar: 3,2 mm/jr")),
               linetype = 2,
               size = symbolsize/2, 
               alpha = 1
               ) +
     geom_line(data = predictions_all2 %>% filter(preds_year < accellerationyear),
-              aes(x = preds_year, y = post_accelleration/10, color = ifelse(preds_year>=1993, "eerste 100 jaar: 1,8 mm/jr", "laatste 30 jaar: 3,1 mm/jr")),
+              aes(x = preds_year, y = post_accelleration/10, color = ifelse(preds_year>=1993, "eerste 100 jaar: 1,8 mm/jr", "laatste 30 jaar: 3,2 mm/jr")),
               linetype = 2,
               size = symbolsize/2, 
               alpha = 1) +
     geom_line(data = predictions_all2 %>% filter(preds_year >= startyear),
-              aes(x = preds_year, y = prediction_recalc/10, color = ifelse(preds_year<1993, "eerste 100 jaar: 1,8 mm/jr", "laatste 30 jaar: 3,1 mm/jr")),
+              aes(x = preds_year, y = prediction_recalc/10, color = ifelse(preds_year<1993, "eerste 100 jaar: 1,8 mm/jr", "laatste 30 jaar: 3,2 mm/jr")),
               linetype = 1,
               size = symbolsize, 
               alpha = 1) +
@@ -509,7 +509,7 @@ plot.windrose <- function(data = NULL,
                           dir,
                           spdres = 2,
                           dirres = 30,
-                          spdmin = 2,
+                          spdmin = 0,
                           spdmax = 20,
                           spdseq = NULL,
                           palette = "YlGnBu",
@@ -673,7 +673,7 @@ plot_station_website_broken_linear_english <- function(
     # "gecorrigeerde zeespiegel (gemiddelde windopzet)" = pal[3],
     "measurement corrected for tide, and average wind" = pal[3],
     "first 100 years: 1.8 mm/yr" = "darkblue",
-    "last 30 year: 3.1 mm/yr" = "darkgreen"
+    "last 30 year: 3.2 mm/yr" = "darkgreen"
   )
   
   plotFills = c(
@@ -704,18 +704,18 @@ plot_station_website_broken_linear_english <- function(
                size = symbolsize, 
                alpha = 1) +
     geom_line(data = predictions_all2 %>% filter(preds_year >= accellerationyear),
-              aes(x = preds_year, y = pre_accelleration/10, color = ifelse(preds_year>=1993, "first 100 years: 1.8 mm/yr", "last 30 year: 3.1 mm/yr")),
+              aes(x = preds_year, y = pre_accelleration/10, color = ifelse(preds_year>=1993, "first 100 years: 1.8 mm/yr", "last 30 year: 3.2 mm/yr")),
               linetype = 2,
               size = symbolsize/2, 
               alpha = 1
     ) +
     geom_line(data = predictions_all2 %>% filter(preds_year < accellerationyear),
-              aes(x = preds_year, y = post_accelleration/10, color = ifelse(preds_year>=1993, "first 100 years: 1.8 mm/yr", "last 30 year: 3.1 mm/yr")),
+              aes(x = preds_year, y = post_accelleration/10, color = ifelse(preds_year>=1993, "first 100 years: 1.8 mm/yr", "last 30 year: 3.2 mm/yr")),
               linetype = 2,
               size = symbolsize/2, 
               alpha = 1) +
     geom_line(data = predictions_all2 %>% filter(preds_year >= startyear),
-              aes(x = preds_year, y = prediction_recalc/10, color = ifelse(preds_year<1993, "first 100 years: 1.8 mm/yr", "last 30 year: 3.1 mm/yr")),
+              aes(x = preds_year, y = prediction_recalc/10, color = ifelse(preds_year<1993, "first 100 years: 1.8 mm/yr", "last 30 year: 3.2 mm/yr")),
               linetype = 1,
               size = symbolsize, 
               alpha = 1) +

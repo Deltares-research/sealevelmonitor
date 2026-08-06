@@ -1,0 +1,84 @@
+---
+title: "Rijn-schelde-historisch"
+output: html_document
+author: "copilot"
+---
+
+## Essay — Hydrodynamica en morfologie Rijn-Maas vs Scheldedelta rond 1800
+
+### Inleiding
+
+Rond 1800 bevonden zowel de Schelde als de Rijn‑Maasdelta zich in een fase waarin eeuwen aan natuurlijke processen en menselijke ingrepen hun stempel hadden gedrukt op stroming, getij en morfologie. Directe hydrodynamische metingen uit die tijd ontbreken; onze kennis komt uit historische kaarten, geologische en archeologische reconstructies en latere modelstudies die oudere bathymetrieën en kanaalpatronen vergelijken. Voor de **Schelde** geldt dat het estuarium toen al een uitgesproken **getijdenkarakter** had, met aanzienlijke getijslag en uitgesproken eb‑vloed‑asymmetrie. De **Rijn‑Maasdelta** was daarentegen een **riviergedomineerd systeem** zonder estuariene getijpropagatie zoals bij de Schelde; de dynamiek werd gestuurd door afvoerregimes, bodemdaling en sedimentaanvoer, terwijl de verdeling over Waal, Neder‑Rijn/Lek en IJssel al grotendeels de moderne configuratie had bereikt. [[vliz.be]](https://www.vliz.be/imisdocs/publications/12/253112.pdf), [[geografie.nl]](https://geografie.nl/sites/default/files/paragraph/attachment/file/Stouthamer%20-%20Rivierdynamiek%20in%20het%20holocene%20Rijn-Maasdelta.pdf), [[archaeolog...tations.nl]](https://archaeology.datastations.nl/dataset.xhtml?persistentId=doi:10.17026/dans-x7g-sjtw)
+
+### Schelde rond 1800: een volwassen getijdenestuarium
+
+Hydrodynamisch kenmerkte de Schelde zich tegen 1800 door een **grote getijslag** die van de monding naar stroomopwaarts toenam; in de Beneden‑Schelde werd reeds in eerdere eeuwen \~4–5 m gerapporteerd (met de getijwerking voelbaar tot Gent), wat samenhangt met de langgerekte estuariene trechter en de ontwikkeling van meergeulen en platen. De versterking van de getijdenpropagatie hing samen met eerdere **stormvloeden** (breuken in barrières), **inpolderingen** en latere, maar toen nog beperkte, **baggeractiviteiten**—processen die de **asymmetrie** tussen vloed (sneller, hoger) en eb (langzamer) vergrootten en zo netto **sedimentimport** bevorderden. Morfologisch wijzen historische overzichten op een fase **1636–1800** waarin natuurlijke sedimentatie en **landaanwinning** domineerden; systematische geulverdieping en -sturing zou pas in de 19e–20e eeuw ingrijpender worden. [[vliz.be]](https://www.vliz.be/imisdocs/publications/12/253112.pdf), [[researchgate.net]](https://www.researchgate.net/profile/Patrick-Kiden/publication/274256574_Het_verhaal_van_een_rivier_de_evolutie_van_de_Schelde_na_de_laatste_ijstijd_In_Jean_Bourgeois_Philippe_Crombe_Guy_De_Mulder_Marc_Rogge_Eds_Een_duik_in_het_verleden_Schelde_Maas_en_Rijn_in_de_pre-_en_p/links/5b697e3a45851546c9f69936/Het-verhaal-van-een-rivier-de-evolutie-van-de-Schelde-na-de-laatste-ijstijd-In-Jean-Bourgeois-Philippe-Crombe-Guy-De-Mulder-Marc-Rogge-Eds-Een-duik-in-het-verleden-Schelde-Maas-en-Rijn-in-de-pre.pdf?origin=publication_detail)
+
+Deze context is consistent met langere‑termijnreconstructies van de Beneden‑Schelde, die laten zien dat het estuarium vanaf het midden‑Holocene, via herhaaldelijke veranderingen in zee‑inval en embankment‑geschiedenis, uitgroeide tot een systeem met duidelijke **getijversterking richting Antwerpen** en daarbovenstrooms. Rond 1800 bestond het estuarium uit **meerdere subtidale geulen** met daartussen **intergetijdenplaten**, waarbij de hydrodynamiek al gevoelig was voor veranderingen in dwarsdoorsnede (platen versus geulen) en kanaalmeandering. [[repository.tno.nl]](https://repository.tno.nl/SingleDoc?docId=22260), [[vliz.be]](https://www.vliz.be/imisdocs/publications/12/253112.pdf)
+
+### Rijn‑Maasdelta rond 1800: riviergedreven dynamiek met stabiele hoofdtakken
+
+Voor de Rijn‑Maasdelta tonen paleogeografische datasets en syntheses dat het netwerk van **stroomgordels** in het Holoceen herhaaldelijk is verschoven, met segmenten die gemiddeld \~**1200 jaar** actief zijn. In de eeuwen tot 1800 is de grote omslag (ontstaan van de **Gelderse IJssel** en de uitgroei van de **Waal** tot hoofdtak) reeds **post‑Romeins** ingezet; tegen 1800 is de **verdeling van water en sediment** over Waal, Neder‑Rijn/Lek en IJssel daarmee **structureel** en herkenbaar modern. De hydrodynamiek werd primair bepaald door **rivierafvoer**, **sedimentlading** en **differentiële bodemdaling** (o.a. Bommelerwaard), die lokale geulverleggingen en opvulling stimuleerden—maar zonder het estuariene, getijgedreven karakter van de Schelde. [[geografie.nl]](https://geografie.nl/sites/default/files/paragraph/attachment/file/Stouthamer%20-%20Rivierdynamiek%20in%20het%20holocene%20Rijn-Maasdelta.pdf), [[archaeolog...tations.nl]](https://archaeology.datastations.nl/dataset.xhtml?persistentId=doi:10.17026/dans-x7g-sjtw)
+
+De **Digitale Basisbestand Paleogeografie** (UU/DANS) vormt hierbij de kernbron: hierin zijn voor opeenvolgende tijdvakken de actieve stroomgordels en beddingsgordels gereconstrueerd op basis van boringen, AHN‑hoogtedata, 14C‑dateringen, archeologie en historische bronnen. Deze kaarten laten zien dat rond 1800 de hoofdgeulen in de delta min of meer **gefixeerd** waren in planvorm, met **lokale** aanpassingen door sedimentatie en kleinschalige kanaalverleggingen. [[archaeolog...tations.nl]](https://archaeology.datastations.nl/dataset.xhtml?persistentId=doi:10.17026/dans-x7g-sjtw)
+
+### Methodische noot
+
+Omdat directe hydrometrie uit 1800 ontbreekt, komt de hydrodynamische duiding indirect tot stand: (1) **morfologische proxies** (geuldoorsneden, platen), (2) **historische kaarten** en geschreven bronnen, en (3) **numerieke modelstudies** die met historische/bathymetrische scenario’s gevoeligheden van het getij en de stroming analyseren. Voor de Schelde is bijvoorbeeld in recente studies het effect van **inter‑ en subtidale morfologische veranderingen** op de getijdynamiek geëvalueerd door 1930‑ versus 2013‑bathymetrieën te “swappen” in deeltrajecten; zulke resultaten illustreren principe‑gevoeligheden die ook relevant zijn voor interpretaties van ca. 1800. [[vlaanderen.be]](https://www.vlaanderen.be/publicaties/agenda-for-the-future-historical-evolution-of-tides-and-morphology-in-the-scheldt-estuary-sub-report-4-hydrodynamic-modelling-of-morphological-scenarios)
+
+Vergelijkende tabel — Schelde vs. Rijn‑Maasdelta (ca. 1800)
+
+| Aspect | **Schelde (Beneden-/Wester‑)** | **Rijn‑Maasdelta** |
+|------------------------|------------------------|------------------------|
+| **Systeemschema** | **Getijdenestuarium** met sterke vloed/eb‑asymmetrie en netto sedimentimport [[vliz.be]](https://www.vliz.be/imisdocs/publications/12/253112.pdf) | **Riviergedomineerde delta**; verdeling over Waal (dominant), Neder‑Rijn/Lek en IJssel reeds modern [[geografie.nl]](https://geografie.nl/sites/default/files/paragraph/attachment/file/Stouthamer%20-%20Rivierdynamiek%20in%20het%20holocene%20Rijn-Maasdelta.pdf) |
+| **Getijwerking** | Getijslag \~4–5 m in Beneden‑Schelde; tij voelbaar tot Gent (stuw bij Gent beperkt dat tegenwoordig) [[researchgate.net]](https://www.researchgate.net/profile/Patrick-Kiden/publication/274256574_Het_verhaal_van_een_rivier_de_evolutie_van_de_Schelde_na_de_laatste_ijstijd_In_Jean_Bourgeois_Philippe_Crombe_Guy_De_Mulder_Marc_Rogge_Eds_Een_duik_in_het_verleden_Schelde_Maas_en_Rijn_in_de_pre-_en_p/links/5b697e3a45851546c9f69936/Het-verhaal-van-een-rivier-de-evolutie-van-de-Schelde-na-de-laatste-ijstijd-In-Jean-Bourgeois-Philippe-Crombe-Guy-De-Mulder-Marc-Rogge-Eds-Een-duik-in-het-verleden-Schelde-Maas-en-Rijn-in-de-pre.pdf?origin=publication_detail) | Geen estuariene getijdominantie in het delta‑binnenland; hydrodynamiek primair door afvoer en morfologie [[geografie.nl]](https://geografie.nl/sites/default/files/paragraph/attachment/file/Stouthamer%20-%20Rivierdynamiek%20in%20het%20holocene%20Rijn-Maasdelta.pdf) |
+| **Morfologie ca. 1636–1800 / tot 1800** | Overwegend **natuurlijke sedimentatie** en **landaanwinning**; meergeul‑systeem met platen; baggeren nog beperkt [[vliz.be]](https://www.vliz.be/imisdocs/publications/12/253112.pdf) | **Stroomgordels** grotendeels gefixeerd in hoofdpatroon; lokale kanaalverleggingen en opvulling door sedimenttoevoer en bodemdaling [[archaeolog...tations.nl]](https://archaeology.datastations.nl/dataset.xhtml?persistentId=doi:10.17026/dans-x7g-sjtw) |
+| **Belangrijke drijvende processen** | Stormbreuken (historisch), inpolderingen, geul‑/plateninteractie; getij‑asymmetrie versterkt sedimentimport [[vliz.be]](https://www.vliz.be/imisdocs/publications/12/253112.pdf) | Afvoerregimes, differentiële bodemdaling (o.a. Bommelerwaard), sedimentlading; post‑Romeinse herverdeling naar Waal en IJssel [[geografie.nl]](https://geografie.nl/sites/default/files/paragraph/attachment/file/Stouthamer%20-%20Rivierdynamiek%20in%20het%20holocene%20Rijn-Maasdelta.pdf) |
+| **Data-/modelbasis** | Geomorfologische syntheses, historische kaarten; recente modelstudies tonen gevoeligheid aan voor inter‑ en subtidale wijzigingen (1930 vs 2013) [[vlaanderen.be]](https://www.vlaanderen.be/publicaties/agenda-for-the-future-historical-evolution-of-tides-and-morphology-in-the-scheldt-estuary-sub-report-4-hydrodynamic-modelling-of-morphological-scenarios) | UU/DANS paleogeografische kaartlagen (stroomgordels, dateringen), AHN, boringen en archeologie [[archaeolog...tations.nl]](https://archaeology.datastations.nl/dataset.xhtml?persistentId=doi:10.17026/dans-x7g-sjtw) |
+
+Relevante kaartjes (open bronnen)
+
+Tip: de onderstaande links openen kaartmateriaal of pdf’s met kaartfiguren die de reconstructies visueel maken. Je kunt ze gebruiken als “figuren” bij dit essay.
+
+-   **Rijn‑Maasdelta – Digitale Paleogeografie (UU/DANS, v8.1)**\
+    Datasetbeschrijving en download, met kaartlagen van **stroomgordels door de tijd** (inclusief fasen rond 1800).\
+    [DANS Data Station – Digitaal Basisbestand Paleogeografie van de Rijn‑Maas Delta](https://archaeology.datastations.nl/dataset.xhtml?persistentId=doi:10.17026/dans-x7g-sjtw)
+
+-   **Schelde – Geomorfologische ontwikkeling (VLIZ / J.J. Peters)**\
+    Pdf met historische **kaartfiguren** van de Westerschelde, inclusief panelen “**Morfologische evolutie (1636–1800)**” en vervolgfases.\
+    [Geomorfologie van de Schelde – pdf](https://www.vliz.be/imisdocs/publications/12/253112.pdf)
+
+<!-- -->
+
+-   **Schelde – Overzichtsartikel (Kiden & Verbruggen / BELGEO/ResearchGate)**\
+    Synthese met **kaarten** en schetsen van de evolutie van de Schelde (Lateglaciaal–Holoceen tot historisch).\
+    [“Het verhaal van een rivier: de evolutie van de Schelde na de laatste ijstijd” (pdf)](https://www.researchgate.net/profile/Patrick-Kiden/publication/274256574_Het_verhaal_van_een_rivier_de_evolutie_van_de_Schelde_na_de_laatste_ijstijd_In_Jean_Bourgeois_Philippe_Crombe_Guy_De_Mulder_Marc_Rogge_Eds_Een_duik_in_het_verleden_Schelde_Maas_en_Rijn_in_de_pre-_en_p/links/5b697e3a45851546c9f69936/Het-verhaal-van-een-rivier-de-evolutie-van-de-Schelde-na-de-laatste-ijstijd-In-Jean-Bourgeois-Philippe-Crombe-Guy-De-Mulder-Marc-Rogge-Eds-Een-duik-in-het-verleden-Schelde-Maas-en-Rijn-in-de-pre.pdf?origin=publication_detail)
+
+<!-- -->
+
+-   **Hydrodynamische scenario’s (Schelde) – Waterbouwkundig Laboratorium**\
+    Rapport met **modelresultaten** (niet exact 1800, maar nuttig om te begrijpen hoe bathymetrische verschillen de **getijdynamiek** beïnvloeden).\
+    [Historical evolution of tides and morphology in the Scheldt Estuary – Subreport 4](https://www.vlaanderen.be/publicaties/agenda-for-the-future-historical-evolution-of-tides-and-morphology-in-the-scheldt-estuary-sub-report-4-hydrodynamic-modelling-of-morphological-scenarios)
+
+<!-- -->
+
+-   **Rijn‑Maasdelta – Toelichting rivierdynamiek**\
+    Populair‑wetenschappelijke samenvatting met figuren over **stroomruggen**, **kanaalverleggingen** en timing (post‑Romeins → modern).\
+    [Rivierdynamiek in de holocene Rijn‑Maasdelta (pdf)](https://geografie.nl/sites/default/files/paragraph/attachment/file/Stouthamer%20-%20Rivierdynamiek%20in%20het%20holocene%20Rijn-Maasdelta.pdf)
+
+Bronnen (selectie)
+
+-   Kiden, P. (2006/2001): syntheseteksten en kaarten over de evolutie van de (Beneden‑)Schelde. [[repository.tno.nl]](https://repository.tno.nl/SingleDoc?docId=22260), [[researchgate.net]](https://www.researchgate.net/profile/Patrick-Kiden/publication/274256574_Het_verhaal_van_een_rivier_de_evolutie_van_de_Schelde_na_de_laatste_ijstijd_In_Jean_Bourgeois_Philippe_Crombe_Guy_De_Mulder_Marc_Rogge_Eds_Een_duik_in_het_verleden_Schelde_Maas_en_Rijn_in_de_pre-_en_p/links/5b697e3a45851546c9f69936/Het-verhaal-van-een-rivier-de-evolutie-van-de-Schelde-na-de-laatste-ijstijd-In-Jean-Bourgeois-Philippe-Crombe-Guy-De-Mulder-Marc-Rogge-Eds-Een-duik-in-het-verleden-Schelde-Maas-en-Rijn-in-de-pre.pdf?origin=publication_detail)
+-   Peters, J.J. (VLIZ, 2005): **Geomorfologie van de Schelde** – reeks dia’s met historische kaartreeksen en duiding van processen (1636–1800, 1800–1938, …). [[vliz.be]](https://www.vliz.be/imisdocs/publications/12/253112.pdf)
+
+<!-- -->
+
+-   Waterbouwkundig Laboratorium (2020): **Historical evolution of tides and morphology in the Scheldt Estuary – Subreport 4** (Scaldis‑3D scenario‑analyses). [[vlaanderen.be]](https://www.vlaanderen.be/publicaties/agenda-for-the-future-historical-evolution-of-tides-and-morphology-in-the-scheldt-estuary-sub-report-4-hydrodynamic-modelling-of-morphological-scenarios)
+
+<!-- -->
+
+-   Cohen, K.M. & Stouthamer, E. (UU/DANS; vanaf 2012, v8.1): **Digitaal Basisbestand Paleogeografie van de Rijn‑Maas Delta** (GIS‑reconstructies; bron voor kaartlagen en dateringen). [[archaeolog...tations.nl]](https://archaeology.datastations.nl/dataset.xhtml?persistentId=doi:10.17026/dans-x7g-sjtw)
+
+<!-- -->
+
+-   Stouthamer, E. (Geografie.nl): **Rivierdynamiek in de holocene Rijn‑Maasdelta** (samenvatting met kaarten en tijdlijnen; context voor hoofdtakken en bodemdaling). [[geografie.nl]](https://geografie.nl/sites/default/files/paragraph/attachment/file/Stouthamer%20-%20Rivierdynamiek%20in%20het%20holocene%20Rijn-Maasdelta.pdf)

@@ -5,11 +5,12 @@ execute:
   echo: false
   warning: false
   message: false
+  freeze: auto
 
 book:
-  # title: "Zeespiegelmonitor 2026"
-  # author: "Willem Stolte, Dewi Lebars, Dorien Honingh, Nathalie Dees, Marc Hijma"
-  # date: today
+  title: "Zeespiegelmonitor 2026"
+  author: "Willem Stolte, Dewi Lebars, Dorien Honingh, Nathalie Dees, Marc Hijma, Martin Verlaan"
+  date: today
   page-navigation: true
   favicon: assets/icon-deltares.svg
   page-footer: 
@@ -28,30 +29,35 @@ book:
     - 03_resultaten.qmd
     - 04_discussie.qmd
     - 05_literatuur.qmd
+    - 06_appendix.qmd
   # abstract: 
   # description: "metadata for html version"
   # references: "references.bib"
   output-file: "Zeespiegelmonitor_2026"
 #  delete_merged_file: true
 #  before_chapter_script: _common.R
+bibliography: 
+  - bib/sealevel.bib
+  - bib/dees.bib
 
-bibliography: [bib/literatuurWillemMod.bib, bib/sealevel.bib, bib/dees.bib]
 link-citations: true
 
 format:
   html:
     theme: cosmo
-    css: styles.css
-  pdf:
-    # documentclass: scrreprt
-    template: deltares-report-template.tex
-    # extra_dependencies: ["flafter"]
-    include-in-header:
-      - preamble.tex
-    latex_engine: pdflatex
-    keep_tex: true
-    # biblio-config: false
-    cite-method: natbib   # natbib
+    css: 
+        - styles.css
+        - draft.css
+  # pdf:
+  #   # documentclass: scrreprt
+  #   template: deltares-report-template.tex
+  #   # extra_dependencies: ["flafter"]
+  #   include-in-header:
+  #     - preamble.tex
+  #   latex_engine: pdflatex
+  #   keep_tex: true
+  #   # biblio-config: false
+  #   cite-method: natbib   # natbib
 
 
 filters:
@@ -77,7 +83,7 @@ acronyms:
 language:
   label:
     fig: "Figuur "
-    tab: "Tabel "
+    tbl: "Tabel "
     eq: "Vergelijking "
     thm: "Theorem "
     lem: "Lemma "
@@ -91,6 +97,7 @@ language:
     proof: "Proof. "
     remark: "Remark. "
     solution: "Solution. "
+
   ui:
     chapter_name: "Hoofdstuk "
     appendix_name: "Bijlage "

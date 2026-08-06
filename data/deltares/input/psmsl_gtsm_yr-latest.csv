@@ -162,6 +162,7 @@ year;psmsl_id;name;height;surge_anomaly;surge;source;method;station
 2022;20;Vlissingen;60;-29.928538758757785;0.0175160431009653;psmsl;NA;Vlissingen
 2023;20;Vlissingen;116;4.145462793855913;0.051590044653579;psmsl;NA;Vlissingen
 2024;20;Vlissingen;129;0.10891191772971354;0.0475534937774528;psmsl;NA;Vlissingen
+2025;20;Vlissingen;83;-39.02237004142331;0.00842221181829978;psmsl;NA;Vlissingen
 1864;22;Hoek van Holland;-331;0;NA;psmsl;NA;Hoek van Holland
 1865;22;Hoek van Holland;-320;0;NA;psmsl;NA;Hoek van Holland
 1866;22;Hoek van Holland;-268;0;NA;psmsl;NA;Hoek van Holland
@@ -323,6 +324,7 @@ year;psmsl_id;name;height;surge_anomaly;surge;source;method;station
 2022;22;Hoek van Holland;135;-21.733510575796586;0.0257110712839265;psmsl;NA;Hoek van Holland
 2023;22;Hoek van Holland;195;13.879665747141011;0.0613242476068641;psmsl;NA;Hoek van Holland
 2024;22;Hoek van Holland;207;8.744881850780914;0.056189463710504;psmsl;NA;Hoek van Holland
+2025;22;Hoek van Holland;156;-32.77406170536339;0.0146705201543597;psmsl;NA;Hoek van Holland
 1865;23;Den Helder;-280;0;NA;psmsl;NA;Den Helder
 1866;23;Den Helder;-146;0;NA;psmsl;NA;Den Helder
 1867;23;Den Helder;-201;0;NA;psmsl;NA;Den Helder
@@ -483,6 +485,7 @@ year;psmsl_id;name;height;surge_anomaly;surge;source;method;station
 2022;23;Den Helder;67;-6.732712223504286;0.0407118696362188;psmsl;NA;Den Helder
 2023;23;Den Helder;123;27.906338210392718;0.0753509200701158;psmsl;NA;Den Helder
 2024;23;Den Helder;134;20.9927602040501;0.0684373420637732;psmsl;NA;Den Helder
+2025;23;Den Helder;85;-20.473261992016287;0.0269713198677068;psmsl;NA;Den Helder
 1865;24;Delfzijl;-170;0;NA;psmsl;NA;Delfzijl
 1866;24;Delfzijl;-77;0;NA;psmsl;NA;Delfzijl
 1867;24;Delfzijl;-54;0;NA;psmsl;NA;Delfzijl
@@ -643,6 +646,7 @@ year;psmsl_id;name;height;surge_anomaly;surge;source;method;station
 2022;24;Delfzijl;165;11.53469632566901;0.0589792781853921;psmsl;NA;Delfzijl
 2023;24;Delfzijl;223;36.10028907575942;0.0835448709354825;psmsl;NA;Delfzijl
 2024;24;Delfzijl;218;24.796777474614217;0.0722413593343373;psmsl;NA;Delfzijl
+2025;24;Delfzijl;183;-6.69008527028889;0.0407544965894342;psmsl;NA;Delfzijl
 1865;25;Harlingen;-248;0;NA;psmsl;NA;Harlingen
 1866;25;Harlingen;-104;0;NA;psmsl;NA;Harlingen
 1867;25;Harlingen;-133;0;NA;psmsl;NA;Harlingen
@@ -803,6 +807,7 @@ year;psmsl_id;name;height;surge_anomaly;surge;source;method;station
 2022;25;Harlingen;142;12.091323630714918;0.059535905490438;psmsl;NA;Harlingen
 2023;25;Harlingen;204;47.79114802121411;0.0952357298809372;psmsl;NA;Harlingen
 2024;25;Harlingen;203;37.032193584221716;0.0844767754439448;psmsl;NA;Harlingen
+2025;25;Harlingen;151;-4.901893532981781;0.0425426883267413;psmsl;NA;Harlingen
 1872;32;IJmuiden;-139;0;NA;psmsl;NA;IJmuiden
 1873;32;IJmuiden;-94;0;NA;psmsl;NA;IJmuiden
 1874;32;IJmuiden;-104;0;NA;psmsl;NA;IJmuiden
@@ -956,12 +961,7 @@ year;psmsl_id;name;height;surge_anomaly;surge;source;method;station
 2022;32;IJmuiden;69;-11.639986800786083;0.035804595058937;psmsl;NA;IJmuiden
 2023;32;IJmuiden;126;25.88033982152922;0.0733249216812523;psmsl;NA;IJmuiden
 2024;32;IJmuiden;134;18.79469807177962;0.0662392799315027;psmsl;NA;IJmuiden
-2025;NA;Delfzijl;182.7328081592267;-6.69008527028889;0.0407544965894342;rws_ddl_wadar;NA;Delfzijl
-2025;NA;Den Helder;85.4779215835554;-20.473261992016287;0.0269713198677068;rws_ddl_wadar;NA;Den Helder
-2025;NA;Harlingen;151.1384744214373;-4.901893532981781;0.0425426883267413;rws_ddl_wadar;NA;Harlingen
-2025;NA;Hoek van Holland;156.22264509990484;-32.77406170536339;0.0146705201543597;rws_ddl_wadar;NA;Hoek van Holland
-2025;NA;IJmuiden;86.89597379347123;-24.800375794478484;0.0226442060652446;rws_ddl_wadar;NA;IJmuiden
-2025;NA;Vlissingen;82.85572934505461;-39.02237004142331;0.00842221181829978;rws_ddl_wadar;NA;Vlissingen
+2025;32;IJmuiden;87;-24.800375794478484;0.0226442060652446;psmsl;NA;IJmuiden
 1862;NA;Netherlands;-142;0;NA;psmsl;calculated;Netherlands
 1863;NA;Netherlands;-161;0;NA;psmsl;calculated;Netherlands
 1864;NA;Netherlands;-263.5;0;NA;psmsl;calculated;Netherlands
@@ -1125,7 +1125,7 @@ year;psmsl_id;name;height;surge_anomaly;surge;source;method;station
 2022;NA;Netherlands;106.33333333333333;-7.734788067076802;0.03970979379264628;psmsl;calculated;Netherlands
 2023;NA;Netherlands;164.5;25.950540611648734;0.07339512247137182;psmsl;calculated;Netherlands
 2024;NA;Netherlands;170.83333333333334;18.41170385052938;0.06585628571025247;psmsl;calculated;Netherlands
-2025;NA;Netherlands;124.22059206710834;-21.44367472275869;0.026000907136964395;rws_ddl_wadar;calculated;Netherlands
+2025;NA;Netherlands;124.16666666666667;-21.44367472275869;0.026000907136964395;psmsl;calculated;Netherlands
 1862;NA;Netherlands (without Delfzijl);-142;0;NA;psmsl;calculated;Netherlands (without Delfzijl)
 1863;NA;Netherlands (without Delfzijl);-161;0;NA;psmsl;calculated;Netherlands (without Delfzijl)
 1864;NA;Netherlands (without Delfzijl);-263.5;0;NA;psmsl;calculated;Netherlands (without Delfzijl)
@@ -1289,4 +1289,4 @@ year;psmsl_id;name;height;surge_anomaly;surge;source;method;station
 2022;NA;Netherlands (without Delfzijl);94.6;-11.588684945625964;0.03585589691409712;psmsl;calculated;Netherlands (without Delfzijl)
 2023;NA;Netherlands (without Delfzijl);152.8;23.920590918826594;0.07136517277854969;psmsl;calculated;Netherlands (without Delfzijl)
 2024;NA;Netherlands (without Delfzijl);161.4;17.134689125712413;0.0645792709854355;psmsl;calculated;Netherlands (without Delfzijl)
-2025;NA;Netherlands (without Delfzijl);112.51814884868467;-24.39439261325265;0.023050189246470437;rws_ddl_wadar;calculated;Netherlands (without Delfzijl)
+2025;NA;Netherlands (without Delfzijl);112.4;-24.39439261325265;0.023050189246470437;psmsl;calculated;Netherlands (without Delfzijl)
