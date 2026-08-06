@@ -74,7 +74,7 @@ De methode in dit onderzoek bouwt verder op de aanpak zoals beschreven in @Baart
 
 
 
-## Welke termen?
+## Welke termen? {#sec-modelkeuze}
 
 In eenvoudige vorm wordt de waterstand beschreven als de volgende vergelijking:
 

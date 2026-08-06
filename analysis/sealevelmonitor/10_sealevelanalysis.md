@@ -1,7 +1,7 @@
 Zeespiegelmonitor analysis
 ================
 Willem Stolte, Nathalie Dees
-28 July, 2026
+06 August, 2026
 
 # Sea Level Monitor analysis
 
@@ -492,31 +492,6 @@ alt="Observed and predicted sea level for selected stations and models." />
 <figcaption aria-hidden="true">Observed and predicted sea level for
 selected stations and models.</figcaption>
 </figure>
-
-``` r
-  p <- plot_station( 
-    predictions_all = all_predictions,
-    stationi = unique(all_predictions$station),
-    correctionVariant = "GTSM", 
-    modelVariant = unique(all_predictions$modeltype), 
-    printNumbers = F, 
-    startyear = 1890
-  ) +
-  facet_grid(station ~ modeltype) +
-  theme(
-    # legend.direction = "horizontal",
-    # legend.box = "horizontal",
-    legend.position = "bottom", #c(0.975, 0.025),
-    # legend.justification = c(1, 0),
-    legend.title = element_blank()
-  ) +
-  theme(strip.text.y = element_text(angle = 90)) +
-  theme_bw()
-
-  
-  # ggplotly(p) %>% layout(legend = list(x = 0.05, y = 0.95))
-  p
-```
 
 ## Parameters
 
@@ -5064,7 +5039,7 @@ AIC_df %>%
   facet_wrap("station")
 ```
 
-![](10_sealevelanalysis_files/figure-gfm/unnamed-chunk-13-1.png)<!-- -->
+![](10_sealevelanalysis_files/figure-gfm/unnamed-chunk-12-1.png)<!-- -->
 
 ``` r
 preferred_model = AIC_df %>% 

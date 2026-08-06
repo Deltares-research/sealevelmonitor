@@ -181,3 +181,6 @@ results/analysis_output/parameters_2025*
 results/analysis_output/predictions_2025*
 .positai
 _freeze/
+
+/.quarto/
+**/*.quarto_ipynb
