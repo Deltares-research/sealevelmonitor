@@ -20,6 +20,6 @@ De Zeespiegelmonitor rapporteert elke 4 jaar uitgebreid over de stand van zaken 
 
 
 
-## Lijst met afkortingen
+## Lijst met alle afkortingen
 
 \printacronyms

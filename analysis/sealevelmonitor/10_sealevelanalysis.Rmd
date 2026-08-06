@@ -399,32 +399,6 @@ ggplot(
 
 ```
 
-```{r, eval=FALSE, fig.height=nstations*2+2, fig.width=nmodels*2+2}
-
-  p <- plot_station( 
-    predictions_all = all_predictions,
-    stationi = unique(all_predictions$station),
-    correctionVariant = "GTSM", 
-    modelVariant = unique(all_predictions$modeltype), 
-    printNumbers = F, 
-    startyear = 1890
-  ) +
-  facet_grid(station ~ modeltype) +
-  theme(
-    # legend.direction = "horizontal",
-    # legend.box = "horizontal",
-    legend.position = "bottom", #c(0.975, 0.025),
-    # legend.justification = c(1, 0),
-    legend.title = element_blank()
-  ) +
-  theme(strip.text.y = element_text(angle = 90)) +
-  theme_bw()
-
-  
-  # ggplotly(p) %>% layout(legend = list(x = 0.05, y = 0.95))
-  p
-```
-
 
 
 ## Parameters
