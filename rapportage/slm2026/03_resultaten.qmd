@@ -76,7 +76,14 @@ Bij de meeste stations is de totale bodemdaling dus gelijk aan de geologische bo
 
 ## Variatie binnen Nederland {#sec-ruimtelijke-variatie}
 
+De analyse en bepaling van de zeespiegelstijging aan de Nederlandse kust wordt gedaan aan het gemiddelde van alle hoofdstations (voorlopig even zonder Delfzijl). Als we dezelfde methode toepassen op de individuele stations krijgen we een idee van de variatie in zeespiegelstijging door de tijd langs de Nederlandse kust (@fig-slr-hoofdstations). In de figuur valt het volgende op:
 
+1) De stations in het Waddengebied vertonen een sterkere "knik", wat betekent dat de gemiddelde stijging na 1993 meer verhoogd is t.o.v. vóór 1993 dan bij de stations aan de Hollandse kust. 
+1) Bij verschillende stations zijn er zichtbare uitschieters gedurende bepaalde perioden. Dit verschilt per station.
+
+
+
+![Gemeten Zeespiegel met de best passende lijn voor het voorkeursmodel (gebroken lineaire model) voor alle hoofdstations.](https://github.com/Deltares-research/sealevelmonitor/raw/develop_reporting26_willem/analysis/sealevelmonitor/10_sealevelanalysis_files/figure-gfm/prediction-plot_preferred-model-1.png){#fig-slr-hoofdstations}
 
 ## Vergelijking met satellietmetingen
 
