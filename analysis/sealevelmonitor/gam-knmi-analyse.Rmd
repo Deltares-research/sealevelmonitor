@@ -1,8 +1,18 @@
 ---
-title: "GAM model estimation of Dutch Sea Level"
+title: "Comparison between GAM and GLM (broken linear) model for Dutch Sea Level"
 author: "Willem Stolte"
 date: '`r Sys.Date()`'
 output: github_document
+params:
+  selected_station:
+  # - Delfzijl
+  # - Harlingen
+  # - Den Helder
+  # - IJmuiden
+  # - Hoek van Holland
+  # - Vlissingen
+  # - Netherlands
+  - Netherlands (without Delfzijl)
 ---
 
 ```{r setup, include=FALSE}
@@ -17,11 +27,12 @@ source("_common/functions.R")
 
 ## Introduction
 
-Full documentation will follow
+The Dutch Sea Level Monitor uses General Linearized Model variants to describe the sea level at the Dutch coastal tidal stations. In the literature, also other models are used. For example, GAM was used by Keizer et al. (2023) to detect changes in sea level rise by comparing different periods with respect to GAM fitted sea level changes. Although GAM is at the moment not included in the official product, in this document we test this method in order to visualize patterns of sea level changes. 
 
-The Dutch Sea Level Monitor uses general linearized model variants to describe the sea level at the Dutch coastal tidal stations. In the literature, also other models are used. For example, GAM was used by Keizer et al., (2023) to detect changes in sea level rise by comparing different periods with respect to GAM fitted sea level changes. Although GAM is at the moment not included in the official product, in this document we test this method in order to visualize patterns of sea level (rise). 
+The aim of this notebook is:
 
-This notebook provides the code and first results
+- To implement GAM analyses for the Dutch main tidal station
+- To compare the GAM with GLM broken linear model (preferred model for the Sea Level Monitor 2026) in terms of e.g. AIC
 
 
 ```{r loadInformation}
@@ -32,10 +43,13 @@ library(gratia)
 
 epoch = 1970
 datapath = "../../data/deltares/input/psmsl_gtsm_yr-latest.csv"
+nstations <- length(params$selected_station)
 
 df <- read_delim(file.path(datapath), delim = ";", col_types = cols()) %>%
   # filter(station %in% params$station) %>%
   filter(year >= 1890)
+
+df$year_c = df$year - epoch
 
 df <- df %>% 
   mutate(
@@ -51,10 +65,11 @@ df <- df %>%
         "Netherlands (without Delfzijl)"
       )
     )
-  )
+  ) %>%
+  addBreakPoints()
 ```
 
-## Define GAM 
+## Define GAM and GLM 
 
 The GAM model used here is using 4 components:
 
@@ -63,9 +78,16 @@ The GAM model used here is using 4 components:
 - nodal sine term
 - surge anomaly term
 
-No further fine tuning of the GAM model has been done so far
+The GLM broken linear model is using the following components: 
 
-## Add helper variables
+- linear component
+- extra trend from 1993
+- nodal cosine term
+- nodal sine term
+- surge anomaly term
+
+### Add helper variables
+
 
 ```{r}
 
@@ -80,13 +102,13 @@ prepare_nodal <- function(df, epoch = 1970){
 ```
 
 
-## compare gam and glm
+### Comparing GAM and GLM
 
-The gam and glm models can be compared when using the same model formulations. For this comparison, the linear model is also formulated using the mgcv package (like the gam model) but without the smoothing term, so only using linear terms. 
+The aim is to compare the model fits from GAM and GLM in terms of AIC. This can only be done when using the same model formulations for both models. The broken linear model is therefore formulated using the mgcv package (like the GAM) but without the smoothing term, so only using linear terms.
 
-For that reason the exact outcomes of the GLM model in this notebook does not necessarily match exactly with the GLM outcomes in the Sea Level Monitor script. 
+Be aware that the exact outcomes of the GLM model in this notebook do not necessarily match exactly with the GLM outcomes in the Sea Level Monitor script. 
 
-
+In the GAM formulation, k denotes the basis dimension of a smooth term, defining the maximum flexibility available to the fitted spline. It sets an upper bound on the effective degrees of freedom, while the actual smoothness is determined by penalization during model fitting. It is set to 50 for this analysis. 
 
 ```{r}
 
@@ -105,12 +127,12 @@ gam_model <- function(df, epoch = 1970, k = slm_k){
   )
 }
 
-
-glm_model <- function(df, epoch = 1970){
+# GLM only using linear terms, no smoother
+glm_model <- function(df){
 
   mgcv::gam(
-    height ~ year
-    +        from1993 
+    height ~ year_c
+    +        from1993
     +        nodal_cos
     +        nodal_sin
     +        surge_anomaly,
@@ -119,43 +141,33 @@ glm_model <- function(df, epoch = 1970){
     method = "REML"
   )
 }
-
-get_year_predictions <- function(model, newdata, modeltype){
-
-  # get all term contributions + SE
-  p <- predict(model, newdata = newdata, type = "terms", se.fit = TRUE)
-
-  # GAM model → use only s(year)
-  if (modeltype == "gam") {
-    term_name <- "s(year)"
-    fit  <- p$fit[, term_name]
-    se   <- p$se.fit[, term_name]
-  }
-
-  # GLM model → use year + from1993
-  if (modeltype == "glm") {
-    terms_needed <- c("year", "from1993")
-
-    fit  <- rowSums(p$fit[, terms_needed, drop = FALSE])
-
-    # combine SE correctly (assuming independence of linear terms)
-    se   <- sqrt(rowSums(p$se.fit[, terms_needed, drop = FALSE]^2))
-  }
-
-  tibble(
-    fit_year = fit,
-    se_year  = se
-  )
-}
-
-
 ```
 
-## Apply GAM and GLM models to sea level data for all stations
+Functions to extract predictions, standard errors and derivatives
 
-The GAM and GLM models was applied to all six main stations and the composite stations according to the code below. 
+```{r}
 
-```{r get-derivatives}
+## use for plotting - vertically neutral compared to measurements
+get_height_predictions <- function(model, newdata){
+
+  preddata <- newdata
+
+  preddata$nodal_cos     <- 0
+  preddata$nodal_sin     <- 0
+  preddata$surge_anomaly <- mean(newdata$surge_anomaly, na.rm = TRUE)
+
+  p <- predict(
+    model,
+    newdata = preddata,
+    type = "response",
+    se.fit = TRUE
+  )
+
+  tibble(
+    fit_height = p$fit,
+    se_height  = p$se.fit
+  )
+}
 
 get_derivatives <- function(model) {
 
@@ -184,51 +196,52 @@ get_derivatives <- function(model) {
   }
 
   # ==== CASE 2: LINEAIR MODEL ====
+  
+cf <- coef(model)
+vc <- vcov(model)
 
-  cf <- coef(model)
-  vc <- vcov(model)
+slope_year <- cf["year_c"]
+slope_from <- cf["from1993"]
 
-  year_term <- grep("^year$", names(cf), value = TRUE)
-  from_term <- grep("^from1993$", names(cf), value = TRUE)
+xvals <- model$model$year_c + 1970
 
-  if (length(year_term) == 0) {
-    stop("GLM heeft geen year-term (aliased in dit station).")
-  }
+derivative_vals <- ifelse(
+  xvals < 1993,
+  slope_year,
+  slope_year + slope_from
+)
 
-  slope_year  <- cf[[year_term]]
-  se_year     <- sqrt(vc[year_term, year_term])
+var_before <- vc["year_c", "year_c"]
 
-  if (length(from_term) == 1) {
-    slope_from <- cf[[from_term]]
-    se_from    <- sqrt(vc[from_term, from_term])
-  } else {
-    slope_from <- 0
-    se_from    <- 0
-  }
+var_after <-
+  vc["year_c", "year_c"] +
+  vc["from1993", "from1993"] +
+  2 * vc["year_c", "from1993"]
 
-  xvals <- model$model$year
+se_before <- sqrt(var_before)
+se_after  <- sqrt(var_after)
 
-  # ✅ derivative vóór/na 1993
-  derivative_vals <- ifelse(
-    xvals < 1993,
-    slope_year,
-    slope_year + slope_from
-  )
-
-  # SE combineren
-  se_vals <- sqrt(se_year^2 + se_from^2)
-
+se_vals <- ifelse(
+  xvals < 1993,
+  se_before,
+  se_after
+)
+  
   tibble::tibble(
     x          = xvals,
     derivative = derivative_vals,
     se         = se_vals,
-    lower      = derivative_vals - 2*se_vals,
-    upper      = derivative_vals + 2*se_vals
+    lower      = derivative_vals - 1.96 * se_vals,
+    upper      = derivative_vals + 1.96 * se_vals
   )
 }
 
 ```
 
+
+## Apply GAM and GLM models to sea level data for all stations
+
+The GAM and GLM models was applied to all six main stations and the composite stations according to the code below. 
 
 ```{r}
 
@@ -265,104 +278,111 @@ by_station_model_compared = df %>%
     # equation = map(model, function(x) equatiomatic::extract_eq(x))
   ) %>%
   mutate(
-    pred_year = pmap(
-      list(model, data, modeltype),
-      ~ get_year_predictions(..1, ..2, ..3),
+  pred_height = map2(
+    model,
+    data,
+    get_height_predictions
+  ),
+  derivatives = map(model, get_derivatives)
+)
+
+
+```
+
+```{r checks, include=FALSE}
+
+test_gam = by_station_model_compared %>%
+  filter(station == "Den Helder", modeltype == "gam") %>%
+  pluck("model", 1)
+
+test_glm = by_station_model_compared %>%
+  filter(station == "Den Helder", modeltype == "glm") %>%
+  pluck("model", 1)
+
+p_gam <- predict(test_gam, type = "terms")
+colMeans(p_gam)
+
+p_glm <- predict(test_glm, type = "terms")
+colMeans(p_glm)
+
+
+
+preddata <- df %>% filter(station == "Den Helder")
+preddata$nodal_cos <- 0
+preddata$nodal_sin <- 0
+preddata$surge_anomaly <- mean(df$surge_anomaly)
+
+fit <- predict(test_gam,
+               newdata = preddata,
+               type = "response")
+plot(preddata$year, preddata$height)
+lines(preddata$year, fit)
+
+cf <- coef(test_glm)
+bind_cols(cf["year_c"], 
+cf["year_c"] + cf["from1993"])
+
+```
+
+
+
+In general, the resulting predictions from GAM and GLM models are very similar for most stations. The GAM model follows, as can be expected, better the variability of the measurements. Especially for individual stations like Delfzijl and Harlingen, the GLM model seems to miss much of the variation present in the signal. 
+
+
+```{r, fig.width=8, fig.height=5, fig.cap="Comparison between GAM and GLM model fits for all individual Dutch tidal stations."}
+
+plot_comparison <- function(df) {
+  df %>%
+    select(data, pred_height, modeltype, station) %>%
+    unnest(c(data, pred_height)) %>%
+    ggplot(aes(x = year)) +
+    geom_point(aes(y = height, color = modeltype), alpha = 0.3) +
+    geom_line(aes(y = fit_height, color = modeltype), linewidth = 0.7) +
+    geom_ribbon(
+    aes(
+      ymin = fit_height - 1.96 * se_height,
+      ymax = fit_height + 1.96 * se_height,
+      fill = modeltype
     ),
-    derivatives = map(model, get_derivatives)
-  ) 
+    alpha = 0.5
+  ) +
+    facet_wrap("station") +
+    theme_minimal()
+}
 
+plot_comparison(by_station_model_compared %>%
+                  filter(!grepl("Netherlands", station)))
 
 ```
+For the combined station "Netherlands (without Delfzijl)" GLM and GAM overlap to a very high extend. In fact, the difference is hard to see  
 
+## Results for the average sea level at the Dutch coast
 
+```{r, fig.width=6, fig.height=4, fig.cap="Comparison between GAM and GLM model fits for all Dutch stations, including the combined stations for the Dutch coast without Delfzijl."}
 
-## model comparison
-
-There is something not correct with the offset of the models. They differ. This needs to be corrected later. For visualization, I project the models and data on top of eachother, but it needs some more attention as it also seems to affect the SE. 
-
-```{r, fig.width=10, fig.height=8}
-by_station_model_compared %>%
-  select(data, pred_year, modeltype, station) %>%
-  # filter(station == "Netherlands (without Delfzijl)") %>%
-  unnest(c(data, pred_year)) %>% 
-  group_by(modeltype, station) %>%
-  mutate(
-      pred_year_centered = fit_year - mean(fit_year),
-      height_centered = height - mean(height)
-  ) %>%
-  ungroup() %>%
-  ggplot(aes(x = year)) +
-  geom_point(aes(y = height_centered, color = modeltype), alpha = 0.3) +
-  geom_line(aes(y = pred_year_centered, color = modeltype), linewidth = 1) +
-  # geom_ribbon(aes(ymin = pred_year_centered - se_year, ymax = pred_year_centered + se_year, fill = modeltype), alpha = 0.2) +
-  facet_wrap("station")
+plot_comparison(by_station_model_compared %>%
+                  filter(station %in% params$selected_station )
+)
 ```
 
-## Sea level rate development in time
+## Estimating sea level rate along the Dutch coast
 
-The comparison between observed and (GAM) modelled sea level for the 6 stations, and the composite stations is shown below. The variation in observations from 1950 to now is lower than in the period before. this is related to the wind-surge corrections derived from the GTSM model. Because of a lack of GTSM output for the years before 1950, for those years only a correction with the mean surge has been made. 
-
-The plot below shows the sea level rate in time as estimated using GAM. It is currently compared to the sea level rate as calculated with the current Sea Level Monitor preferred model (broken linear) for the virtual station "Netherlands (without Delfzijl)". For better comparison on station level, station-specific results will be added in a later stage.  
+The plot below shows the sea level rate in time as estimated using GAM and GLM (broken linear) for the combined station "Netherlands (without Delfzijl)". The sea level rate change over time is of course smoother for the GAM model. However, the two signals are surprisingly alike. It is furthermore evident that the confidence interval of the GAM model increase towards the end of the time series
 
 
-```{r plot-derivatives, fig.cap="Derivatives plus confidence intervals.", fig.height=6, fig.width=8 }
+```{r plot-derivatives, fig.cap="Derivatives plus confidence intervals.", fig.height=4, fig.width=6 }
 
 plot_derivatives <- function(by_station_model_compared) {
 
   # unnest derivatives én metadata
-  df_plot <- by_station_model_compared %>% 
+  df_plot <- by_station_model_compared %>%
     select(station, modeltype, derivatives) %>%
-    unnest(derivatives)
+    unnest(c(derivatives))
 
   ggplot(df_plot, aes(x = x, y = derivative, color = modeltype)) +
-    geom_line(size = 1) +
     geom_ribbon(aes(ymin = lower, ymax = upper, fill = modeltype),
-                alpha = 0.2, color = NA) +
-    facet_wrap(~ station, scales = "free_y") +
-    theme_bw() +
-    labs(
-      title = "Afgeleiden d(height)/d(year)",
-      subtitle = "Vergelijking GAM vs GLM",
-      x = "Jaar",
-      y = "Afgeleide (trend per jaar)",
-      color = "Modeltype",
-      fill = "Modeltype"
-    ) +
-    theme(
-      strip.text = element_text(size = 10),
-      plot.title = element_text(size = 14, face = "bold")
-    )
-}
-
-plot_derivatives(by_station_model_compared)
-
-
-
-```
-
-## AIC comparison
-```{r}
-by_station_model_compared %>%
-  select(station, modeltype, adj.rsq, AIC) %>%
-  ggplot(aes(station, AIC, color = modeltype)) +
-  geom_point(shape = "|", size = 6) +
-  coord_flip()
-```
-
-```{r}
-plot_derivatives_glm <- function(by_station_model_compared) {
-
-  # unnest derivatives én metadata
-  df_plot <- by_station_model_compared %>% 
-    select(station, modeltype, derivatives) %>%
-    unnest(derivatives) %>%
-    filter(modeltype == "glm")
-
-  ggplot(df_plot, aes(x = x, y = derivative, color = station)) +
-    geom_ribbon(aes(ymin = lower, ymax = upper, fill = station),
-                alpha = 0.2, color = NA) +
-    geom_line(size = 2) +
+                alpha = 0.2) +
+    geom_line(size = 0.7) +
     # facet_wrap(~ station, scales = "free_y") +
     theme_bw() +
     labs(
@@ -370,22 +390,47 @@ plot_derivatives_glm <- function(by_station_model_compared) {
       subtitle = "Vergelijking stations",
       x = "Jaar",
       y = "Afgeleide (trend per jaar)",
-      color = "station"
+      color = "modeltype"
     ) +
-    theme(
-      strip.text = element_text(size = 10),
-      plot.title = element_text(size = 14, face = "bold")
-    )
+    coord_cartesian(ylim = c(0,NA))
 }
 
-plot_derivatives_glm(by_station_model_compared)
+by_station_model_compared %>%
+  filter(station %in% params$selected_station ) %>%
+  plot_derivatives() +
+  facet_wrap("station")
 
 ```
 
+## AIC comparison
 
+AIC can now be compared between the models. It appears that for all individual stations the GAM model mostly gives a lower AIC (and therefore a better fitting model). This is most notably for stations Harlingen, Hoek van Holland and Vlissingen. However, for the average station "Netherlands (without Delfzijl)", the GLM model performs slightly better (lower AIC).
+
+```{r aic, fig.width=7, fig.height=4}
+by_station_model_compared %>%
+  select(station, modeltype, adj.rsq, AIC) %>%
+  ggplot(aes(station, AIC, color = modeltype)) +
+  geom_point(shape = "|", size = 6) +
+  coord_flip()
+```
+
+## Conclusions
+
+A first trial to compare GAM and GLM reveals that both models describe the sea level change at the Dutch coast well, and the difference between them in terms of AIC is smalll. For individual stations, the differences are larger, where GAM better describes the variation. 
 
 
 
 ## References
 
 Keizer, Iris, Dewi Le Bars, Cees De Valk, André Jüling, Roderik Van De Wal, and Sybren Drijfhout. 2023. “The Acceleration of Sea-Level Rise along the Coast of the Netherlands Started in the 1960s.” Ocean Science 19 (4): 991–1007. https://doi.org/10.5194/os-19-991-2023.
+
+## Appendix
+
+```{r plot-derivatives-all, fig.cap="Derivatives plus confidence intervals for individual stations.", fig.height=5, fig.width=8 }
+
+by_station_model_compared %>%
+  filter(!grepl("Netherlands", station)) %>%
+  plot_derivatives() +
+  facet_wrap("station")
+
+```

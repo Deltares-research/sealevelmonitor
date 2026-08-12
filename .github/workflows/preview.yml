@@ -1,0 +1,36 @@
+"on":
+  workflow_dispatch:
+  push:
+    branches:
+      - develop_reporting*
+
+name: Quarto Preview
+
+permissions:
+  contents: write
+
+jobs:
+  deploy-preview:
+    runs-on: ubuntu-latest
+
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Debug branch
+        run: |
+          echo "ref=${{ github.ref }}"
+          echo "ref_name=${{ github.ref_name }}"
+
+      - uses: quarto-dev/quarto-actions/setup@v2
+
+      - name: Render
+        working-directory: rapportage/slm2026
+        run: quarto render
+
+      - name: Deploy preview
+        uses: peaceiris/actions-gh-pages@v4
+        with:
+          github_token: ${{ secrets.GITHUB_TOKEN }}
+          publish_dir: rapportage/slm2026/_book
+          destination_dir: preview/${{ github.ref_name }}
+          keep_files: true
