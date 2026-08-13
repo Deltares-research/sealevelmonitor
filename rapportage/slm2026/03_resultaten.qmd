@@ -71,11 +71,14 @@ Bij de meeste stations is de totale bodemdaling dus gelijk aan de geologische bo
 
 ![Totale bodemdaling in het kustgebied in de laatste 100 jaar [@Hijma2026]](images/Totaledaling1926_2025.png){#fig-totdaling100yr width=80%}
 
+## Vergelijking met zeespiegelbudgetten {#sec-budgetten}
+
+Aan de ene kant wordt de relatieve zeespiegel gemeten met getijdenmeters langs de Nederlandse kust. Aan de andere kant worden ook de fysische processen die zeespiegelverandering veroorzaken, zoals opwarming van de oceaantemperatuur en het smelten van gletsjers en ijskappen, gemeten met in-situ- en satellietmetingen. We gebruiken aardmodellen van zwaartekracht, rotatie en elastische vervorming van het land om het smelten van landijs te koppelen aan veranderingen in de relatieve zeespiegel langs de kust. Hierdoor kunnen we controleren of de som van de fysische mechanismen die invloed hebben op zeespiegelverandering in lijn ligt met de zeespiegelwaarnemingen. In de afgelopen 10 jaar is grote vooruitgang geboekt om de balans (@frederikse_closing_2016 en Camargo) te verfijnen, tot het punt dat deze methode nu een uitgebreid inzicht kan bieden in de redenen voor zeespiegelverandering langs de Nederlandse kust (EF-artikel).
+
 ## Vergelijking met projecties (#sec-scenarios)
 
 ![Gemeten zeespiegel gefit met het gebroken lineaire model, en de KNMI projecties (jaar?) voor de Nederlandse kust afgeleid van het laagste ICPP scenario. ](images/vergelijking-projecties-metingen-concept-26.png)
 
-## Vergelijking met zeespiegelbudgetten {#sec-budgetten}
 
 ## Variatie binnen Nederland {#sec-ruimtelijke-variatie}
 
