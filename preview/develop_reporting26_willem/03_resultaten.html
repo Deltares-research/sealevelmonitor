@@ -213,12 +213,13 @@ div.csl-indent {
   <li><a href="#sec-winsopzetcorrectie" id="toc-sec-winsopzetcorrectie" class="nav-link active" data-scroll-target="#sec-winsopzetcorrectie"><span class="header-section-number">4.1</span> Windopzetcorrectie</a></li>
   <li><a href="#sec-voorkeursmodel" id="toc-sec-voorkeursmodel" class="nav-link" data-scroll-target="#sec-voorkeursmodel"><span class="header-section-number">4.2</span> Voorkeursmodel</a></li>
   <li><a href="#sec-huidige" id="toc-sec-huidige" class="nav-link" data-scroll-target="#sec-huidige"><span class="header-section-number">4.3</span> Huidige zeespiegel(stijging)</a></li>
-  <li><a href="#sec-bodemdaling" id="toc-sec-bodemdaling" class="nav-link" data-scroll-target="#sec-bodemdaling"><span class="header-section-number">4.4</span> Bodemdaling en zeespiegelstijging</a></li>
-  <li><a href="#vergelijking-met-projecties-sec-scenarios" id="toc-vergelijking-met-projecties-sec-scenarios" class="nav-link" data-scroll-target="#vergelijking-met-projecties-sec-scenarios"><span class="header-section-number">4.5</span> Vergelijking met projecties (#sec-scenarios)</a></li>
-  <li><a href="#sec-budgetten" id="toc-sec-budgetten" class="nav-link" data-scroll-target="#sec-budgetten"><span class="header-section-number">4.6</span> Vergelijking met zeespiegelbudgetten</a></li>
-  <li><a href="#sec-ruimtelijke-variatie" id="toc-sec-ruimtelijke-variatie" class="nav-link" data-scroll-target="#sec-ruimtelijke-variatie"><span class="header-section-number">4.7</span> Variatie binnen Nederland</a></li>
-  <li><a href="#vergelijking-met-satellietmetingen" id="toc-vergelijking-met-satellietmetingen" class="nav-link" data-scroll-target="#vergelijking-met-satellietmetingen"><span class="header-section-number">4.8</span> Vergelijking met satellietmetingen</a></li>
-  <li><a href="#lijst-met-gebruikte-afkortingen" id="toc-lijst-met-gebruikte-afkortingen" class="nav-link" data-scroll-target="#lijst-met-gebruikte-afkortingen"><span class="header-section-number">4.9</span> Lijst met gebruikte afkortingen</a></li>
+  <li><a href="#nodaal-getij" id="toc-nodaal-getij" class="nav-link" data-scroll-target="#nodaal-getij"><span class="header-section-number">4.4</span> Nodaal getij</a></li>
+  <li><a href="#sec-bodemdaling" id="toc-sec-bodemdaling" class="nav-link" data-scroll-target="#sec-bodemdaling"><span class="header-section-number">4.5</span> Bodemdaling en zeespiegelstijging</a></li>
+  <li><a href="#vergelijking-met-projecties-sec-scenarios" id="toc-vergelijking-met-projecties-sec-scenarios" class="nav-link" data-scroll-target="#vergelijking-met-projecties-sec-scenarios"><span class="header-section-number">4.6</span> Vergelijking met projecties (#sec-scenarios)</a></li>
+  <li><a href="#sec-budgetten" id="toc-sec-budgetten" class="nav-link" data-scroll-target="#sec-budgetten"><span class="header-section-number">4.7</span> Vergelijking met zeespiegelbudgetten</a></li>
+  <li><a href="#sec-ruimtelijke-variatie" id="toc-sec-ruimtelijke-variatie" class="nav-link" data-scroll-target="#sec-ruimtelijke-variatie"><span class="header-section-number">4.8</span> Variatie binnen Nederland</a></li>
+  <li><a href="#vergelijking-met-satellietmetingen" id="toc-vergelijking-met-satellietmetingen" class="nav-link" data-scroll-target="#vergelijking-met-satellietmetingen"><span class="header-section-number">4.9</span> Vergelijking met satellietmetingen</a></li>
+  <li><a href="#lijst-met-gebruikte-afkortingen" id="toc-lijst-met-gebruikte-afkortingen" class="nav-link" data-scroll-target="#lijst-met-gebruikte-afkortingen"><span class="header-section-number">4.10</span> Lijst met gebruikte afkortingen</a></li>
   </ul>
 </nav>
     </div>
@@ -270,35 +271,44 @@ div.csl-indent {
 </section>
 <section id="sec-huidige" class="level2" data-number="4.3">
 <h2 data-number="4.3" class="anchored" data-anchor-id="sec-huidige"><span class="header-section-number">4.3</span> Huidige zeespiegel(stijging)</h2>
-<p>Op basis van de gegevens en het voorkeursmodel kunnen we de volgende conclusies trekken over de stijging van de zeespiegel aan de Nederlandse kust:</p>
+<p>Op basis van de gegevens over alle jaren, inclusief de meest recente t/m 2025, en met gebruik van het voorkeursmodel kunnen we de volgende conclusies trekken over de zeespiegelstijging aan de Nederlandse kust:</p>
 <ul>
 <li>De lineaire trend tot 1993 bedraagt 1.8 +/- 0.1 mm/jaar.</li>
 <li>De extra trend na 1993 bedraagt 1.4 +/- 0.3 mm/jaar.</li>
 <li>Na 1993 is de totale trend verhoogd en bedraagt 3.2 +/- 0.3 mm/jaar.</li>
 </ul>
-<div class="quarto-figure quarto-figure-center">
-<figure class="figure">
-<p><img src="https://github.com/Deltares-research/sealevelmonitor/raw/main/analysis/sealevelmonitor/sealevelmonitor_files/figure-gfm/partials-1.png" class="img-fluid figure-img"></p>
-<figcaption>Gemeten zeespiegel (height), trend (fitted_total) en de bijdragen van de verschillende processen in het verloop van de zeespiegel in de tijd.</figcaption>
+<p>De bijdragen van windopzet, nodaal getij en het residu ijn allemaal in dezelfde ordegrootte.</p>
+<div id="fig-huidige-zeespiegel" class="quarto-float quarto-figure quarto-figure-center anchored">
+<figure class="quarto-float quarto-float-fig figure">
+<div aria-describedby="fig-huidige-zeespiegel-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+<img src="https://github.com/Deltares-research/sealevelmonitor/raw/main/analysis/sealevelmonitor/20_sealevelmonitor_files/figure-gfm/partials-1.png" class="img-fluid figure-img">
+</div>
+<figcaption class="quarto-float-caption-bottom quarto-float-caption quarto-float-fig" id="fig-huidige-zeespiegel-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+Figure&nbsp;4.1: Gemeten zeespiegel (height), trend (fitted_total) en de bijdragen van de verschillende processen in het verloop van de zeespiegel in de tijd.
+</figcaption>
 </figure>
 </div>
 </section>
-<section id="sec-bodemdaling" class="level2" data-number="4.4">
-<h2 data-number="4.4" class="anchored" data-anchor-id="sec-bodemdaling"><span class="header-section-number">4.4</span> Bodemdaling en zeespiegelstijging</h2>
-<p>Bij alle getijdenstations bestaat het gemeten relatieve zeespiegelstijgingssignaal voor een deel uit lange-termijn geologische bodemdaling <span class="citation" data-cites="Hijma2025b">(<a href="05_literatuur.html#ref-Hijma2025b" role="doc-biblioref">Hijma 2025b</a>)</span>. Deze daling wordt hoofdzakelijk veroorzaakt door tektonische en glacio-isostatische bodemdaling en heeft dalingssnelheden die van zuid naar noord toenemen van circa 2 naar 5 cm/eeuw (<a href="#fig-totgeol100yr" class="quarto-xref">Figure&nbsp;<span>4.1</span></a>). De metingen worden hier niet voor gecorrigeerd en de via PSMSL beschikbare zeespiegeldata omvatten dus deze lange-termijn geologische bodemdalingscomponent.</p>
+<section id="nodaal-getij" class="level2" data-number="4.4">
+<h2 data-number="4.4" class="anchored" data-anchor-id="nodaal-getij"><span class="header-section-number">4.4</span> Nodaal getij</h2>
+<p>Zoals te zien is in @</p>
+</section>
+<section id="sec-bodemdaling" class="level2" data-number="4.5">
+<h2 data-number="4.5" class="anchored" data-anchor-id="sec-bodemdaling"><span class="header-section-number">4.5</span> Bodemdaling en zeespiegelstijging</h2>
+<p>Bij alle getijdenstations bestaat het gemeten relatieve zeespiegelstijgingssignaal voor een deel uit lange-termijn geologische bodemdaling <span class="citation" data-cites="Hijma2025b">(<a href="05_literatuur.html#ref-Hijma2025b" role="doc-biblioref">Hijma 2025b</a>)</span>. Deze daling wordt hoofdzakelijk veroorzaakt door tektonische en glacio-isostatische bodemdaling en heeft dalingssnelheden die van zuid naar noord toenemen van circa 2 naar 5 cm/eeuw (<a href="#fig-totgeol100yr" class="quarto-xref">Figure&nbsp;<span>4.2</span></a>). De metingen worden hier niet voor gecorrigeerd en de via PSMSL beschikbare zeespiegeldata omvatten dus deze lange-termijn geologische bodemdalingscomponent.</p>
 <div id="fig-totgeol100yr" class="quarto-float quarto-figure quarto-figure-center anchored">
 <figure class="quarto-float quarto-float-fig figure">
 <div aria-describedby="fig-totgeol100yr-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
 <img src="images/Totgeol100yr_nieuw.png" class="img-fluid figure-img" style="width:80.0%">
 </div>
 <figcaption class="quarto-float-caption-bottom quarto-float-caption quarto-float-fig" id="fig-totgeol100yr-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
-Figure&nbsp;4.1: Geologische bodemdaling per 100 jaar <span class="citation" data-cites="Hijma2025b">(<a href="05_literatuur.html#ref-Hijma2025b" role="doc-biblioref">Hijma 2025b</a>)</span>
+Figure&nbsp;4.2: Geologische bodemdaling per 100 jaar <span class="citation" data-cites="Hijma2025b">(<a href="05_literatuur.html#ref-Hijma2025b" role="doc-biblioref">Hijma 2025b</a>)</span>
 </figcaption>
 </figure>
 </div>
 <p>Er zijn twee stations waar ook bodemdaling door gaswinning heeft plaatsgevonden, namelijk Hoek van Holland en Delfzijl. Bij Hoek van Holland gaat het om minder dan 2 cm in de laatste decennia en gaan we er vanuit dat deze daling in het zeespiegelsignaal zit. De verwachte daling door gaswinning in de komende decennia is minder dan 1 cm <span class="citation" data-cites="Hijma2026">(<a href="05_literatuur.html#ref-Hijma2026" role="doc-biblioref">Hijma et al. 2026, verwacht</a>)</span>. De daling bij Delfzijl is veel groter geweest en bedraagt ongeveer 30 cm sinds 1963. Voor Delfzijl weten we vrij zeker dat de bodemdaling sinds 1973 niet in de zeespiegeldata zit, maar dat de metingen gecorrigeerd worden <span class="citation" data-cites="Jong1973">(<a href="05_literatuur.html#ref-Jong1973" role="doc-biblioref"><span class="nocase">de Jong</span> 1973</a>, punt 5)</span>. Dit betekent dat de relatieve zeespiegelstijging bij Delfzijl eigenlijk sneller gaat dan in PSMSL gepubliceerd wordt, omdat de daling door gaswinning niet meegenomen wordt. Tussen de start van de gaswinning in Groningen in 1963 en 1973 daalde de bodem bij Delfzijl ongeveer 7 cm. Wij gaan er hier vanuit dat deze daling op dezelfde manier is behandeld als de daling na 1973, conform <span class="citation" data-cites="Jong1973">(<a href="05_literatuur.html#ref-Jong1973" role="doc-biblioref"><span class="nocase">de Jong</span> 1973</a>, punt 5)</span>, en dus niet in het zeespiegelsignaal zit. Door het dichtdraaien van de gaskraan is de daling bij het station sterk afgenomen en naar verwachting zal deze nog slechts enkele centimeters bedragen in de komende decennia <span class="citation" data-cites="Hijma2026">(<a href="05_literatuur.html#ref-Hijma2026" role="doc-biblioref">Hijma et al. 2026, verwacht</a>)</span>.</p>
 <p>Station Harlingen wordt waarschijnlijk al enigszins beïnvloed door bodemdaling door zoutwinning, al is de gemodelleerde invloed momenteel nog zeer gering en van recente datum. De zoutwinning vindt plaats op de Waddenzee ten westen van Harlingen en naar verwachting zal hierdoor de komende 30 jaar een aantal centimeter bodemdaling optreden bij Harlingen <span class="citation" data-cites="Hijma2025c Hijma2026">(<a href="05_literatuur.html#ref-Hijma2025c" role="doc-biblioref">Hijma 2025a</a>; <a href="05_literatuur.html#ref-Hijma2026" role="doc-biblioref">Hijma et al. 2026, verwacht</a>)</span>. De onzekerheid is echter groot en een kleine verschuiving in de vorm of positie van de bodemdalingsschotel kan resulteren in geen extra bodemdaling of juist nog enkele centimeters meer. De extra bodemdaling wordt gemonitord, waardoor een eventuele impact op de zeespiegelmetingen goed in beeld zal komen.</p>
-<p>Bij de meeste stations is de totale bodemdaling dus gelijk aan de geologische bodemdaling, maar bij enkele stations is de totale bodemdaling een optelsom van de geologische bodemdaling en de daling door delfstofwinning. <a href="#tbl-bodemdalingscomponenten" class="quarto-xref">Table&nbsp;<span>4.1</span></a> geeft per station de snelheid van de verschillende bodemdalingscomponenten, de gemeten relatieve zeespiegelstijging en de afgeleide absolute zeespiegelstijging. <a href="#fig-totdaling100yr" class="quarto-xref">Figure&nbsp;<span>4.2</span></a> geeft een ruimtelijk beeld van de gecombineerde bodemdaling door geologische bodemdaling en daling door winning. <a href="06_appendix.html#sec-bodemdalingscomponenten" class="quarto-xref"><span>Section 1</span></a> geeft enkele achtergronden bij de verschillende bodemdalingscomponenten.</p>
+<p>Bij de meeste stations is de totale bodemdaling dus gelijk aan de geologische bodemdaling, maar bij enkele stations is de totale bodemdaling een optelsom van de geologische bodemdaling en de daling door delfstofwinning. <a href="#tbl-bodemdalingscomponenten" class="quarto-xref">Table&nbsp;<span>4.1</span></a> geeft per station de snelheid van de verschillende bodemdalingscomponenten, de gemeten relatieve zeespiegelstijging en de afgeleide absolute zeespiegelstijging. <a href="#fig-totdaling100yr" class="quarto-xref">Figure&nbsp;<span>4.3</span></a> geeft een ruimtelijk beeld van de gecombineerde bodemdaling door geologische bodemdaling en daling door winning. <a href="06_appendix.html#sec-bodemdalingscomponenten" class="quarto-xref"><span>Section 1</span></a> geeft enkele achtergronden bij de verschillende bodemdalingscomponenten.</p>
 <div id="tbl-bodemdalingscomponenten" class="quarto-float quarto-figure quarto-figure-center anchored">
 <figure class="quarto-float quarto-float-tbl figure">
 <figcaption class="quarto-float-caption-top quarto-float-caption quarto-float-tbl" id="tbl-bodemdalingscomponenten-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
@@ -330,7 +340,7 @@ Table&nbsp;4.1: Uitsplitsing bodemdaling <span class="citation" data-cites="Hijm
 <td>0.23</td>
 <td>0</td>
 <td>0.23</td>
-<td>2.32+0.83=3.15</td>
+<td>2.32 + 0.83 = 3.15</td>
 <td>???</td>
 </tr>
 <tr class="even">
@@ -338,7 +348,7 @@ Table&nbsp;4.1: Uitsplitsing bodemdaling <span class="citation" data-cites="Hijm
 <td>0.33</td>
 <td>0.2</td>
 <td>0.3</td>
-<td>2.40+1.05=3.45</td>
+<td>2.40 + 1.05 = 3.45</td>
 <td>???</td>
 </tr>
 <tr class="odd">
@@ -346,7 +356,7 @@ Table&nbsp;4.1: Uitsplitsing bodemdaling <span class="citation" data-cites="Hijm
 <td>0.42</td>
 <td>0</td>
 <td>0.42</td>
-<td>2.09+0.40=2.49</td>
+<td>2.09 + 0.40 = 2.49</td>
 <td>???</td>
 </tr>
 <tr class="even">
@@ -354,7 +364,7 @@ Table&nbsp;4.1: Uitsplitsing bodemdaling <span class="citation" data-cites="Hijm
 <td>0.48</td>
 <td>0</td>
 <td>0.48</td>
-<td>1.35+1.79=3.14</td>
+<td>1.35 + 1.79 = 3.14</td>
 <td>???</td>
 </tr>
 <tr class="odd">
@@ -362,7 +372,7 @@ Table&nbsp;4.1: Uitsplitsing bodemdaling <span class="citation" data-cites="Hijm
 <td>0.37</td>
 <td>0</td>
 <td>0.37</td>
-<td>0.86+2.84=3.7</td>
+<td>0.86 + 2.84 = 3.7</td>
 <td>???</td>
 </tr>
 <tr class="even">
@@ -370,7 +380,7 @@ Table&nbsp;4.1: Uitsplitsing bodemdaling <span class="citation" data-cites="Hijm
 <td>0.39</td>
 <td>4</td>
 <td>0.39</td>
-<td>1.62+2.27=3.89</td>
+<td>1.62 + 2.27 = 3.89</td>
 <td>???</td>
 </tr>
 </tbody>
@@ -384,13 +394,15 @@ Table&nbsp;4.1: Uitsplitsing bodemdaling <span class="citation" data-cites="Hijm
 <img src="images/Totaledaling1926_2025.png" class="img-fluid figure-img" style="width:80.0%">
 </div>
 <figcaption class="quarto-float-caption-bottom quarto-float-caption quarto-float-fig" id="fig-totdaling100yr-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
-Figure&nbsp;4.2: Totale bodemdaling in het kustgebied in de laatste 100 jaar <span class="citation" data-cites="Hijma2026">(<a href="05_literatuur.html#ref-Hijma2026" role="doc-biblioref">Hijma et al. 2026, verwacht</a>)</span>
+Figure&nbsp;4.3: Totale bodemdaling in het kustgebied in de laatste 100 jaar <span class="citation" data-cites="Hijma2026">(<a href="05_literatuur.html#ref-Hijma2026" role="doc-biblioref">Hijma et al. 2026, verwacht</a>)</span>
 </figcaption>
 </figure>
 </div>
 </section>
-<section id="vergelijking-met-projecties-sec-scenarios" class="level2" data-number="4.5">
-<h2 data-number="4.5" class="anchored" data-anchor-id="vergelijking-met-projecties-sec-scenarios"><span class="header-section-number">4.5</span> Vergelijking met projecties (#sec-scenarios)</h2>
+<section id="vergelijking-met-projecties-sec-scenarios" class="level2" data-number="4.6">
+<h2 data-number="4.6" class="anchored" data-anchor-id="vergelijking-met-projecties-sec-scenarios"><span class="header-section-number">4.6</span> Vergelijking met projecties (#sec-scenarios)</h2>
+<p>De geprojecteerde zeespiegelwaarden van KNMI24(laagste IPCC scenario ?) sluiten goed aan op de zeespiegelmetingen (gecorrigeerd voor windopzetvariatie en getij),</p>
+<p>De geprojecteerde zeespiegelstijging is op het oog iets groter dan de modelfit door de metingen. Vooral doordat de metingen voor de jaren 2023 en 2024 nog hoger dan de geprojecteerde waarden lijkt de aansluiting bijna naadloos.</p>
 <div class="quarto-figure quarto-figure-center">
 <figure class="figure">
 <p><img src="images/vergelijking-projecties-metingen-concept-26.png" class="img-fluid figure-img"></p>
@@ -398,14 +410,15 @@ Figure&nbsp;4.2: Totale bodemdaling in het kustgebied in de laatste 100 jaar <sp
 </figure>
 </div>
 </section>
-<section id="sec-budgetten" class="level2" data-number="4.6">
-<h2 data-number="4.6" class="anchored" data-anchor-id="sec-budgetten"><span class="header-section-number">4.6</span> Vergelijking met zeespiegelbudgetten</h2>
+<section id="sec-budgetten" class="level2" data-number="4.7">
+<h2 data-number="4.7" class="anchored" data-anchor-id="sec-budgetten"><span class="header-section-number">4.7</span> Vergelijking met zeespiegelbudgetten</h2>
 </section>
-<section id="sec-ruimtelijke-variatie" class="level2" data-number="4.7">
-<h2 data-number="4.7" class="anchored" data-anchor-id="sec-ruimtelijke-variatie"><span class="header-section-number">4.7</span> Variatie binnen Nederland</h2>
-<p>De analyse en bepaling van de zeespiegelstijging aan de Nederlandse kust wordt gedaan aan het gemiddelde van alle hoofdstations (voorlopig even zonder Delfzijl). Als we dezelfde methode toepassen op de individuele stations krijgen we een idee van de variatie in zeespiegelstijging door de tijd langs de Nederlandse kust (<a href="#fig-slr-hoofdstations" class="quarto-xref">Figure&nbsp;<span>4.3</span></a>). In de figuur valt het volgende op:</p>
+<section id="sec-ruimtelijke-variatie" class="level2" data-number="4.8">
+<h2 data-number="4.8" class="anchored" data-anchor-id="sec-ruimtelijke-variatie"><span class="header-section-number">4.8</span> Variatie binnen Nederland</h2>
+<p>De analyse en bepaling van de zeespiegelstijging aan de Nederlandse kust wordt gedaan aan het gemiddelde van alle hoofdstations (voorlopig even zonder Delfzijl). We hebben gezien dat het gebroken lineare model het best passende model is voor de gemiddelde zeespiegel over alle stations. Als we dezelfde methode toepassen op de individuele stations krijgen we een idee van de variatie in zeespiegelstijging door de tijd langs de Nederlandse kust (<a href="#fig-slr-hoofdstations" class="quarto-xref">Figure&nbsp;<span>4.4</span></a>). In de figuur valt het volgende op:</p>
 <ol type="1">
-<li>De stations in het Waddengebied vertonen een sterkere “knik”, wat betekent dat de gemiddelde stijging na 1993 meer verhoogd is t.o.v. vóór 1993 dan bij de stations aan de Hollandse kust.</li>
+<li>De stations in het Waddengebied vertonen een sterkere “knik”, wat betekent dat de gemiddelde stijging na 1993 meer verhoogd is t.o.v. vóór 1993 dan bij de stations aan de Hollandse kust.<br>
+</li>
 <li>Bij verschillende stations zijn er zichtbare uitschieters gedurende bepaalde perioden. Dit verschilt per station.</li>
 </ol>
 <div id="fig-slr-hoofdstations" class="quarto-float quarto-figure quarto-figure-center anchored">
@@ -414,16 +427,19 @@ Figure&nbsp;4.2: Totale bodemdaling in het kustgebied in de laatste 100 jaar <sp
 <img src="https://github.com/Deltares-research/sealevelmonitor/raw/develop_reporting26_willem/analysis/sealevelmonitor/10_sealevelanalysis_files/figure-gfm/prediction-plot_preferred-model-1.png" class="img-fluid figure-img">
 </div>
 <figcaption class="quarto-float-caption-bottom quarto-float-caption quarto-float-fig" id="fig-slr-hoofdstations-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
-Figure&nbsp;4.3: Gemeten Zeespiegel met de best passende lijn voor het voorkeursmodel (gebroken lineaire model) voor alle hoofdstations.
+Figure&nbsp;4.4: Gemeten Zeespiegel met het voorkeursmodel (gebroken lineair) voor alle hoofdstations.
 </figcaption>
 </figure>
 </div>
+<p>De zeespiegelstijging vóór de knik in 1993 is voor de stations in de Waddenzee blijft duidelijk achter bij die van de stations aan de Hollandse kust. De total trend na 1993 is weer vrijwel gelijk voor alle stations (<span class="quarto-unresolved-ref">?fig-zeespiegelstijging-alle-stations</span>), alhoewel de trend bij IJmuiden wat achterloopt op de rest. Er is eerder al gesuggereerd dat de wat trage stijging in de Waddenzee te maken zou kunnen hebben met de aanleg van de Afsluitdijk en de daarbij afgesloten Zuiderzee (refs), maar over de mechanismen was niet veel gerapporteerd.</p>
+<p><a href="link-to-plot" id="fig-zeespiegelstijging-alle-stations">placeholder zss plot voor alle zes station</a></p>
+<p>Door de langjarige informatie over de veranderingen stromingen, getij en zoutgehalte vrij abrupt veranderd. Door de veranderde morfologie is een proces in gang gezet waardoor de westelijke Waddenzee zich decennialang heeft ‘aangepast’ aan de nieuwe omstandigheden, met veranderingen in vooral morfologie, maar daardoor ook weer verandering in getij en stroming tot gevolg. De zoetwaterverdeling vanuit het IJsselmeer is deels daardoor, en deels door veranderde afvoer van de IJssel ook over een lange periode in de 20e eeuw veranderd. Dit is verder uitgewerkt in &lt;link naar rapport, en bijlage&gt;</p>
 </section>
-<section id="vergelijking-met-satellietmetingen" class="level2" data-number="4.8">
-<h2 data-number="4.8" class="anchored" data-anchor-id="vergelijking-met-satellietmetingen"><span class="header-section-number">4.8</span> Vergelijking met satellietmetingen</h2>
+<section id="vergelijking-met-satellietmetingen" class="level2" data-number="4.9">
+<h2 data-number="4.9" class="anchored" data-anchor-id="vergelijking-met-satellietmetingen"><span class="header-section-number">4.9</span> Vergelijking met satellietmetingen</h2>
 </section>
-<section id="lijst-met-gebruikte-afkortingen" class="level2" data-number="4.9">
-<h2 data-number="4.9" class="anchored" data-anchor-id="lijst-met-gebruikte-afkortingen"><span class="header-section-number">4.9</span> Lijst met gebruikte afkortingen</h2>
+<section id="lijst-met-gebruikte-afkortingen" class="level2" data-number="4.10">
+<h2 data-number="4.10" class="anchored" data-anchor-id="lijst-met-gebruikte-afkortingen"><span class="header-section-number">4.10</span> Lijst met gebruikte afkortingen</h2>
 <dl>
 <dt><span id="acronyms_GTSM">GTSM</span></dt>
 <dd>
