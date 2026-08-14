@@ -33,16 +33,21 @@ In paragraaf \@ref(sec-modelkeuze) wordt uitgelegd hoe we tot een voorkeursmodel
 
 ## Huidige zeespiegel(stijging) {#sec-huidige}
 
-Op basis van de gegevens en het voorkeursmodel kunnen we de volgende conclusies trekken over de stijging van de zeespiegel aan de Nederlandse kust:
+Op basis van de gegevens over alle jaren, inclusief de meest recente t/m 2025, en met gebruik van het voorkeursmodel kunnen we de volgende conclusies trekken over de zeespiegelstijging aan de Nederlandse kust:
 
 - De lineaire trend tot 1993 bedraagt 1.8 +/- 0.1 mm/jaar.
 - De extra trend na 1993 bedraagt 1.4 +/- 0.3 mm/jaar.
 - Na 1993 is de totale trend verhoogd en bedraagt 3.2 +/- 0.3 mm/jaar.
 
+De bijdragen van windopzet, nodaal getij en het residu ijn allemaal in dezelfde ordegrootte. 
 
 
-![Gemeten zeespiegel (height), trend (fitted_total) en de bijdragen van de verschillende processen in het verloop van de zeespiegel in de tijd.](https://github.com/Deltares-research/sealevelmonitor/raw/main/analysis/sealevelmonitor/sealevelmonitor_files/figure-gfm/partials-1.png)
+![Gemeten zeespiegel (height), trend (fitted_total) en de bijdragen van de verschillende processen in het verloop van de zeespiegel in de tijd.](https://github.com/Deltares-research/sealevelmonitor/raw/main/analysis/sealevelmonitor/20_sealevelmonitor_files/figure-gfm/partials-1.png){#fig-huidige-zeespiegel}
 
+
+## Nodaal getij
+
+Zoals te zien is in @
 
 
 ## Bodemdaling en zeespiegelstijging {#sec-bodemdaling}
@@ -60,12 +65,12 @@ Bij de meeste stations is de totale bodemdaling dus gelijk aan de geologische bo
 
 | station | Geologische bodemdaling (mm/jaar) | Daling door winning (mm/jaar) | Totale bodemdaling (mm/jaar) | Huidige relatieve ZSS (mm/jaar) | Huidige absolute ZSS (mm/jaar) |
 |------------|------------|------------|------------|------------|------------|
-| Vlissingen | 0.23 | 0 | 0.23 | 2.32+0.83=3.15 | ??? |
-| Hoek van Holland | 0.33 | 0.2 | 0.3 | 2.40+1.05=3.45 | ??? |
-| IJmuiden | 0.42 | 0 | 0.42 | 2.09+0.40=2.49 | ??? |
-| Den Helder | 0.48 | 0 | 0.48 | 1.35+1.79=3.14 | ??? |
-| Harlingen | 0.37 | 0 | 0.37 | 0.86+2.84=3.7 | ??? |
-| Delfzijl | 0.39 | 4 | 0.39 | 1.62+2.27=3.89 | ??? |
+| Vlissingen | 0.23 | 0 | 0.23 | 2.32 + 0.83 = 3.15 | ??? |
+| Hoek van Holland | 0.33 | 0.2 | 0.3 | 2.40 + 1.05 = 3.45 | ??? |
+| IJmuiden | 0.42 | 0 | 0.42 | 2.09 + 0.40 = 2.49 | ??? |
+| Den Helder | 0.48 | 0 | 0.48 | 1.35 + 1.79 = 3.14 | ??? |
+| Harlingen | 0.37 | 0 | 0.37 | 0.86 + 2.84 = 3.7 | ??? |
+| Delfzijl | 0.39 | 4 | 0.39 | 1.62 + 2.27 = 3.89 | ??? |
 : Uitsplitsing bodemdaling [op basis van @Hijma2025b and @Hijma2026] en zeespiegelstijging per station (dit rapport). Geologische bodemdaling is constant op tijdschalen van eeuwen, de dalingssnelheid door winning is berekend voor de periode 1996-2025. De totale bodemdaling bij Hoek van Holland is inclusief daling door winning, bij Delfzijl exclusief daling door winning (zie tekst). De gemiddelde relatieve zeespiegelstijging is gemeten over de periode xxx (gebroken lineair model). Het 66%-betrouwbaarheidsinterval staat tussen haakjes vermeld. {#tbl-bodemdalingscomponenten}
 
 
@@ -73,20 +78,35 @@ Bij de meeste stations is de totale bodemdaling dus gelijk aan de geologische bo
 
 ## Vergelijking met projecties (#sec-scenarios)
 
+De geprojecteerde zeespiegelwaarden van KNMI24(laagste IPCC scenario ?) sluiten goed aan op de zeespiegelmetingen (gecorrigeerd voor windopzetvariatie en getij), 
+
+De geprojecteerde zeespiegelstijging is op het oog iets groter dan de modelfit door de metingen. Vooral doordat de metingen voor de jaren 2023 en 2024 nog hoger dan de geprojecteerde waarden lijkt de aansluiting bijna naadloos. 
+
 ![Gemeten zeespiegel gefit met het gebroken lineaire model, en de KNMI projecties (jaar?) voor de Nederlandse kust afgeleid van het laagste ICPP scenario. ](images/vergelijking-projecties-metingen-concept-26.png)
 
 ## Vergelijking met zeespiegelbudgetten {#sec-budgetten}
 
 ## Variatie binnen Nederland {#sec-ruimtelijke-variatie}
 
-De analyse en bepaling van de zeespiegelstijging aan de Nederlandse kust wordt gedaan aan het gemiddelde van alle hoofdstations (voorlopig even zonder Delfzijl). Als we dezelfde methode toepassen op de individuele stations krijgen we een idee van de variatie in zeespiegelstijging door de tijd langs de Nederlandse kust (@fig-slr-hoofdstations). In de figuur valt het volgende op:
 
-1) De stations in het Waddengebied vertonen een sterkere "knik", wat betekent dat de gemiddelde stijging na 1993 meer verhoogd is t.o.v. vóór 1993 dan bij de stations aan de Hollandse kust. 
+De analyse en bepaling van de zeespiegelstijging aan de Nederlandse kust wordt gedaan aan het gemiddelde van alle hoofdstations (voorlopig even zonder Delfzijl). We hebben gezien dat het gebroken lineare model het best passende model is voor de gemiddelde zeespiegel over alle stations. Als we dezelfde methode toepassen op de individuele stations krijgen we een idee van de variatie in zeespiegelstijging door de tijd langs de Nederlandse kust (@fig-slr-hoofdstations). In de figuur valt het volgende op:
+
+1) De stations in het Waddengebied vertonen een sterkere "knik", wat betekent dat de gemiddelde stijging na 1993 meer verhoogd is t.o.v. vóór 1993 dan bij de stations aan de Hollandse kust.  
 1) Bij verschillende stations zijn er zichtbare uitschieters gedurende bepaalde perioden. Dit verschilt per station.
 
 
+![Gemeten Zeespiegel met het voorkeursmodel (gebroken lineair) voor alle hoofdstations.](https://github.com/Deltares-research/sealevelmonitor/raw/develop_reporting26_willem/analysis/sealevelmonitor/10_sealevelanalysis_files/figure-gfm/prediction-plot_preferred-model-1.png){#fig-slr-hoofdstations}
 
-![Gemeten Zeespiegel met de best passende lijn voor het voorkeursmodel (gebroken lineaire model) voor alle hoofdstations.](https://github.com/Deltares-research/sealevelmonitor/raw/develop_reporting26_willem/analysis/sealevelmonitor/10_sealevelanalysis_files/figure-gfm/prediction-plot_preferred-model-1.png){#fig-slr-hoofdstations}
+De zeespiegelstijging vóór de knik in 1993 is voor de stations in de Waddenzee blijft duidelijk achter bij die van de stations aan de Hollandse kust. De total trend na 1993 is weer vrijwel gelijk voor alle stations (@fig-zeespiegelstijging-alle-stations), alhoewel de trend bij IJmuiden wat achterloopt op de rest. Er is eerder al gesuggereerd dat de wat trage stijging in de Waddenzee te maken zou kunnen hebben met de aanleg van de Afsluitdijk en de daarbij afgesloten Zuiderzee (refs), maar over de mechanismen was niet veel gerapporteerd. 
+
+[placeholder zss plot voor alle zes station](link-to-plot){#fig-zeespiegelstijging-alle-stations}
+
+
+
+Door de langjarige informatie over de veranderingen stromingen, getij en zoutgehalte vrij abrupt veranderd. Door de veranderde morfologie is een proces in gang gezet waardoor de westelijke Waddenzee zich decennialang heeft 'aangepast' aan de nieuwe omstandigheden, met veranderingen in vooral morfologie, maar daardoor ook weer verandering in getij en stroming tot gevolg. De zoetwaterverdeling vanuit het IJsselmeer is deels daardoor, en deels door veranderde afvoer van de IJssel ook over een lange periode in de 20e eeuw veranderd. Dit is verder uitgewerkt in <link naar rapport, en bijlage>  
+
+
+
 
 ## Vergelijking met satellietmetingen
 

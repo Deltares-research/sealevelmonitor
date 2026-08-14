@@ -25,6 +25,7 @@ book:
     - index.qmd
     - samenvatting.qmd
     - 01_inleiding.qmd
+    # - 015_zeespiegelaspecten.qmd
     - 02_methodiek.qmd
     - 03_resultaten.qmd
     - 04_discussie.qmd
@@ -45,7 +46,7 @@ link-citations: true
 format:
   html:
     theme: cosmo
-    css: 
+    css:
         - styles.css
         - draft.css
   # pdf:
@@ -54,10 +55,13 @@ format:
   #   # extra_dependencies: ["flafter"]
   #   include-in-header:
   #     - preamble.tex
-  #   latex_engine: pdflatex
+  #   pdf-engine: pdflatex
   #   keep_tex: true
   #   # biblio-config: false
   #   cite-method: natbib   # natbib
+  # docx: 
+  #   default
+  
 
 
 filters:
