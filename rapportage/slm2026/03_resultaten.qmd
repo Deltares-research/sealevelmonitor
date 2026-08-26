@@ -60,12 +60,12 @@ Bij de meeste stations is de totale bodemdaling dus gelijk aan de geologische bo
 
 | station | Geologische bodemdaling (mm/jaar) | Daling door winning (mm/jaar) | Totale bodemdaling (mm/jaar) | Huidige relatieve ZSS (mm/jaar) | Huidige absolute ZSS (mm/jaar) |
 |------------|------------|------------|------------|------------|------------|
-| Vlissingen | 0.23 | 0 | 0.23 | 2.32+0.83=3.15 | ??? |
-| Hoek van Holland | 0.33 | 0.2 | 0.3 | 2.40+1.05=3.45 | ??? |
-| IJmuiden | 0.42 | 0 | 0.42 | 2.09+0.40=2.49 | ??? |
-| Den Helder | 0.48 | 0 | 0.48 | 1.35+1.79=3.14 | ??? |
-| Harlingen | 0.37 | 0 | 0.37 | 0.86+2.84=3.7 | ??? |
-| Delfzijl | 0.39 | 4 | 0.39 | 1.62+2.27=3.89 | ??? |
+| Vlissingen | 0.23 | 0 | 0.23 | 2.32+0.83=3.15 | 2.92 |
+| Hoek van Holland | 0.33 | 0.2 | 0.53 | 2.40+1.05=3.45 | 2.92 |
+| IJmuiden | 0.42 | 0 | 0.42 | 2.09+0.40=2.49 | 2.07 |
+| Den Helder | 0.48 | 0 | 0.48 | 1.35+1.79=3.14 | 2.66 |
+| Harlingen | 0.37 | 0 | 0.37 | 0.86+2.84=3.7 | 3.33 |
+| Delfzijl | 0.39 | 4 | 0.39 | 1.62+2.27=3.89 | 3.50 |
 : Uitsplitsing bodemdaling [op basis van @Hijma2025b and @Hijma2026] en zeespiegelstijging per station (dit rapport). Geologische bodemdaling is constant op tijdschalen van eeuwen, de dalingssnelheid door winning is berekend voor de periode 1996-2025. De totale bodemdaling bij Hoek van Holland is inclusief daling door winning, bij Delfzijl exclusief daling door winning (zie tekst). De gemiddelde relatieve zeespiegelstijging is gemeten over de periode xxx (gebroken lineair model). Het 66%-betrouwbaarheidsinterval staat tussen haakjes vermeld. {#tbl-bodemdalingscomponenten}
 
 
