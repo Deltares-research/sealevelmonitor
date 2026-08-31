@@ -24,6 +24,9 @@ jobs:
       - name: Set up Quarto
         uses: quarto-dev/quarto-actions/setup@v2
 
+      - name: Check R
+        run: R --version
+
       - name: Render book
         working-directory: rapportage/slm2026
         run: quarto render
