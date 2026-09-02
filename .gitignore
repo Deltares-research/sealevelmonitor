@@ -184,3 +184,7 @@ _freeze/
 
 /.quarto/
 **/*.quarto_ipynb
+
+#MacOS
+analysis/.DS_Store
+data/.DS_Store

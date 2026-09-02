@@ -39,6 +39,7 @@ book:
 bibliography: 
   - bib/sealevel.bib
   - bib/dees.bib
+  - bib/dewi.bib
 
 link-citations: true
 
