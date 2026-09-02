@@ -60,23 +60,37 @@ Er zijn twee stations waar ook bodemdaling door gaswinning heeft plaatsgevonden,
 
 Station Harlingen wordt waarschijnlijk al enigszins beïnvloed door bodemdaling door zoutwinning, al is de gemodelleerde invloed momenteel nog zeer gering en van recente datum. De zoutwinning vindt plaats op de Waddenzee ten westen van Harlingen en naar verwachting zal hierdoor de komende 30 jaar een aantal centimeter bodemdaling optreden bij Harlingen [@Hijma2025c; @Hijma2026]. De onzekerheid is echter groot en een kleine verschuiving in de vorm of positie van de bodemdalingsschotel kan resulteren in geen extra bodemdaling of juist nog enkele centimeters meer. De extra bodemdaling wordt gemonitord, waardoor een eventuele impact op de zeespiegelmetingen goed in beeld zal komen.
 
-Bij de meeste stations is de totale bodemdaling dus gelijk aan de geologische bodemdaling, maar bij enkele stations is de totale bodemdaling een optelsom van de geologische bodemdaling en de daling door delfstofwinning. @tbl-bodemdalingscomponenten geeft per station de snelheid van de verschillende bodemdalingscomponenten, de gemeten relatieve zeespiegelstijging en de afgeleide absolute zeespiegelstijging. @fig-totdaling100yr geeft een ruimtelijk beeld van de gecombineerde bodemdaling door geologische bodemdaling en daling door winning. @sec-bodemdalingscomponenten geeft enkele achtergronden bij de verschillende bodemdalingscomponenten.
+Bij de meeste stations is de totale bodemdaling dus gelijk aan de geologische bodemdaling, maar bij enkele stations is de totale bodemdaling een optelsom van de geologische bodemdaling en de daling door delfstofwinning. @tbl-bodemdalingscomponenten geeft per station de snelheid van de verschillende bodemdalingscomponenten, de gemeten relatieve zeespiegelstijging en de afgeleide absolute zeespiegelstijging. Hierbij valt op dat IJmuiden een afwijkend lage ZSS heeft, zie hiervoor ook **welke sectie moet ik naar verwijzen?**. De data voor Delfzijl zijn scheefgedrukt omdat niet helemaal zeker is in hoeverre de recente waterstandsmetingen gecorrigeerd zijn voor bodemdaling door winning (zie ook @sec-metingen-en-recente-correcties). @fig-totdaling100yr geeft een ruimtelijk beeld van de gecombineerde bodemdaling door geologische bodemdaling en daling door winning. @sec-bodemdalingscomponenten geeft enkele achtergronden bij de verschillende bodemdalingscomponenten.
 
 
 | station | Geologische bodemdaling (mm/jaar) | Daling door winning (mm/jaar) | Totale bodemdaling (mm/jaar) | Huidige relatieve ZSS (mm/jaar) | Huidige absolute ZSS (mm/jaar) |
 |------------|------------|------------|------------|------------|------------|
-| Vlissingen | 0.23 | 0 | 0.23 | 2.32 + 0.83 = 3.15 | ??? |
-| Hoek van Holland | 0.33 | 0.2 | 0.3 | 2.40 + 1.05 = 3.45 | ??? |
-| IJmuiden | 0.42 | 0 | 0.42 | 2.09 + 0.40 = 2.49 | ??? |
-| Den Helder | 0.48 | 0 | 0.48 | 1.35 + 1.79 = 3.14 | ??? |
-| Harlingen | 0.37 | 0 | 0.37 | 0.86 + 2.84 = 3.7 | ??? |
-| Delfzijl | 0.39 | 4 | 0.39 | 1.62 + 2.27 = 3.89 | ??? |
-: Uitsplitsing bodemdaling [op basis van @Hijma2025b and @Hijma2026] en zeespiegelstijging per station (dit rapport). Geologische bodemdaling is constant op tijdschalen van eeuwen, de dalingssnelheid door winning is berekend voor de periode 1996-2025. De totale bodemdaling bij Hoek van Holland is inclusief daling door winning, bij Delfzijl exclusief daling door winning (zie tekst). De gemiddelde relatieve zeespiegelstijging is gemeten over de periode xxx (gebroken lineair model). Het 66%-betrouwbaarheidsinterval staat tussen haakjes vermeld. {#tbl-bodemdalingscomponenten}
+| Vlissingen | 0.23 | 0 | 0.23 | 2.32+0.83=3.15 | 2.92 |
+| Hoek van Holland | 0.33 | 0.2 | 0.53 | 2.40+1.05=3.45 | 2.92 |
+| IJmuiden | 0.42 | 0 | 0.42 | 2.09+0.40=2.49 | 2.07 |
+| Den Helder | 0.48 | 0 | 0.48 | 1.35+1.79=3.14 | 2.66 |
+| Harlingen | 0.37 | 0 | 0.37 | 0.86+2.84=3.7 | 3.33 |
+| *Delfzijl* | *0.39* | *4* | *4.39* | *1.62+2.27=3.89* | *3.50* |
+: Uitsplitsing bodemdaling [op basis van @Hijma2025b and @Hijma2026] en zeespiegelstijging per station (dit rapport). Geologische bodemdaling is constant op tijdschalen van eeuwen, de dalingssnelheid door winning is berekend voor de periode 1996-2025. Voor Delfzijl is bij de bepaling van de absolute zeespiegelsnelheid aangenomen dat de waterstandsmetingen gecorrigeerd zijn voor de daling door winning (zie ook tekst). De gemiddelde relatieve zeespiegelstijging is gemeten over de periode **xxx (gebroken lineair model)**. Het 66%-betrouwbaarheidsinterval staat tussen haakjes vermeld. {#tbl-bodemdalingscomponenten}
 
 
 ![Totale bodemdaling in het kustgebied in de laatste 100 jaar [@Hijma2026]](images/Totaledaling1926_2025.png){#fig-totdaling100yr width=80%}
 
-## Vergelijking met projecties (#sec-scenarios)
+## Zeespiegelbudget {#sec-budget}
+
+Aan de ene kant wordt de relatieve zeespiegel gemeten met getijdenmeters langs de Nederlandse kust. Aan de andere kant worden ook de fysische processen die zeespiegelverandering veroorzaken, zoals opwarming van de oceaantemperatuur en het smelten van gletsjers en ijskappen, gemeten met in-situ- en satellietmetingen. We gebruiken aardmodellen van zwaartekracht, rotatie en elastische vervorming van het land om het smelten van landijs te koppelen aan veranderingen in de relatieve zeespiegel langs de kust. Hierdoor kunnen we controleren of de som van de fysische mechanismen die invloed hebben op zeespiegelverandering in lijn ligt met de zeespiegelwaarnemingen. In de afgelopen 10 jaar is grote vooruitgang geboekt om de balans (@frederikse_closing_2016 en @camargo_regionalizing_2023) te verfijnen, tot het punt dat deze methode nu een uitgebreid inzicht kan bieden in de redenen voor zeespiegelverandering langs de Nederlandse kust (@le_bars_connecting_2025).
+
+Eerdere zeespiegelmonitor rapporten bevatten al een bespreking van de oorzaken van zeespiegelstijging, maar het is voor het eerst dat er een volledige budget wordt getoond op interannuele tot multidecadale tijdschalen. Het budget die wij presenteren is ontwikkeld door het KNMI om de KNMI’23-zeespiegelscenario's te ontwikelen (@le_bars_constraining_2025, @le_bars_connecting_2025). Het biedt een budget voor de gemiddelde zeespiegel van zes getijdenstations langs de kust (Vlissingen, Hoek van Holland, IJmuiden, Den Helder, Harlingen, Delfzijl). We merken drie verschillen op met de oorspronkelijk gepubliceerde resultaten (@van_dorland_knmi_2023). Ten eerste begint de balans nu in 1960 in plaats van in 1993. Het jaar 1993 is nuttig omdat het vergelijking met satellietaltimetriegegevens mogelijk maakt, maar het gebruik van het jaar 1960 levert een langere tijdreeks op waarmee veranderingen op de lange termijn kunnen worden geanalyseerd. Ten tweede is de bijdrage van ijscapssels na 2018 uitgebreid met behulp van de satellietmissies GRACE en GRACE-FO, in plaats van een lineaire extrapolatie van de oorspronkelijke tijdreeks van @Frederikse2020. Ten derde is de balans bijgewerkt tot en met 2025, terwijl de oorspronkelijke liep tot en met 2021.
+
+In het bovenste paneel van @fig-budget zijn de jaarlijkse zeespiegelobservaties weergegeven met stalenblauwe stippen. Dit kan worden vergeleken met de som van alle bijdragen in het rood. De kwadratisch gemiddelde afwijking (root mean square error) tussen de twee tijdreeksen bedraagt 1,1 cm. Tijdreeksen van de belangrijkste factoren achter de zeespiegelstand langs de Nederlandse kust worden eveneens getoond. De belangrijkste factoren voor zeespiegelvariabiliteit zijn wind en luchtdruk (@sec-winsopzetcorrectie), de 18,6-jarige nodaal cyclus en sterische effecten. De regionale en mondiale sterische bijdrage vertegenwoordigt de invloed van veranderingen in temperatuur en zoutgehalte op de zeespiegel. Deze bijdrage is niet lokaal; het vindt niet plaats in de Noordzee omdat deze te ondiep is, maar ontstaat in de diepe oceaan en wordt naar de Noordzee getransporteerd (@calafat_mechanisms_2012). In het paneel linksonder wordt de lineaire trend van elke bijdragende factor getoond en het paneel rechtsonder toont de versnelling. Voor deze panelen zijn sommige factoren verder opgesplitst in afzonderlijke processen. We zien dat de waargenomen trend over de periode 1960-2025 van 2,5 mm/jaar dicht bij de trend van de som van de bijdragen van 2,7 mm/jaar ligt. De belangrijkste bijdragen aan de trend zijn de regionale en mondiale sterische effecten, gevolgd door het smelten van gletsjers en glaciale isostatische aanpassing (GIA, @sec-bodemdaling). De versnelling van de som van de factoren komt eveneens overeen met de waargenomen versnelling. De meeste processen vertonen een versnelling, maar wind draagt bij aan een vertraging. GIA verandert alleen op een tijdschaal van duizenden jaren, waardoor het wel bijdraagt aan de lineaire trend, maar niet aan de versnelling.
+
+![Zeespiegelbudget langs de kust van Nederland tot 2025](images/budget.png){#fig-budget width=80%}
+
+Deze  budget stelt ons in staat om de waargenomen verandering van de zeespiegel toe te schrijven aan specifieke fysische mechanismen op interannuele tot multidecadale tijdschalen. Zo zien we bijvoorbeeld dat de hoge zeespiegelwaarden van 2023 en 2024 werden gedreven door een sterke toename van sterische expansie in combinatie met een bovengemiddelde opwaaiing door de wind, terwijl 2025 lager uitviel omdat de windbijdrage kleiner was dan gebruikelijk.
+
+Deze methode kent haar beperkingen. Wanneer de methode wordt toegepast op individuele getijdenstations, neemt de overeenkomst tussen de waarnemingen en de som van de bijdragende factoren af. Dit is waarschijnlijk te wijten aan lokale fysische processen zoals veranderingen in getijden, rivierafvoer en kustbescherming. Bovendien presenteren we alleen de veranderingen sinds 1960, omdat veranderingen van vóór 1960 niet kunnen worden toegeschreven aan de hier gepresenteerde fysische processen. Dit zou het gevolg kunnen zijn van een gebrek aan waarnemingen van de oceantemperatuur en het zoutgehalte, of van een afname in de kwaliteit van de metingen van getijdenstations. Hoewel Delfzijl in andere secties niet is opgenomen in de gemiddelde zeespiegel langs de kust, is het hier wel inbegrepen, in lijn met de oorspronkelijke KNMI-studies. Het weglaten van Delfzijl uit het gemiddelde heeft echter geen invloed op de belangrijkste conclusies die in deze sectie worden getrokken.
+
+## Vergelijking met scenario's (#sec-scenarios)
 
 De geprojecteerde zeespiegelwaarden van KNMI24(laagste IPCC scenario ?) sluiten goed aan op de zeespiegelmetingen (gecorrigeerd voor windopzetvariatie en getij), 
 
@@ -84,7 +98,6 @@ De geprojecteerde zeespiegelstijging is op het oog iets groter dan de modelfit d
 
 ![Gemeten zeespiegel gefit met het gebroken lineaire model, en de KNMI projecties (jaar?) voor de Nederlandse kust afgeleid van het laagste ICPP scenario. ](images/vergelijking-projecties-metingen-concept-26.png)
 
-## Vergelijking met zeespiegelbudgetten {#sec-budgetten}
 
 ## Variatie binnen Nederland {#sec-ruimtelijke-variatie}
 
@@ -109,8 +122,17 @@ Door de langjarige informatie over de veranderingen stromingen, getij en zoutgeh
 
 
 ## Vergelijking met satellietmetingen
+In [@Stolte2022] werd een vergelijking gemaakt met zeespiegelstand gemeten door satelieten met gebruik van de MEaSURE dataset, gedownload via de NASA Tool. Inmiddels kan er vanaf Copernicus Marine Services (CMEMS) een gecombineerd sateliet product worden gedownload. In het huidige CMEMS product kunnen lokale waterhoogtes nog met een onzekerheid van \~5 cm verschillen, rond de Nederlandse kust zijn onzekerheden van \~10 cm te verwachten. Een van de oorzaken van de grotere onzekerheid bij de kust komt doordat de validatie van het satellietproduct uitgevoerd wordt op de open oceaan, wat andere omstandigheden heeft dan kustgebieden [@CMEMS2024]. De resolutie van het huidige CMEMS product ligt rond de 1/8 graden wat ongeveer overeenkomt met 7 km N-Z en \~4-5 km O-W rondom Nederland. 
 
+Ter vergelijking zijn er twee reeksen geplot met het gecombineerde CMEMS product, een nabij IJmuiden en een nabij Vlissingen. De resultaten zijn weergegeven 4,6 mm/y Vlissingen, 3,9 mm/y IJmuiden ten opzichte van de globale geoïde. Dit is niet gelijk als de absolute zeespiegelstijging zoals omschreven in de methodiek, maar geeft een indicatie weer. 
 
+::: {#fig-sat-comparison layout-ncol=2}
+![SSH Anomalie gecombineerd satellietproduct nabij Ijmuiden](https://github.com/Deltares-research/sealevelmonitor/blob/develop_reporting26_dees/validation/satelllite/output/sea_surface_height_trend_ijmuiden.png?raw=true){#fig-sat-ijmuiden} 
+
+![SSH Anomalie gecombineerd satellietproduct nabij Vlissingen](https://github.com/Deltares-research/sealevelmonitor/blob/develop_reporting26_dees/validation/satelllite/output/sea_surface_height_trend_vlissingen.png?raw=true){#fig-sat-vlissingen}
+
+SSH Anomalie gecombineerd satellietproduct (a) nabij Vlissingen en (b) nabij IJmuiden. De trend is berekend over de periode 1993-2025 [@CMEMS2024].
+:::
 ## Lijst met gebruikte afkortingen
 
 \printacronyms

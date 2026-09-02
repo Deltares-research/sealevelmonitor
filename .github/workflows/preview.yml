@@ -3,6 +3,7 @@
   push:
     branches:
       - develop_reporting*
+      - develop-reporting*
 
 name: Quarto Preview
 
