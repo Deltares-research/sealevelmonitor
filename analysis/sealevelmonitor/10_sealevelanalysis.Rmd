@@ -569,3 +569,56 @@ cat('Based on variance analysis the broken linear model is significantly better 
 cat('Based on variance analysis the broken linear model is not significantly better than the linear model. the linear model is accepted as the preferred model. ')
 
 ```
+
+
+## Tijdseries voor alle stations met voorkeursmodel
+
+
+```{r prediction-plot_preferred-model, eval=T, fig.height=5, fig.width=8, fig.cap= "Observed (corrected for surge anomaly) and predicted sea level for all main stations and the preferred model. "}
+
+all_predictions %>%
+  filter(
+    modeltype == "broken_linear",
+    !grepl("Netherl", station, ignore.case = T)
+    ) %>%
+  
+ggplot(aes(x = data_year)) +
+  geom_point(aes(y = `data_height-surge_anomaly`, color = "observed"), alpha = 0.5, size = 2) +
+  geom_line(aes(y = prediction_recalc, color = "predicted"), linewidth = 2) +
+  facet_wrap("station") +
+  theme(strip.text.y = element_text(angle = 0)) +
+  xlab("jaar") + ylab("zeespiegel in mm t.o.v. NAP(2005)") +
+  theme(legend.title=element_blank())
+
+```
+
+```{r prediction-plot_preferred-model2, eval=T, fig.height=3, fig.width=8, fig.cap= "Observed (corrected for surge anomaly) and predicted sea level for averaged station and the preferred model. "}
+
+all_predictions %>%
+  filter(
+    modeltype == "broken_linear",
+    grepl("Netherl", station, ignore.case = T)
+    ) %>%
+  
+ggplot(aes(x = data_year)) +
+  geom_point(aes(y = `data_height-surge_anomaly`, color = "observed"), alpha = 0.5, size = 2) +
+  geom_line(aes(y = prediction_recalc, color = "predicted"), linewidth = 2) +
+  facet_wrap("station") +
+  theme(strip.text.y = element_text(angle = 0)) +
+  xlab("jaar") + ylab("zeespiegel in mm t.o.v. NAP(2005)") +
+  theme(legend.title=element_blank())
+
+```
+
+```{r zss-mainstations, fig.width=6.5, fig.height=3, fig.cap = ""}
+
+parameterTable %>%
+  filter(modeltype == "broken_linear") %>%
+  filter(term %in% c("Trend", "+ trend 1993")) %>%
+  filter(!grepl("Netherlands", station, ignore.case = T)) %>%
+  ggplot(aes(station, estimate)) +
+  geom_col(aes(fill = term)) +
+  geom_hline(aes(station, "Trend", "+ trend 1993"))
+
+```
+

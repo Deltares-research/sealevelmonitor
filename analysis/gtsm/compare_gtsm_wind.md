@@ -83,6 +83,174 @@ DELFZL
 
 <td style="text-align:center;">
 
+2025
+</td>
+
+<td style="text-align:center;">
+
+40.75
+</td>
+
+</tr>
+
+<tr>
+
+<td style="text-align:center;">
+
+Den Helder
+</td>
+
+<td style="text-align:center;">
+
+DENHDR
+</td>
+
+<td style="text-align:center;">
+
+2025
+</td>
+
+<td style="text-align:center;">
+
+26.97
+</td>
+
+</tr>
+
+<tr>
+
+<td style="text-align:center;">
+
+Harlingen
+</td>
+
+<td style="text-align:center;">
+
+HARLGN
+</td>
+
+<td style="text-align:center;">
+
+2025
+</td>
+
+<td style="text-align:center;">
+
+42.54
+</td>
+
+</tr>
+
+<tr>
+
+<td style="text-align:center;">
+
+Hoek van Holland
+</td>
+
+<td style="text-align:center;">
+
+HOEKVHLD
+</td>
+
+<td style="text-align:center;">
+
+2025
+</td>
+
+<td style="text-align:center;">
+
+14.67
+</td>
+
+</tr>
+
+<tr>
+
+<td style="text-align:center;">
+
+IJmuiden
+</td>
+
+<td style="text-align:center;">
+
+IJMDBTHVN
+</td>
+
+<td style="text-align:center;">
+
+2025
+</td>
+
+<td style="text-align:center;">
+
+22.64
+</td>
+
+</tr>
+
+<tr>
+
+<td style="text-align:center;">
+
+NL
+</td>
+
+<td style="text-align:center;">
+
+NL
+</td>
+
+<td style="text-align:center;">
+
+2025
+</td>
+
+<td style="text-align:center;">
+
+26.00
+</td>
+
+</tr>
+
+<tr>
+
+<td style="text-align:center;">
+
+Vlissingen
+</td>
+
+<td style="text-align:center;">
+
+VLISSGN
+</td>
+
+<td style="text-align:center;">
+
+2025
+</td>
+
+<td style="text-align:center;">
+
+8.42
+</td>
+
+</tr>
+
+<tr>
+
+<td style="text-align:center;">
+
+Delfzijl
+</td>
+
+<td style="text-align:center;">
+
+DELFZL
+</td>
+
+<td style="text-align:center;">
+
 2024
 </td>
 
@@ -12694,14 +12862,17 @@ in its two perpendicular components ***u*** and ***v***.
 list.files("../../data/knmi/metingen")
 ```
 
-    FALSE [1] "dekooy_uurgeg_wind.txt" "etmgeg_235.txt"
+    FALSE [1] "dekooy_uurgeg_wind.txt"   "etmgeg_235.txt"          
+    FALSE [3] "uurgeg_235_2021-2030.txt"
 
 ``` r
 # daggemiddelden (alleen gebruikt voor het berekenen van jaargemiddelden)
 kooy_raw = read_delim("../../data/knmi/metingen/etmgeg_235.txt", comment = "#", trim_ws = T)
 
 # uurgemiddelden voor gebruik in windrozen
-kooy_uur_raw = read_delim("../../data/knmi/metingen/dekooy_uurgeg_wind.txt", comment = "#", trim_ws = T) %>%
+
+
+kooy_uur_raw <- rsealevel::read_knmi_hourly("../../data/knmi/metingen/uurgeg_235_2021-2030.txt") %>%
   rename(
     DDVEC = DD,
     FHVEC = FH
@@ -12718,7 +12889,9 @@ kooy = kooy_raw %>%
    rad = 2*pi - metrad - pi/2,
    rad = ifelse(rad >= 2*pi, rad - 2*pi, rad)
          ) %>%
-  filter(year < params$monitoryear) %>%
+  filter(
+    year < params$monitoryear
+    ) %>%
   group_by(year, STN) %>%
   summarise(
     windspeed = mean(windspeed),
@@ -12744,7 +12917,11 @@ kooy_raw_last_4_years = kooy_uur_raw %>%
     spd = as.numeric(FHVEC) / 10,
     dir = as.numeric(DDVEC)
   ) %>%
-  filter(year %in% yearsToPlot) %>%
+  filter(
+    year %in% yearsToPlot,
+    dir != 990,
+    !is.na(spd)
+  ) %>%
   select(year, spd, dir) %>%
   group_by(year) %>%
   nest()
@@ -12802,7 +12979,7 @@ era5wind %>%
     label = "Annual average wind",
     subtitle = "ERA5 reanalysis for Den Helder - KNMI measured wind at De Kooy."
     ) +
-  theme_minimal()
+  theme_grey()
 ```
 
 ![](compare_gtsm_wind_files/figure-gfm/compareERA5-KNMI-1.png)<!-- -->
@@ -12839,7 +13016,7 @@ gtsm %>%
   geom_smooth(aes(v2, surge_mm, label = year), method = 'lm')
 ```
 
-<img src="compare_gtsm_wind_files/figure-gfm/compareGTSM_KNMI, figures-side-1.png" width="50%" /><img src="compare_gtsm_wind_files/figure-gfm/compareGTSM_KNMI, figures-side-2.png" width="50%" />
+<img src="compare_gtsm_wind_files/figure-gfm/compareGTSM_KNMI, figures-side-1.png" alt="" width="50%" /><img src="compare_gtsm_wind_files/figure-gfm/compareGTSM_KNMI, figures-side-2.png" alt="" width="50%" />
 
 ``` r
 gtsm %>%
@@ -12877,7 +13054,7 @@ gtsm %>%
   ggtitle(label = NULL, subtitle = "GTSM surge and ERA5 wind reanalysis component v")
 ```
 
-<img src="compare_gtsm_wind_files/figure-gfm/compareGTSM_ERA5, figures-side-1.png" width="50%" /><img src="compare_gtsm_wind_files/figure-gfm/compareGTSM_ERA5, figures-side-2.png" width="50%" />
+<img src="compare_gtsm_wind_files/figure-gfm/compareGTSM_ERA5, figures-side-1.png" alt="" width="50%" /><img src="compare_gtsm_wind_files/figure-gfm/compareGTSM_ERA5, figures-side-2.png" alt="" width="50%" />
 
 ``` r
 gtsm %>%

@@ -1,7 +1,7 @@
 Zeespiegelmonitor analysis
 ================
 Willem Stolte, Nathalie Dees
-06 August, 2026
+12 August, 2026
 
 # Sea Level Monitor analysis
 
@@ -5141,5 +5141,55 @@ Based on the above analysis, the following conclusions are drawn:
 Based on variance analysis the broken linear model is significantly
 better than the linear model. the broken linear model is accepted as the
 preferred model.
+
+## Tijdseries voor alle stations met voorkeursmodel
+
+``` r
+all_predictions %>%
+  filter(
+    modeltype == "broken_linear",
+    !grepl("Netherl", station, ignore.case = T)
+    ) %>%
+  
+ggplot(aes(x = data_year)) +
+  geom_point(aes(y = data_height, color = "observed"), alpha = 0.5, size = 2) +
+  geom_line(aes(y = prediction_recalc, color = "predicted"), linewidth = 2) +
+  facet_wrap("station") +
+  theme(strip.text.y = element_text(angle = 0)) +
+  xlab("jaar") + ylab("zeespiegel in mm t.o.v. NAP(2005)") +
+  theme(legend.title=element_blank())
+```
+
+<figure>
+<img
+src="10_sealevelanalysis_files/figure-gfm/prediction-plot_preferred-model-1.png"
+alt="Observed and predicted sea level for all main stations and the preferred model." />
+<figcaption aria-hidden="true">Observed and predicted sea level for all
+main stations and the preferred model.</figcaption>
+</figure>
+
+``` r
+all_predictions %>%
+  filter(
+    modeltype == "broken_linear",
+    grepl("Netherl", station, ignore.case = T)
+    ) %>%
+  
+ggplot(aes(x = data_year)) +
+  geom_point(aes(y = data_height, color = "observed"), alpha = 0.5, size = 2) +
+  geom_line(aes(y = prediction_recalc, color = "predicted"), linewidth = 2) +
+  facet_wrap("station") +
+  theme(strip.text.y = element_text(angle = 0)) +
+  xlab("jaar") + ylab("zeespiegel in mm t.o.v. NAP(2005)") +
+  theme(legend.title=element_blank())
+```
+
+<figure>
+<img
+src="10_sealevelanalysis_files/figure-gfm/prediction-plot_preferred-model2-1.png"
+alt="Observed and predicted sea level for averaged station and the preferred model." />
+<figcaption aria-hidden="true">Observed and predicted sea level for
+averaged station and the preferred model.</figcaption>
+</figure>
 
 </div>
