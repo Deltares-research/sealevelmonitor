@@ -5155,7 +5155,9 @@ ggplot(aes(x = data_year)) +
   geom_point(aes(y = data_height, color = "observed"), alpha = 0.5, size = 2) +
   geom_line(aes(y = prediction_recalc, color = "predicted"), linewidth = 2) +
   facet_wrap("station") +
-  theme(strip.text.y = element_text(angle = 0))
+  theme(strip.text.y = element_text(angle = 0)) +
+  xlab("jaar") + ylab("zeespiegel in mm t.o.v. NAP(2005)") +
+  theme(legend.title=element_blank())
 ```
 
 <figure>
@@ -5177,7 +5179,9 @@ ggplot(aes(x = data_year)) +
   geom_point(aes(y = data_height, color = "observed"), alpha = 0.5, size = 2) +
   geom_line(aes(y = prediction_recalc, color = "predicted"), linewidth = 2) +
   facet_wrap("station") +
-  theme(strip.text.y = element_text(angle = 0))
+  theme(strip.text.y = element_text(angle = 0)) +
+  xlab("jaar") + ylab("zeespiegel in mm t.o.v. NAP(2005)") +
+  theme(legend.title=element_blank())
 ```
 
 <figure>
