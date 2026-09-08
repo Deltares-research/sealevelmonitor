@@ -1,28 +1,17 @@
----
-title: "NAP info"
-author: "Willem Stolte"
-date: "2025-05-19"
-output: github_document
-params:
-  repo_url: "https://github.com/Deltares-research/sealevelmonitor"
----
+NAP info
+================
+Willem Stolte
+2025-05-19
 
-```{r setup, include=FALSE}
-knitr::opts_chunk$set(echo = TRUE, warning = F, message = F, comment = F)
-require(tidyverse)
-require(lubridate)
-source("../sealevelmonitor/_common/functions.R")
-```
-
-
-[Source script](https://github.com/Deltares-research/sealevelmonitor/blob/main/analysis/NAP/napinfo.Rmd)
+[Source
+script](https://github.com/Deltares-research/sealevelmonitor/blob/main/analysis/NAP/napinfo.Rmd)
 
 ## Nulpalen van de kuststations
 
-Via RWS-CIV verkregen informatie uit NAP-info wordt ingelezen en verwerkt. 
+Via RWS-CIV verkregen informatie uit NAP-info wordt ingelezen en
+verwerkt.
 
-
-```{r read-data}
+``` r
 historie_nulpalen <- readxl::read_excel("../../data\\rijkswaterstaat\\NAP\\Historie_nulpalen_20250530.xlsx")
 nulpalen_info <- readxl::read_excel("../../data\\rijkswaterstaat\\NAP\\Nulpalen_info_met_locatie_20250530.xlsx")
 stationLocations <- stationLocations <- sf::st_read("../../data/rijkswaterstaat/waterhoogtestations.geojson", crs= 25831, quiet = T)
@@ -40,14 +29,9 @@ nulpalen_main <- nulpalen_info %>%
 historie_main <- historie_nulpalen %>%
   dplyr::filter(puntnummer %in% nulpalen_main$puntnummer) %>%
 dplyr::left_join(nulpalen_main %>% dplyr::select(puntnummer, locatie, status))  
-
 ```
 
-
-
-
-```{r nap-historie-hoofdstations}
-
+``` r
 plot_nap_historie <- function(naphistory.df){
   
   naphistory.df %>%
@@ -73,9 +57,9 @@ plot_nap_historie <- function(naphistory.df){
 plot_nap_historie(naphistory.df = historie_main)
 ```
 
+![](napinfo_files/figure-gfm/nap-historie-hoofdstations-1.png)<!-- -->
 
-```{r, fig.height=10,fig.width=10}
-
+``` r
 q <- historie_all %>%
   # filter(status == "ACTUEEL") %>%
     mutate(
@@ -126,13 +110,13 @@ r <- q %>%
     # arrange(`verandering in mm/jaar`) #%>%
 
     DT::datatable(r)
-
 ```
+
+![](napinfo_files/figure-gfm/unnamed-chunk-1-1.png)<!-- -->
 
 ## Wat is het verschil in verandering voor en na de NAP aanpassing?
 
-
-```{r}
+``` r
 # check p values and make verandering zero when p > 0.05
 
 r %>% 
@@ -141,12 +125,20 @@ r %>%
   pivot_wider(id_cols = "locatie", names_from = status, values_from = `verandering in mm/jaar`) %>%
   mutate(verschil = `ACTUEEL herberekend` - `ACTUEEL gemeten`) %>%
   arrange(-verschil)
-
-
 ```
 
+    FALSE # A tibble: 6 × 5
+    FALSE # Groups:   locatie [6]
+    FALSE   locatie   `ACTUEEL gemeten` `ACTUEEL herberekend` `VERVALLEN gemeten` verschil
+    FALSE   <chr>                 <dbl>                 <dbl>               <dbl>    <dbl>
+    FALSE 1 Delfzijl             -5.22                 -3.94                NA       1.28 
+    FALSE 2 Den Held…            -0.872                 0                   NA       0.872
+    FALSE 3 Harlingen            -0.706                -0.275               NA       0.431
+    FALSE 4 Vlissing…            -0.5                  -0.26                 0.17    0.24 
+    FALSE 5 Hoek van…            -0.199                 0                   NA       0.199
+    FALSE 6 IJmuiden…             0.061                 0                   NA      -0.061
 
-```{r}
+``` r
 p <- historie_all %>%
     mutate(
         status = case_when(
@@ -169,9 +161,11 @@ p <- historie_all %>%
 p
 ```
 
+![](napinfo_files/figure-gfm/unnamed-chunk-3-1.png)<!-- -->
+
 ## Nulpalen en stations op de kaart
 
-```{r kaartNAP, fig.cap="In rood de getijdestations en in blauw de nulpalen die gekoppeld zijn aan getijdestations. "}
+``` r
 require(sf)
 require(leaflet)
 
@@ -190,3 +184,9 @@ saveWidget(m, file="nap-map.html")
 m
 ```
 
+<figure>
+<img src="napinfo_files/figure-gfm/kaartNAP-1.png"
+alt="In rood de getijdestations en in blauw de nulpalen die gekoppeld zijn aan getijdestations." />
+<figcaption aria-hidden="true">In rood de getijdestations en in blauw de
+nulpalen die gekoppeld zijn aan getijdestations.</figcaption>
+</figure>
