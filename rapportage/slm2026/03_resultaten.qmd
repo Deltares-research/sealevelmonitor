@@ -33,22 +33,32 @@ In paragraaf \@ref(sec-modelkeuze) wordt uitgelegd hoe we tot een voorkeursmodel
 
 ## Huidige zeespiegel(stijging) {#sec-huidige}
 
-Op basis van de gegevens over alle jaren, inclusief de meest recente t/m 2025, en met gebruik van het voorkeursmodel kunnen we de volgende conclusies trekken over de zeespiegelstijging aan de Nederlandse kust:
+Op basis van de gegevens over alle jaren, inclusief de meest recente t/m 2025, en met gebruik van het voorkeursmodel zijn vanuit de gemeten waterhoogte en de afwijking van de windopzet van het gemiddelde bepaald:
+
+- de trend over de afgelopen jaren
+- het nodaal getij
+- het residu, dat wil zeggen het onverklaarde deel van de variatie in de metingen. 
+
+Uit de berekende trendlijn volgen de volgende conclusies over de zeespiegelstijging aan de Nederlandse kust:
 
 - De lineaire trend tot 1993 bedraagt 1.8 +/- 0.1 mm/jaar.
 - De extra trend na 1993 bedraagt 1.4 +/- 0.3 mm/jaar.
 - Na 1993 is de totale trend verhoogd en bedraagt 3.2 +/- 0.3 mm/jaar.
 
-De bijdragen van windopzet, nodaal getij en het residu ijn allemaal in dezelfde ordegrootte. 
+De bijdragen van windopzet, nodaal getij en het residu aan de variatie in de gemeten waterhoogte zijn alle drie in dezelfde ordegrootte. 
 
+Opvallend was dat de gemeten zeespiegel twee jaar op rij (namelijk in 2023 en 2024) ruim boven de verwachte zeespiegel (bruine lijn) lag. Dit was nog niet eerder gebeurd in de periode vanaf 1950. In 2025 was dit weer niet het geval. Dit is van belang, omdat een grote afwijking van metingen ten opzichte van het model, vooral in de "uiteinden", erop kan wijzen dat het gebruikte model moet worden herzien. Op dit moment zie we daar nog geen aanleiding toe. 
 
-![Gemeten zeespiegel (height), trend (fitted_total) en de bijdragen van de verschillende processen in het verloop van de zeespiegel in de tijd.](https://github.com/Deltares-research/sealevelmonitor/raw/main/analysis/sealevelmonitor/20_sealevelmonitor_files/figure-gfm/partials-1.png){#fig-huidige-zeespiegel}
+![Gemeten zeespiegel (height), trend (fitted_total) en de bijdragen van de verschillende processen in het verloop van de zeespiegel in de tijd. De onderste drie lijnen zijn getransformeerd zodat ze beter te zien zijn. In werkelijkheid zijn dit afwijkingen van de nullijn. ](https://github.com/Deltares-research/sealevelmonitor/raw/main/analysis/sealevelmonitor/20_sealevelmonitor_files/figure-gfm/partials-1.png){#fig-huidige-zeespiegel}
 
 
 ## Nodaal getij
 
-Zoals te zien is in @
+Het nodaal getij wordt samen met de trend (en het residu) berekend uit de waterhoogtegevens (zie paragraaf \@ref(sec-modelkeuze)). De amplitude wordt geschat op .. mm. In 2025 is het nodaal getij net over een maximum heen, en dus aan het afnemen. De verwachting is dan ook dat de komende jaren weer een iets lagere gemeten zeespiegel zullen laten zien vergeleken met de afgelopen pakweg 5 jaar. 
 
+## Residu
+
+Het residu in figuur is de variatie die overblijft wanneer de windopzetanomalie, het nodaal getij en de trendlijn zijn afgetrokken van de gemeten waterhoogtes. Het is te zien dat de variatie van het residu kleiner is over de periode waar jaarlijkse windopzet beschikbaar is (vanaf 1950). 
 
 ## Bodemdaling en zeespiegelstijging {#sec-bodemdaling}
 
@@ -76,6 +86,7 @@ Bij de meeste stations is de totale bodemdaling dus gelijk aan de geologische bo
 
 ![Totale bodemdaling in het kustgebied in de laatste 100 jaar [@Hijma2026]](images/Totaledaling1926_2025.png){#fig-totdaling100yr width=80%}
 
+
 ## Zeespiegelbudget {#sec-budget}
 
 Aan de ene kant wordt de relatieve zeespiegel gemeten met getijdenmeters langs de Nederlandse kust. Aan de andere kant worden ook de fysische processen die zeespiegelverandering veroorzaken, zoals opwarming van de oceaantemperatuur en het smelten van gletsjers en ijskappen, gemeten met in-situ- en satellietmetingen. We gebruiken aardmodellen van zwaartekracht, rotatie en elastische vervorming van het land om het smelten van landijs te koppelen aan veranderingen in de relatieve zeespiegel langs de kust. Hierdoor kunnen we controleren of de som van de fysische mechanismen die invloed hebben op zeespiegelverandering in lijn ligt met de zeespiegelwaarnemingen. In de afgelopen 10 jaar is grote vooruitgang geboekt om de balans (@frederikse_closing_2016 en @camargo_regionalizing_2023) te verfijnen, tot het punt dat deze methode nu een uitgebreid inzicht kan bieden in de redenen voor zeespiegelverandering langs de Nederlandse kust (@le_bars_connecting_2025).
@@ -90,7 +101,7 @@ Deze  budget stelt ons in staat om de waargenomen verandering van de zeespiegel 
 
 Deze methode kent haar beperkingen. Wanneer de methode wordt toegepast op individuele getijdenstations, neemt de overeenkomst tussen de waarnemingen en de som van de bijdragende factoren af. Dit is waarschijnlijk te wijten aan lokale fysische processen zoals veranderingen in getijden, rivierafvoer en kustbescherming. Bovendien presenteren we alleen de veranderingen sinds 1960, omdat veranderingen van vóór 1960 niet kunnen worden toegeschreven aan de hier gepresenteerde fysische processen. Dit zou het gevolg kunnen zijn van een gebrek aan waarnemingen van de oceantemperatuur en het zoutgehalte, of van een afname in de kwaliteit van de metingen van getijdenstations. Hoewel Delfzijl in andere secties niet is opgenomen in de gemiddelde zeespiegel langs de kust, is het hier wel inbegrepen, in lijn met de oorspronkelijke KNMI-studies. Het weglaten van Delfzijl uit het gemiddelde heeft echter geen invloed op de belangrijkste conclusies die in deze sectie worden getrokken.
 
-## Vergelijking met scenario's (#sec-scenarios)
+## Vergelijking met projecties (#sec-scenarios)
 
 De geprojecteerde zeespiegelwaarden van KNMI24(laagste IPCC scenario ?) sluiten goed aan op de zeespiegelmetingen (gecorrigeerd voor windopzetvariatie en getij), 
 
@@ -116,7 +127,7 @@ De zeespiegelstijging vóór de knik in 1993 is voor de stations in de Waddenzee
 
 
 
-Door de langjarige informatie over de veranderingen stromingen, getij en zoutgehalte vrij abrupt veranderd. Door de veranderde morfologie is een proces in gang gezet waardoor de westelijke Waddenzee zich decennialang heeft 'aangepast' aan de nieuwe omstandigheden, met veranderingen in vooral morfologie, maar daardoor ook weer verandering in getij en stroming tot gevolg. De zoetwaterverdeling vanuit het IJsselmeer is deels daardoor, en deels door veranderde afvoer van de IJssel ook over een lange periode in de 20e eeuw veranderd. Dit is verder uitgewerkt in <link naar rapport, en bijlage>  
+Door de langjarige informatie over de veranderingen stromingen, getij en zoutgehalte vrij abrupt veranderd. Door de veranderde morfologie is een proces in gang gezet waardoor de westelijke Waddenzee zich decennialang heeft 'aangepast' aan de nieuwe omstandigheden, met veranderingen in vooral morfologie, maar daardoor ook weer verandering in getij en stroming tot gevolg. De zoetwaterverdeling vanuit het IJsselmeer is deels daardoor, en deels door veranderde afvoer van de IJssel ook over een lange periode in de 20e eeuw veranderd. Dit is verder uitgewerkt in <link naar rapport, en bijlage> 
 
 
 

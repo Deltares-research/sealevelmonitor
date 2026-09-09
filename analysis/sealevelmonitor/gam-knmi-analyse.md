@@ -1,7 +1,7 @@
 Comparison between GAM and GLM (broken linear) model for Dutch Sea Level
 ================
 Willem Stolte
-2026-08-04
+2026-09-09
 
 ## Introduction
 
@@ -9,16 +9,23 @@ The Dutch Sea Level Monitor uses General Linearized Model variants to
 describe the sea level at the Dutch coastal tidal stations. In the
 literature, also other models are used. For example, GAM was used by
 Keizer et al. (2023) to detect changes in sea level rise by comparing
-different periods with respect to GAM fitted sea level changes. Although
-GAM is at the moment not included in the official product, in this
-document we test this method in order to visualize patterns of sea level
-changes.
+different periods with respect to GAM fitted sea level changes. GAM is
+at the moment not included as one of the alternative models in the
+official product.
 
 The aim of this notebook is:
 
-- To implement GAM analyses for the Dutch main tidal station
-- To compare the GAM with GLM broken linear model (preferred model for
-  the Sea Level Monitor 2026) in terms of e.g. AIC
+- To implement a first version of GAM analyses for the Dutch main tidal
+  station using the Sea Level Monitor data
+- To compare the performance of GAM, and GLM broken linear model
+  (preferred model for the Sea Level Monitor 2026), in terms of e.g. AIC
+
+<details>
+
+<summary>
+
+Show code for data preparation
+</summary>
 
 ``` r
 # load necessary library
@@ -54,6 +61,8 @@ df <- df %>%
   addBreakPoints()
 ```
 
+</details>
+
 ## Define GAM and GLM
 
 The GAM model used here is using 4 components:
@@ -88,18 +97,18 @@ prepare_nodal <- function(df, epoch = 1970){
 The aim is to compare the model fits from GAM and GLM in terms of AIC.
 This can only be done when using the same model formulations for both
 models. The broken linear model is therefore formulated using the mgcv
-package (like the GAM) but without the smoothing term, so only using
-linear terms.
+package (like the GAM) without the smoothing term, so only using linear
+terms.
 
-Be aware that the exact outcomes of the GLM model in this notebook do
+Be aware that the exact outcomes of the GLM model in this notebook may
 not necessarily match exactly with the GLM outcomes in the Sea Level
 Monitor script.
 
-In the GAM formulation, k denotes the basis dimension of a smooth term,
-defining the maximum flexibility available to the fitted spline. It sets
-an upper bound on the effective degrees of freedom, while the actual
-smoothness is determined by penalization during model fitting. It is set
-to 50 for this analysis.
+In the GAM formulation, $k$ denotes the basis dimension of a smooth
+term, defining the maximum flexibility available to the fitted spline.
+It sets an upper bound on the effective degrees of freedom, while the
+actual smoothness is determined by penalization during model fitting. It
+is set to 50 for this analysis.
 
 ``` r
 slm_k = 50
@@ -134,6 +143,13 @@ glm_model <- function(df){
 ```
 
 Functions to extract predictions, standard errors and derivatives
+
+<details>
+
+<summary>
+
+Show code for helper functions
+</summary>
 
 ``` r
 ## use for plotting - vertically neutral compared to measurements
@@ -226,10 +242,19 @@ se_vals <- ifelse(
 }
 ```
 
+</details>
+
 ## Apply GAM and GLM models to sea level data for all stations
 
 The GAM and GLM models was applied to all six main stations and the
 composite stations according to the code below.
+
+<details>
+
+<summary>
+
+Show code for model generation
+</summary>
 
 ``` r
 selected_model = c("glm", "gam")
@@ -274,6 +299,8 @@ by_station_model_compared = df %>%
 )
 ```
 
+</details>
+
 In general, the resulting predictions from GAM and GLM models are very
 similar for most stations. The GAM model follows, as can be expected,
 better the variability of the measurements. Especially for individual
@@ -305,9 +332,8 @@ plot_comparison(by_station_model_compared %>%
 ```
 
 ![Comparison between GAM and GLM model fits for all individual Dutch
-tidal
-stations.](gam-knmi-analyse_files/figure-gfm/unnamed-chunk-5-1.png) For
-the combined station “Netherlands (without Delfzijl)” GLM and GAM
+tidal stations.](gam-knmi-analyse_files/figure-gfm/gam-glm-all-1.png)
+For the combined station “Netherlands (without Delfzijl)” GLM and GAM
 overlap to a very high extend. In fact, the difference is hard to see
 
 ## Results for the average sea level at the Dutch coast
@@ -319,7 +345,7 @@ plot_comparison(by_station_model_compared %>%
 ```
 
 <figure>
-<img src="gam-knmi-analyse_files/figure-gfm/unnamed-chunk-6-1.png"
+<img src="gam-knmi-analyse_files/figure-gfm/gam-glm-combined-1.png"
 alt="Comparison between GAM and GLM model fits for all Dutch stations, including the combined stations for the Dutch coast without Delfzijl." />
 <figcaption aria-hidden="true">Comparison between GAM and GLM model fits
 for all Dutch stations, including the combined stations for the Dutch
@@ -334,6 +360,13 @@ Delfzijl)”. The sea level rate change over time is of course smoother
 for the GAM model. However, the two signals are surprisingly alike. It
 is furthermore evident that the confidence interval of the GAM model
 increase towards the end of the time series
+
+<details>
+
+<summary>
+
+Show code for plot generation
+</summary>
 
 ``` r
 plot_derivatives <- function(by_station_model_compared) {
@@ -353,12 +386,16 @@ plot_derivatives <- function(by_station_model_compared) {
       title = "Afgeleiden d(height)/d(year)",
       subtitle = "Vergelijking stations",
       x = "Jaar",
-      y = "Afgeleide (trend per jaar)",
+      y = "Afgeleide (trend in mm per jaar)",
       color = "modeltype"
     ) +
     coord_cartesian(ylim = c(0,NA))
 }
+```
 
+</details>
+
+``` r
 by_station_model_compared %>%
   filter(station %in% params$selected_station ) %>%
   plot_derivatives() +
