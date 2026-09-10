@@ -186,5 +186,8 @@ _freeze/
 **/*.quarto_ipynb
 
 #MacOS
-analysis/.DS_Store
-data/.DS_Store
+**/.DS_Store
+**/**/.DS_Store
+**/**/**/.DS_Store
+**/**/**/**/.DS_Store
+
