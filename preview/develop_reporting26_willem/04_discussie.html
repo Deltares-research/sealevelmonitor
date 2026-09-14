@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en"><head>
+<html xmlns="http://www.w3.org/1999/xhtml" lang="nl" xml:lang="nl"><head>
 
 <meta charset="utf-8">
 <meta name="generator" content="quarto-1.10.18">
@@ -67,6 +67,9 @@ div.csl-indent {
 <script src="site_libs/bootstrap/bootstrap.min.js"></script>
 <link href="site_libs/bootstrap/bootstrap-icons.css" rel="stylesheet">
 <link href="site_libs/bootstrap/bootstrap-65cef08295c83353223a32d0acf5ba34.min.css" rel="stylesheet" append-hash="true" id="quarto-bootstrap" data-mode="light">
+<script src="site_libs/quarto-contrib/glightbox/glightbox.min.js"></script>
+<link href="site_libs/quarto-contrib/glightbox/glightbox.min.css" rel="stylesheet">
+<link href="site_libs/quarto-contrib/glightbox/lightbox.css" rel="stylesheet">
 <script id="quarto-search-options" type="application/json">{
   "location": "navbar",
   "copy-button": false,
@@ -81,17 +84,17 @@ div.csl-indent {
   ],
   "show-item-context": false,
   "language": {
-    "search-no-results-text": "No results",
-    "search-matching-documents-text": "matching documents",
-    "search-copy-link-title": "Copy link to search",
-    "search-hide-matches-text": "Hide additional matches",
-    "search-more-match-text": "more match in this document",
-    "search-more-matches-text": "more matches in this document",
-    "search-clear-button-title": "Clear",
+    "search-no-results-text": "Geen resultaten",
+    "search-matching-documents-text": "Gevonden documenten",
+    "search-copy-link-title": "Kopieer link om te zoeken",
+    "search-hide-matches-text": "Extra overeenkomsten verbergen",
+    "search-more-match-text": "meer overeenkomst in dit document",
+    "search-more-matches-text": "meer overeenkomsten in dit document",
+    "search-clear-button-title": "Wissen",
     "search-text-placeholder": "",
-    "search-detached-cancel-button-title": "Cancel",
-    "search-submit-button-title": "Submit",
-    "search-label": "Search"
+    "search-detached-cancel-button-title": "Annuleren",
+    "search-submit-button-title": "Verzenden",
+    "search-label": "Zoeken"
   }
 }</script>
 
@@ -142,16 +145,16 @@ window.Quarto = {
   </div>
         <div class="quarto-navbar-tools tools-end">
 </div>
-          <div id="quarto-search" class="" title="Search"></div>
+          <div id="quarto-search" class="" title="Zoeken"></div>
       </div> <!-- /container-fluid -->
     </nav>
   <nav class="quarto-secondary-nav">
     <div class="container-fluid d-flex">
-      <button type="button" class="quarto-btn-toggle btn" data-bs-toggle="collapse" role="button" data-bs-target=".quarto-sidebar-collapse-item" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Toggle sidebar navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">
+      <button type="button" class="quarto-btn-toggle btn" data-bs-toggle="collapse" role="button" data-bs-target=".quarto-sidebar-collapse-item" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Schakel zijbalknavigatie" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">
         <i class="bi bi-layout-text-sidebar-reverse"></i>
       </button>
         <nav class="quarto-page-breadcrumbs" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="./04_discussie.html"><span class="chapter-number">5</span>&nbsp; <span class="chapter-title">Discussie</span></a></li></ol></nav>
-        <a class="flex-grow-1" role="navigation" data-bs-toggle="collapse" data-bs-target=".quarto-sidebar-collapse-item" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Toggle sidebar navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">      
+        <a class="flex-grow-1" role="navigation" data-bs-toggle="collapse" data-bs-target=".quarto-sidebar-collapse-item" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Schakel zijbalknavigatie" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">      
         </a>
     </div>
   </nav>
@@ -204,12 +207,23 @@ window.Quarto = {
  <span class="menu-text">Literatuur</span></a>
   </div>
 </li>
-        <li class="sidebar-item">
+        <li class="sidebar-item sidebar-item-section">
+      <div class="sidebar-item-container"> 
+            <a class="sidebar-item-text sidebar-link text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-1" role="navigation" aria-expanded="true">
+ <span class="menu-text">Bijlagen</span></a>
+          <a class="sidebar-item-toggle text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-1" role="navigation" aria-expanded="true" aria-label="Schakel sectie">
+            <i class="bi bi-chevron-right ms-2"></i>
+          </a> 
+      </div>
+      <ul id="quarto-sidebar-section-1" class="collapse list-unstyled sidebar-section depth1 show">  
+          <li class="sidebar-item">
   <div class="sidebar-item-container"> 
   <a href="./06_appendix.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text">Bijlagen</span></a>
+ <span class="menu-text"><span class="chapter-number">A</span>&nbsp; <span class="chapter-title">Bodemdalingscomponenten</span></span></a>
   </div>
 </li>
+      </ul>
+  </li>
     </ul>
     </div>
 <div class="quarto-sidebar-footer"><div class="sidebar-footer-item">
@@ -236,20 +250,33 @@ window.Quarto = {
 <!-- margin-sidebar -->
     <div id="quarto-margin-sidebar" class="sidebar margin-sidebar">
         <nav id="TOC" role="doc-toc" class="toc-active">
-    <h2 id="toc-title">Table of contents</h2>
+    <h2 id="toc-title">Inhoudsopgave</h2>
    
   <ul>
   <li><a href="#toepassingsbereik" id="toc-toepassingsbereik" class="nav-link active" data-scroll-target="#toepassingsbereik"><span class="header-section-number">5.1</span> Toepassingsbereik van de gebruikte methodiek</a></li>
   <li><a href="#versnelling-discussie" id="toc-versnelling-discussie" class="nav-link" data-scroll-target="#versnelling-discussie"><span class="header-section-number">5.2</span> Waarom een model met een versnellingsterm</a></li>
-  <li><a href="#zss-vergelijking" id="toc-zss-vergelijking" class="nav-link" data-scroll-target="#zss-vergelijking"><span class="header-section-number">5.3</span> Vergelijking met andere methoden om zeespiegelstijging vast te stellen</a></li>
-  <li><a href="#verschillen-binnen-nederland-verschillen-binnen-nederland" id="toc-verschillen-binnen-nederland-verschillen-binnen-nederland" class="nav-link" data-scroll-target="#verschillen-binnen-nederland-verschillen-binnen-nederland"><span class="header-section-number">5.4</span> Verschillen binnen Nederland {verschillen-binnen-nederland}</a></li>
-  <li><a href="#uitkijk-naar-methodische-ontwikkelingen" id="toc-uitkijk-naar-methodische-ontwikkelingen" class="nav-link" data-scroll-target="#uitkijk-naar-methodische-ontwikkelingen"><span class="header-section-number">5.5</span> Uitkijk naar methodische ontwikkelingen</a>
+  <li><a href="#sec-zss-vergelijking" id="toc-sec-zss-vergelijking" class="nav-link" data-scroll-target="#sec-zss-vergelijking"><span class="header-section-number">5.3</span> Vergelijking met andere methoden om zeespiegelstijging vast te stellen</a>
   <ul class="collapse">
-  <li><a href="#verwijder-jaren-vóór-1950" id="toc-verwijder-jaren-vóór-1950" class="nav-link" data-scroll-target="#verwijder-jaren-vóór-1950"><span class="header-section-number">5.5.1</span> Verwijder jaren vóór 1950</a></li>
-  <li><a href="#corrigeren-voor-of-expliciet-opnemen-van-de-verandering-in-variantie-door-windopzetcorrectie" id="toc-corrigeren-voor-of-expliciet-opnemen-van-de-verandering-in-variantie-door-windopzetcorrectie" class="nav-link" data-scroll-target="#corrigeren-voor-of-expliciet-opnemen-van-de-verandering-in-variantie-door-windopzetcorrectie"><span class="header-section-number">5.5.2</span> Corrigeren voor, of expliciet opnemen van de verandering in variantie door windopzetcorrectie</a></li>
-  <li><a href="#het-toevoegen-van-meer-modellen" id="toc-het-toevoegen-van-meer-modellen" class="nav-link" data-scroll-target="#het-toevoegen-van-meer-modellen"><span class="header-section-number">5.5.3</span> Het toevoegen van meer modellen</a></li>
+  <li><a href="#knmi" id="toc-knmi" class="nav-link" data-scroll-target="#knmi"><span class="header-section-number">5.3.1</span> KNMI</a></li>
+  <li><a href="#pbl-gegevens-verwacht-oktober-26" id="toc-pbl-gegevens-verwacht-oktober-26" class="nav-link" data-scroll-target="#pbl-gegevens-verwacht-oktober-26"><span class="header-section-number">5.3.2</span> PBL &lt;gegevens verwacht oktober 26&gt;</a></li>
+  <li><a href="#staatstoezicht-op-de-mijnen" id="toc-staatstoezicht-op-de-mijnen" class="nav-link" data-scroll-target="#staatstoezicht-op-de-mijnen"><span class="header-section-number">5.3.3</span> Staatstoezicht op de mijnen</a></li>
+  <li><a href="#tno" id="toc-tno" class="nav-link" data-scroll-target="#tno"><span class="header-section-number">5.3.4</span> TNO</a></li>
   </ul></li>
-  <li><a href="#lijst-met-gebruikte-afkortingen" id="toc-lijst-met-gebruikte-afkortingen" class="nav-link" data-scroll-target="#lijst-met-gebruikte-afkortingen"><span class="header-section-number">5.6</span> Lijst met gebruikte afkortingen</a></li>
+  <li><a href="#verschillen-binnen-nederland-verschillen-binnen-nederland" id="toc-verschillen-binnen-nederland-verschillen-binnen-nederland" class="nav-link" data-scroll-target="#verschillen-binnen-nederland-verschillen-binnen-nederland"><span class="header-section-number">5.4</span> Verschillen binnen Nederland {verschillen-binnen-nederland}</a></li>
+  <li><a href="#onzekerheden" id="toc-onzekerheden" class="nav-link" data-scroll-target="#onzekerheden"><span class="header-section-number">5.5</span> Onzekerheden</a>
+  <ul class="collapse">
+  <li><a href="#loskoppeling-van-nap-vlak-voor-delfzijl" id="toc-loskoppeling-van-nap-vlak-voor-delfzijl" class="nav-link" data-scroll-target="#loskoppeling-van-nap-vlak-voor-delfzijl"><span class="header-section-number">5.5.1</span> Loskoppeling van NAP vlak voor Delfzijl</a></li>
+  <li><a href="#versnelde-daling-van-de-m-bout-bij-ijmuiden" id="toc-versnelde-daling-van-de-m-bout-bij-ijmuiden" class="nav-link" data-scroll-target="#versnelde-daling-van-de-m-bout-bij-ijmuiden"><span class="header-section-number">5.5.2</span> Versnelde daling van de M-bout bij IJmuiden</a></li>
+  <li><a href="#ijmuiden-dewi" id="toc-ijmuiden-dewi" class="nav-link" data-scroll-target="#ijmuiden-dewi"><span class="header-section-number">5.5.3</span> IJmuiden (Dewi)</a></li>
+  <li><a href="#onzekerheden-veroorzaakt-door-niet-verklaarde-kortdurende-variatie" id="toc-onzekerheden-veroorzaakt-door-niet-verklaarde-kortdurende-variatie" class="nav-link" data-scroll-target="#onzekerheden-veroorzaakt-door-niet-verklaarde-kortdurende-variatie"><span class="header-section-number">5.5.4</span> Onzekerheden veroorzaakt door niet-verklaarde kortdurende variatie</a></li>
+  </ul></li>
+  <li><a href="#uitkijk-naar-methodische-ontwikkelingen" id="toc-uitkijk-naar-methodische-ontwikkelingen" class="nav-link" data-scroll-target="#uitkijk-naar-methodische-ontwikkelingen"><span class="header-section-number">5.6</span> Uitkijk naar methodische ontwikkelingen</a>
+  <ul class="collapse">
+  <li><a href="#analyse-alleen-voor-jaren-met-windopzetcorrectie" id="toc-analyse-alleen-voor-jaren-met-windopzetcorrectie" class="nav-link" data-scroll-target="#analyse-alleen-voor-jaren-met-windopzetcorrectie"><span class="header-section-number">5.6.1</span> Analyse alleen voor jaren met windopzetcorrectie</a></li>
+  <li><a href="#corrigeren-voor-of-expliciet-opnemen-van-de-verandering-in-variantie-door-windopzetcorrectie" id="toc-corrigeren-voor-of-expliciet-opnemen-van-de-verandering-in-variantie-door-windopzetcorrectie" class="nav-link" data-scroll-target="#corrigeren-voor-of-expliciet-opnemen-van-de-verandering-in-variantie-door-windopzetcorrectie"><span class="header-section-number">5.6.2</span> Corrigeren voor, of expliciet opnemen van de verandering in variantie door windopzetcorrectie</a></li>
+  <li><a href="#het-toevoegen-van-meer-modellen" id="toc-het-toevoegen-van-meer-modellen" class="nav-link" data-scroll-target="#het-toevoegen-van-meer-modellen"><span class="header-section-number">5.6.3</span> Het toevoegen van meer modellen</a></li>
+  </ul></li>
+  <li><a href="#lijst-met-gebruikte-afkortingen" id="toc-lijst-met-gebruikte-afkortingen" class="nav-link" data-scroll-target="#lijst-met-gebruikte-afkortingen"><span class="header-section-number">5.7</span> Lijst met gebruikte afkortingen</a></li>
   </ul>
 </nav>
     </div>
@@ -279,7 +306,7 @@ window.Quarto = {
 <h2 data-number="5.1" class="anchored" data-anchor-id="toepassingsbereik"><span class="header-section-number">5.1</span> Toepassingsbereik van de gebruikte methodiek</h2>
 <p>Is de gebruikte methode doelmatig voor het beoogde gebruik? Hiervoor is het nodig om de methode op te splitsen in de verschillende onderdelen.</p>
 <p>Er is gekozen voor de hoofdstations langs de Nederlandse kust, omdat deze het beste de relatieve zeespiegel aangeven voor onze kust. Satellietgegevens hebben een grotere ruimtelijke dekking, maar zijn niet gedetailleerd genoeg in de kustzone (zie bijlage @ref(satellietmetingen)). Van het hoofdstation Delfzijl is gebleken dat er een achterstand is in de verticale correcties t.o.v. <a href="#acronyms_NAP">Normaal Amsterdams Peil (NAP)</a>. Daarom is dit station niet meegenomen in de hoofdresultaten (hoofstuk @ref(resultaten)). Rijkswaterstaat is wel bezig om voor deze achterstand met terugwerkende kracht te corrigeren. Mogelijk wordt in een volgende monitor Delfzijl dan weer toegevoegd.</p>
-<p>Het effect van wind of storm is een belangrijke bron van variatie voor de jaarlijkse zeespiegel aan de Nederlandse kust <span class="citation" data-cites="Baart2014a Gerkema2017">(<a href="05_literatuur.html#ref-Baart2014a" role="doc-biblioref"><span class="nocase">Baart et al.</span> 2014</a>; <a href="05_literatuur.html#ref-Gerkema2017" role="doc-biblioref"><strong>Gerkema2017?</strong></a>)</span>. Sinds de rapportage in 2022 gebruikern we resultaten van het <a href="#acronyms_GTSM">Global Tidal Surge Model (GTSM)</a> model om voor het effect van wind op de gemiddelde waterstand te corrigeren. Eerst was dit allen nog beschikbaar voor de periode van 1979 tot nu, maar voor de huidige rapportage is het model uitgebreid met jaren 1950 tot nu. <a href="#acronyms_GTSM">GTSM</a> is zeer geschikt om het effect van wind op de zeespiegel te schatten omdat het geheel onafhankelijk is van het gebruikte regressiemodel dat gebruikt wordt om de zeespiegelstijging te schatten.</p>
+<p>Het effect van wind of storm is een belangrijke bron van variatie voor de jaarlijkse zeespiegel aan de Nederlandse kust <span class="citation" data-cites="Baart2014a Gerkema2017">(<a href="05_literatuur.html#ref-Baart2014a" role="doc-biblioref"><span class="nocase">Baart e.a.</span> 2014</a>; <a href="05_literatuur.html#ref-Gerkema2017" role="doc-biblioref"><strong>Gerkema2017?</strong></a>)</span>. Sinds de rapportage in 2022 gebruikern we resultaten van het <a href="#acronyms_GTSM">Global Tidal Surge Model (GTSM)</a> model om voor het effect van wind op de gemiddelde waterstand te corrigeren. Eerst was dit allen nog beschikbaar voor de periode van 1979 tot nu, maar voor de huidige rapportage is het model uitgebreid met jaren 1950 tot nu. <a href="#acronyms_GTSM">GTSM</a> is zeer geschikt om het effect van wind op de zeespiegel te schatten omdat het geheel onafhankelijk is van het gebruikte regressiemodel dat gebruikt wordt om de zeespiegelstijging te schatten.</p>
 <p><placeholder> Vergelijking GTSM - DCSM</placeholder></p>
 <p>Behalve wind, is ook het nodale getij een bron van variatie voor de jaarlijkse gemiddelde zeespiegel. Dit is uitgelegd in paragraaf @ref(methodiek). Vanwege de lange periode van deze terugkerende variatie (ruim 18 jaar) is het belangrijk om te weten of de zeespiegel op weg is naar een hoger of lager jaargemiddeld getij. Een onafhankelijke schatting van het nodaal getij is mogelijk door middel van berekening van het zgn. equilibrium getij. Echter, het geobserveerde getij aan de Nederlandse kust blijkt daarvan af te wijken, door fysische processen die de doorwerking van het nodale getij op het contentinale plat bepalen (zie paragraaf @ref(sec-getij) voor meer details. Om die reden wordt het nodaal getij meegenomen als term in de regressie, waardoor de variatie door het getij beter verklaard wordt.</p>
 <p>Volgens de criteria die we hanteren voor modelkeuze (<a href="#acronyms_AIC">Akaike Informatie Criterium, (een maat voor de goodness-of-fit van een model) (AIC)</a>) is, net als bij de voorgaande rapportage, een keuze gemaakt voor het gebroken lineaire model met een knikpunt in 1993 (zie dit <a href="https://github.com/Deltares-research/sealevelmonitor/blob/main/analysis/sealevelmonitor/sealevelanalysis.md">rekendocument</a>). Dit is het meest geschikte model voor schatting van de huidige zeespiegel, en de zeespiegelstijging over de afgelopen decennia. De methode is geschikt om over relatief korte tijd een verandering van zeespiegelstijging te detecteren (gegeven het feit dat we een knik veronderstellen is dit een beter model dan het lineaire). De gebruikte methodiek zegt echter niet veel over de oorzaak van deze verandering.</p>
@@ -289,55 +316,94 @@ window.Quarto = {
 </section>
 <section id="versnelling-discussie" class="level2" data-number="5.2">
 <h2 data-number="5.2" class="anchored" data-anchor-id="versnelling-discussie"><span class="header-section-number">5.2</span> Waarom een model met een versnellingsterm</h2>
-<p>De zeespiegel aan de Nederlandse kust stijgt, en stijgt versneld sinds de jaren negentig, blijkt uit de resultaten. We concluderen dit uit het feit dat het gebroken lineaire model al een aantal jaren significant beter is dan het tot 2018 toe gebruikte lineaire model. Een versnelde zeespiegel aan de Nederlandse kust was met andere methodieken eerder ook aangetoond door <span class="citation" data-cites="Steffelbauer2022">Steffelbauer et al. (<a href="05_literatuur.html#ref-Steffelbauer2022" role="doc-biblioref">2022</a>)</span> en <span class="citation" data-cites="Keizer2022"><span class="nocase">Keizer et al.</span> (<a href="05_literatuur.html#ref-Keizer2022" role="doc-biblioref">2022</a>)</span>. De gerapporteerde stijging over de laatste decennia komt ook overeen met de wereldwijde stijging van de oceanen, zoals gemeten met satellieten.</p>
+<p>De zeespiegel aan de Nederlandse kust stijgt, en stijgt versneld sinds de jaren negentig, blijkt uit de resultaten. We concluderen dit uit het feit dat het gebroken lineaire model al een aantal jaren significant beter is dan het tot 2018 toe gebruikte lineaire model. Een versnelde zeespiegel aan de Nederlandse kust was met andere methodieken eerder ook aangetoond door <span class="citation" data-cites="Steffelbauer2022">Steffelbauer e.a. (<a href="05_literatuur.html#ref-Steffelbauer2022" role="doc-biblioref">2022</a>)</span> en <span class="citation" data-cites="Keizer2022"><span class="nocase">Keizer e.a.</span> (<a href="05_literatuur.html#ref-Keizer2022" role="doc-biblioref">2022</a>)</span>. De gerapporteerde stijging over de laatste decennia komt ook overeen met de wereldwijde stijging van de oceanen, zoals gemeten met satellieten.</p>
 <p>&lt;tot hier gekomen. hieronder nog herzien&gt;</p>
-<p><volgend stuk="" inkorten=""> <span class="citation" data-cites="Steffelbauer2022">Steffelbauer et al. (<a href="05_literatuur.html#ref-Steffelbauer2022" role="doc-biblioref">2022</a>)</span> onderzocht met een soortgelijke methodiek als de Zeespiegelmonitor of er een significant gezamelijk knikpunt was in de tijdreeks van waterhoogte van de Nederlandse hoofdstations. Er is een grotere subset van stations gebruikt (Maassluis en Terschelling zijn ook meegenomen) inclusief Delfzijl. Ook is het knikpunt bepaald aan de afzonderlijke stations (maar wel gezamenlijk), en niet aan het gemiddelde zoals in de Zeespiegelmonitor. Geconstateerd werd dat er een gezamenlijk knikpunt was in 1993. Deze constatering vinden we nu ook in de Zeespiegelmonitor. Gemiddeld over de stations werd door <span class="citation" data-cites="Steffelbauer2022">Steffelbauer et al. (<a href="05_literatuur.html#ref-Steffelbauer2022" role="doc-biblioref">2022</a>)</span> een zeespiegelstijging gevonden van 2.7 ± 0.4 mm/jaar voor de periode na 1993.</volgend></p>
+<p><volgend stuk="" inkorten=""> <span class="citation" data-cites="Steffelbauer2022">Steffelbauer e.a. (<a href="05_literatuur.html#ref-Steffelbauer2022" role="doc-biblioref">2022</a>)</span> onderzocht met een soortgelijke methodiek als de Zeespiegelmonitor of er een significant gezamelijk knikpunt was in de tijdreeks van waterhoogte van de Nederlandse hoofdstations. Er is een grotere subset van stations gebruikt (Maassluis en Terschelling zijn ook meegenomen) inclusief Delfzijl. Ook is het knikpunt bepaald aan de afzonderlijke stations (maar wel gezamenlijk), en niet aan het gemiddelde zoals in de Zeespiegelmonitor. Geconstateerd werd dat er een gezamenlijk knikpunt was in 1993. Deze constatering vinden we nu ook in de Zeespiegelmonitor. Gemiddeld over de stations werd door <span class="citation" data-cites="Steffelbauer2022">Steffelbauer e.a. (<a href="05_literatuur.html#ref-Steffelbauer2022" role="doc-biblioref">2022</a>)</span> een zeespiegelstijging gevonden van 2.7 ± 0.4 mm/jaar voor de periode na 1993.</volgend></p>
 <p>&lt;Herziening met update berekening methode Keizer ?&gt;</p>
-<p><span class="citation" data-cites="Keizer2022"><span class="nocase">Keizer et al.</span> (<a href="05_literatuur.html#ref-Keizer2022" role="doc-biblioref">2022</a>)</span> onderzocht de trend in zeespiegelstijging over een lange termijn met een geavanceerd statistische methode. Voor correctie door windopzet is de <a href="#acronyms_20CR">20th Century (Climate) Reanalysis (20CR)</a> heranalyse gebruikt. Na een correctie van de zeespiegel voor de lange termijn windveranderingen is de zeespiegelstijging en het verschil daarin over tijd geschat met behulp van <a href="#acronyms_GAM">Generalized Additive Model (GAM)</a>. Er is ook rekening gehouden met seizoensvariatie in windopzet. De conclusie uit dit artikel is dat de zeespiegelstijging in de periode 2000-2019 (3.0[2.4 - 3.5] mm/jaar) significant hoger is dan in de periode 1940-1959 (1.5[1.1 - 1.8] mm/jaar).</p>
+<p><span class="citation" data-cites="Keizer2022"><span class="nocase">Keizer e.a.</span> (<a href="05_literatuur.html#ref-Keizer2022" role="doc-biblioref">2022</a>)</span> onderzocht de trend in zeespiegelstijging over een lange termijn met een geavanceerd statistische methode. Voor correctie door windopzet is de <a href="#acronyms_20CR">20th Century (Climate) Reanalysis (20CR)</a> heranalyse gebruikt. Na een correctie van de zeespiegel voor de lange termijn windveranderingen is de zeespiegelstijging en het verschil daarin over tijd geschat met behulp van <a href="#acronyms_GAM">Generalized Additive Model (GAM)</a>. Er is ook rekening gehouden met seizoensvariatie in windopzet. De conclusie uit dit artikel is dat de zeespiegelstijging in de periode 2000-2019 (3.0[2.4 - 3.5] mm/jaar) significant hoger is dan in de periode 1940-1959 (1.5[1.1 - 1.8] mm/jaar).</p>
 <p>De huidige stijging in de zeespiegelmonitor (<span class="math inline">\(3.2 \pm 0.3\,mm/jaar\)</span>) is dus consistent met de hierboven genoemde studies.</p>
 <p>In de vorige Zeespiegelmonitor is geconcludeerd dat de windopzet het best geschat kon worden door windopzet berekend uit het <a href="#acronyms_GTSM">GTSM</a> model direct te gebruiken als correctie. Hierbij is de mate van windopzet onafhankelijk geschat van de trendbepalingsmethode. In de tussentijd is het aantal jaren waarvoor deze opzet berekend is toegenomen van 1979 - 2022 (een serie van 43 jaar) in de vorige rapportage tot 1950 - 2025 (75 jaar) in de huidige rapportage.</p>
 <p>De wereldwijde stijging van de zeespiegel is … (uit satellietgegevens)</p>
 <p><onderstaand moet="" nog="" gecontroleerd="" worden=""> Sommerend komen we op de volgende balans van de wereldwijde versus de Nederlandse zeespiegelstijging over de periode 1993-2021. De zeespiegelstijging over deze periode is in Nederlands hoger dan over de periode voor 1993, zoals besproken in paragraaf @ref(versnelling-results). Eigenlijk zou de zeespiegelstijging hoger moeten zijn dan globaal, omdat in Nederland naast de zeespiegelstijging ook nog bodemdaling is. Maar omdat 3cm van de globale zeespiegelstijging een correctie is die niet aan de kust gemeten wordt en omdat we op een gunstige plek liggen wat betreft de bijdrage van Groenlands massaverlies aan de zeespiegelstijging (9cm) zien we aan de kust van Nederland toch een lagere zeespiegelstijging dan globaal. Andere effecten, zoals veranderingen in dichtheid, zijn hier buiten beschouwing gelaten.</onderstaand></p>
 </section>
-<section id="zss-vergelijking" class="level2" data-number="5.3">
-<h2 data-number="5.3" class="anchored" data-anchor-id="zss-vergelijking"><span class="header-section-number">5.3</span> Vergelijking met andere methoden om zeespiegelstijging vast te stellen</h2>
-<p>(KNMI, Staatstoezicht op de mijnen, TNO, PBL)</p>
+<section id="sec-zss-vergelijking" class="level2" data-number="5.3">
+<h2 data-number="5.3" class="anchored" data-anchor-id="sec-zss-vergelijking"><span class="header-section-number">5.3</span> Vergelijking met andere methoden om zeespiegelstijging vast te stellen</h2>
+<section id="knmi" class="level3" data-number="5.3.1">
+<h3 data-number="5.3.1" class="anchored" data-anchor-id="knmi"><span class="header-section-number">5.3.1</span> KNMI</h3>
+<p><dewi></dewi></p>
+</section>
+<section id="pbl-gegevens-verwacht-oktober-26" class="level3" data-number="5.3.2">
+<h3 data-number="5.3.2" class="anchored" data-anchor-id="pbl-gegevens-verwacht-oktober-26"><span class="header-section-number">5.3.2</span> PBL &lt;gegevens verwacht oktober 26&gt;</h3>
+<p>Het <a href="#acronyms_PBL">Planbureau voor de Leefomgeving (PBL)</a> heeft in zijn <a href="https://www.clo.nl/indicatoren">Compendium voor de Leefomgeving</a> een grafiek opgenomen over de zeespiegel(stijging) in Nederland. Hiervoor worden dezelfde basisgegevens gebruikt als de Zeespiegelmonitor. De laatste update is van oktober 2026. In het Compendium worden gegevens gemodelleerd met <a href="#acronyms_IRW">Integrated Random Walk (IRW)</a> (<span class="citation" data-cites="Visser2015">Visser e.a. (<a href="05_literatuur.html#ref-Visser2015" role="doc-biblioref">2015</a>)</span>).</p>
+<p>Het doel van het Compendium is om het brede publiek te informeren over de stand van zaken …</p>
+<p><grafiek></grafiek></p>
+<p>De aldus berekende zeespiegelstijging over de laatste ? jaar bedraagt .. +/- .. mm/jaar.</p>
+</section>
+<section id="staatstoezicht-op-de-mijnen" class="level3" data-number="5.3.3">
+<h3 data-number="5.3.3" class="anchored" data-anchor-id="staatstoezicht-op-de-mijnen"><span class="header-section-number">5.3.3</span> Staatstoezicht op de mijnen</h3>
+</section>
+<section id="tno" class="level3" data-number="5.3.4">
+<h3 data-number="5.3.4" class="anchored" data-anchor-id="tno"><span class="header-section-number">5.3.4</span> TNO</h3>
+</section>
 </section>
 <section id="verschillen-binnen-nederland-verschillen-binnen-nederland" class="level2" data-number="5.4">
 <h2 data-number="5.4" class="anchored" data-anchor-id="verschillen-binnen-nederland-verschillen-binnen-nederland"><span class="header-section-number">5.4</span> Verschillen binnen Nederland {verschillen-binnen-nederland}</h2>
 <p>De gemiddelde zeespiegelstijging over alle zes (minus Delfzijl) hoofdstations is .. . Er zijn echter verschillen tussen de stations. De grootste verschillen doen zich voor in de periode vóór 1993. In die periode vertonen Harlingen, en in mindere mate ook Den Helder en Delfzijl lagere stijging dan de stations aan de Hollandse kust (Vlissingen, Hoek van Holland en IJmuiden. Er zijn sterke aanwijzingen dat deze lagere stijging over verschillende decennia veroorzaakt is door de aanpassing van de westelijke Waddenzee aan de afsluiting van de Zuiderzee. De afsluiting (grofweg 1930 - 2000) heeft gezorgd voor een enorme verkleining van het bekken. Hierdoor is het getij veranderd, en heeft het systeem zich langzaam maar zeker aangepast met als gevolg een langdurige verandering van bodemligging (geulsystemen), stroming, en hierdoor weer getij. Verder is de zoetwaterverdeling in de westelijke Waddenzee hierdoor veranderd. Bovendien vertonen de veranderingen ook onderlinge afhankelijkheid. Veranderingen in spuidebieten van het IJsselmeer hebben nog meer bijgedragen aan veranderingen in de zoutverspreiding. Hierdoor is het aannemelijk dat er langjarige veranderingen zijn geweest in de zeespiegelstijging bij stations in de buurt van de westelijke Waddenzee. Er zijn verschillende aanwijzingen dat rond 1990 - 2000 de aanpassing van de Waddenzee aan de afsluiting sterk afzwakte. Gelijktijdig hiermee is te zien dat de zeespiegelstijging voor de verschillende stations sinds het begin van de jaren 1990 weer min of meer gelijk opgaat. Voor meer informatie wordt verwezen naar Bijlage #zeespiegel-in-de-waddenzee</p>
 </section>
-<section id="uitkijk-naar-methodische-ontwikkelingen" class="level2" data-number="5.5">
-<h2 data-number="5.5" class="anchored" data-anchor-id="uitkijk-naar-methodische-ontwikkelingen"><span class="header-section-number">5.5</span> Uitkijk naar methodische ontwikkelingen</h2>
+<section id="onzekerheden" class="level2" data-number="5.5">
+<h2 data-number="5.5" class="anchored" data-anchor-id="onzekerheden"><span class="header-section-number">5.5</span> Onzekerheden</h2>
+<p>Over het algemeen vertonen de stations een zeer gelijksoortige huidige zeespiegelstijging. Dat geeft vertrouwen in de metingen en de methodiek om de huidige zeespiegelstijging vast te stellen. Ook het feit dat de resultaten overeenkomen met resultaten van andere partijen met verschillende methodische aanpak, geeft veel vertrouwen (zie paragraaf <a href="#sec-zss-vergelijking" class="quarto-xref"><span>Paragraaf 5.3</span></a>). De op dit moment bekende onzekerheden worden hieronder genoemd.</p>
+<section id="loskoppeling-van-nap-vlak-voor-delfzijl" class="level3" data-number="5.5.1">
+<h3 data-number="5.5.1" class="anchored" data-anchor-id="loskoppeling-van-nap-vlak-voor-delfzijl"><span class="header-section-number">5.5.1</span> Loskoppeling van NAP vlak voor Delfzijl</h3>
+<ul>
+<li>Voor Delfzijl zijn er onzekerheden veroorzaakt door bodemdaling door gaswinning. Het laatste decennium is dit station losgekoppeld van het NAP nulvlak vanwege de te snelle verandering in hoogte. Rijkswaterstaat CIV is bezig om voor Delfzijl de gemeten waterhoogtes te herzien, waarbij niet langer NAP gebruikt wordt als verticale referentie, maar de geoïde. Hiermee zullen de trends voor Delfzijl geïnterpreteerd moeten worden als absolute zeespiegelstijging. De verwachting is dat de herziening binnen de komende jaren beschikbaar komt.</li>
+</ul>
+</section>
+<section id="versnelde-daling-van-de-m-bout-bij-ijmuiden" class="level3" data-number="5.5.2">
+<h3 data-number="5.5.2" class="anchored" data-anchor-id="versnelde-daling-van-de-m-bout-bij-ijmuiden"><span class="header-section-number">5.5.2</span> Versnelde daling van de M-bout bij IJmuiden</h3>
+</section>
+<section id="ijmuiden-dewi" class="level3" data-number="5.5.3">
+<h3 data-number="5.5.3" class="anchored" data-anchor-id="ijmuiden-dewi"><span class="header-section-number">5.5.3</span> IJmuiden (Dewi)</h3>
+</section>
+<section id="onzekerheden-veroorzaakt-door-niet-verklaarde-kortdurende-variatie" class="level3" data-number="5.5.4">
+<h3 data-number="5.5.4" class="anchored" data-anchor-id="onzekerheden-veroorzaakt-door-niet-verklaarde-kortdurende-variatie"><span class="header-section-number">5.5.4</span> Onzekerheden veroorzaakt door niet-verklaarde kortdurende variatie</h3>
+<ul>
+<li>“schommelingen” veelal meest zichtbaar bij individuele stations. Deze zijn soms te herleiden naar grote ingrepen (Deltawerken, Afsluitdijk). Het is aannemelijk dat er meer variatie is te koppelen aan grote ingrepen in het verleden, denk aan uitbreidingen van havens of sluizen, verdiepingen, zoetwaterverdeling. Dit wordt in de komende jaren verder uitgezocht.</li>
+<li>Verticale referenties die sturend zijn voor de afstelling van de meetinstrumenten (zie paragraaf en infographics). Dit zijn de nulpalen die gekoppeld zijn aan de hoofdgetijdestations. De hoogtes van ondergrondse merken die samen het NAP netwerk vormen zijn gepubliceerd vanaf 1970-1980, afhankelijk van locatie. <plaatje napinfo=""> Deze hoogtes zijn bepaald in verschillende projecten, ten opzichte van het regionale referentienetwerk. Alleen in de <a href="#acronyms_NWP">Nauwkeurigheidswaterpassing (NWP)</a> worden deze waarden weer gerelateerd aan de nationale referenties op de Veluwe. Na de laatste <a href="#acronyms_NWP">NWP</a> zijn de hoogtes daarom ook herberekend. Wat opvalt is dat het verloop van de hoogtes in de tijd niet helemaal constant is. Vooral stations Harlingen en Den Helder vertonen een verschil waarbij er vóór pakweg 1990 een duidelijk snellere daling is van de nulpaal t.o.v. de regionale referenties dan daarna. Dit valt samen met de sterke knik in relatieve zeespiegelstijging bij die stations. Aangezien deze metingen gebruikt worden om de meetinstrumenten af te stellen is het niet uit te sluiten dat dit een bijdrage heeft geleverd aan een veranderende zeespiegelstijging in die periode. Zie ook bijlage <zeespiegelstijging in="" de="" waddenzee=""></zeespiegelstijging></plaatje></li>
+</ul>
+</section>
+</section>
+<section id="uitkijk-naar-methodische-ontwikkelingen" class="level2" data-number="5.6">
+<h2 data-number="5.6" class="anchored" data-anchor-id="uitkijk-naar-methodische-ontwikkelingen"><span class="header-section-number">5.6</span> Uitkijk naar methodische ontwikkelingen</h2>
 <p>Met de huidige methodiek lopen we tegen een paar uitdagingen aan. Dit ligt onder andere aan het feit dat er slechts vanaf 1950 gecorrigeerd kan worden voor de jaarlijks variërende windopzet met <a href="#acronyms_GTSM">GTSM</a>. Hoewel dit in principe het zeespiegelsignaal verbetert, zorgt dit ook voor een inhomogene variantie. Hiermee wordt op dit moment niet rekening gehouden. Een ander punt is dat op termijn de zeespiegelveranderingen niet meer goed voldoen aan de relatief beperkte set die we nu testen (lineair, gebroken lineair, en gebroken kwadratisch). Het is de bedoeling om deze vraag de komende jaren uit te werken. Hieronder volgt een korte uitkijk naar hoe de methodiek zich verder zou kunnen ontwikkelen.</p>
-<section id="verwijder-jaren-vóór-1950" class="level3" data-number="5.5.1">
-<h3 data-number="5.5.1" class="anchored" data-anchor-id="verwijder-jaren-vóór-1950"><span class="header-section-number">5.5.1</span> Verwijder jaren vóór 1950</h3>
-<p>Door alleen metingen vanaf 1950 mee te nemen in de analyse wordt het probleem van verschillen in variantie over de tijd omzeild. Er is nog een reden om de tijdserie in te korten. Oudere metingen zijn zijn onzekerder dan nieuwere. Dit heeft te maken met de frequentie van meten () en het feit dat de absolute verticale referentie van de zeespiegelmetingen vóór de invoering van nulpalen (1958) een grotere onzekerheid kende dan daarna.</p>
-<p>Mogelijke nadelen zijn er ook. Door de tijdserie in te korten wordt mogelijk waardevolle informatie niet gebruikt. Ook kan het toelaten van een knikpunt onzekerder resultaten opleveren als deze dichter bij het begin van de tijdserie komt te liggen. Ook moet nagedacht worden hoe om te gaan als bijvoorbeeld het voorkeursmodel verandert bij het verkorten van de tijdserie.</p>
+<section id="analyse-alleen-voor-jaren-met-windopzetcorrectie" class="level3" data-number="5.6.1">
+<h3 data-number="5.6.1" class="anchored" data-anchor-id="analyse-alleen-voor-jaren-met-windopzetcorrectie"><span class="header-section-number">5.6.1</span> Analyse alleen voor jaren met windopzetcorrectie</h3>
+<p>Door alleen metingen vanaf 1950 mee te nemen in de analyse wordt het probleem van verschillen in variantie over de tijd omzeild. Er is nog een reden om de tijdserie in te korten. Oudere metingen zijn onzekerder dan nieuwere. Dit heeft te maken met de frequentie van meten () en het feit dat de absolute verticale referentie van de zeespiegelmetingen vóór de invoering van nulpalen (1958) een grotere onzekerheid kende dan daarna.</p>
+<p>Mogelijke nadelen zijn er ook. Door de tijdserie in te korten wordt mogelijk waardevolle informatie niet gebruikt. Ook kan het toelaten van een knikpunt onzekerder resultaten opleveren als deze dichter bij het begin van de tijdserie komt te liggen, zoals het knikpunt bij 1960 voor het gebroken kwadratische model. Ook moet nagedacht worden hoe om te gaan met bijvoorbeeld een verandering van het voorkeursmodel als gevolg van het verkorten van de tijdserie.</p>
 <p><voorbeelden van="" analyse="" met="" kortere="" tijdserie=""></voorbeelden></p>
 </section>
-<section id="corrigeren-voor-of-expliciet-opnemen-van-de-verandering-in-variantie-door-windopzetcorrectie" class="level3" data-number="5.5.2">
-<h3 data-number="5.5.2" class="anchored" data-anchor-id="corrigeren-voor-of-expliciet-opnemen-van-de-verandering-in-variantie-door-windopzetcorrectie"><span class="header-section-number">5.5.2</span> Corrigeren voor, of expliciet opnemen van de verandering in variantie door windopzetcorrectie</h3>
+<section id="corrigeren-voor-of-expliciet-opnemen-van-de-verandering-in-variantie-door-windopzetcorrectie" class="level3" data-number="5.6.2">
+<h3 data-number="5.6.2" class="anchored" data-anchor-id="corrigeren-voor-of-expliciet-opnemen-van-de-verandering-in-variantie-door-windopzetcorrectie"><span class="header-section-number">5.6.2</span> Corrigeren voor, of expliciet opnemen van de verandering in variantie door windopzetcorrectie</h3>
 </section>
-<section id="het-toevoegen-van-meer-modellen" class="level3" data-number="5.5.3">
-<h3 data-number="5.5.3" class="anchored" data-anchor-id="het-toevoegen-van-meer-modellen"><span class="header-section-number">5.5.3</span> Het toevoegen van meer modellen</h3>
-<p>Op dit moment wordt een lineaire (<a href="#acronyms_LM">Linear Model (LM)</a>) of gegeneralizeerde lineaire modelfunctie (<a href="#acronyms_GLM">Generalized Linear Model (GLM)</a>) gebruikt. In andere studies wordt ook wel een <a href="#acronyms_GAM">GAM</a> of <a href="#acronyms_LOESS">LOcal regrESSion (a later generalization of LOWESS) (LOESS)</a> gebruikt (Keizer, ?). Het belangrijkste verschil is dat een GLM een vooraf gespecificeerde parametrische relatie tussen voorspellers en respons veronderstelt, terwijl een GAM deze relatie flexibel en niet-parametrisch uit de data schat. Een zou de variatie van de meetgegevens beter kunnen beschrijven wanneer een spline functie wordt toegevoegd. Deze betere beschrijving komt niet door een betere duiding van natuurkundige principes, maar door een hogere graad van vrijheid.</p>
+<section id="het-toevoegen-van-meer-modellen" class="level3" data-number="5.6.3">
+<h3 data-number="5.6.3" class="anchored" data-anchor-id="het-toevoegen-van-meer-modellen"><span class="header-section-number">5.6.3</span> Het toevoegen van meer modellen</h3>
+<p>Op dit moment wordt een lineaire (<a href="#acronyms_LM">Linear Model (LM)</a>) of gegeneralizeerde lineaire modelfunctie (<a href="#acronyms_GLM">Generalized Linear Model (GLM)</a>) gebruikt. In andere studies wordt ook wel een <a href="#acronyms_GAM">GAM</a> (<span class="citation" data-cites="Keizer2022"><span class="nocase">Keizer e.a.</span> (<a href="05_literatuur.html#ref-Keizer2022" role="doc-biblioref">2022</a>)</span>), <a href="#acronyms_LOESS">LOcal regrESSion (a later generalization of LOWESS) (LOESS)</a>, of <a href="#acronyms_IRW">IRW</a> (<span class="citation" data-cites="Visser2015">Visser e.a. (<a href="05_literatuur.html#ref-Visser2015" role="doc-biblioref">2015</a>)</span>) gebruikt . Het belangrijkste verschil is dat een GLM een vooraf gespecificeerde parametrische relatie tussen voorspellers en respons veronderstelt, terwijl een GAM, wanneer een spline functie wordt toegevoegd, deze relatief flexibel en niet-parametrisch uit de data schat . Een <a href="#acronyms_GAM">GAM</a> zou de variatie van de meetgegevens beter kunnen beschrijven. Deze betere beschrijving komt niet door een betere duiding van natuurkundige principes, maar door een hogere graad van vrijheid.</p>
 <div class="quarto-figure quarto-figure-center">
 <figure class="figure">
-<p><img src="https://github.com/Deltares-research/sealevelmonitor/raw/main/analysis/sealevelmonitor/gam-knmi-analyse_files/figure-gfm/unnamed-chunk-6-1.png" class="img-fluid figure-img"></p>
+<p><a href="https://github.com/Deltares-research/sealevelmonitor/raw/main/analysis/sealevelmonitor/gam-knmi-analyse_files/figure-gfm/unnamed-chunk-6-1.png" class="lightbox" data-gallery="quarto-lightbox-gallery-1" title="Vergelijking GAM en “broken linear” model voor de Nederlandse zeespiegelmetingen."><img src="https://github.com/Deltares-research/sealevelmonitor/raw/main/analysis/sealevelmonitor/gam-knmi-analyse_files/figure-gfm/unnamed-chunk-6-1.png" class="img-fluid figure-img" alt="Vergelijking GAM en “broken linear” model voor de Nederlandse zeespiegelmetingen."></a></p>
 <figcaption>Vergelijking GAM en “broken linear” model voor de Nederlandse zeespiegelmetingen.</figcaption>
 </figure>
 </div>
 <div class="quarto-figure quarto-figure-center">
 <figure class="figure">
-<p><img src="https://github.com/Deltares-research/sealevelmonitor/raw/main/analysis/sealevelmonitor/gam-knmi-analyse_files/figure-gfm/plot-derivatives-1.png" class="img-fluid figure-img"></p>
+<p><a href="https://github.com/Deltares-research/sealevelmonitor/raw/main/analysis/sealevelmonitor/gam-knmi-analyse_files/figure-gfm/plot-derivatives-1.png" class="lightbox" data-gallery="quarto-lightbox-gallery-2" title="Vergelijking van de snelheid van zeespiegelstijging zoals geschat met het GAM model en het “broken linear” model."><img src="https://github.com/Deltares-research/sealevelmonitor/raw/main/analysis/sealevelmonitor/gam-knmi-analyse_files/figure-gfm/plot-derivatives-1.png" class="img-fluid figure-img" alt="Vergelijking van de snelheid van zeespiegelstijging zoals geschat met het GAM model en het “broken linear” model."></a></p>
 <figcaption>Vergelijking van de snelheid van zeespiegelstijging zoals geschat met het GAM model en het “broken linear” model.</figcaption>
 </figure>
 </div>
 </section>
 </section>
-<section id="lijst-met-gebruikte-afkortingen" class="level2" data-number="5.6">
-<h2 data-number="5.6" class="anchored" data-anchor-id="lijst-met-gebruikte-afkortingen"><span class="header-section-number">5.6</span> Lijst met gebruikte afkortingen</h2>
+<section id="lijst-met-gebruikte-afkortingen" class="level2" data-number="5.7">
+<h2 data-number="5.7" class="anchored" data-anchor-id="lijst-met-gebruikte-afkortingen"><span class="header-section-number">5.7</span> Lijst met gebruikte afkortingen</h2>
 <dl>
 <dt><span id="acronyms_20CR">20CR</span></dt>
 <dd>
@@ -359,6 +425,10 @@ Generalized Linear Model
 <dd>
 Global Tidal Surge Model
 </dd>
+<dt><span id="acronyms_IRW">IRW</span></dt>
+<dd>
+Integrated Random Walk
+</dd>
 <dt><span id="acronyms_LM">LM</span></dt>
 <dd>
 Linear Model
@@ -371,18 +441,29 @@ LOcal regrESSion (a later generalization of LOWESS)
 <dd>
 Normaal Amsterdams Peil
 </dd>
+<dt><span id="acronyms_NWP">NWP</span></dt>
+<dd>
+Nauwkeurigheidswaterpassing
+</dd>
+<dt><span id="acronyms_PBL">PBL</span></dt>
+<dd>
+Planbureau voor de Leefomgeving
+</dd>
 </dl>
 
 
 <div id="refs" class="references csl-bib-body hanging-indent" role="list" style="display: none">
 <div id="ref-Baart2014a" class="csl-entry" role="listitem">
-<span class="nocase">Baart, Fedor, Robert Leander, John de Ronde, Hylke de Vries, Vincent Vuik, and Robin Nicolai</span>. 2014. <em><span>Zeespiegelmonitor 2014</span></em>. 1209426.202. Deltares.
+<span class="nocase">Baart, Fedor, Robert Leander, John de Ronde, Hylke de Vries, Vincent Vuik, en Robin Nicolai</span>. 2014. <em><span>Zeespiegelmonitor 2014</span></em>. 1209426.202. Deltares.
 </div>
 <div id="ref-Keizer2022" class="csl-entry" role="listitem">
-<span class="nocase">Keizer, I, D Le Bars, C de Valk, A Jüling, R van de Wal, and S Drijfhout</span>. 2022. <span>“<span class="nocase">The acceleration of sea-level rise along the coast of the Netherlands started in the 1960s</span>.”</span> <em>EGUsphere</em> 2022: 1–21. <a href="https://doi.org/10.5194/egusphere-2022-935">https://doi.org/10.5194/egusphere-2022-935</a>.
+<span class="nocase">Keizer, I, D Le Bars, C de Valk, A Jüling, R van de Wal, en S Drijfhout</span>. 2022. <span>‘<span>The acceleration of sea-level rise along the coast of the Netherlands started in the 1960s</span>’</span>. <em>EGUsphere</em> 2022: 1-21. <a href="https://doi.org/10.5194/egusphere-2022-935">https://doi.org/10.5194/egusphere-2022-935</a>.
 </div>
 <div id="ref-Steffelbauer2022" class="csl-entry" role="listitem">
-Steffelbauer, David B, Riccardo E M Riva, Jos S Timmermans, Jan H Kwakkel, and Mark Bakker. 2022. <span>“<span class="nocase">Evidence of regional sea-level rise acceleration for the North Sea</span>.”</span> <em>Environmental Research Letters</em> 17.
+Steffelbauer, David B, Riccardo E M Riva, Jos S Timmermans, Jan H Kwakkel, en Mark Bakker. 2022. <span>‘<span>Evidence of regional sea-level rise acceleration for the North Sea</span>’</span>. <em>Environmental Research Letters</em> 17.
+</div>
+<div id="ref-Visser2015" class="csl-entry" role="listitem">
+Visser, Hans, Sönke Dangendorf, en Arthur C. Petersen. 2015. <span>‘A review of trend models applied to sea level data with reference to the <span>“acceleration-deceleration debate”</span>’</span>. <em>Journal of Geophysical Research: Oceans</em> 120 (6): 3873-95. <a href="https://doi.org/10.1002/2015JC010716">https://doi.org/10.1002/2015JC010716</a>.
 </div>
 </div>
 </section>
@@ -413,12 +494,12 @@ Steffelbauer, David B, Riccardo E M Riva, Jos S Timmermans, Jan H Kwakkel, and M
       // flash "checked"
       button.classList.add('code-copy-button-checked');
       var currentTitle = button.getAttribute("title");
-      button.setAttribute("title", "Copied!");
+      button.setAttribute("title", "Gekopieerd!");
       let tooltip;
       if (window.bootstrap) {
         button.setAttribute("data-bs-toggle", "tooltip");
         button.setAttribute("data-bs-placement", "left");
-        button.setAttribute("data-bs-title", "Copied!");
+        button.setAttribute("data-bs-title", "Gekopieerd!");
         tooltip = new bootstrap.Tooltip(button, 
           { trigger: "manual", 
             customClass: "code-copy-button-tooltip",
@@ -814,6 +895,38 @@ Steffelbauer, David B, Riccardo E M Riva, Jos S Timmermans, Jan H Kwakkel, and M
     </div>
   </div>
 </footer>
+<script>var lightboxQuarto = GLightbox({"closeEffect":"zoom","descPosition":"bottom","loop":false,"openEffect":"zoom","selector":".lightbox"});
+(function() {
+  let previousOnload = window.onload;
+  window.onload = () => {
+    if (previousOnload) {
+      previousOnload();
+    }
+    lightboxQuarto.on('slide_before_load', (data) => {
+      const { slideIndex, slideNode, slideConfig, player, trigger } = data;
+      const href = trigger.getAttribute('href');
+      if (href !== null) {
+        const imgEl = window.document.querySelector(`a[href="${href}"] img`);
+        if (imgEl !== null) {
+          const srcAttr = imgEl.getAttribute("src");
+          if (srcAttr && srcAttr.startsWith("data:")) {
+            slideConfig.href = srcAttr;
+          }
+        }
+      } 
+    });
+  
+    lightboxQuarto.on('slide_after_load', (data) => {
+      const { slideIndex, slideNode, slideConfig, player, trigger } = data;
+      if (window.Quarto?.typesetMath) {
+        window.Quarto.typesetMath(slideNode);
+      }
+    });
+  
+  };
+  
+})();
+          </script>
 
 
 
