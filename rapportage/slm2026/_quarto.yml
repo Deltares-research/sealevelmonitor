@@ -30,6 +30,7 @@ book:
     - 03_resultaten.qmd
     - 04_discussie.qmd
     - 05_literatuur.qmd
+  appendices:
     - 06_appendix.qmd
   # abstract: 
   # description: "metadata for html version"
@@ -47,6 +48,7 @@ link-citations: true
 format:
   html:
     theme: cosmo
+    lightbox: true
     css:
         - styles.css
         - draft.css
@@ -84,28 +86,9 @@ acronyms:
   fromfile:
     - acronyms.yml
 
+lang:
+  nl
 
-language:
-  label:
-    fig: "Figuur "
-    tbl: "Tabel "
-    eq: "Vergelijking "
-    thm: "Theorem "
-    lem: "Lemma "
-    cor: "Corollary "
-    prp: "Proposition "
-    cnj: "Conjecture "
-    def: "Definition "
-    exm: "Example "
-    exr: "Exercise "
-    hyp: "Hypothesis "
-    proof: "Proof. "
-    remark: "Remark. "
-    solution: "Solution. "
-
-  ui:
-    chapter_name: "Hoofdstuk "
-    appendix_name: "Bijlage "
 
 # toc: true
 # toc-depth: 2

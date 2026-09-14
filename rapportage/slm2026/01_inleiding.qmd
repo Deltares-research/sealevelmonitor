@@ -52,6 +52,158 @@ Draagvlak
 : De methodiek en resultaten van de Zeespiegelmonitor worden regelmatig besproken met experts van andere Nederlandse Instituten in een workshop. De laatste workshop was op 16 april 2026 met experts van \acr{NIOZ}, \acr{KNMI}, \acr{TNO}, \acr{PBL}, \acr{HKV}, \acr{TUD}, \acr{RWS}, \acr{HVEC} en \acr{UU}
 
 
+## Oorzaken van relatieve zeespiegelstijging {#oorzaken}
+
+
+:::{#fig-oorzaken .figure}
+
+```{mermaid}
+%%| fig-width: 18
+flowchart LR
+
+    %% Groen (globale processen)
+    Antarctica["Antarctica"]
+    Groenland["Groenland"]
+    Landijs["Landijs"]
+    OceaanMas["Oceaan<br/>massa"]
+    Dichtheid["Dichtheid<br/>temperatuur<br/>saliniteit"]
+    OceaanVol["Oceaan<br/>volume"]
+    GravRot["Gravitatie- en<br/>rotatie-effecten"]
+    BodDal["Bodemdaling"]
+    RegZS["Regionale<br/>zeespiegel"]
+    Opzet["Opzet"]
+    Getij["Getij"]
+    CircDichtheid["Circulaties en<br/>dichtheidsvariaties"]
+
+    %% Blauw (lokale processen / eindresultaat)
+    LokRelZS["Lokale<br/>relatieve<br/>zeespiegel"]
+    ZeeSpSt["Zeespiegel<br/>stijging"]
+    Glet["Gletsjers"]
+    OvWater["Overige<br/>watermassa"]
+    Morf["Morfologie"]
+    Tect["Tectoniek/GIA"]
+    Winning["Winning"]
+    Wind["Wind"]
+    Zoet["Zoete afvoer"]
+
+    Antarctica --> Landijs
+    Groenland --> Landijs
+    Glet --> Landijs
+
+    Landijs --> OceaanMas
+    OvWater --> OceaanMas
+
+    OceaanMas --> OceaanVol
+    Dichtheid --> OceaanVol
+
+    GravRot --> RegZS
+    OceaanVol --> RegZS
+    CircDichtheid --> RegZS
+
+    Wind --> Opzet
+    Zoet --> Opzet
+    Morf --> Opzet
+    RegZS --> Opzet
+    Opzet --> LokRelZS
+
+    Morf --> Getij
+    RegZS --> Getij
+    Getij --> LokRelZS
+
+    Tect --> BodDal
+    Winning --> BodDal
+    BodDal --> LokRelZS
+
+    %% RegZS --> LokRelZS  (was uitgecommentarieerd in het origineel)
+
+    classDef groen fill:#B7E1A1,stroke:#666,color:#000;
+    classDef blauw fill:#B0C4DE,stroke:#666,color:#000;
+
+    class Antarctica,Groenland,Landijs,OceaanMas,Dichtheid,OceaanVol,GravRot,BodDal,RegZS,Opzet,Getij,CircDichtheid groen;
+    class LokRelZS,ZeeSpSt,Glet,OvWater,Morf,Tect,Winning,Wind,Zoet blauw;
+```
+
+Overzicht van oorzaken van de lokale relatieve zeespiegelstijging. De groene onderdelen komen in dit hoofdstuk aan bod. Tijdschalen in de orde van jaren tot decaden. Links de mondiale processen doorvertaald naar rechts, processen op regionale schaal.
+
+:::
+
+
+
+
+```{mermaid}
+flowchart LR
+
+%% ===== MONDIAAL =====
+subgraph Mondiaal
+    direction LR
+    Antarctica["Antarctica"]
+    Groenland["Groenland"]
+    Glet["Gletsjers"]
+    OvWater["Overige<br/>watermassa"]
+
+    Landijs["Landijs"]
+    OceaanMas["Oceaan<br/>massa"]
+    Dichtheid["Dichtheid<br/>temperatuur<br/>saliniteit"]
+    OceaanVol["Oceaan<br/>volume"]
+end
+
+%% ===== REGIONAAL =====
+subgraph Regionaal
+    direction TB
+    GravRot["Gravitatie- en<br/>rotatie-effecten"]
+    CircDichtheid["Circulaties en<br/>dichtheidsvariaties"]
+    RegZS["Regionale<br/>zeespiegel"]
+end
+
+%% ===== LOKAAL =====
+subgraph Lokaal
+    direction TB
+    Wind["Wind"]
+    Zoet["Zoete afvoer"]
+    Morf["Morfologie"]
+    Tect["Tectoniek/GIA"]
+    Winning["Winning"]
+
+    Opzet["Opzet"]
+    Getij["Getij"]
+    BodDal["Bodemdaling"]
+    LokRelZS["Lokale<br/>relatieve<br/>zeespiegel"]
+end
+
+Antarctica --> Landijs
+Groenland --> Landijs
+Glet --> Landijs
+
+Landijs --> OceaanMas
+OvWater --> OceaanMas
+
+OceaanMas --> OceaanVol
+Dichtheid --> OceaanVol
+
+OceaanVol --> RegZS
+GravRot --> RegZS
+CircDichtheid --> RegZS
+
+Wind --> Opzet
+Zoet --> Opzet
+Morf --> Opzet
+RegZS --> Opzet
+
+Morf --> Getij
+RegZS --> Getij
+
+Tect --> BodDal
+Winning --> BodDal
+
+Opzet --> LokRelZS
+Getij --> LokRelZS
+BodDal --> LokRelZS
+
+```
+
+
+
+
 ## Inhoud van dit rapport {#leeswijzer}
 
 Dit rapport heeft als doel om een overzicht te geven van het werk dat in de afgelopen jaren is gedaan in het kader van het onderzoek Kustbeleid. Allereerst gaat het om de berekeningen van de zeespiegel en zeespiegelstijging. Verder is er ook ruimte geweest voor onderzoek met als doel om de gebruikte methodieken te verbeteren, of om de resultaten beter te kunnen interpreteren. Vanaf 2022 is er richting gegeven aan dit onderzoek vanuit een met de opdrachtgevers afgestemde onderzoeksagenda. Deze agenda is in 2023 vastgesteld voor de periode 2023 - 2025. In dit rapport worden deze centrale vraagstellingen beantwoord.

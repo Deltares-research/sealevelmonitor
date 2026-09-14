@@ -93,6 +93,8 @@ acronyms:
       longname: Hessel Voortman Engineering Consultancy BV
     - shortname: IaaS
       longname: Infrastructure as a Service
+    - shortname: IRW
+      longname: Integrated Random Walk
     - shortname: IB
       longname: Inverse Barometer
     - shortname: IenW
@@ -221,7 +223,9 @@ acronyms:
       longname: Sea Level Fingerprint
     - shortname: STL
       longname: Seasonal Decomposition of Time Series by Loess
-    - shortname: TGBM
+    - shortname: STM
+      longname: Structural Time series Model
+    - shortname: TNO
       longname: Tide Gauge Benchmark
     - shortname: TNO
       longname: Nederlandse Organisatie voor Toegepast Natuurwetenschappelijk Onderzoek
