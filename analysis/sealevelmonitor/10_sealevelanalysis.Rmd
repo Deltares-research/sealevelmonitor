@@ -610,7 +610,7 @@ ggplot(aes(x = data_year)) +
 
 ```
 
-```{r zss-mainstations, fig.width=6.5, fig.height=3, fig.cap = ""}
+```{r zss-mainstations, fig.width=6.5, fig.height=3, fig.cap = "Sea level rate before (green) and after (red) 1993, where the breakpoint is located for the preferred model (see above)."}
 
 parameterTable %>%
   filter(modeltype == "broken_linear") %>%
