@@ -5200,7 +5200,8 @@ parameterTable %>%
   filter(term %in% c("Trend", "+ trend 1993")) %>%
   filter(!grepl("Netherlands", station, ignore.case = T)) %>%
   ggplot(aes(station, estimate)) +
-  geom_col(aes(fill = term))
+  geom_col(aes(fill = term)) +
+  ylab("zss in mm/jaar")
 ```
 
 ![](10_sealevelanalysis_files/figure-gfm/zss-mainstations-1.png)<!-- -->
