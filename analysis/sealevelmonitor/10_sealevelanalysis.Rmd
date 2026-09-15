@@ -618,7 +618,7 @@ parameterTable %>%
   filter(!grepl("Netherlands", station, ignore.case = T)) %>%
   ggplot(aes(station, estimate)) +
   geom_col(aes(fill = term)) +
-  geom_hline(aes(station, "Trend", "+ trend 1993"))
+  ylab("zss in mm/jaar")
 
 ```
 

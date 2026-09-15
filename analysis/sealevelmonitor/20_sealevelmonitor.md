@@ -1,7 +1,7 @@
 Zeespiegelmonitor
 ================
 Willem Stolte, Nathalie Dees
-06 August, 2026
+15 September, 2026
 
 ## Inleiding
 
@@ -97,16 +97,16 @@ df %>%
 
 | year | opzetanomalie in mm | station                        |
 |-----:|--------------------:|:-------------------------------|
-| 2025 |               -24.0 | Netherlands (without Delfzijl) |
-| 2024 |                17.0 | Netherlands (without Delfzijl) |
-| 2023 |                24.0 | Netherlands (without Delfzijl) |
-| 2022 |               -12.0 | Netherlands (without Delfzijl) |
-| 2021 |               -17.0 | Netherlands (without Delfzijl) |
-| 2020 |                 6.2 | Netherlands (without Delfzijl) |
-| 2019 |                 5.9 | Netherlands (without Delfzijl) |
-| 2018 |               -42.0 | Netherlands (without Delfzijl) |
-| 2017 |                17.0 | Netherlands (without Delfzijl) |
-| 2016 |               -23.0 | Netherlands (without Delfzijl) |
+| 2025 |               -23.0 | Netherlands (without Delfzijl) |
+| 2024 |                20.0 | Netherlands (without Delfzijl) |
+| 2023 |                26.0 | Netherlands (without Delfzijl) |
+| 2022 |                -7.3 | Netherlands (without Delfzijl) |
+| 2021 |               -16.0 | Netherlands (without Delfzijl) |
+| 2020 |                 9.3 | Netherlands (without Delfzijl) |
+| 2019 |                 7.3 | Netherlands (without Delfzijl) |
+| 2018 |               -40.0 | Netherlands (without Delfzijl) |
+| 2017 |                19.0 | Netherlands (without Delfzijl) |
+| 2016 |               -19.0 | Netherlands (without Delfzijl) |
 
 Opzetanomalie (de afwijking in opzet van het langjarige gemiddelde)
 berekend door GTSM in mm over de laatste 10 jaar
@@ -496,11 +496,11 @@ parameterTable <- models %>%
 
 | short_term    | estimate | std.error | p.value |
 |:--------------|---------:|----------:|--------:|
-| Constant      |   -37.98 |      2.47 |    0.00 |
-| Trend         |     1.82 |      0.06 |    0.00 |
-| \+ trend 1993 |     1.35 |      0.29 |    0.00 |
-| u_nodal       |     5.58 |      2.50 |    0.03 |
-| v_nodal       |   -10.75 |      2.49 |    0.00 |
+| Constant      |   -39.86 |      2.47 |    0.00 |
+| Trend         |     1.79 |      0.06 |    0.00 |
+| \+ trend 1993 |     1.40 |      0.29 |    0.00 |
+| u_nodal       |     5.43 |      2.50 |    0.03 |
+| v_nodal       |   -10.87 |      2.49 |    0.00 |
 
 Coefficients for the preferred model( broken_linear ) and the composite
 station Netherlands (without Delfzijl)
