@@ -1,7 +1,7 @@
 Zeespiegelmonitor analysis
 ================
 Willem Stolte, Nathalie Dees
-12 August, 2026
+15 September, 2026
 
 # Sea Level Monitor analysis
 
@@ -600,17 +600,17 @@ Constant
 
 <td style="text-align:right;">
 
--62.50
+-74.67
 </td>
 
 <td style="text-align:right;">
 
-2.26
+2.27
 </td>
 
 <td style="text-align:right;">
 
--27.68
+-32.87
 </td>
 
 <td style="text-align:right;">
@@ -639,7 +639,7 @@ Trend
 
 <td style="text-align:right;">
 
-2.44
+2.24
 </td>
 
 <td style="text-align:right;">
@@ -649,7 +649,7 @@ Trend
 
 <td style="text-align:right;">
 
-43.92
+40.21
 </td>
 
 <td style="text-align:right;">
@@ -678,22 +678,22 @@ u_nodal
 
 <td style="text-align:right;">
 
-6.48
+5.84
 </td>
 
 <td style="text-align:right;">
 
-3.06
+3.08
 </td>
 
 <td style="text-align:right;">
 
-2.11
+1.89
 </td>
 
 <td style="text-align:right;">
 
-0.04
+0.06
 </td>
 
 </tr>
@@ -717,17 +717,17 @@ v_nodal
 
 <td style="text-align:right;">
 
--13.30
+-14.23
 </td>
 
 <td style="text-align:right;">
 
-3.05
+3.06
 </td>
 
 <td style="text-align:right;">
 
--4.37
+-4.64
 </td>
 
 <td style="text-align:right;">
@@ -756,17 +756,17 @@ Constant
 
 <td style="text-align:right;">
 
--67.19
+-81.26
 </td>
 
 <td style="text-align:right;">
 
-2.97
+2.92
 </td>
 
 <td style="text-align:right;">
 
--22.64
+-27.80
 </td>
 
 <td style="text-align:right;">
@@ -795,7 +795,7 @@ Trend
 
 <td style="text-align:right;">
 
-2.32
+2.07
 </td>
 
 <td style="text-align:right;">
@@ -805,7 +805,7 @@ Trend
 
 <td style="text-align:right;">
 
-31.03
+28.22
 </td>
 
 <td style="text-align:right;">
@@ -834,22 +834,22 @@ broken_linear
 
   <td style="text-align:right;">
 
-  0.83
+  1.17
   </td>
 
   <td style="text-align:right;">
 
-  0.35
+  0.34
   </td>
 
   <td style="text-align:right;">
 
-  2.38
+  3.40
   </td>
 
   <td style="text-align:right;">
 
-  0.02
+  0.00
   </td>
 
   </tr>
@@ -873,22 +873,22 @@ broken_linear
 
   <td style="text-align:right;">
 
-  6.28
+  5.56
   </td>
 
   <td style="text-align:right;">
 
-  3.01
+  2.97
   </td>
 
   <td style="text-align:right;">
 
-  2.08
+  1.87
   </td>
 
   <td style="text-align:right;">
 
-  0.04
+  0.06
   </td>
 
   </tr>
@@ -912,17 +912,17 @@ broken_linear
 
   <td style="text-align:right;">
 
-  -12.46
+  -13.04
   </td>
 
   <td style="text-align:right;">
 
-  3.01
+  2.97
   </td>
 
   <td style="text-align:right;">
 
-  -4.14
+  -4.39
   </td>
 
   <td style="text-align:right;">
@@ -951,17 +951,17 @@ broken_linear
 
   <td style="text-align:right;">
 
-  -66.47
+  -81.68
   </td>
 
   <td style="text-align:right;">
 
-  3.79
+  3.76
   </td>
 
   <td style="text-align:right;">
 
-  -17.56
+  -21.75
   </td>
 
   <td style="text-align:right;">
@@ -990,7 +990,7 @@ broken_linear
 
   <td style="text-align:right;">
 
-  2.34
+  2.08
   </td>
 
   <td style="text-align:right;">
@@ -1000,7 +1000,7 @@ broken_linear
 
   <td style="text-align:right;">
 
-  25.54
+  22.82
   </td>
 
   <td style="text-align:right;">
@@ -1029,7 +1029,7 @@ broken_linear
 
     <td style="text-align:right;">
 
-    0.00
+    0.01
     </td>
 
     <td style="text-align:right;">
@@ -1039,12 +1039,12 @@ broken_linear
 
     <td style="text-align:right;">
 
-    1.30
+    2.33
     </td>
 
     <td style="text-align:right;">
 
-    0.20
+    0.02
     </td>
 
     </tr>
@@ -1068,22 +1068,22 @@ broken_linear
 
     <td style="text-align:right;">
 
-    6.31
+    5.55
     </td>
 
     <td style="text-align:right;">
 
-    3.06
+    3.03
     </td>
 
     <td style="text-align:right;">
 
-    2.06
+    1.83
     </td>
 
     <td style="text-align:right;">
 
-    0.04
+    0.07
     </td>
 
     </tr>
@@ -1107,17 +1107,17 @@ broken_linear
 
     <td style="text-align:right;">
 
-    -12.91
+    -13.54
     </td>
 
     <td style="text-align:right;">
 
-    3.05
+    3.03
     </td>
 
     <td style="text-align:right;">
 
-    -4.23
+    -4.47
     </td>
 
     <td style="text-align:right;">
@@ -1146,22 +1146,22 @@ broken_linear
 
     <td style="text-align:right;">
 
-    2.05
+    -5.22
     </td>
 
     <td style="text-align:right;">
 
-    2.27
+    2.34
     </td>
 
     <td style="text-align:right;">
 
-    0.90
+    -2.23
     </td>
 
     <td style="text-align:right;">
 
-    0.37
+    0.03
     </td>
 
     </tr>
@@ -1185,7 +1185,7 @@ broken_linear
 
     <td style="text-align:right;">
 
-    2.56
+    2.44
     </td>
 
     <td style="text-align:right;">
@@ -1195,7 +1195,7 @@ broken_linear
 
     <td style="text-align:right;">
 
-    45.96
+    42.58
     </td>
 
     <td style="text-align:right;">
@@ -1224,22 +1224,22 @@ broken_linear
 
     <td style="text-align:right;">
 
-    1.88
+    1.43
     </td>
 
     <td style="text-align:right;">
 
-    3.08
+    3.17
     </td>
 
     <td style="text-align:right;">
 
-    0.61
+    0.45
     </td>
 
     <td style="text-align:right;">
 
-    0.54
+    0.65
     </td>
 
     </tr>
@@ -1263,17 +1263,17 @@ broken_linear
 
     <td style="text-align:right;">
 
-    -9.69
+    -10.20
     </td>
 
     <td style="text-align:right;">
 
-    3.06
+    3.15
     </td>
 
     <td style="text-align:right;">
 
-    -3.17
+    -3.24
     </td>
 
     <td style="text-align:right;">
@@ -1302,22 +1302,22 @@ broken_linear
 
     <td style="text-align:right;">
 
-    -3.88
+    -12.29
     </td>
 
     <td style="text-align:right;">
 
-    2.94
+    2.99
     </td>
 
     <td style="text-align:right;">
 
-    -1.32
+    -4.10
     </td>
 
     <td style="text-align:right;">
 
-    0.19
+    0.00
     </td>
 
     </tr>
@@ -1341,7 +1341,7 @@ broken_linear
 
     <td style="text-align:right;">
 
-    2.40
+    2.26
     </td>
 
     <td style="text-align:right;">
@@ -1351,7 +1351,7 @@ broken_linear
 
     <td style="text-align:right;">
 
-    32.54
+    30.04
     </td>
 
     <td style="text-align:right;">
@@ -1380,7 +1380,7 @@ broken_linear
 
       <td style="text-align:right;">
 
-      1.05
+      1.26
       </td>
 
       <td style="text-align:right;">
@@ -1390,7 +1390,7 @@ broken_linear
 
       <td style="text-align:right;">
 
-      3.04
+      3.56
       </td>
 
       <td style="text-align:right;">
@@ -1419,22 +1419,22 @@ broken_linear
 
       <td style="text-align:right;">
 
-      1.63
+      1.13
       </td>
 
       <td style="text-align:right;">
 
-      2.98
+      3.04
       </td>
 
       <td style="text-align:right;">
 
-      0.55
+      0.37
       </td>
 
       <td style="text-align:right;">
 
-      0.59
+      0.71
       </td>
 
       </tr>
@@ -1458,17 +1458,17 @@ broken_linear
 
       <td style="text-align:right;">
 
-      -8.63
+      -8.93
       </td>
 
       <td style="text-align:right;">
 
-      2.99
+      3.04
       </td>
 
       <td style="text-align:right;">
 
-      -2.89
+      -2.94
       </td>
 
       <td style="text-align:right;">
@@ -1497,22 +1497,22 @@ broken_linear
 
       <td style="text-align:right;">
 
-      -8.13
+      -17.20
       </td>
 
       <td style="text-align:right;">
 
-      3.66
+      3.72
       </td>
 
       <td style="text-align:right;">
 
-      -2.22
+      -4.63
       </td>
 
       <td style="text-align:right;">
 
-      0.03
+      0.00
       </td>
 
       </tr>
@@ -1536,7 +1536,7 @@ broken_linear
 
       <td style="text-align:right;">
 
-      2.31
+      2.15
       </td>
 
       <td style="text-align:right;">
@@ -1546,7 +1546,7 @@ broken_linear
 
       <td style="text-align:right;">
 
-      26.11
+      23.94
       </td>
 
       <td style="text-align:right;">
@@ -1585,7 +1585,7 @@ broken_linear
 
         <td style="text-align:right;">
 
-        3.46
+        4.01
         </td>
 
         <td style="text-align:right;">
@@ -1614,22 +1614,22 @@ broken_linear
 
         <td style="text-align:right;">
 
-        1.46
+        0.93
         </td>
 
         <td style="text-align:right;">
 
-        2.96
+        3.00
         </td>
 
         <td style="text-align:right;">
 
-        0.49
+        0.31
         </td>
 
         <td style="text-align:right;">
 
-        0.62
+        0.76
         </td>
 
         </tr>
@@ -1653,17 +1653,17 @@ broken_linear
 
         <td style="text-align:right;">
 
-        -8.69
+        -9.02
         </td>
 
         <td style="text-align:right;">
 
-        2.95
+        3.00
         </td>
 
         <td style="text-align:right;">
 
-        -2.94
+        -3.01
         </td>
 
         <td style="text-align:right;">
@@ -1692,7 +1692,7 @@ broken_linear
 
         <td style="text-align:right;">
 
-        -55.52
+        -55.17
         </td>
 
         <td style="text-align:right;">
@@ -1702,7 +1702,7 @@ broken_linear
 
         <td style="text-align:right;">
 
-        -22.50
+        -22.36
         </td>
 
         <td style="text-align:right;">
@@ -1731,7 +1731,7 @@ broken_linear
 
         <td style="text-align:right;">
 
-        1.61
+        1.62
         </td>
 
         <td style="text-align:right;">
@@ -1741,7 +1741,7 @@ broken_linear
 
         <td style="text-align:right;">
 
-        26.62
+        26.71
         </td>
 
         <td style="text-align:right;">
@@ -1770,7 +1770,7 @@ broken_linear
 
         <td style="text-align:right;">
 
-        6.66
+        6.60
         </td>
 
         <td style="text-align:right;">
@@ -1780,7 +1780,7 @@ broken_linear
 
         <td style="text-align:right;">
 
-        1.99
+        1.97
         </td>
 
         <td style="text-align:right;">
@@ -1809,7 +1809,7 @@ broken_linear
 
         <td style="text-align:right;">
 
-        -14.53
+        -14.59
         </td>
 
         <td style="text-align:right;">
@@ -1819,7 +1819,7 @@ broken_linear
 
         <td style="text-align:right;">
 
-        -4.36
+        -4.38
         </td>
 
         <td style="text-align:right;">
@@ -1848,17 +1848,17 @@ broken_linear
 
         <td style="text-align:right;">
 
-        -65.59
+        -65.19
         </td>
 
         <td style="text-align:right;">
 
-        3.03
+        3.04
         </td>
 
         <td style="text-align:right;">
 
-        -21.62
+        -21.46
         </td>
 
         <td style="text-align:right;">
@@ -1887,7 +1887,7 @@ broken_linear
 
         <td style="text-align:right;">
 
-        1.35
+        1.36
         </td>
 
         <td style="text-align:right;">
@@ -1897,7 +1897,7 @@ broken_linear
 
         <td style="text-align:right;">
 
-        17.75
+        17.82
         </td>
 
         <td style="text-align:right;">
@@ -1926,7 +1926,7 @@ broken_linear
 
           <td style="text-align:right;">
 
-          1.79
+          1.78
           </td>
 
           <td style="text-align:right;">
@@ -1936,7 +1936,7 @@ broken_linear
 
           <td style="text-align:right;">
 
-          5.00
+          4.96
           </td>
 
           <td style="text-align:right;">
@@ -1965,7 +1965,7 @@ broken_linear
 
           <td style="text-align:right;">
 
-          6.23
+          6.17
           </td>
 
           <td style="text-align:right;">
@@ -1975,12 +1975,12 @@ broken_linear
 
           <td style="text-align:right;">
 
-          2.02
+          2.00
           </td>
 
           <td style="text-align:right;">
 
-          0.04
+          0.05
           </td>
 
           </tr>
@@ -2004,7 +2004,7 @@ broken_linear
 
           <td style="text-align:right;">
 
-          -12.72
+          -12.79
           </td>
 
           <td style="text-align:right;">
@@ -2014,7 +2014,7 @@ broken_linear
 
           <td style="text-align:right;">
 
-          -4.13
+          -4.15
           </td>
 
           <td style="text-align:right;">
@@ -2043,7 +2043,7 @@ broken_linear
 
           <td style="text-align:right;">
 
-          -71.76
+          -71.30
           </td>
 
           <td style="text-align:right;">
@@ -2053,7 +2053,7 @@ broken_linear
 
           <td style="text-align:right;">
 
-          -19.05
+          -18.90
           </td>
 
           <td style="text-align:right;">
@@ -2082,7 +2082,7 @@ broken_linear
 
           <td style="text-align:right;">
 
-          1.22
+          1.23
           </td>
 
           <td style="text-align:right;">
@@ -2092,7 +2092,7 @@ broken_linear
 
           <td style="text-align:right;">
 
-          13.41
+          13.48
           </td>
 
           <td style="text-align:right;">
@@ -2131,7 +2131,7 @@ broken_linear
 
             <td style="text-align:right;">
 
-            5.36
+            5.32
             </td>
 
             <td style="text-align:right;">
@@ -2160,17 +2160,17 @@ broken_linear
 
             <td style="text-align:right;">
 
-            5.98
+            5.93
             </td>
 
             <td style="text-align:right;">
 
-            3.04
+            3.05
             </td>
 
             <td style="text-align:right;">
 
-            1.97
+            1.95
             </td>
 
             <td style="text-align:right;">
@@ -2199,7 +2199,7 @@ broken_linear
 
             <td style="text-align:right;">
 
-            -12.93
+            -13.00
             </td>
 
             <td style="text-align:right;">
@@ -2209,7 +2209,7 @@ broken_linear
 
             <td style="text-align:right;">
 
-            -4.26
+            -4.27
             </td>
 
             <td style="text-align:right;">
@@ -2238,17 +2238,17 @@ broken_linear
 
             <td style="text-align:right;">
 
-            24.52
+            32.60
             </td>
 
             <td style="text-align:right;">
 
-            2.94
+            2.87
             </td>
 
             <td style="text-align:right;">
 
-            8.33
+            11.36
             </td>
 
             <td style="text-align:right;">
@@ -2277,7 +2277,7 @@ broken_linear
 
             <td style="text-align:right;">
 
-            1.95
+            2.07
             </td>
 
             <td style="text-align:right;">
@@ -2287,7 +2287,7 @@ broken_linear
 
             <td style="text-align:right;">
 
-            26.93
+            29.42
             </td>
 
             <td style="text-align:right;">
@@ -2316,22 +2316,22 @@ broken_linear
 
             <td style="text-align:right;">
 
-            3.60
+            4.01
             </td>
 
             <td style="text-align:right;">
 
-            3.99
+            3.89
             </td>
 
             <td style="text-align:right;">
 
-            0.90
+            1.03
             </td>
 
             <td style="text-align:right;">
 
-            0.37
+            0.30
             </td>
 
             </tr>
@@ -2355,17 +2355,17 @@ broken_linear
 
             <td style="text-align:right;">
 
-            -15.09
+            -14.55
             </td>
 
             <td style="text-align:right;">
 
-            3.97
+            3.87
             </td>
 
             <td style="text-align:right;">
 
-            -3.80
+            -3.76
             </td>
 
             <td style="text-align:right;">
@@ -2394,17 +2394,17 @@ broken_linear
 
             <td style="text-align:right;">
 
-            11.76
+            21.05
             </td>
 
             <td style="text-align:right;">
 
-            3.57
+            3.54
             </td>
 
             <td style="text-align:right;">
 
-            3.29
+            5.95
             </td>
 
             <td style="text-align:right;">
@@ -2433,7 +2433,7 @@ broken_linear
 
             <td style="text-align:right;">
 
-            1.62
+            1.77
             </td>
 
             <td style="text-align:right;">
@@ -2443,7 +2443,7 @@ broken_linear
 
             <td style="text-align:right;">
 
-            18.00
+            19.96
             </td>
 
             <td style="text-align:right;">
@@ -2472,7 +2472,7 @@ broken_linear
 
               <td style="text-align:right;">
 
-              2.27
+              2.05
               </td>
 
               <td style="text-align:right;">
@@ -2482,7 +2482,7 @@ broken_linear
 
               <td style="text-align:right;">
 
-              5.38
+              4.92
               </td>
 
               <td style="text-align:right;">
@@ -2511,22 +2511,22 @@ broken_linear
 
               <td style="text-align:right;">
 
-              3.06
+              3.52
               </td>
 
               <td style="text-align:right;">
 
-              3.63
+              3.59
               </td>
 
               <td style="text-align:right;">
 
-              0.84
+              0.98
               </td>
 
               <td style="text-align:right;">
 
-              0.40
+              0.33
               </td>
 
               </tr>
@@ -2550,17 +2550,17 @@ broken_linear
 
               <td style="text-align:right;">
 
-              -12.80
+              -12.47
               </td>
 
               <td style="text-align:right;">
 
-              3.63
+              3.59
               </td>
 
               <td style="text-align:right;">
 
-              -3.53
+              -3.47
               </td>
 
               <td style="text-align:right;">
@@ -2589,22 +2589,22 @@ broken_linear
 
               <td style="text-align:right;">
 
-              5.62
+              15.68
               </td>
 
               <td style="text-align:right;">
 
-              4.52
+              4.48
               </td>
 
               <td style="text-align:right;">
 
-              1.25
+              3.50
               </td>
 
               <td style="text-align:right;">
 
-              0.22
+              0.00
               </td>
 
               </tr>
@@ -2628,7 +2628,7 @@ broken_linear
 
               <td style="text-align:right;">
 
-              1.49
+              1.67
               </td>
 
               <td style="text-align:right;">
@@ -2638,7 +2638,7 @@ broken_linear
 
               <td style="text-align:right;">
 
-              13.64
+              15.38
               </td>
 
               <td style="text-align:right;">
@@ -2677,7 +2677,7 @@ broken_linear
 
                 <td style="text-align:right;">
 
-                5.21
+                4.71
                 </td>
 
                 <td style="text-align:right;">
@@ -2706,22 +2706,22 @@ broken_linear
 
                 <td style="text-align:right;">
 
-                2.82
+                3.31
                 </td>
 
                 <td style="text-align:right;">
 
-                3.65
+                3.62
                 </td>
 
                 <td style="text-align:right;">
 
-                0.77
+                0.91
                 </td>
 
                 <td style="text-align:right;">
 
-                0.44
+                0.36
                 </td>
 
                 </tr>
@@ -2745,17 +2745,17 @@ broken_linear
 
                 <td style="text-align:right;">
 
-                -13.22
+                -12.88
                 </td>
 
                 <td style="text-align:right;">
 
-                3.64
+                3.61
                 </td>
 
                 <td style="text-align:right;">
 
-                -3.63
+                -3.57
                 </td>
 
                 <td style="text-align:right;">
@@ -2784,22 +2784,22 @@ broken_linear
 
                 <td style="text-align:right;">
 
-                6.68
+                18.96
                 </td>
 
                 <td style="text-align:right;">
 
-                2.83
+                2.71
                 </td>
 
                 <td style="text-align:right;">
 
-                2.36
+                6.99
                 </td>
 
                 <td style="text-align:right;">
 
-                0.02
+                0.00
                 </td>
 
                 </tr>
@@ -2823,7 +2823,7 @@ broken_linear
 
                 <td style="text-align:right;">
 
-                1.27
+                1.46
                 </td>
 
                 <td style="text-align:right;">
@@ -2833,7 +2833,7 @@ broken_linear
 
                 <td style="text-align:right;">
 
-                18.23
+                21.95
                 </td>
 
                 <td style="text-align:right;">
@@ -2862,22 +2862,22 @@ broken_linear
 
                 <td style="text-align:right;">
 
-                3.09
+                3.67
                 </td>
 
                 <td style="text-align:right;">
 
-                3.84
+                3.68
                 </td>
 
                 <td style="text-align:right;">
 
-                0.80
+                1.00
                 </td>
 
                 <td style="text-align:right;">
 
-                0.42
+                0.32
                 </td>
 
                 </tr>
@@ -2901,17 +2901,17 @@ broken_linear
 
                 <td style="text-align:right;">
 
-                -12.51
+                -11.75
                 </td>
 
                 <td style="text-align:right;">
 
-                3.82
+                3.66
                 </td>
 
                 <td style="text-align:right;">
 
-                -3.28
+                -3.21
                 </td>
 
                 <td style="text-align:right;">
@@ -2940,22 +2940,22 @@ broken_linear
 
                 <td style="text-align:right;">
 
-                -9.28
+                4.91
                 </td>
 
                 <td style="text-align:right;">
 
-                3.16
+                3.13
                 </td>
 
                 <td style="text-align:right;">
 
-                -2.93
+                1.57
                 </td>
 
                 <td style="text-align:right;">
 
-                0.00
+                0.12
                 </td>
 
                 </tr>
@@ -2979,7 +2979,7 @@ broken_linear
 
                 <td style="text-align:right;">
 
-                0.86
+                1.10
                 </td>
 
                 <td style="text-align:right;">
@@ -2989,7 +2989,7 @@ broken_linear
 
                 <td style="text-align:right;">
 
-                10.76
+                13.95
                 </td>
 
                 <td style="text-align:right;">
@@ -3018,7 +3018,7 @@ broken_linear
 
                   <td style="text-align:right;">
 
-                  2.84
+                  2.50
                   </td>
 
                   <td style="text-align:right;">
@@ -3028,7 +3028,7 @@ broken_linear
 
                   <td style="text-align:right;">
 
-                  7.59
+                  6.75
                   </td>
 
                   <td style="text-align:right;">
@@ -3057,22 +3057,22 @@ broken_linear
 
                   <td style="text-align:right;">
 
-                  2.41
+                  3.08
                   </td>
 
                   <td style="text-align:right;">
 
-                  3.21
+                  3.18
                   </td>
 
                   <td style="text-align:right;">
 
-                  0.75
+                  0.97
                   </td>
 
                   <td style="text-align:right;">
 
-                  0.45
+                  0.34
                   </td>
 
                   </tr>
@@ -3096,17 +3096,17 @@ broken_linear
 
                   <td style="text-align:right;">
 
-                  -9.65
+                  -9.23
                   </td>
 
                   <td style="text-align:right;">
 
-                  3.21
+                  3.18
                   </td>
 
                   <td style="text-align:right;">
 
-                  -3.00
+                  -2.90
                   </td>
 
                   <td style="text-align:right;">
@@ -3135,22 +3135,22 @@ broken_linear
 
                   <td style="text-align:right;">
 
-                  -15.62
+                  -0.28
                   </td>
 
                   <td style="text-align:right;">
 
-                  4.11
+                  4.07
                   </td>
 
                   <td style="text-align:right;">
 
-                  -3.80
+                  -0.07
                   </td>
 
                   <td style="text-align:right;">
 
-                  0.00
+                  0.95
                   </td>
 
                   </tr>
@@ -3174,7 +3174,7 @@ broken_linear
 
                   <td style="text-align:right;">
 
-                  0.73
+                  1.00
                   </td>
 
                   <td style="text-align:right;">
@@ -3184,7 +3184,7 @@ broken_linear
 
                   <td style="text-align:right;">
 
-                  7.35
+                  10.15
                   </td>
 
                   <td style="text-align:right;">
@@ -3223,7 +3223,7 @@ broken_linear
 
                     <td style="text-align:right;">
 
-                    6.75
+                    5.89
                     </td>
 
                     <td style="text-align:right;">
@@ -3252,22 +3252,22 @@ broken_linear
 
                     <td style="text-align:right;">
 
-                    2.16
+                    2.88
                     </td>
 
                     <td style="text-align:right;">
 
-                    3.32
+                    3.29
                     </td>
 
                     <td style="text-align:right;">
 
-                    0.65
+                    0.88
                     </td>
 
                     <td style="text-align:right;">
 
-                    0.52
+                    0.38
                     </td>
 
                     </tr>
@@ -3291,17 +3291,17 @@ broken_linear
 
                     <td style="text-align:right;">
 
-                    -10.32
+                    -9.86
                     </td>
 
                     <td style="text-align:right;">
 
-                    3.32
+                    3.28
                     </td>
 
                     <td style="text-align:right;">
 
-                    -3.11
+                    -3.01
                     </td>
 
                     <td style="text-align:right;">
@@ -3330,7 +3330,7 @@ broken_linear
 
                     <td style="text-align:right;">
 
-                    -42.10
+                    -43.40
                     </td>
 
                     <td style="text-align:right;">
@@ -3340,7 +3340,7 @@ broken_linear
 
                     <td style="text-align:right;">
 
-                    -16.28
+                    -16.80
                     </td>
 
                     <td style="text-align:right;">
@@ -3369,7 +3369,7 @@ broken_linear
 
                     <td style="text-align:right;">
 
-                    2.15
+                    2.13
                     </td>
 
                     <td style="text-align:right;">
@@ -3379,7 +3379,7 @@ broken_linear
 
                     <td style="text-align:right;">
 
-                    33.87
+                    33.58
                     </td>
 
                     <td style="text-align:right;">
@@ -3408,17 +3408,17 @@ broken_linear
 
                     <td style="text-align:right;">
 
-                    10.57
+                    10.41
                     </td>
 
                     <td style="text-align:right;">
 
-                    3.51
+                    3.50
                     </td>
 
                     <td style="text-align:right;">
 
-                    3.01
+                    2.97
                     </td>
 
                     <td style="text-align:right;">
@@ -3447,17 +3447,17 @@ broken_linear
 
                     <td style="text-align:right;">
 
-                    -12.65
+                    -12.82
                     </td>
 
                     <td style="text-align:right;">
 
-                    3.49
+                    3.48
                     </td>
 
                     <td style="text-align:right;">
 
-                    -3.63
+                    -3.68
                     </td>
 
                     <td style="text-align:right;">
@@ -3486,17 +3486,17 @@ broken_linear
 
                     <td style="text-align:right;">
 
-                    -44.36
+                    -45.88
                     </td>
 
                     <td style="text-align:right;">
 
-                    3.46
+                    3.45
                     </td>
 
                     <td style="text-align:right;">
 
-                    -12.83
+                    -13.29
                     </td>
 
                     <td style="text-align:right;">
@@ -3525,7 +3525,7 @@ broken_linear
 
                     <td style="text-align:right;">
 
-                    2.09
+                    2.07
                     </td>
 
                     <td style="text-align:right;">
@@ -3535,7 +3535,7 @@ broken_linear
 
                     <td style="text-align:right;">
 
-                    24.07
+                    23.81
                     </td>
 
                     <td style="text-align:right;">
@@ -3564,7 +3564,7 @@ broken_linear
 
                       <td style="text-align:right;">
 
-                      0.40
+                      0.44
                       </td>
 
                       <td style="text-align:right;">
@@ -3574,12 +3574,12 @@ broken_linear
 
                       <td style="text-align:right;">
 
-                      0.99
+                      1.08
                       </td>
 
                       <td style="text-align:right;">
 
-                      0.33
+                      0.28
                       </td>
 
                       </tr>
@@ -3603,17 +3603,17 @@ broken_linear
 
                       <td style="text-align:right;">
 
-                      10.47
+                      10.30
                       </td>
 
                       <td style="text-align:right;">
 
-                      3.51
+                      3.50
                       </td>
 
                       <td style="text-align:right;">
 
-                      2.98
+                      2.94
                       </td>
 
                       <td style="text-align:right;">
@@ -3642,7 +3642,7 @@ broken_linear
 
                       <td style="text-align:right;">
 
-                      -12.24
+                      -12.37
                       </td>
 
                       <td style="text-align:right;">
@@ -3652,7 +3652,7 @@ broken_linear
 
                       <td style="text-align:right;">
 
-                      -3.49
+                      -3.53
                       </td>
 
                       <td style="text-align:right;">
@@ -3681,17 +3681,17 @@ broken_linear
 
                       <td style="text-align:right;">
 
-                      -44.70
+                      -46.32
                       </td>
 
                       <td style="text-align:right;">
 
-                      4.35
+                      4.34
                       </td>
 
                       <td style="text-align:right;">
 
-                      -10.27
+                      -10.66
                       </td>
 
                       <td style="text-align:right;">
@@ -3720,7 +3720,7 @@ broken_linear
 
                       <td style="text-align:right;">
 
-                      2.09
+                      2.06
                       </td>
 
                       <td style="text-align:right;">
@@ -3730,7 +3730,7 @@ broken_linear
 
                       <td style="text-align:right;">
 
-                      19.81
+                      19.57
                       </td>
 
                       <td style="text-align:right;">
@@ -3769,12 +3769,12 @@ broken_linear
 
                         <td style="text-align:right;">
 
-                        0.74
+                        0.84
                         </td>
 
                         <td style="text-align:right;">
 
-                        0.46
+                        0.40
                         </td>
 
                         </tr>
@@ -3798,17 +3798,17 @@ broken_linear
 
                         <td style="text-align:right;">
 
-                        10.46
+                        10.29
                         </td>
 
                         <td style="text-align:right;">
 
-                        3.52
+                        3.51
                         </td>
 
                         <td style="text-align:right;">
 
-                        2.97
+                        2.93
                         </td>
 
                         <td style="text-align:right;">
@@ -3837,17 +3837,17 @@ broken_linear
 
                         <td style="text-align:right;">
 
-                        -12.39
+                        -12.53
                         </td>
 
                         <td style="text-align:right;">
 
-                        3.51
+                        3.50
                         </td>
 
                         <td style="text-align:right;">
 
-                        -3.53
+                        -3.58
                         </td>
 
                         <td style="text-align:right;">
@@ -3881,7 +3881,7 @@ broken_linear
 
                         <td style="text-align:right;">
 
-                        2.05
+                        2.06
                         </td>
 
                         <td style="text-align:right;">
@@ -3925,7 +3925,7 @@ broken_linear
 
                         <td style="text-align:right;">
 
-                        39.55
+                        39.54
                         </td>
 
                         <td style="text-align:right;">
@@ -3954,7 +3954,7 @@ broken_linear
 
                         <td style="text-align:right;">
 
-                        5.38
+                        5.33
                         </td>
 
                         <td style="text-align:right;">
@@ -3964,7 +3964,7 @@ broken_linear
 
                         <td style="text-align:right;">
 
-                        1.93
+                        1.91
                         </td>
 
                         <td style="text-align:right;">
@@ -3993,7 +3993,7 @@ broken_linear
 
                         <td style="text-align:right;">
 
-                        -12.96
+                        -13.02
                         </td>
 
                         <td style="text-align:right;">
@@ -4003,7 +4003,7 @@ broken_linear
 
                         <td style="text-align:right;">
 
-                        -4.68
+                        -4.70
                         </td>
 
                         <td style="text-align:right;">
@@ -4032,7 +4032,7 @@ broken_linear
 
                         <td style="text-align:right;">
 
-                        -29.76
+                        -29.78
                         </td>
 
                         <td style="text-align:right;">
@@ -4042,7 +4042,7 @@ broken_linear
 
                         <td style="text-align:right;">
 
-                        -11.84
+                        -11.85
                         </td>
 
                         <td style="text-align:right;">
@@ -4120,7 +4120,7 @@ broken_linear
 
                           <td style="text-align:right;">
 
-                          5.16
+                          5.17
                           </td>
 
                           <td style="text-align:right;">
@@ -4149,7 +4149,7 @@ broken_linear
 
                           <td style="text-align:right;">
 
-                          5.01
+                          4.96
                           </td>
 
                           <td style="text-align:right;">
@@ -4159,7 +4159,7 @@ broken_linear
 
                           <td style="text-align:right;">
 
-                          1.97
+                          1.95
                           </td>
 
                           <td style="text-align:right;">
@@ -4188,7 +4188,7 @@ broken_linear
 
                           <td style="text-align:right;">
 
-                          -11.42
+                          -11.47
                           </td>
 
                           <td style="text-align:right;">
@@ -4198,7 +4198,7 @@ broken_linear
 
                           <td style="text-align:right;">
 
-                          -4.47
+                          -4.50
                           </td>
 
                           <td style="text-align:right;">
@@ -4227,7 +4227,7 @@ broken_linear
 
                           <td style="text-align:right;">
 
-                          -33.51
+                          -33.52
                           </td>
 
                           <td style="text-align:right;">
@@ -4276,7 +4276,7 @@ broken_linear
 
                           <td style="text-align:right;">
 
-                          21.97
+                          21.96
                           </td>
 
                           <td style="text-align:right;">
@@ -4344,7 +4344,7 @@ broken_linear
 
                             <td style="text-align:right;">
 
-                            4.86
+                            4.81
                             </td>
 
                             <td style="text-align:right;">
@@ -4354,7 +4354,7 @@ broken_linear
 
                             <td style="text-align:right;">
 
-                            1.89
+                            1.87
                             </td>
 
                             <td style="text-align:right;">
@@ -4383,7 +4383,7 @@ broken_linear
 
                             <td style="text-align:right;">
 
-                            -11.74
+                            -11.80
                             </td>
 
                             <td style="text-align:right;">
@@ -4393,7 +4393,7 @@ broken_linear
 
                             <td style="text-align:right;">
 
-                            -4.56
+                            -4.58
                             </td>
 
                             <td style="text-align:right;">
@@ -4422,17 +4422,17 @@ broken_linear
 
                             <td style="text-align:right;">
 
-                            -30.28
+                            -31.90
                             </td>
 
                             <td style="text-align:right;">
 
-                            1.98
+                            1.99
                             </td>
 
                             <td style="text-align:right;">
 
-                            -15.26
+                            -16.00
                             </td>
 
                             <td style="text-align:right;">
@@ -4461,7 +4461,7 @@ broken_linear
 
                             <td style="text-align:right;">
 
-                            2.00
+                            1.98
                             </td>
 
                             <td style="text-align:right;">
@@ -4471,7 +4471,7 @@ broken_linear
 
                             <td style="text-align:right;">
 
-                            41.15
+                            40.43
                             </td>
 
                             <td style="text-align:right;">
@@ -4500,17 +4500,17 @@ broken_linear
 
                             <td style="text-align:right;">
 
-                            5.73
+                            5.59
                             </td>
 
                             <td style="text-align:right;">
 
-                            2.69
+                            2.70
                             </td>
 
                             <td style="text-align:right;">
 
-                            2.13
+                            2.07
                             </td>
 
                             <td style="text-align:right;">
@@ -4539,17 +4539,17 @@ broken_linear
 
                             <td style="text-align:right;">
 
-                            -12.54
+                            -12.72
                             </td>
 
                             <td style="text-align:right;">
 
-                            2.68
+                            2.69
                             </td>
 
                             <td style="text-align:right;">
 
-                            -4.68
+                            -4.73
                             </td>
 
                             <td style="text-align:right;">
@@ -4578,7 +4578,7 @@ broken_linear
 
                             <td style="text-align:right;">
 
-                            -38.06
+                            -39.94
                             </td>
 
                             <td style="text-align:right;">
@@ -4588,7 +4588,7 @@ broken_linear
 
                             <td style="text-align:right;">
 
-                            -15.48
+                            -16.26
                             </td>
 
                             <td style="text-align:right;">
@@ -4617,7 +4617,7 @@ broken_linear
 
                             <td style="text-align:right;">
 
-                            1.80
+                            1.77
                             </td>
 
                             <td style="text-align:right;">
@@ -4627,7 +4627,7 @@ broken_linear
 
                             <td style="text-align:right;">
 
-                            29.21
+                            28.69
                             </td>
 
                             <td style="text-align:right;">
@@ -4656,7 +4656,7 @@ broken_linear
 
                               <td style="text-align:right;">
 
-                              1.38
+                              1.43
                               </td>
 
                               <td style="text-align:right;">
@@ -4666,7 +4666,7 @@ broken_linear
 
                               <td style="text-align:right;">
 
-                              4.77
+                              4.93
                               </td>
 
                               <td style="text-align:right;">
@@ -4695,7 +4695,7 @@ broken_linear
 
                               <td style="text-align:right;">
 
-                              5.40
+                              5.25
                               </td>
 
                               <td style="text-align:right;">
@@ -4705,12 +4705,12 @@ broken_linear
 
                               <td style="text-align:right;">
 
-                              2.17
+                              2.10
                               </td>
 
                               <td style="text-align:right;">
 
-                              0.03
+                              0.04
                               </td>
 
                               </tr>
@@ -4734,7 +4734,7 @@ broken_linear
 
                               <td style="text-align:right;">
 
-                              -11.14
+                              -11.27
                               </td>
 
                               <td style="text-align:right;">
@@ -4744,7 +4744,7 @@ broken_linear
 
                               <td style="text-align:right;">
 
-                              -4.46
+                              -4.52
                               </td>
 
                               <td style="text-align:right;">
@@ -4773,7 +4773,7 @@ broken_linear
 
                               <td style="text-align:right;">
 
-                              -41.34
+                              -43.35
                               </td>
 
                               <td style="text-align:right;">
@@ -4783,7 +4783,7 @@ broken_linear
 
                               <td style="text-align:right;">
 
-                              -13.24
+                              -13.89
                               </td>
 
                               <td style="text-align:right;">
@@ -4812,7 +4812,7 @@ broken_linear
 
                               <td style="text-align:right;">
 
-                              1.74
+                              1.70
                               </td>
 
                               <td style="text-align:right;">
@@ -4822,7 +4822,7 @@ broken_linear
 
                               <td style="text-align:right;">
 
-                              23.01
+                              22.54
                               </td>
 
                               <td style="text-align:right;">
@@ -4861,7 +4861,7 @@ broken_linear
 
                                 <td style="text-align:right;">
 
-                                4.41
+                                4.57
                                 </td>
 
                                 <td style="text-align:right;">
@@ -4890,7 +4890,7 @@ broken_linear
 
                                 <td style="text-align:right;">
 
-                                5.28
+                                5.11
                                 </td>
 
                                 <td style="text-align:right;">
@@ -4900,7 +4900,7 @@ broken_linear
 
                                 <td style="text-align:right;">
 
-                                2.09
+                                2.03
                                 </td>
 
                                 <td style="text-align:right;">
@@ -4929,7 +4929,7 @@ broken_linear
 
                                 <td style="text-align:right;">
 
-                                -11.45
+                                -11.59
                                 </td>
 
                                 <td style="text-align:right;">
@@ -4939,7 +4939,7 @@ broken_linear
 
                                 <td style="text-align:right;">
 
-                                -4.55
+                                -4.60
                                 </td>
 
                                 <td style="text-align:right;">
@@ -4969,14 +4969,14 @@ knitr::kable(acc_broken_linear, caption = "p-values for the acceleration term in
 
 | station                        | estimate | p.value |
 |:-------------------------------|---------:|--------:|
-| Vlissingen                     |    0.833 |   0.019 |
-| Hoek van Holland               |    1.054 |   0.003 |
-| Den Helder                     |    1.790 |   0.000 |
-| Delfzijl                       |    2.268 |   0.000 |
-| Harlingen                      |    2.837 |   0.000 |
-| IJmuiden                       |    0.402 |   0.326 |
-| Netherlands                    |    1.531 |   0.000 |
-| Netherlands (without Delfzijl) |    1.383 |   0.000 |
+| Vlissingen                     |    1.173 |   0.001 |
+| Hoek van Holland               |    1.256 |   0.001 |
+| Den Helder                     |    1.780 |   0.000 |
+| Delfzijl                       |    2.054 |   0.000 |
+| Harlingen                      |    2.499 |   0.000 |
+| IJmuiden                       |    0.441 |   0.281 |
+| Netherlands                    |    1.534 |   0.000 |
+| Netherlands (without Delfzijl) |    1.430 |   0.000 |
 
 p-values for the acceleration term in the broken linear model for all
 stations.
@@ -4996,12 +4996,12 @@ knitr::kable(acc_broken_squared, caption = "p-values for the acceleration term i
 
 | station                        | p.value |
 |:-------------------------------|--------:|
-| Vlissingen                     |   0.195 |
-| Hoek van Holland               |   0.001 |
+| Vlissingen                     |   0.022 |
+| Hoek van Holland               |   0.000 |
 | Den Helder                     |   0.000 |
 | Delfzijl                       |   0.000 |
 | Harlingen                      |   0.000 |
-| IJmuiden                       |   0.459 |
+| IJmuiden                       |   0.404 |
 | Netherlands                    |   0.000 |
 | Netherlands (without Delfzijl) |   0.000 |
 
@@ -5127,8 +5127,8 @@ makePrettyAnovaTable(t, 3)
 
 | Res.Df |   RSS |  Df | Sum of Sq |    F |       p |
 |-------:|------:|----:|----------:|-----:|--------:|
-|    131 | 63400 |     |           |      |         |
-|    130 | 54000 |   1 |      9440 | 22.7 | 4.9e-06 |
+|    131 | 64000 |     |           |      |         |
+|    130 | 54000 |   1 |     10100 | 24.3 | 2.5e-06 |
 
 The acceleration model (broken linear) has one more degree of freedom
 than the linear model. The broken linear model is significantly better
@@ -5152,7 +5152,7 @@ all_predictions %>%
     ) %>%
   
 ggplot(aes(x = data_year)) +
-  geom_point(aes(y = data_height, color = "observed"), alpha = 0.5, size = 2) +
+  geom_point(aes(y = `data_height-surge_anomaly`, color = "observed"), alpha = 0.5, size = 2) +
   geom_line(aes(y = prediction_recalc, color = "predicted"), linewidth = 2) +
   facet_wrap("station") +
   theme(strip.text.y = element_text(angle = 0)) +
@@ -5163,9 +5163,10 @@ ggplot(aes(x = data_year)) +
 <figure>
 <img
 src="10_sealevelanalysis_files/figure-gfm/prediction-plot_preferred-model-1.png"
-alt="Observed and predicted sea level for all main stations and the preferred model." />
-<figcaption aria-hidden="true">Observed and predicted sea level for all
-main stations and the preferred model.</figcaption>
+alt="Observed (corrected for surge anomaly) and predicted sea level for all main stations and the preferred model." />
+<figcaption aria-hidden="true">Observed (corrected for surge anomaly)
+and predicted sea level for all main stations and the preferred
+model.</figcaption>
 </figure>
 
 ``` r
@@ -5176,7 +5177,7 @@ all_predictions %>%
     ) %>%
   
 ggplot(aes(x = data_year)) +
-  geom_point(aes(y = data_height, color = "observed"), alpha = 0.5, size = 2) +
+  geom_point(aes(y = `data_height-surge_anomaly`, color = "observed"), alpha = 0.5, size = 2) +
   geom_line(aes(y = prediction_recalc, color = "predicted"), linewidth = 2) +
   facet_wrap("station") +
   theme(strip.text.y = element_text(angle = 0)) +
@@ -5187,9 +5188,22 @@ ggplot(aes(x = data_year)) +
 <figure>
 <img
 src="10_sealevelanalysis_files/figure-gfm/prediction-plot_preferred-model2-1.png"
-alt="Observed and predicted sea level for averaged station and the preferred model." />
-<figcaption aria-hidden="true">Observed and predicted sea level for
-averaged station and the preferred model.</figcaption>
+alt="Observed (corrected for surge anomaly) and predicted sea level for averaged station and the preferred model." />
+<figcaption aria-hidden="true">Observed (corrected for surge anomaly)
+and predicted sea level for averaged station and the preferred
+model.</figcaption>
 </figure>
+
+``` r
+parameterTable %>%
+  filter(modeltype == "broken_linear") %>%
+  filter(term %in% c("Trend", "+ trend 1993")) %>%
+  filter(!grepl("Netherlands", station, ignore.case = T)) %>%
+  ggplot(aes(station, estimate)) +
+  geom_col(aes(fill = term)) +
+  ylab("zss in mm/jaar")
+```
+
+![](10_sealevelanalysis_files/figure-gfm/zss-mainstations-1.png)<!-- -->
 
 </div>

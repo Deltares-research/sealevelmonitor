@@ -13,7 +13,49 @@ In hoofdstuk @sec-inleiding wordt uitgelegd dat er een 'huidige zeespiegel' nodi
 
 In de bijlage @sec-infographic-relatieve-zeespiegelstijging wordt uitgelegd hoe de metingen precies tot stand komen.
 
-## Afwegingen {#afwegingen}
+## Meetgegevens {#bronnen}
+
+### Hoofdstations
+
+In dit onderzoek gebruiken we gegevens voor de 6 hoofdgetijdestations Vlissingen, Hoek van Holland, IJmuiden, Den Helder, Harlingen en Delfzijl. Deze kuststations leveren sinds 1890, toen het \acr{NAP} overal was doorgevoerd, betrouwbare metingen. Gegevens worden betrokken uit de [\acr{PSMSL} database](https://psmsl.org/data/). Rijkswaterstaat draagt zorg voor de aanlevering van gegevens aan \acr{PSMSL}.
+
+De overige stations waarvan gegevens in \acr{PSMSL} opvraagbaar zijn worden niet gebruikt. Het station van West-Terschelling (1921) wordt buiten beschouwing gelaten omdat het vanwege zijn ligging minder nauwkeurig verticaal gerefereerd is. Bovendien ligt het in de buurt  van Den Helder en Harlingen. Het station van Maassluis (1848) ligt kustinwaarts ten opzichte van Hoek van Holland en kan afgesloten worden door de Maeslantkering. Daardoor is de waterstand niet meer gelijk aan die van de open zee. Het station Roompot Buiten heeft een relatief korte historie (jaargemiddelden beschikbaar sinds 1982) en overlapt met Vlissingen. Roompot Buiten heeft wel een belangrijke functie in de operationele toepassing, waarin Roompot Buiten wel en IJmuiden niet als een hoofdstation wordt gezien. Roompot Buiten is in de Zeespiegelmonitor niet meegenomen als hoofdstation.
+
+![Locatie van de zes hoofdstations](images/station-map.png)
+
+We houden in de analyse geen rekening met in welke mate de stations zijn beïnvloed door ingrepen aan de kust. Het is bekend dat sommige ingrepen wel invloed hebben op de metingen. Denk hierbij aan de aanleg van de Afsluitdijk, de aanleg van de Deltawerken, en sinds de jaren 1990 het dynamisch kustbeheer en vooral ook nog de diverse lokale aanpassingen binnen en vlak buiten de havens. Ook de verdeling van de zoetwaterdebieten kunnen een rol spelen. Hoewel bekend is dat deze ingrepen over kortere of langere tijd een effect hebben op de waterstand [bijvoorbeeld in @Becker2009] ontbreekt op dit moment de kennis om hier op een kwantitatieve manier voor te corrigeren. Wel is het zo dat door het middelen van waterstanden gemeten bij de hoofdstations een deel van deze effecten verzwakt zullen worden.
+
+Sinds de vorige Zeespiegelmonitor is aangenomen dat de waarden bij Station Delfzijl onzeker zijn doordat de verticale positie de laatste 10-15 jaar niet correct is doorgevoerd [@Honingh2021]. Rijkswaterstaat heeft begin 2022 geconstateerd dat een inhaalslag nodig is voor de verticale correctie van de waterstandsmetingen bij Delfzijl. Deze correctie is bij het schrijven van dit rapport wel berekend maar nog niet via de geijkte manieren (WADAR, PSMSL) gepubliceerd. Daarom berekenen we de zeespiegel en -stijging op basis van het gemiddelde van alleen de 5 andere hoofdstations (Netherlands (without Delfzijl)).
+
+### Metingen en recente correcties {#sec-metingen-en-recente-correcties}
+
+Voor de Zeespiegelmonitor worden jaargemiddelden gebruikt die beschikbaar zijn in \acr{PSMSL}. Deze gegevens worden door \acr{RWS} jaarlijks berekend en aan \acr{PSMSL} aangeleverd. Voorafgaand aan de berekening van gemiddelden worden de meetgegevens gecontroleerd, en waar nodig aangevuld of gecorrigeerd. Dit staat uitgebreid beschreven in  [@Honingh2021].
+
+Recent heeft een extra controle en correctie plaatsgevonden voor de getijdemetingen. Dit betreft 2 typen correcties:
+
+- herberekening van gemiddelden op basis van 10-minutenreeksen (dit werd tot nu toe gedaan op basis van uurgegevens)
+- Herberekening van NAP referentiewaarden voor station Delfzijl
+
+<placeholder>De maand- en jaargemiddelden zijn op dit moment (februari 2026) preliminair uitgerekend, maar zijn nog niet aangeleverd aan {PSMSL}.
+
+<placeholder> consequenties voor zeespiegel, zss en keuze stations uitleggen (maar pas toepassen als gegevens in PSMSL staan)
+
+### Relatieve zeespiegel
+
+<placeholder> figuren en tekst uit infographic
+
+### Uitleg GNSS stations
+
+<placeholder> tekst uit infographics:::{fig-gnssmetingen}
+
+![Hoogtemeting van het meetinstrument in de getijdestations met GNSS](images/gnss_satelliet.png){width=60%}
+
+:::
+
+
+## Bepalen van Zeespiegelstijging
+
+### Afwegingen {#sec-afwegingen}
 
 Bij het selecteren van de methode worden er diverse afwegingen gemaakt, waarbij we gebruik maken van onderstaande criteria. Dit hoofdstuk geeft een overzicht van de belangrijkste modelkeuzes en de bijbehorende onderbouwing. Uitgangspunt voor de afwegingen is het bepalen van een goede maat voor de huidige zeespiegelstijging ten behoeve van het suppletieprogramma en de suppletiebehoefte.
 
@@ -33,56 +75,22 @@ Bij het selecteren van de methode worden er diverse afwegingen gemaakt, waarbij 
 
 **Fysisch verklaarbaar** - de gekozen formulering moet verklaarbaar zijn vanuit fysisch oogpunt
 
-## Algemene methodiek
+### Algemene methodiek
 
-In dit onderzoek maken we gebruik van een \acr{GLM}, een gegeneralizeerde vorm van een lineair regressiemodel. Vooral omdat de variatie goed verklaard wordt [@Watson2016]. We gaan er vanuit dat de zeespiegel sneller aan het stijgen is of binnenkort sneller gaat stijgen dan in het verleden (ruwweg de twintigste eeuw)[^1]. Dit heeft implicaties voor de verwachte zeespiegel en zeespiegelstijging. Daarom maken we gebruik van schattingen van de versnelling, zie \@ref(versnelling-methods). Merk op dat een lineair model niet impliceert dat de zeespiegelstijging een rechte lijn moet volgen. Ook polynome, sinusoïde, exponentiële en loglineaire modellen vallen onder de \acr{GLM} familie.
+In dit onderzoek maken we gebruik van een \acr{GLM}, een gegeneralizeerde vorm van een lineair regressiemodel. Vooral omdat de variatie goed verklaard wordt [@Watson2016]. We gaan er vanuit dat de zeespiegel sneller aan het stijgen is dan in het verleden en mogelijk nog sneller gaat stijgen [^1]. Dit heeft implicaties voor de verwachte zeespiegel en zeespiegelstijging. Daarom maken we gebruik van schattingen van de versnelling, zie \@ref(versnelling-methods). Merk op dat een lineair model niet impliceert dat de zeespiegelstijging een rechte lijn moet volgen. Ook polynome, sinusoïde, exponentiële en loglineaire modellen vallen onder de \acr{GLM} familie.
 
-[^1]: Zie ook laatste IPCC rapport: <https://www.ipcc.ch/report/ar6/wg1/chapter/chapter-9/>
-
-## Meetgegevens {#bronnen}
-
-In dit onderzoek maken we gebruik van gegevens voor de 6 zogenaamde hoofdstations Vlissingen, Hoek van Holland, IJmuiden, Den Helder, Harlingen en Delfzijl. Deze kuststations leveren sinds 1890, toen het \acr{NAP} overal was doorgevoerd, betrouwbare metingen. Gegevens worden betrokken uit de [\acr{PSMSL} database](https://psmsl.org/data/). Rijkswaterstaat draagt zorg voor de aanlevering van gegevens aan \acr{PSMSL}.
-
-De overige stations waarvan gegevens in \acr{PSMSL} opvraagbaar zijn worden niet gebruikt. Het station van West-Terschelling (1921) wordt buiten beschouwing gelaten omdat het vanwege zijn ligging minder nauwkeurig verticaal gerefereerd is. Bovendien ligt het in de buurt  van Den Helder en Harlingen. Het station van Maassluis (1848) ligt kustinwaarts ten opzichte van Hoek van Holland en kan afgesloten worden door de Maeslantkering. Daardoor is de waterstand niet meer gelijk aan die van de open zee. Het station Roompot Buiten heeft een relatief korte historie (jaargemiddelden beschikbaar sinds 1982) en overlapt met Vlissingen. Roompot Buiten heeft wel een belangrijke functie in de operationele toepassing, waarin Roompot Buiten wel en IJmuiden niet als een hoofdstation wordt gezien. Roompot Buiten is in de Zeespiegelmonitor niet meegenomen als hoofdstation.
-
-![Locatie van de zes hoofdstations](images/station-map.png)
-
-We houden in de analyse geen rekening met in welke mate de stations zijn beïnvloed door ingrepen aan de kust. Het is bekend dat sommige ingrepen wel invloed hebben op de metingen. Denk hierbij aan de aanleg van de Afsluitdijk, de aanleg van de Deltawerken, en sinds de jaren 1990 het dynamisch kustbeheer en vooral ook nog de diverse lokale aanpassingen binnen en vlak buiten de havens. Ook de verdeling van de zoetwaterdebieten kunnen een rol spelen. Hoewel bekend is dat deze ingrepen over kortere of langere tijd een effect hebben op de waterstand [bijvoorbeeld in @Becker2009] ontbreekt op dit moment de kennis om hier op een kwantitatieve manier voor te corrigeren. Wel is het zo dat door het middelen van waterstanden gemeten bij de hoofdstations een deel van deze effecten verzwakt zullen worden.
-
-Sinds de vorige Zeespiegelmonitor is aangenomen dat de waarden bij Station Delfzijl onzeker zijn doordat de verticale positie de laatste 10-15 jaar niet correct is doorgevoerd [@Honingh2021]. Rijkswaterstaat heeft begin 2022 geconstateerd dat een inhaalslag nodig is voor de verticale correctie van de waterstandsmetingen bij Delfzijl. Deze correctie is bij het schrijven van dit rapport wel berekend maar nog niet via de geijkte manieren (WADAR, PSMSL) gepubliceerd. Daarom berekenen we de zeespiegel en -stijging op basis van het gemiddelde van alleen de 5 andere hoofdstations (Netherlands (without Delfzijl)).
-
-## Metingen en recente correcties {#sec-metingen-en-recente-correcties}
-
-Voor de Zeespiegelmonitor worden jaargemiddelden gebruikt die beschikbaar zijn in \acr{PSMSL}. Deze gegevens worden door \acr{RWS} jaarlijks berekend en aan \acr{PSMSL} aangeleverd. Voorafgaand aan de berekening van gemiddelden worden de meetgegevens gecontroleerd, en waar nodig aangevuld of gecorrigeerd. Dit staat uitgebreid beschreven in  [@Honingh2021].
-
-Recent heeft een extra controle en correctie plaatsgevonden voor de getijdemetingen. Dit betreft 2 typen correcties:
-
-- herberekening van gemiddelden op basis van 10-minutenreeksen (dit werd tot nu toe gedaan op basis van uurgegevens)
-- Herberekening van NAP referentiewaarden voor station Delfzijl
-
-<placeholder>De maand- en jaargemiddelden zijn op dit moment (februari 2026) preliminair uitgerekend, maar zijn nog niet aangeleverd aan {PSMSL}.
-
-<placeholder> consequenties voor zeespiegel, zss en keuze stations uitleggen (maar pas toepassen als gegevens in PSMSL staan)
-
-## Relatieve zeespiegelstijging
-
-De methode in dit onderzoek bouwt verder op de aanpak zoals beschreven in @Baart2015. De variatie in de zeespiegel wordt in een aantal componenten uitgesplitst. Het uitsplitsen van de variatie van jaargemiddelde zeespiegel wordt gedaan met behulp van een \acr{GLM}. Een lineair model wordt gebruikt als onderdelen tot elkaar optellen. In deze sectie beschrijven we welke termen in dit model meegenomen worden en waarom.
+[^1]: Zie ook IPCC rapport: <https://www.ipcc.ch/report/ar6/wg1/chapter/chapter-9/>
 
 
+### Welke termen? {#sec-modelkeuze}
 
-
-
-
-
-## Welke termen? {#sec-modelkeuze}
-
-In eenvoudige vorm wordt de waterstand beschreven als de volgende vergelijking:
+De methode in dit onderzoek bouwt verder op de aanpak zoals beschreven in @Baart2015. De variatie in de zeespiegel wordt in een aantal componenten uitgesplitst. Het uitsplitsen van de variatie van jaargemiddelde zeespiegel wordt gedaan met behulp van een \acr{GLM}. In deze sectie beschrijven we welke termen in dit model meegenomen worden en waarom.In eenvoudige vorm wordt de waterstand beschreven als de volgende vergelijking:
 
 $$h_t = constante + trend + versnelling? + getij + wind + residu$$ {#eq-trend}
 
 De versnelling is optioneel (zie sectie \@ref(versnelling-methods). In \@ref(eq:gedetailleerdevergelijking) is de gedetailleerde wiskundige vergelijking van het regressiemodel voor de zeewaterstand opgenomen.
 
-### Versnelling? {#versnelling-methods}
+### Versnelling? {#sec-versnelling-methods}
 
 In de vorige Zeespiegelmonitor is geconstateerd dat een versnellingsterm noodzakelijk is voor de correcte beschrijving van de gemiddelde zeespiegelstijging langs de Nederlandse kust. Om de versnelling van de zeespiegel te beschrijven zijn er in de literatuur verschillende varianten in omloop. Deze worden hieronder schematisch weergegeven en beschreven.
 
@@ -95,12 +103,13 @@ In de vorige Zeespiegelmonitor is geconstateerd dat een versnellingsterm noodzak
 
 De keuze van het model heeft implicaties voor de huidige zeespiegel, immers het bepaalt deels hoeveel zeespiegel er wordt toegekend aan veranderingen in getij of windopzet. Het is dus belangrijk om het model te kiezen dat met de grootst mogelijke waarschijnlijkheid de huidige zeespiegelstijging beschrijft. Tegelijkertijd houden we vast aan de uitgangspunten in paragraaf \@ref(afwegingen). De uiteindelijke modelkeuze (welk model is beter dan het simpelste, dus lineaire, model) vindt plaats op twee criteria. Er moet sprake zijn van een significante acceleratie of deceleratie en er moet sprake zijn van een beter model. Dat laatste wordt vastgesteld met behulp van het \acr{AIC}, waarbij een afweging wordt gemaakt tussen de complexiteit en de toegevoegde waarde. Het \acr{AIC} criterium is een afweging op basis van de statische eigenschappen van de verschillende modellen. Het doet geen uitspraak over de juistheid van onderliggende fysische processen.
 
-5.  Een andere methode is om een *discontinue lineaire* trend te berekenen. Door over aparte perioden trends uit te rekenen krijg je trends waarvan de intercepts niet aansluit op de vorige periode. Dit is de methode zoals gebruikt in het laatste [IPCC rapport](https://www.ipcc.ch/report/ar6/wg1/chapter/chapter-9/). Hierbij worden trends over verschillende perioden apart uitgerekend.
-6.  *Lokaal polynoom* is een methode met meer vrijheidsgraden en wat exploratiever van aard. De parameters worden gebaseerd op "expert judgement" en "trial en error" [@Cleveland1996]. Het voordeel van deze methode is dat deze de mogelijkheid open laat van een meer variërende trend over tijd. Het nadeel is dat deze methode door het grotere aantal vrijheidsgraden ook wat meer kan "wapperen", vooral aan het uiteinde. Dat wil zeggen dat de trend aan het eind van de reeks, met nieuwe data, snel van richtingscoefficient kan veranderen.
+5.  Een andere methode is om een *discontinue lineaire* trend te berekenen. Door over aparte perioden trends uit te rekenen krijg je trends waarvan de intercepts niet aansluit op de vorige periode. Dit is de methode zoals gebruikt in het [IPCC rapport](https://www.ipcc.ch/report/ar6/wg1/chapter/chapter-9/). Hierbij worden trends over verschillende perioden apart uitgerekend.
+6.  *Lokaal polynoom* is een methode met meer vrijheidsgraden en wat exploratiever van aard. De parameters worden gebaseerd op "expert judgement" en "trial en error" [@Cleveland1996]. Het voordeel van deze methode is dat deze de mogelijkheid open laat van een meer variërende trend over tijd. Het nadeel is dat deze methode door het grotere aantal vrijheidsgraden ook wat meer kan "wapperen", vooral aan het uiteinde. Dat wil zeggen dat de trend aan het eind van de reeks, met nieuwe data, snel van richtingscoefficient kan veranderen. Een methode die hier op lijkt is \acr{GAM}, waarbij een "smoothing term" wordt toegepast om een vloeiende lijn door de meetpunten te passen.
 
-De laatste twee methoden hebben we in deze rapportage niet gebruikt vanwege de genoemde nadelen.## Uitleg GNSS stations
+De laatste twee methoden hebben we in deze rapportage niet gebruikt vanwege de genoemde nadelen.
 
-## Windopzet {#sec-windopzet}
+
+### Windopzet {#sec-windopzet}
 
 Een van de factoren die de zeespiegel beïnvloeden is de windopzet (storm surge). Om de bijdrage hiervan te kwantificeren, is de gemiddelde jaarlijkse windopzet berekend op basis van de GTSM-ERA5 dataset, die uurlijkse mondiale waterstanden en windopzet tijdreeksen bevat voor de periode vanaf 1950 tot heden. De dataset is gebaseerd op het (\acr{GTSM}), een dieptegemiddeld hydrodynamisch model dat getijden, windopzet en hun niet-lineaire interacties in de wereldoceaan simuleert, aangestuurd door de ERA5 atmosferische heranalyse. De stormopzet wordt bepaald als het verschil tussen een gecombineerde windopzet-getijdensimulatie en een simulatie met uitsluitend astronomisch getij en is als afzonderlijke variabele beschikbaar in de dataset. Meer informatie is beschikbaar in de documentatie van de [GTSM-ERA5-dataset](https://doi.org/10.24381/cds.a6d42d60) en in [@Muis2023], [@Aleksandrova2026].
 
@@ -120,11 +129,15 @@ In de Zeespiegelmonitor analyse wordt de correctie voor windopzet als volgt bere
 
 - Voor elk station wordt jaargemiddeld windopzet berekend.
 
-- Jaargemiddelde windopzet wordt getransformeerd tot jaarlijkse afwijking (opzetanomalie) van het gemiddelde.
+- Jaargemiddelde windopzet wordt getransformeerd tot jaarlijkse afwijking (opzetanomalie) van het langjarig gemiddelde.
 
-- De opzetanomalie per jaar en station wordt afgetrokken van de zeespiegelhoogte om tot de gecorrigeerde zeespiegel te komen.
+- De opzetanomalie per jaar en station wordt afgetrokken van de zeespiegelhoogte om tot de voor windopzet gecorrigeerde zeespiegel te komen.
 
 Voor het gemiddelde over Nederland worden de gecorrigeerde zeespiegelwaarden gemiddeld over de stations.
+
+De eerder genoemde @eq-trend wordt met deze methodiek:
+
+$$h_t - windopzet = constante + trend + versnelling? + getij + residu$$ {#eq-trend2}
 
 De huidige versie van GTSM die gebruikt wordt voor berekening van windopzet voor de Zeespiegelmonitor wordt aangestuurd door een waterpeil inclusief een stijging. De zeespiegelstijging die is toegepast is afgeleid van SLR-projecties in \acr{AR5} van \acr{IPCC}. Deze wijken waarschijnlijk af van de daadwerkelijk waargenomen zeespiegelstijging. De bijdrage van zeespiegelstijging wordt bij de berekening van de windopzet grotendeels opgeheven doordat de stormopzet wordt gedefinieerd als het verschil tussen de totale waterstand (getij en windopzet) en een simulatie met uitsluitend getij. Wel kan zeespiegelstijging een geringe indirecte invloed hebben op de berekende stormopzet, doordat veranderingen in de waterdiepte de hydrodynamische processen beïnvloeden. Het is daarom belangrijk om te weten of de gebruikte stijging invloed heeft op de berekende windopzet aan de Nederlandse kust. Dit is gecontroleerd door de GTSM-ERA5 modelopstelling voor 2023 te draaien, zodat modelresultaten zowel met als zonder \acr{SLR} (totaal waterpeil en alleen getijdenruns) worden getoond. Deze resultaten zijn vergeleken (zoals te zien in dit [rekendocument](https://github.com/VU-IVM/gtsm3-era5-nrt/blob/main/02_analysis_and_validation/p06_compare_SLR_effect_surge_mean.ipynb). Uit deze resultaten kan worden geconcludeerd:
 
@@ -136,16 +149,40 @@ De huidige versie van GTSM die gebruikt wordt voor berekening van windopzet voor
 
 Hieruit concluderen we dat de windopzet uit \acr{GTSM} inclusief zeespiegelstijging, die we op dit moment gebruiken voor de Zeespiegelmonitor, niet wordt beïnvloed door de gebruikte zeespiegelprojectie.
 
-## Getij {#sec-getij}
+### Getij {#sec-getij}
 
-Naast windopzet zorgt ook het getij, met name de nodale cyclus, voor een variatie in de zeespiegel over de jaren [@Woodworth2012, @Baart2012f]. Daarom wordt de variatie door de nodale cyclus meegenomen als gelinearizeerde amplitude en fase, in de vorm van een u en v component (vergelijking (2.2)). Het is ook mogelijk om het equilibrium getij (Fedor Baart, van Gelder, et al. 2012) op te leggen. Het equilibrium getij is het getij dat zou optreden zonder invloed van land of ondiepte op de propagatie van de getijgolf. In Nederland en op veel andere plaatsen is de amplitude en fase van het in de regressie meegenomen nodaal getij niet hetzelfde als het equilibrium getij. Er is lange tijd discussie geweest over welk getij het meest geschikt is om mee te rekenen in langjarige analyses (Woodworth vs Baart). Recent is aangetoond dat het waargenomen nodaal getij aan de Nederlandse kust verklaarbaar beïnvloed wordt door modulatie van de M2 getijgolf in de Noordzee (Lebars et al., ). Dit brengt de twee denkbeelden dichter bij elkaar. Het lijkt er hierbij op dat de in de regressie geschatte nodale cyclus min of meer precies beantwoord aan het beeld van een gemoduleerd M2 getij.
+Naast windopzet zorgt ook het getij, met name de nodale cyclus, voor een variatie in de zeespiegel over de jaren [@Woodworth2012, @Baart2012f]. Daarom wordt de variatie door de nodale cyclus meegenomen als gelinearizeerde amplitude en fase, in de vorm van een u en v component. Het is ook mogelijk om het equilibrium getij [Fedor Baart, van Gelder, et al. 2012] op te leggen. Het equilibrium getij is het getij dat zou optreden zonder invloed van land of ondiepte op de propagatie van de getijgolf. In Nederland en op veel andere plaatsen is de amplitude en fase van het in de regressie meegenomen nodaal getij niet hetzelfde als het equilibrium getij. Er is lange tijd discussie geweest over welk getij het meest geschikt is om mee te rekenen in langjarige analyses (Woodworth vs Baart). Recent is aangetoond dat het waargenomen nodaal getij aan de Nederlandse kust verklaarbaar beïnvloed wordt door modulatie van de M2 getijgolf in de Noordzee [@Bult2024]. Dit brengt de twee denkbeelden dichter bij elkaar. Het lijkt er hierbij op dat de in de regressie geschatte nodale cyclus min of meer precies beantwoord aan het beeld van een gemoduleerd M2 getij.
 
-## Rekenmethode voor de bepaling van de huidige zeespiegelstijging
+### Gedetailleerde vergelijking
 
-De stijging van de zeespiegel wordt wiskundig beschreven met een model, waaruit we de meest waarschijnlijk stijging berekenen over de gewenste periode (laatste 15 jaar). De keuze van het model dient ook te voldoen aan de gestelde criteria (#afwegingen). De keus aan modellen die getest worden is over de jaren langzaam uitgebreid. In [@Dillingh2010] werd een kwadratische term toegevoegd aan het initiële lineaire model, om een versnelling al dan niet te accepteren. Er was toen alleen voor station Den Helder een significante toename van de zeespiegestijging met het gebruikte model. In de Zeespiegelmonitor 2014 ([@Baart2014a]) is daarom alleen het lineaire model toegepast, met een uitbreiding van een LOESS term om het model beter te laten aansluiten bij projecties. In de Zeespiegel 2018 ([@Baart2019]) is opnieuw de kwadratische term als toevoeging op het lineaire model getest, samen met een trendbreuk model (gebroken lineair model) waarbij het breekpunt in 1993 gekozen werd. De keuze voor 1993 was gemotiveerd door:
+De gedetaileerde vergelijking wordt zodoende
+
+
+$$
+\begin{align} 
+h_t - windopzet &=& \beta_{constante} + \beta_{trend} t + versnelling?  \notag \\
+&+& \beta_{nodal_u} \cos\left(\frac{2\pi t}{18,613}\right) + \beta_{nodal_v} \sin\left(\frac{2\pi t}{18,613}\right)  \notag \\
+&+& \varphi h(t-1) + \epsilon_{t} 
+\end{align}
+$$ {#eq-gedetailleerd}
+
+De term $\varphi h(t-1)$ is de autocorrelatieterm. Deze wordt toegevoegd om het effect van een hoge zeespiegel op de zeespiegel van het volgende jaar mee te nemen in de berekening van de onzekerheid. Zie @Baart2019 voor meer informatie hierover.
+
+Voor de term $versnelling?$ kan in vergelijking @eq-gedetailleerd de volgende term ingevuld worden in het geval van gebroken lineaire trend:
+
+$$\beta_{1993} (t-1993)(t>=1993)$$ {#eq-brokentrend}
+
+Voor de term $versnelling?$ kan in vergelijking @eq-gedetailleerd de volgende term ingevuld worden in het geval van gebroken kwadratische trend:
+
+  $$\beta_{1960} (t-1960)(t^2>=1960)$$ {#eq-brokenquadratic}
+
+
+### Rekenmethode voor de bepaling van de huidige zeespiegelstijging
+
+De stijging van de zeespiegel wordt wiskundig beschreven met @eq-gedetailleerd, waaruit we de meest waarschijnlijk stijging berekenen over de gewenste periode (laatste 15 jaar). De keuze van het model (of en welke versnellingsterm, zie @sec-versnelling-methods) dient ook te voldoen aan de gestelde criteria (@sec-afwegingen). De keus aan modellen die getest worden is over de jaren langzaam uitgebreid. In [@Dillingh2010] werd een kwadratische term toegevoegd aan het initiële lineaire model, om een versnelling al dan niet te accepteren. Er was toen alleen voor station Den Helder een significante toename van de zeespiegestijging met het gebruikte model. In de Zeespiegelmonitor 2014 ([@Baart2014a]) is daarom alleen het lineaire model toegepast, met een uitbreiding van een LOESS term om het model beter te laten aansluiten bij projecties. In de Zeespiegel 2018 ([@Baart2019]) is opnieuw de kwadratische term als toevoeging op het lineaire model getest, samen met een trendbreuk model (gebroken lineair model) waarbij het breekpunt in 1993 gekozen werd. De keuze voor 1993 was gemotiveerd door:
 
 - 1993 is het startjaar van satellietmetingen. Door de breuk in 1993 te leggen wordt de trend ook berekend vanaf dit jaar, wat vergelijking met satellietmetingen vergemakkelijkt. Tevens wordt de aansluiting met gegevens van vóór 1993 behouden.
-- Rond 1993 stond de zeespiegel vrij laag, deels door de uitbraak van de Pinatubo vulkaan. Gedeeltelijk daardoor laten latere analyses zien dat voor een gebroken lineair model dit het meest waarschijnlijke breekpunt is \[\@\].
+- Rond 1993 stond de zeespiegel vrij laag, deels door de uitbraak van de Pinatubo vulkaan. Gedeeltelijk daardoor laten latere analyses zien dat voor een gebroken lineair model dit het meest waarschijnlijke breekpunt is [@].
 
 ## Metingen van het zeeniveau met satellieten (altimetrie) {#altimetrie}
 
@@ -180,7 +217,7 @@ Het voortzetten van de satelietmeetreeks en het verbeteren van kwaliteit nabij d
 
 ## Zeespiegelprojecties
 
-<Dewi?
+<Dewi? 
 
 Short descriptiono on projections, source and references. Link to results section (@sec-scenarios)
 
