@@ -15,11 +15,11 @@ We lopen langs de verschillende onderdelen van de resultaten, en maken een verge
 
 ## Windopzetcorrectie {#sec-winsopzetcorrectie}
 
-De windopzet wordt berelemd ioto het \acr{GTSM} (zie paragraaf \@ref(sec-windopzet)). Vergeleken met de vorige rapportage in 2022 zijn de berekeningen met het \acr{GTSM} uitgebreid met de jaren 2022-2025, maar ook voor de periode 1950-1978. Hierdoor is er nu een ruim 70 jaar lange serie voor berekende windopzet.
+De windopzet wordt berekend met het \acr{GTSM} (zie paragraaf \@ref(sec-windopzet)). Vergeleken met de vorige rapportage in 2022 zijn de berekeningen met het \acr{GTSM} uitgebreid met de jaren 2022-2025, maar ook voor de eerdere jaren 1950-1978. Hierdoor is er nu een ruim 70 jaar lange serie voor berekende windopzet.
 
 Voor de correctie van de zeespiegel voor windopzet wordt een gemiddelde opzet gebruikt voor de periode voor 1950, en de (jaargemiddelde) afwijking van het langjarig gemiddelde voor de periode vanaf 1950 (figuur \@ref(fig:gtsm-opzet)). De correctie zorgt dus alleen voor een kleinere variatie, maar heeft geen invloed op de gemiddelde zeespiegel.
 
-![Windopzet langs de Nederlandse kust uitgedrukt als afwijking van het langjarige gemiddelde. De berekeningen hiervoor zijn gedaan met GTSM.](https://github.com/Deltares-research/sealevelmonitor/raw/main/analysis/sealevelmonitor/sealevelanalysis_files/figure-gfm/gtsm-surge-anomalie-1.png)
+![Windopzet langs de Nederlandse kust uitgedrukt als afwijking van het langjarige gemiddelde. De berekeningen hiervoor zijn gedaan met GTSM.](https://github.com/Deltares-research/sealevelmonitor/raw/develop_reporting26_willem/analysis/sealevelmonitor/10_sealevelanalysis_files/figure-gfm/gtsm-surge-anomalie-1.png)
 
 ## Voorkeursmodel {#sec-voorkeursmodel}
 
@@ -32,6 +32,8 @@ Op basis van de gegevens over alle jaren, inclusief de meest recente t/m 2025, e
 - de trend over de afgelopen jaren
 - het nodaal getij
 - het residu, dat wil zeggen het onverklaarde deel van de variatie in de metingen. 
+
+![Gemeten zeespiegel, voor windopzet gecorrigeerde waarden, en de trend met gebruik van het voorkeursmodel, een gebroken lineair model. ](https://github.com/Deltares-research/sealevelmonitor/raw/develop_reporting26_willem/analysis/sealevelmonitor/20_sealevelmonitor_files/figure-gfm/unnamed-chunk-6-1.png}
 
 Uit de berekende trendlijn volgen de volgende conclusies over de zeespiegelstijging aan de Nederlandse kust:
 

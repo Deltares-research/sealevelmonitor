@@ -9,17 +9,15 @@ acronyms:
 
 # Inleiding {#sec-inleiding}
 
-Dit rapport beschrijft de lange-termijn ontwikkeling van de hoogte van de gemiddelde zeespiegel langs de Nederlandse kust gebaseerd op metingen op zes hoofdstations. Dit gebeurt volgens een methodiek die is ontwikkeld in dienst van het Nederlandse kustbeleid. 
+Dit rapport beschrijft de lange-termijn ontwikkeling van de hoogte van de gemiddelde zeespiegel langs de Nederlandse kust gebaseerd op metingen op zes hoofdstations. Dit gebeurt volgens een methodiek die is ontwikkeld in dienst van het Nederlandse kustbeleid.
 
 ## Doel
 
-De Zeespiegelmonitor wordt elk jaar sinds 2010 bijgehouden na advies van \acr{ENW}, en heeft tot primair doel het eenduidig vaststellen van de in Nederland optredende zeespiegelstijging.
+De Zeespiegelmonitor produceert sinds 2010 elk jaar een korte rapportage, en elke vier jaar een uitgebreidere. Deze rapportages hebben tot primair doel het eenduidig vaststellen van de in Nederland optredende zeespiegelstijging. 
 
 ## Toepassingen
 
-Elk jaar wordt de zeespiegel van het afgelopen jaar, en de zeespiegelstijging over de laatste 15 jaar vastgesteld en gerapporteerd aan Ministerie van Infrastructuur en Watermanagement. Deze getallen worden primair toegepast in onderstaande processen. 
-
-Behalve voor de bepaling van de jaarlijkse suppletiehoeveelheid is de opgetreden zeespiegelstijging van belang voor de vergunningen rondom zout- en gaswinning in het Waddengebied en voor ontwerpparameters van waterkeringen. Dit uiteraard naast algemenere doeleinden, waaronder het informeren van het publiek. Een uitgebreider overzicht van de indicatoren en toepassingen kan ook gevonden worden in <Zeespiegelmonitor 2018 en 2022>. 
+Elk jaar wordt de zeespiegel van het afgelopen jaar, en de zeespiegelstijging over de laatste 15 jaar vastgesteld en gerapporteerd aan Ministerie van Infrastructuur en Watermanagement. Deze getallen worden primair toegepast voor de bepaling van de jaarlijkse suppletiehoeveelheid. Daarnaast is de opgetreden zeespiegelstijging van belang voor de vergunningen rondom zout- en gaswinning in het Waddengebied en voor ontwerpparameters van waterkeringen. Dit uiteraard naast algemenere doeleinden, waaronder het informeren van het publiek. 
 
 Rapportages aan de Tweede Kamer en bij Kamervragen
 : De Zeespiegelmonitor informeert de Tweede Kamer via het Ministerie een keer per jaar over de actuele getallen. Verder kunnen er op elk moment kamervragen komen over details van de zeespiegelstijging, bijvoorbeeld in het kader van het Deltaprogramma, het Waddenzeebeleid, of Delfstoffenwinning. 
@@ -36,7 +34,7 @@ Actualiseren van de hydraulische belastingen voor de waterkeringen en andere hyd
 
 In de vorige rapportages [2014](https://publications.deltares.nl/1209426_202.pdf), [2018](https://www.deltares.nl/app/uploads/2019/03/Zeespiegelmonitor-2018-final.pdf) en [2022](https://publications.deltares.nl/11209266_000.pdf) zijn overzichten te vinden van eerder onderzoek en hoe deze tot keuzes in de methodiek leidden. In grote lijnen is de methodiek over de gehele periode dezelfde geweest. Wel zijn er aanpassingen geweest aan de exacte modelformuleringen waaruit gekozen kan worden. 
 
-De methode die is gebruikt voor de bepaling van de zeespiegel en stijging ervan staat in hoofdstuk \@ref(methodiek). De waarden worden elk jaar geactualiseerd in de online zeespiegelmonitor.
+De methode die is gebruikt voor de bepaling van de zeespiegel en stijging ervan staat in hoofdstuk \@ref(methodiek). De waarden worden elk jaar geactualiseerd in het online rekendocument voor de [zeespiegelmonitor](https://github.com/Deltares-research/sealevelmonitor/blob/main/analysis/sealevelmonitor/20_sealevelmonitor.md).
 
 Voorliggend rapport heeft ook als doel een verslag te geven van het onderzoek dat in de afgelopen jaren is gedaan. De keuzes in dat onderzoek volgen uit de vooraf opgestelde onderzoeksagenda. In paragraaf \@ref(onderzoeksvragen) staat een overzicht. Een aantal onderzoeken zijn ook als aparte memo's of rapporten gepresenteerd. Dit staat aangegeven in het overzicht.
 
@@ -52,183 +50,34 @@ Draagvlak
 : De methodiek en resultaten van de Zeespiegelmonitor worden regelmatig besproken met experts van andere Nederlandse Instituten in een workshop. De laatste workshop was op 16 april 2026 met experts van \acr{NIOZ}, \acr{KNMI}, \acr{TNO}, \acr{PBL}, \acr{HKV}, \acr{TUD}, \acr{RWS}, \acr{HVEC} en \acr{UU}
 
 
-## Oorzaken van relatieve zeespiegelstijging {#oorzaken}
-
-
-:::{#fig-oorzaken .figure}
-
-```{mermaid}
-%%| fig-width: 18
-flowchart LR
-
-    %% Groen (globale processen)
-    Antarctica["Antarctica"]
-    Groenland["Groenland"]
-    Landijs["Landijs"]
-    OceaanMas["Oceaan<br/>massa"]
-    Dichtheid["Dichtheid<br/>temperatuur<br/>saliniteit"]
-    OceaanVol["Oceaan<br/>volume"]
-    GravRot["Gravitatie- en<br/>rotatie-effecten"]
-    BodDal["Bodemdaling"]
-    RegZS["Regionale<br/>zeespiegel"]
-    Opzet["Opzet"]
-    Getij["Getij"]
-    CircDichtheid["Circulaties en<br/>dichtheidsvariaties"]
-
-    %% Blauw (lokale processen / eindresultaat)
-    LokRelZS["Lokale<br/>relatieve<br/>zeespiegel"]
-    ZeeSpSt["Zeespiegel<br/>stijging"]
-    Glet["Gletsjers"]
-    OvWater["Overige<br/>watermassa"]
-    Morf["Morfologie"]
-    Tect["Tectoniek/GIA"]
-    Winning["Winning"]
-    Wind["Wind"]
-    Zoet["Zoete afvoer"]
-
-    Antarctica --> Landijs
-    Groenland --> Landijs
-    Glet --> Landijs
-
-    Landijs --> OceaanMas
-    OvWater --> OceaanMas
-
-    OceaanMas --> OceaanVol
-    Dichtheid --> OceaanVol
-
-    GravRot --> RegZS
-    OceaanVol --> RegZS
-    CircDichtheid --> RegZS
-
-    Wind --> Opzet
-    Zoet --> Opzet
-    Morf --> Opzet
-    RegZS --> Opzet
-    Opzet --> LokRelZS
-
-    Morf --> Getij
-    RegZS --> Getij
-    Getij --> LokRelZS
-
-    Tect --> BodDal
-    Winning --> BodDal
-    BodDal --> LokRelZS
-
-    %% RegZS --> LokRelZS  (was uitgecommentarieerd in het origineel)
-
-    classDef groen fill:#B7E1A1,stroke:#666,color:#000;
-    classDef blauw fill:#B0C4DE,stroke:#666,color:#000;
-
-    class Antarctica,Groenland,Landijs,OceaanMas,Dichtheid,OceaanVol,GravRot,BodDal,RegZS,Opzet,Getij,CircDichtheid groen;
-    class LokRelZS,ZeeSpSt,Glet,OvWater,Morf,Tect,Winning,Wind,Zoet blauw;
-```
-
-Overzicht van oorzaken van de lokale relatieve zeespiegelstijging. De groene onderdelen komen in dit hoofdstuk aan bod. Tijdschalen in de orde van jaren tot decaden. Links de mondiale processen doorvertaald naar rechts, processen op regionale schaal.
-
-:::
-
-
-
-
-```{mermaid}
-flowchart LR
-
-%% ===== MONDIAAL =====
-subgraph Mondiaal
-    direction LR
-    Antarctica["Antarctica"]
-    Groenland["Groenland"]
-    Glet["Gletsjers"]
-    OvWater["Overige<br/>watermassa"]
-
-    Landijs["Landijs"]
-    OceaanMas["Oceaan<br/>massa"]
-    Dichtheid["Dichtheid<br/>temperatuur<br/>saliniteit"]
-    OceaanVol["Oceaan<br/>volume"]
-end
-
-%% ===== REGIONAAL =====
-subgraph Regionaal
-    direction TB
-    GravRot["Gravitatie- en<br/>rotatie-effecten"]
-    CircDichtheid["Circulaties en<br/>dichtheidsvariaties"]
-    RegZS["Regionale<br/>zeespiegel"]
-end
-
-%% ===== LOKAAL =====
-subgraph Lokaal
-    direction TB
-    Wind["Wind"]
-    Zoet["Zoete afvoer"]
-    Morf["Morfologie"]
-    Tect["Tectoniek/GIA"]
-    Winning["Winning"]
-
-    Opzet["Opzet"]
-    Getij["Getij"]
-    BodDal["Bodemdaling"]
-    LokRelZS["Lokale<br/>relatieve<br/>zeespiegel"]
-end
-
-Antarctica --> Landijs
-Groenland --> Landijs
-Glet --> Landijs
-
-Landijs --> OceaanMas
-OvWater --> OceaanMas
-
-OceaanMas --> OceaanVol
-Dichtheid --> OceaanVol
-
-OceaanVol --> RegZS
-GravRot --> RegZS
-CircDichtheid --> RegZS
-
-Wind --> Opzet
-Zoet --> Opzet
-Morf --> Opzet
-RegZS --> Opzet
-
-Morf --> Getij
-RegZS --> Getij
-
-Tect --> BodDal
-Winning --> BodDal
-
-Opzet --> LokRelZS
-Getij --> LokRelZS
-BodDal --> LokRelZS
-
-```
-
-
-
 
 ## Inhoud van dit rapport {#leeswijzer}
 
 Dit rapport heeft als doel om een overzicht te geven van het werk dat in de afgelopen jaren is gedaan in het kader van het onderzoek Kustbeleid. Allereerst gaat het om de berekeningen van de zeespiegel en zeespiegelstijging. Verder is er ook ruimte geweest voor onderzoek met als doel om de gebruikte methodieken te verbeteren, of om de resultaten beter te kunnen interpreteren. Vanaf 2022 is er richting gegeven aan dit onderzoek vanuit een met de opdrachtgevers afgestemde onderzoeksagenda. Deze agenda is in 2023 vastgesteld voor de periode 2023 - 2025. In dit rapport worden deze centrale vraagstellingen beantwoord.
 
+In deze rapportage worden de resultaten op een toegankelijke manier gepresenteerd. Voor diegene die een meer diepgaande analyse wil bekijken zijn er online "rekendocumenten", waar gegevens worden gecombineerd, berekeningen gedaan, en figuren of tabellen worden gemaakt. In dit rapport wordt hier en daar verwezen naar deze rekendocumenten. 
+
 ### Jaarlijkse zeespiegelmonitor
 
 Wat is de huidige stijging van de zeespiegel aan de Nederlandse kust?
-: De huidige zeespiegel en -stijging wordt elk jaar uitgerekend. In deze rapportage worden de resultaten verder uitgewerkt en bediscussieerd. Deze vraag wordt beantwoord in paragraaf \@ref(huidige).
+: De huidige zeespiegel en -stijging wordt elk jaar uitgerekend. In deze rapportage worden de resultaten verder uitgewerkt en bediscussieerd. Deze vraag wordt beantwoord in @sec-huidige
 
 ### Onderzoeksvragen afgelopen periode {#onderzoeksvragen}
 
 Wat gebeurt er met de gemiddelde zeespiegel bij veranderend getij.
-: Deze vraag wordt beantwoord in paragraaf \@ref().
+: Deze vraag wordt beantwoord in @sec-.
 
 Zeespiegel in de Wadden. Wat heeft de achterblijvende zeespiegel in de Waddenzee kunnen veroorzaken?
-: Deze vraag wordt beantwoord in paragraaf \@ref().
+: Deze vraag wordt beantwoord in @sec-.
 
 Verbeter de schatting van de zeespiegelstijging door een betere schatting van de invloed van getij en wind door GTSM her-analyses
-: Deze vraag wordt beantwoord in paragraaf \@ref().
+: Deze vraag wordt beantwoord in @sec-windopzet.
 
 Bodemdaling vs zeespiegelstijging. Hoe om te gaan met GNSS hoogtebepaling van de meetstaions?
-: Deze vraag wordt beantwoord in paragraaf \@ref().
+: Deze vraag wordt beantwoord in @sec-.
 
 Infographic voor bepaling van de relatieve zeespiegelstijging.
-: Deze vraag wordt beantwoord in paragraaf \@ref().
+: Deze is te vinden in @sec-.
 
 ## Stand van zaken in de literatuur
 
