@@ -39,6 +39,8 @@ Plaats: Firma van Buiten, Delft
 
 ## Programma
 
+: Programma Zeespiegelmonitor workshop {#tbl-programmaworkshop}
+
 | Tijd  | Onderwerp | Spreker(s) |
 |:------|:----------|:------------|
 | 09:00 | Inloop en introductie | Marcel (moderator) |
@@ -53,6 +55,8 @@ Plaats: Firma van Buiten, Delft
 | 13:00 | Afsluiting | |
 
 ## Deelnemers
+
+: Deelnemerslijst Zeespiegelmonitor workshop {#tbl-deelnemersworkshop}
 
 | Organisatie   | Deelnemer |
 |---------------|-----------|
