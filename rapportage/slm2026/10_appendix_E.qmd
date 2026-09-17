@@ -12,11 +12,10 @@ acronyms:
 # Zeespiegel in de Waddenzee {#sec-zeespiegel-wadden}
 
 
-:::{.callout-note title="Placeholder"}
+**Placeholder**
 
 Rapport of link naar rapport invoegen
 
-:::
 
 ::: {.content-visible when-format="html"}
 

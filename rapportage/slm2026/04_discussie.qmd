@@ -17,9 +17,11 @@ Er is gekozen voor de hoofdstations langs de Nederlandse kust, omdat deze het be
 
 Het effect van wind of storm is een belangrijke bron van variatie voor de jaarlijkse zeespiegel aan de Nederlandse kust [@Baart2014a; @Gerkema2017]. Sinds de rapportage in 2022 gebruikern we resultaten van het \acr{GTSM} model om voor het effect van wind op de gemiddelde waterstand te corrigeren. Eerst was dit allen nog beschikbaar voor de periode van 1979 tot nu, maar voor de huidige rapportage is het model uitgebreid met jaren 1950 tot nu. \acr{GTSM} is zeer geschikt om het effect van wind op de zeespiegel te schatten omdat het geheel onafhankelijk is van het gebruikte regressiemodel dat gebruikt wordt om de zeespiegelstijging te schatten.
 
-:::{.callout-note title="Placeholder"}
-placeholder Vergelijking GTSM - DCSM
-:::
+
+**placeholder** 
+
+Vergelijking GTSM - DCSM
+
 
 Behalve wind, is ook het nodale getij een bron van variatie voor de jaarlijkse gemiddelde zeespiegel. Dit is uitgelegd in paragraaf @sec-methodiek. Vanwege de lange periode van deze terugkerende variatie (ruim 18 jaar) is het van belang of de zeespiegel op weg is naar een hoger of lager jaargemiddeld getij. Een onafhankelijke schatting van het nodaal getij is mogelijk door middel van berekening van het zogenaamde equilibrium getij. Echter, het geobserveerde getij aan de Nederlandse kust blijkt daarvan af te wijken, door fysische processen die de doorwerking van het nodale getij op het contentinale plat bepalen (zie paragraaf @sec-getij voor meer details. Om die reden wordt het nodaal getij meegenomen als term in de regressie, waardoor de variatie in zeespiegelhoogte door het getij beter verklaard wordt. Dit is in lijn met recent onderzoek hieraan (@Bult2024).
 
@@ -43,21 +45,22 @@ De zeespiegel aan de Nederlandse kust stijgt, en stijgt versneld sinds de jaren 
 
 Het \acr{PBL} heeft in zijn [Compendium voor de Leefomgeving](https://www.clo.nl/indicatoren) een grafiek opgenomen over de zeespiegel(stijging) in Nederland. Hiervoor worden dezelfde basisgegevens gebruikt als de Zeespiegelmonitor. De laatste update is van oktober 2026. In het Compendium worden gegevens gemodelleerd met \acr{IRW} (@Visser2015). 
 
-:::{.callout-note title="Placeholder"}
-placeholder analyse PBL (verwacht in oktober 2026)
-:::
+**Placeholder**
+
+analyse PBL (verwacht in oktober 2026)
 
 De huidige stijging in de zeespiegelmonitor ($3.2 \pm 0.3\,mm/jaar$) is dus consistent met de hierboven genoemde studies.
 
 In de vorige Zeespiegelmonitor is geconcludeerd dat de windopzet het best geschat kon worden door windopzet berekend uit het \acr{GTSM} model direct te gebruiken als correctie. Hierbij is de mate van windopzet onafhankelijk geschat van de trendbepalingsmethode. In de tussentijd hebben we het aantal jaren waarvoor deze windopzet berekend is uitgebreid van 1979 - 2022 (een serie van 43 jaar) in de vorige rapportage tot 1950 - 2025 (75 jaar) in de huidige rapportage. Dit heeft niet tot wezenlijk andere resultaten of conclusies geleid.
 
-:::{.callout-note title="Placeholder"}
-De wereldwijde stijging van de zeespiegel is ... (uit satellietgegevens)
-:::
+**Placeholder**
 
-:::{.callout-note title="Placeholder"}
+De wereldwijde stijging van de zeespiegel is ... (uit satellietgegevens)
+
+**Placeholder**
+
 Onderstaand moet nog gecontroleerd worden
-:::
+
 
 Sommerend komen we op de volgende balans van de wereldwijde versus de Nederlandse zeespiegelstijging over de periode 1993-2021. De zeespiegelstijging over deze periode is in Nederlands hoger dan over de periode voor 1993, zoals besproken in paragraaf \@ref(versnelling-results). Eigenlijk zou de zeespiegelstijging hoger moeten zijn dan globaal, omdat in Nederland naast de zeespiegelstijging ook nog bodemdaling is. Maar omdat 3cm van de globale zeespiegelstijging een correctie is die niet aan de kust gemeten wordt en omdat we op een gunstige plek liggen wat betreft de bijdrage van Groenlands massaverlies aan de zeespiegelstijging (9cm) zien we aan de kust van Nederland toch een lagere zeespiegelstijging dan globaal. Andere effecten, zoals veranderingen in dichtheid, zijn hier buiten beschouwing gelaten.
 
