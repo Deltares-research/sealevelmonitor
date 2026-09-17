@@ -44,7 +44,7 @@
     "href": "01_inleiding.html#leeswijzer",
     "title": "2  Inleiding",
     "section": "2.3 Inhoud van dit rapport",
-    "text": "2.3 Inhoud van dit rapport\nDit rapport heeft als doel om een overzicht te geven van het werk dat in de afgelopen jaren is gedaan in het kader van het onderzoek Kustbeleid. Allereerst gaat het om de berekeningen van de zeespiegel en zeespiegelstijging. Verder is er ook ruimte geweest voor onderzoek met als doel om de gebruikte methodieken te verbeteren, of om de resultaten beter te kunnen interpreteren. Vanaf 2022 is er richting gegeven aan dit onderzoek vanuit een met de opdrachtgevers afgestemde onderzoeksagenda. Deze agenda is in 2023 vastgesteld voor de periode 2023 - 2025. In dit rapport worden deze centrale vraagstellingen beantwoord.\nIn deze rapportage worden de resultaten op een toegankelijke manier gepresenteerd. Voor diegene die een meer diepgaande analyse wil bekijken zijn er online “rekendocumenten”, waar gegevens worden gecombineerd, berekeningen gedaan, en figuren of tabellen worden gemaakt. In dit rapport wordt hier en daar verwezen naar deze rekendocumenten.\n\n2.3.1 Jaarlijkse zeespiegelmonitor\nWat is de huidige stijging van de zeespiegel aan de Nederlandse kust?\nDe huidige zeespiegel en -stijging wordt elk jaar uitgerekend. In deze rapportage worden de resultaten verder uitgewerkt en bediscussieerd. Deze vraag wordt beantwoord in Paragraaf 4.3\n\n\n2.3.2 Onderzoeksvragen afgelopen periode\nWat gebeurt er met de gemiddelde zeespiegel bij veranderend getij.\nZie volgende vraag.\nZeespiegel in de Wadden. Wat heeft de achterblijvende zeespiegel in de Waddenzee kunnen veroorzaken?\nDeze vraag is samen met de vorige vraag beantwoord in het rapport “Over de variatie van zeespiegelstijging in de westelijke Waddenzee”, te vinden in Bijlage E.\nVerbeter de schatting van de zeespiegelstijging door een betere schatting van de invloed van getij en wind door GTSM her-analyses\nDeze vraag wordt beantwoord in Paragraaf 3.2.5.\nBodemdaling vs zeespiegelstijging. Hoe om te gaan met GNSS hoogtebepaling van de meetstaions?\nDeze vraag wordt beantwoord in (sec?)-.\nInfographic voor bepaling van de relatieve zeespiegelstijging.\nDeze is te vinden in (sec?)-.",
+    "text": "2.3 Inhoud van dit rapport\nDit rapport heeft als doel om een overzicht te geven van het werk dat in de afgelopen jaren is gedaan in het kader van het onderzoek Kustbeleid. Allereerst gaat het om de berekeningen van de zeespiegel en zeespiegelstijging. Verder is er ook ruimte geweest voor onderzoek met als doel om de gebruikte methodieken te verbeteren, of om de resultaten beter te kunnen interpreteren. Vanaf 2022 is er richting gegeven aan dit onderzoek vanuit een met de opdrachtgevers afgestemde onderzoeksagenda. Deze agenda is in 2023 vastgesteld voor de periode 2023 - 2025. In dit rapport worden deze centrale vraagstellingen beantwoord.\nIn deze rapportage worden de resultaten op een toegankelijke manier gepresenteerd. Voor diegene die een meer diepgaande analyse wil bekijken zijn er online “rekendocumenten”, waar gegevens worden gecombineerd, berekeningen gedaan, en figuren of tabellen worden gemaakt. In dit rapport wordt hier en daar verwezen naar deze rekendocumenten.\n\n2.3.1 Jaarlijkse zeespiegelmonitor\nWat is de huidige stijging van de zeespiegel aan de Nederlandse kust?\nDe huidige zeespiegel en -stijging wordt elk jaar uitgerekend. In deze rapportage worden de resultaten verder uitgewerkt en bediscussieerd. Deze vraag wordt beantwoord in Paragraaf 4.3\n\n\n2.3.2 Onderzoeksvragen afgelopen periode\nWat gebeurt er met de gemiddelde zeespiegel bij veranderend getij.\nZie volgende vraag.\nZeespiegel in de Wadden. Wat heeft de achterblijvende zeespiegel in de Waddenzee kunnen veroorzaken?\nDeze vraag is samen met de vorige vraag beantwoord in het rapport “Over de variatie van zeespiegelstijging in de westelijke Waddenzee”, te vinden in Bijlage E.\nVerbeter de schatting van de zeespiegelstijging door een betere schatting van de invloed van getij en wind door GTSM her-analyses\nDeze vraag wordt beantwoord in Paragraaf 3.2.5.\nBodemdaling vs zeespiegelstijging. Hoe om te gaan met GNSS hoogtebepaling van de meetstaions?\nDeze vraag wordt beantwoord in Bijlage F.\nInfographic voor bepaling van de relatieve zeespiegelstijging.\nDeze is te vinden in (sec?)-.",
     "crumbs": [
       "<span class='chapter-number'>2</span>  <span class='chapter-title'>Inleiding</span>"
     ]
@@ -354,7 +354,7 @@
     "href": "06_appendix_A.html",
     "title": "Bijlage A — Bodemdalingscomponenten",
     "section": "",
-    "text": "B Zeespiegel in de Waddenzee\n!! make separate file for each appendix chapter\nHet is al heel lang bekend dat de zeespiegelmetingen in Nederland worden beïnvloed door bodemdaling (van Veen 1945, 1954) en dat ze feitelijk de relatieve zeespiegelbewegingen weergeven. Bodemdaling is de optelsom van verschillende componenten (Figuur A.1) en niet alle componenten hebben invloed op de zeespiegelmetingen. Dit komt omdat de stations diep gefundeerd staan en alleen beïnvloed worden door bodemdaling in de lagen onder de fundering. Maaivelddaling door bijvoorbeeld veenoxidatie heeft dus geen inlvoed op de zeespiegelmetingen, maar diepere bodemdaling door geologische processen of gaswinning wel. In Tabel A.1 worden de verschillende componenten nader omschreven.",
+    "text": "A.1 Lijst met gebruikte afkortingen\n!! make separate file for each appendix chapter\nHet is al heel lang bekend dat de zeespiegelmetingen in Nederland worden beïnvloed door bodemdaling (van Veen 1945, 1954) en dat ze feitelijk de relatieve zeespiegelbewegingen weergeven. Bodemdaling is de optelsom van verschillende componenten (Figuur A.1) en niet alle componenten hebben invloed op de zeespiegelmetingen. Dit komt omdat de stations diep gefundeerd staan en alleen beïnvloed worden door bodemdaling in de lagen onder de fundering. Maaivelddaling door bijvoorbeeld veenoxidatie heeft dus geen inlvoed op de zeespiegelmetingen, maar diepere bodemdaling door geologische processen of gaswinning wel. In Tabel A.1 worden de verschillende componenten nader omschreven.",
     "crumbs": [
       "Bijlagen",
       "<span class='chapter-number'>A</span>  <span class='chapter-title'>Bodemdalingscomponenten</span>"
@@ -364,8 +364,8 @@
     "objectID": "06_appendix_A.html#lijst-met-gebruikte-afkortingen",
     "href": "06_appendix_A.html#lijst-met-gebruikte-afkortingen",
     "title": "Bijlage A — Bodemdalingscomponenten",
-    "section": "B.1 Lijst met gebruikte afkortingen",
-    "text": "B.1 Lijst met gebruikte afkortingen\n\n\n\n\n\n\nHijma, Marc, en Henk Kooi. 2017. Bodemdaling in het kustfundament en de getijdenbekkens. Nos. 11200538-008. Deltares.\n\n\nHijma, Marc, en Henk Kooi. 2018. Bodemdaling in het kustfundament en de getijdenbekkens (deel 2). 11202190-001-ZKS-0001. Deltares.\n\n\nvan Veen, J. 1945. ‘Bestaat er een geologische bodemdaling te Amsterdam sedert 1700’. Tijdschrift Koninklijk Nederlandsch Aardrijkskundig Genootschap 2 (62): 2-36.\n\n\nvan Veen, J. 1954. ‘Tide-gauges, subsidence-gauges and flood-stones in the Netherlands’. Geol. Mijnbouw.",
+    "section": "",
+    "text": "Hijma, Marc, en Henk Kooi. 2017. Bodemdaling in het kustfundament en de getijdenbekkens. Nos. 11200538-008. Deltares.\n\n\nHijma, Marc, en Henk Kooi. 2018. Bodemdaling in het kustfundament en de getijdenbekkens (deel 2). 11202190-001-ZKS-0001. Deltares.\n\n\nvan Veen, J. 1945. ‘Bestaat er een geologische bodemdaling te Amsterdam sedert 1700’. Tijdschrift Koninklijk Nederlandsch Aardrijkskundig Genootschap 2 (62): 2-36.\n\n\nvan Veen, J. 1954. ‘Tide-gauges, subsidence-gauges and flood-stones in the Netherlands’. Geol. Mijnbouw.",
     "crumbs": [
       "Bijlagen",
       "<span class='chapter-number'>A</span>  <span class='chapter-title'>Bodemdalingscomponenten</span>"
@@ -473,12 +473,12 @@
   {
     "objectID": "10_appendix_E.html",
     "href": "10_appendix_E.html",
-    "title": "Bijlage E — Variatie van de zeespiegel in de Wadden",
+    "title": "Bijlage E — Zeespiegel in de Waddenzee",
     "section": "",
     "text": "E.1 Lijst met gebruikte afkortingen",
     "crumbs": [
       "Bijlagen",
-      "<span class='chapter-number'>E</span>  <span class='chapter-title'>Variatie van de zeespiegel in de Wadden</span>"
+      "<span class='chapter-number'>E</span>  <span class='chapter-title'>Zeespiegel in de Waddenzee</span>"
     ]
   },
   {
