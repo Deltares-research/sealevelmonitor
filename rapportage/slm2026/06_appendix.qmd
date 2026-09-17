@@ -9,6 +9,12 @@ acronyms:
 
 !! make separate file for each appendix chapter 
 
+<insert report HKV on GNSS>
+
+
+<insert report Zeespiegelstijging in de Waddenzee>
+
+
 # Bodemdalingscomponenten {#sec-bodemdalingscomponenten}
 
 Het is al heel lang bekend dat de zeespiegelmetingen in Nederland worden beïnvloed door bodemdaling [@Veen1945; @Veen1954] en dat ze feitelijk de relatieve zeespiegelbewegingen weergeven. Bodemdaling is de optelsom van verschillende componenten (@fig-Bodemdalingscomponenten) en niet alle componenten hebben invloed op de zeespiegelmetingen. Dit komt omdat de stations diep gefundeerd staan en alleen beïnvloed worden door bodemdaling in de lagen onder de fundering. Maaivelddaling door bijvoorbeeld veenoxidatie heeft dus geen inlvoed op de zeespiegelmetingen, maar diepere bodemdaling door geologische processen of gaswinning wel. In @tbl-bodemdalingscomponenten_uitleg worden de verschillende componenten nader omschreven.
@@ -29,7 +35,7 @@ Het is al heel lang bekend dat de zeespiegelmetingen in Nederland worden beïnvl
 
 # Van meting naar zeespiegelverandering {#sec-infographic-relatieve-zeespiegelstijging}
 
-
+<insert here a copy of the pdf infographic>
 
 # Expertworkshop Zeespiegelmonitor {#sec-expertworkshop}
 
@@ -82,6 +88,18 @@ Plaats: Firma van Buiten, Delft
 | TNO | Samantha Kim |
 | TNO | Joost Roholl |
 | Voormalig PBL | Hans Visser |
+
+# Zeespiegel in de Waddenzee {#sec-zeespiegel-wadden}
+
+:::{.callout-note title="Placeholder"}
+
+Invoegen: rapport Zeespiegel in de Waddenzee
+
+:::
+
+
+
+
 
 # Vragen aan de Zeespiegelmonitor {#sec-vragen}
 
