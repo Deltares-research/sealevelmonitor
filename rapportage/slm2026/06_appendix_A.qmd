@@ -35,21 +35,6 @@ Het is al heel lang bekend dat de zeespiegelmetingen in Nederland worden beïnvl
 
 
 
-
-# Zeespiegel in de Waddenzee {#sec-zeespiegel-wadden}
-
-:::{.callout-note title="Placeholder"}
-
-Invoegen: rapport Zeespiegel in de Waddenzee
-
-:::
-
-
-
-
-
-
-
 ::: {.content-visible when-format="html"}
 
 ## Lijst met gebruikte afkortingen

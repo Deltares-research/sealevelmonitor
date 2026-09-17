@@ -84,7 +84,7 @@ Deze vraag wordt beantwoord in @sec-windopzet.
 
 **Bodemdaling vs zeespiegelstijging. Hoe om te gaan met GNSS hoogtebepaling van de meetstaions?**
 
-Deze vraag wordt beantwoord in @sec-.
+Deze vraag wordt beantwoord in @sec-zeespiegelstijging-en-gnss.
 
 **Infographic voor bepaling van de relatieve zeespiegelstijging.**
 

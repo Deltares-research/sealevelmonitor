@@ -8,7 +8,8 @@ acronyms:
 ---
 
 
-# Variatie van de zeespiegel in de Wadden {#sec-zeespiegel-wadden}
+
+# Zeespiegel in de Waddenzee {#sec-zeespiegel-wadden}
 
 
 :::{.callout-note title="Placeholder"}

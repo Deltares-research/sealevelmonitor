@@ -12,8 +12,6 @@ acronyms:
 
 Sinds 2022 zijn alle hoofdgetijdestations voorzien van \acr{GNSS} meetapparatuur. Hiermee kan de verticale beweging van de stations gemeten worden. Sommige stations zijn al langer voorzien van deze meetapparatuur. Hoewel het niet zinvol is om uit enkele jaren gegevens bewegingssnelheden te schatten hebben we alvast gekeken naar hoe deze gegevens gebruikt zouden kunnen worden. Het rapport hieronder geeft inzicht in de meetprocedures van \acr{GNSS} metingen. Het beschrijft wat er bij komt kijken om de gegevens goed te interpreteren, en het geeft informatie over wat er tot dan toe bekend was over de publicatie van gegevens. 
 
-
-
 ::: {.content-visible when-format="html"}
 
 Het rapport is [hier](https://www.deltares.nl/expertise/publicaties/procedures-en-meetresultaten-gnss-stations-bodemdaling-en-relatieve-zeespiegelstijging-eindrapport) beschikbaar voor download.
