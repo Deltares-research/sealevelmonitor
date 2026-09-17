@@ -7,7 +7,7 @@ acronyms:
   - acronyms.yml
 ---
 
-# Resultaten {#resultaten}
+# Resultaten {#sec-resultaten}
 
 Dit hoofdstuk beschrijft de resultaten voor zeespiegelmetingen tot en met 2025. We lopen langs de verschillende onderdelen van de resultaten, en maken een vergelijking met wat anderen rapporteren over de Nederlandse zeespiegel. Ook proberen we de verschillen binnen Nederland te duiden. 
 
@@ -15,7 +15,7 @@ Dit hoofdstuk beschrijft de resultaten voor zeespiegelmetingen tot en met 2025. 
 
 De windopzet wordt berekend met het \acr{GTSM} (zie @sec-windopzet). Vergeleken met de vorige rapportage in 2022 zijn de berekeningen met het \acr{GTSM} uitgebreid met de jaren 2022-2025, maar ook voor de eerdere jaren 1950-1978. Hierdoor is er nu een ruim 70 jaar lange serie voor berekende windopzet. Voor de  periode vóór 1950 gebruiken we de gemiddelde opzet (per station) over alle beschikbare jaren.
 
-We corrigeren de zeespiegel voor windopzet alleen met de afwijking van het jaargemiddelde ten opzichte van het langjarig gemiddelde voor de periode vanaf 1950. We noemen dit de windopzetanomalie (@fig-opzetanomalie). De correctie zorgt dus alleen voor een kleinere variatie, maar heeft geen invloed op de gemiddelde zeespiegelstand over de jaren. Over de laatste jaren is er veel variatie in gemiddelde windopzetanomalie, met 2023 en 2024 als uitschieters naar boven, en weer een vrij lage windopzet in het laatste jaar, 2025
+We corrigeren de zeespiegel voor windopzet alleen met de afwijking van het jaargemiddelde ten opzichte van het langjarig gemiddelde voor de periode vanaf 1950. We noemen dit de windopzetanomalie (@fig-opzetanomalie). De correctie zorgt dus alleen voor een kleinere variatie, maar heeft geen invloed op de gemiddelde zeespiegelstand over de jaren. Over de laatste jaren is er veel variatie in gemiddelde windopzetanomalie, met 2023 en 2024 als uitschieters naar boven, en weer een vrij lage windopzet in het laatste jaar, 2025.
 
 Waar de absolute opzet variatie vertoont langs de Nederlandse kust (@fig-surge-all-stations), vertoont de opzetanomalie maar weinig variatie tussen de stations. Harlingen en in mindere mate Den Helder en Delfzijl vertonen de grootste variatie. 
 
@@ -164,7 +164,6 @@ Gemeten zeespiegel gefit met het gebroken lineaire model, en de KNMI projecties 
 :::
 
 ## Variatie binnen Nederland {#sec-ruimtelijke-variatie}
-
 
 De analyse en bepaling van de zeespiegelstijging aan de Nederlandse kust wordt gedaan aan het gemiddelde van alle hoofdstations (voorlopig even zonder Delfzijl). We hebben gezien dat het gebroken lineare model het best passende model is voor de gemiddelde zeespiegel over alle stations. Als we dezelfde methode toepassen op de individuele stations krijgen we een idee van de variatie in zeespiegelstijging door de tijd langs de Nederlandse kust (@fig-slr-hoofdstations). In de figuur valt het volgende op:
 

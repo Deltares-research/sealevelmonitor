@@ -37,19 +37,19 @@ De hydraulische belastingen die worden gebruikt voor toetsen en ontwerpen van wa
 
 In de vorige rapportages [2014](https://publications.deltares.nl/1209426_202.pdf), [2018](https://www.deltares.nl/app/uploads/2019/03/Zeespiegelmonitor-2018-final.pdf) en [2022](https://publications.deltares.nl/11209266_000.pdf) zijn overzichten te vinden van eerder onderzoek en hoe deze tot keuzes in de methodiek leidden. In grote lijnen is de methodiek over de gehele periode dezelfde geweest. Wel zijn er aanpassingen geweest aan de exacte modelformuleringen waaruit gekozen kan worden. 
 
-De methode die is gebruikt voor de bepaling van de zeespiegel en stijging ervan staat in hoofdstuk \@ref(methodiek). De waarden worden elk jaar geactualiseerd in het online rekendocument voor de [zeespiegelmonitor](https://github.com/Deltares-research/sealevelmonitor/blob/main/analysis/sealevelmonitor/20_sealevelmonitor.md).
+De methode die is gebruikt voor de bepaling van de zeespiegel en stijging ervan staat in hoofdstuk @sec-methodiek. De waarden worden elk jaar geactualiseerd in het online rekendocument voor de [zeespiegelmonitor](https://github.com/Deltares-research/sealevelmonitor/blob/main/analysis/sealevelmonitor/20_sealevelmonitor.md).
 
-Voorliggend rapport heeft ook als doel een verslag te geven van het onderzoek dat in de afgelopen jaren is gedaan. De keuzes in dat onderzoek volgen uit de vooraf opgestelde onderzoeksagenda. In paragraaf \@ref(onderzoeksvragen) staat een overzicht. Een aantal onderzoeken zijn ook als aparte memo's of rapporten gepresenteerd. Dit staat aangegeven in het overzicht.
+Voorliggend rapport heeft ook als doel een verslag te geven van het onderzoek dat in de afgelopen jaren is gedaan. De keuzes in dat onderzoek volgen uit de vooraf opgestelde onderzoeksagenda. In paragraaf @ref-onderzoeksvragen staat een overzicht. Een aantal onderzoeken zijn ook als aparte memo's of rapporten gepresenteerd. Dit staat aangegeven in het overzicht.
 
 De getallen van de Zeespiegelmonitor zijn belangrijk voor het kustbeleid. Om die redenen is de wens dat de bepaling van deze indicatoren voldoet aan:
 
 **Openbaarheid, toegankelijkheid en reproduceerbaarheid**
 
-Om dit te bewerkstelligen worden alle berekeningen en analyses van de Zeespiegelmonitor, inclusief de bron van dit rapport, met scripts uitgevoerd, die gedeeld worden op een openbare [Github repository](https://github.com/Deltares-research/sealevelmonitor), onder versiebeheer.
+Om dit te bewerkstelligen worden alle berekeningen en analyses van de Zeespiegelmonitor, inclusief de bron van dit rapport, met scripts uitgevoerd, die gedeeld worden op een openbare [Github repository](https://github.com/Deltares-research/sealevelmonitor).
 
 **Voorspelkracht**
 
-
+Toepassing van model in het verleden moet een goede hindcast opleveren voor een voorspelhorizon die vergelijkbaar is met de lengte van de gewenste periode (10-15 jaar)
 
 **Draagvlak**
 
@@ -68,15 +68,15 @@ In deze rapportage worden de resultaten op een toegankelijke manier gepresenteer
 
 De huidige zeespiegel en -stijging wordt elk jaar uitgerekend. In deze rapportage worden de resultaten verder uitgewerkt en bediscussieerd. Deze vraag wordt beantwoord in @sec-huidige
 
-### Onderzoeksvragen afgelopen periode {#onderzoeksvragen}
+### Onderzoeksvragen afgelopen periode {#sec-onderzoeksvragen}
 
 **Wat gebeurt er met de gemiddelde zeespiegel bij veranderend getij.**
 
-Deze vraag wordt beantwoord in @sec-.
+Zie volgende vraag.
 
-**Zeespiegel in de Wadden. Wat heeft de achterblijvende zeespiegel in de Waddenzee kunnen veroorzaken?**
+**Zeespiegel in de Wadden. Wat heeft de achterblijvende zeespiegel in de Waddenzee kunnen veroorzaken?** 
 
-Deze vraag wordt beantwoord in @sec-.
+Deze vraag is samen met de vorige vraag beantwoord in het rapport "Over de variatie van zeespiegelstijging in de westelijke Waddenzee", te vinden in @sec-zeespiegel-wadden.
 
 **Verbeter de schatting van de zeespiegelstijging door een betere schatting van de invloed van getij en wind door GTSM her-analyses**
 
