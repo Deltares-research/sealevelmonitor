@@ -36,6 +36,7 @@ book:
     - 08_appendix_C.qmd
     - 09_appendix_D.qmd
     - 10_appendix_E.qmd
+    - 11_appendix_F.qmd
   # abstract: 
   # description: "metadata for html version"
   # references: "references.bib"
