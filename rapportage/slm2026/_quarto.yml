@@ -31,7 +31,11 @@ book:
     - 04_discussie.qmd
     - 05_literatuur.qmd
   appendices:
-    - 06_appendix.qmd
+    - 06_appendix_A.qmd
+    - 07_appendix_B.qmd
+    - 08_appendix_C.qmd
+    - 09_appendix_D.qmd
+    - 10_appendix_E.qmd
   # abstract: 
   # description: "metadata for html version"
   # references: "references.bib"
