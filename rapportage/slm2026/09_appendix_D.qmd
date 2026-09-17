@@ -1,0 +1,47 @@
+---
+acronyms:
+  include_unused: false
+  insert_loa: false
+  loa_title: ""
+  fromfile:
+  - acronyms.yml
+---
+
+
+# Vragen aan de Zeespiegelmonitor {#sec-vragen}
+
+## Veelgestelde vragen
+
+Zeespiegelmonitor onderhoudt een pagina met veelgestelde vragen (FAQ). Deze is te vinden op https://www.deltares.nl/expertise/onze-expertises/zeespiegelstijging/faq-zeespiegelstijging
+
+## Vanuit Instituten
+
+Buiten de normale rapportages van de nieuwste zeespiegelgetallen op Github en naar Rijkswaterstaat hebben de volgende instituten in de afgelopen periode kennis-, informatie-, of gegevensvragen gesteld aan de Zeespiegelmonitor. 
+
+KNMI
+: Het \acr{KNMI} produceert zelf allerlei informatieproducten die geprojecteerde en gemeten zeespiegelgegevens bevatten. Er is regelmatig uitwisseling van kennis en door de zeespiegelmonitor geproduceerde resultaten.  
+
+PBL
+: Het \acr{PBL} publiceert een zeespiegelgrafiek van het "Compendium voor de Leefomgeving" voor de Nederlandse situatie en wereldwijd. De in 2026 vernieuwde versie is deels gemaakt met getallen van de Zeespiegelmonitor. 
+
+
+
+## Algemeen publiek en geïnteresseerden
+
+De Zeespiegelmonitor krijgt ook van het algemene publiek of geïnteresseerde professionals vragen omtrent kennis, informatie of gegevens. De verzoeken bestaan uit: 
+
+Verzoeken om gegevens
+
+Vragen over de gebruikte statistiek
+
+
+
+
+
+::: {.content-visible when-format="html"}
+
+## Lijst met gebruikte afkortingen
+
+\printacronyms
+
+:::

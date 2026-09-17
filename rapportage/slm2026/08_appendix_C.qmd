@@ -1,0 +1,71 @@
+---
+acronyms:
+  include_unused: false
+  insert_loa: false
+  loa_title: ""
+  fromfile:
+  - acronyms.yml
+---
+
+# Expertworkshop Zeespiegelmonitor {#sec-expertworkshop}
+
+Datum: 2026-04-16 
+
+Plaats: Firma van Buiten, Delft
+
+## Programma
+
+: Programma Zeespiegelmonitor workshop {#tbl-programmaworkshop}
+
+| Tijd  | Onderwerp | Spreker(s) |
+|:------|:----------|:------------|
+| 09:00 | Inloop en introductie | Marcel (moderator) |
+| 09:20 | Introductie Zeespiegelmonitor 2026 | Quirijn Lodder (RWS) |
+| 09:40 | Waterstandsmetingen en getijdenstations in NL | Dorien Honingh (HKV)<br>Martijn Kleinobbink (RWS) |
+| 10:10 | Toegepaste correcties voor wind en getij | Martin Verlaan (Deltares)<br>Natalia Aleksandrova (Deltares) |
+| 10:40 | Pauze | |
+| 11:05 | Toegepaste statistiek in de Zeespiegelmonitor | Willem Stolte (Deltares) |
+| 11:40 | Conclusies, presentatie en communicatie | Willem Stolte (Deltares)<br>Martijn Kleinobbink (RWS) |
+| 12:15 | Grab your lunch | |
+| 12:25 | Connection to projections | Dewi Le Bars (KNMI) |
+| 13:00 | Afsluiting | |
+
+## Deelnemers
+
+: Deelnemerslijst Zeespiegelmonitor workshop {#tbl-deelnemersworkshop}
+
+| Organisatie   | Deelnemer |
+|---------------|-----------|
+| MinIenW - DGWB | Hermine Ehrenstein |
+| Rijkswaterstaat | Quirijn Lodder |
+| Rijkswaterstaat | Saskia van Gool |
+| Rijkswaterstaat | Martijn Klein Obbink |
+| Deltares | Marcel Taal |
+| Deltares | Martin Verlaan |
+| Deltares | Willem Stolte |
+| Deltares | Nathalie Dees |
+| Deltares | Natalia Aleksandrova |
+| Deltares | Marc Hijma |
+| KNMI | Dewi Le Bars |
+| UU | Roderik van de Wal |
+| NIOZ | Aimée Slangen |
+| NIOZ | Theo Gerkema |
+| TU Delft | Ricardo Riva |
+| HKV | Dorien Honingh |
+| Voortman | Hessel Voortman |
+| PBL | Jelle van Minnen |
+| PBL | Carine van der Boog |
+| TNO | Samantha Kim |
+| TNO | Joost Roholl |
+| Voormalig PBL | Hans Visser |
+
+
+
+
+::: {.content-visible when-format="html"}
+
+## Lijst met gebruikte afkortingen
+
+\printacronyms
+
+:::

@@ -33,61 +33,8 @@ Het is al heel lang bekend dat de zeespiegelmetingen in Nederland worden beïnvl
 |Antropogene bodemdaling|Zetting (cm-dm per eeuw)|Daling onder invloed van extra gewicht dat op het maaiveld (of waterbodem) wordt aangebracht door de mens en waardoor lagen in de ondergrond worden samengedrukt. Speelt geen rol bij de getijdenstations.|
 : De belangrijkste componenten van bodembeweging in Nederland, afgeleid van [@Hijma2017 and @Hijma2018]. {#tbl-bodemdalingscomponenten_uitleg}
 
-# Van meting naar zeespiegelverandering {#sec-infographic-relatieve-zeespiegelstijging}
 
-<insert here a copy of the pdf infographic>
 
-# Expertworkshop Zeespiegelmonitor {#sec-expertworkshop}
-
-Datum: 2026-04-16 
-
-Plaats: Firma van Buiten, Delft
-
-## Programma
-
-: Programma Zeespiegelmonitor workshop {#tbl-programmaworkshop}
-
-| Tijd  | Onderwerp | Spreker(s) |
-|:------|:----------|:------------|
-| 09:00 | Inloop en introductie | Marcel (moderator) |
-| 09:20 | Introductie Zeespiegelmonitor 2026 | Quirijn Lodder (RWS) |
-| 09:40 | Waterstandsmetingen en getijdenstations in NL | Dorien Honingh (HKV)<br>Martijn Kleinobbink (RWS) |
-| 10:10 | Toegepaste correcties voor wind en getij | Martin Verlaan (Deltares)<br>Natalia Aleksandrova (Deltares) |
-| 10:40 | Pauze | |
-| 11:05 | Toegepaste statistiek in de Zeespiegelmonitor | Willem Stolte (Deltares) |
-| 11:40 | Conclusies, presentatie en communicatie | Willem Stolte (Deltares)<br>Martijn Kleinobbink (RWS) |
-| 12:15 | Grab your lunch | |
-| 12:25 | Connection to projections | Dewi Le Bars (KNMI) |
-| 13:00 | Afsluiting | |
-
-## Deelnemers
-
-: Deelnemerslijst Zeespiegelmonitor workshop {#tbl-deelnemersworkshop}
-
-| Organisatie   | Deelnemer |
-|---------------|-----------|
-| MinIenW - DGWB | Hermine Ehrenstein |
-| Rijkswaterstaat | Quirijn Lodder |
-| Rijkswaterstaat | Saskia van Gool |
-| Rijkswaterstaat | Martijn Klein Obbink |
-| Deltares | Marcel Taal |
-| Deltares | Martin Verlaan |
-| Deltares | Willem Stolte |
-| Deltares | Nathalie Dees |
-| Deltares | Natalia Aleksandrova |
-| Deltares | Marc Hijma |
-| KNMI | Dewi Le Bars |
-| UU | Roderik van de Wal |
-| NIOZ | Aimée Slangen |
-| NIOZ | Theo Gerkema |
-| TU Delft | Ricardo Riva |
-| HKV | Dorien Honingh |
-| Voortman | Hessel Voortman |
-| PBL | Jelle van Minnen |
-| PBL | Carine van der Boog |
-| TNO | Samantha Kim |
-| TNO | Joost Roholl |
-| Voormalig PBL | Hans Visser |
 
 # Zeespiegel in de Waddenzee {#sec-zeespiegel-wadden}
 
@@ -101,33 +48,12 @@ Invoegen: rapport Zeespiegel in de Waddenzee
 
 
 
-# Vragen aan de Zeespiegelmonitor {#sec-vragen}
-
-## Veelgestelde vragen
-
-Zeespiegelmonitor onderhoudt een pagina met veelgestelde vragen (FAQ). Deze is te vinden op https://www.deltares.nl/expertise/onze-expertises/zeespiegelstijging/faq-zeespiegelstijging
-
-## Vanuit Instituten
-
-Buiten de normale rapportages van de nieuwste zeespiegelgetallen op Github en naar Rijkswaterstaat hebben de volgende instituten in de afgelopen periode kennis-, informatie-, of gegevensvragen gesteld aan de Zeespiegelmonitor. 
-
-KNMI
-: Het \acr{KNMI} produceert zelf allerlei informatieproducten die geprojecteerde en gemeten zeespiegelgegevens bevatten. Er is regelmatig uitwisseling van kennis en door de zeespiegelmonitor geproduceerde resultaten.  
-
-PBL
-: Het \acr{PBL} publiceert een zeespiegelgrafiek van het "Compendium voor de Leefomgeving" voor de Nederlandse situatie en wereldwijd. De in 2026 vernieuwde versie is deels gemaakt met getallen van de Zeespiegelmonitor. 
 
 
+::: {.content-visible when-format="html"}
 
-## Algemeen publiek en geïnteresseerden
-
-De Zeespiegelmonitor krijgt ook van het algemene publiek of geïnteresseerde professionals vragen omtrent kennis, informatie of gegevens. De verzoeken bestaan uit: 
-
-Verzoeken om gegevens
-
-Vragen over de gebruikte statistiek
-
-
-# Gebruikte afkortingen
+## Lijst met gebruikte afkortingen
 
 \printacronyms
+
+:::
