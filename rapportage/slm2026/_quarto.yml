@@ -52,20 +52,20 @@ format:
     css:
         - styles.css
         - draft.css
-  pdf:
-    # documentclass: scrreprt
-    fig-width: 6
-    fig-height: 4
-    template: deltares-report-template.tex
-    # extra_dependencies: ["flafter"]
-    include-in-header:
-      - preamble.tex
-    pdf-engine: pdflatex
-    keep_tex: true
-    # biblio-config: false
-    cite-method: natbib   # natbib
-  # docx:
-  #   default
+  # pdf:
+  #   # documentclass: scrreprt
+  #   fig-width: 6
+  #   fig-height: 4
+  #   template: deltares-report-template.tex
+  #   # extra_dependencies: ["flafter"]
+  #   include-in-header:
+  #     - preamble.tex
+  #   pdf-engine: pdflatex
+  #   keep_tex: true
+  #   # biblio-config: false
+  #   cite-method: natbib   # natbib
+  # # docx:
+  # #   default
   
 filters:
   - acronyms
