@@ -49,10 +49,14 @@ acronyms:
       longname: Earth Gravitational Model 2008
     - shortname: EGM96
       longname: Earth Gravitational Model 1996
+    - shortname: ECMWF
+      longname: European Centre for Medium-Range Weather Forecasts
     - shortname: ENSO
       longname: El Niño–Southern Oscillation
     - shortname: ENW
       longname: Expertisenetwerk Waterveiligheid
+    - shortname: ERA5
+      longname: ECMWF ReAnalysis version 5
     - shortname: ERSST
       longname: Extended Reconstructed Sea Surface Temperature
     - shortname: ETRS89
@@ -89,8 +93,12 @@ acronyms:
       longname: Hoogheemraadschap Hollands Noorderkwartier
     - shortname: HKV
       longname: HKV lijn in water
+    - shortname: HVEC
+      longname: Hessel Voortman Engineering Consultancy BV
     - shortname: IaaS
       longname: Infrastructure as a Service
+    - shortname: IRW
+      longname: Integrated Random Walk
     - shortname: IB
       longname: Inverse Barometer
     - shortname: IenW
@@ -119,6 +127,8 @@ acronyms:
       longname: Smaller lunar elliptic semidiurnal constituent
     - shortname: LAT
       longname: Lowest Astronomical Tide
+    - shortname: LM
+      longname: Linear Model
     - shortname: LMW
       longname: Landelijk Meetnet Water
     - shortname: LOESS
@@ -173,12 +183,14 @@ acronyms:
       longname: National Centers for Environmental Prediction
     - shortname: NCG
       longname: Nederlands Centrum voor Geodesie en Geo-informatica
+    - shortname: NIOZ
+      longname: Koninklijk Nederlands Instituut voor Zeeonderzoek
     - shortname: NLGEO2004
       longname: Nederlands Geoïdemodel 2004
     - shortname: NOAA
       longname: National Oceanic and Atmospheric Administration
     - shortname: NWP
-      longname: Nationaal Water Plan
+      longname: Nauwkeurigheidswaterpassing
     - shortname: O1
       longname: Lunar diurnal constituent
     - shortname: OGC
@@ -215,14 +227,25 @@ acronyms:
       longname: Sea Level Fingerprint
     - shortname: STL
       longname: Seasonal Decomposition of Time Series by Loess
-    - shortname: TGBM
+    - shortname: STM
+      longname: Structural Time series Model
+    - shortname: TGB
       longname: Tide Gauge Benchmark
     - shortname: TNO
       longname: Nederlandse Organisatie voor Toegepast Natuurwetenschappelijk Onderzoek
+    - shortname: TUD
+      longname: Technische Universiteit Delft
+    - shortname: UU
+      longname: Universiteit Utrecht
     - shortname: WBI
       longname: Wettelijke BeoordelingsInstrumentarium
     - shortname: WCRP
       longname: World Climate Research Programme
     - shortname: WGS84
       longname: World Geodetic System 1984
+    - shortname: ZSM
+      longname: Zeespiegelmonitor
+    - shortname: ZSS
+      longname: Zeespiegelstijging
+
 ---

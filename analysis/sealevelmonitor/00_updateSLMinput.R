@@ -84,7 +84,11 @@ ddl_annual_current_year <- read_delim(file.path("data/rijkswaterstaat/ddl/annual
 
 # Get GTSM data from local file
 gtsm_yr <- read_yearly_gtsm(filename = "data/deltares/gtsm/gtsm_surge_annual_mean_main_stations.csv") |>
-  mutate(year = year(ymd(t)))
+  mutate(year = t)
+
+gtsm_yr %>%
+  ggplot(aes(x = t, y = surge)) +
+  geom_smooth(aes(color = name))
 
 ## Complete sea level height with RWS DDL height for latest year
 ## Check years height and gtsm
@@ -129,18 +133,12 @@ if(!is.null(missingYear)){
 
 psmsl_gtsm_yr <- psmsl_yr |>
   left_join(gtsm_yr, by = c(name = "name", year = "year")) |>
-  mutate(
-    surge_anomaly = case_when(
-      year >= 1950 ~ (1000 * surge - mean(1000 * surge, na.rm = T)), # meters to millimeters
-      year < 1950 ~ 0
-    )
-  ) |>
   select(
     year,
     psmsl_id,
     name,
     height,
-    surge_anomaly,
+    # surge_anomaly,
     surge,
     source
   ) %>%
@@ -150,7 +148,7 @@ psmsl_gtsm_yr <- psmsl_yr |>
       summarise(
         height = mean(height, na.rm = T),
         surge = mean(surge, na.rm = T),
-        surge_anomaly = mean(surge_anomaly, na.rm = T),
+        # surge_anomaly = mean(surge_anomaly, na.rm = T),
         source = unique(source)
       ) |>
       ungroup() %>%
@@ -166,7 +164,7 @@ psmsl_gtsm_yr <- psmsl_yr |>
       summarise(
         height = mean(height, na.rm = T),
         surge = mean(surge, na.rm = T),
-        surge_anomaly = mean(surge_anomaly, na.rm = T),
+        # surge_anomaly = mean(surge_anomaly, na.rm = T),
         source = unique(source)
       ) |>
       ungroup() %>%
@@ -175,7 +173,27 @@ psmsl_gtsm_yr <- psmsl_yr |>
         method = "calculated"
       )
   ) %>%
+  group_by(psmsl_id, name) %>%
+  mutate(
+    surge_anomaly = case_when(
+      year >= 1950 ~ (1000 * surge - mean(1000 * surge, na.rm = T)), # meters to millimeters
+      year < 1950 ~ 0
+    )
+  ) |> 
+  ungroup() %>%
   mutate(station = name)  # for backwards compatibility
+
+
+psmsl_gtsm_yr %>%
+  filter(name == "Netherlands (without Delfzijl)") %>%
+  ggplot(aes(x = year, y = surge)) +
+  geom_smooth(aes(color = name))
+
+psmsl_gtsm_yr %>%
+  filter(name == "Harlingen") %>%
+  ggplot(aes(x = year, y = surge_anomaly)) +
+  geom_line(aes(color = name), shape = 21) +
+  geom_smooth(aes(color = name), span = 0.15)
 
   # add metadata like e.g. 
   # writeLines("##gff-version 3", "output.gff")

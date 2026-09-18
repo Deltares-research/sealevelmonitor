@@ -1,10 +1,30 @@
-\providecommand{\tightlist}{%
-  \setlength{\itemsep}{0pt}\setlength{\parskip}{0pt}
-}
-% \def\tightlist{}
-% \documentclass[biblatex,ddraft]{deltares_report}
 \documentclass[ddraft]{deltares_report}
+
+$for(include-in-header)$
+$include-in-header$
+$endfor$
+
+
+% \providecommand{\tightlist}{%
+%   \setlength{\itemsep}{0pt}
+%   \setlength{\parskip}{0pt}
+% }
+\providecommand{\tightlist}{\relax}
+\providecommand{\pandocbounded}[1]{#1}
+
+% \usepackage{tcolorbox}
+% \tcbuselibrary{skins}
+% \tcbuselibrary{breakable}
+% \usepackage{xcolor}
+% 
+% \definecolor{quarto-callout-note-color}{RGB}{7,89,133}
+% \definecolor{quarto-callout-tip-color}{RGB}{0,128,0}
+% \definecolor{quarto-callout-warning-color}{RGB}{255,140,0}
+% \definecolor{quarto-callout-important-color}{RGB}{220,20,60}
+% \definecolor{quarto-callout-caution-color}{RGB}{178,34,34}
+
 \begin{document}
+
 \title{Zeespiegelmonitor}
 \subtitle{2023-2026}
 \author{Stolte, Willem et al.}
@@ -39,6 +59,7 @@
 
 \lipsum[3]
 }
+
 \deltarestitle
 %------------------------------------------------------------------------------
 

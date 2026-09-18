@@ -2,7 +2,7 @@
   workflow_dispatch:
   push:
     branches:
-      - main
+      - disabled-temporarily
 
 name: Quarto Publish
 

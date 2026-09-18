@@ -3,22 +3,26 @@ title: "NAP info"
 author: "Willem Stolte"
 date: "2025-05-19"
 output: github_document
+params:
+  repo_url: "https://github.com/Deltares-research/sealevelmonitor"
 ---
 
 ```{r setup, include=FALSE}
-knitr::opts_chunk$set(echo = TRUE, warning = F, message = F)
+knitr::opts_chunk$set(echo = TRUE, warning = F, message = F, comment = F)
 require(tidyverse)
 require(lubridate)
 source("../sealevelmonitor/_common/functions.R")
 ```
 
 
-## Nulpalen van de kuststations
+[Source script](https://github.com/Deltares-research/sealevelmonitor/blob/main/analysis/NAP/napinfo.Rmd)
+
+## Nulpalen die gekoppeld zijn aan de kuststations
 
 Via RWS-CIV verkregen informatie uit NAP-info wordt ingelezen en verwerkt. 
 
 
-```{r}
+```{r read-data}
 historie_nulpalen <- readxl::read_excel("../../data\\rijkswaterstaat\\NAP\\Historie_nulpalen_20250530.xlsx")
 nulpalen_info <- readxl::read_excel("../../data\\rijkswaterstaat\\NAP\\Nulpalen_info_met_locatie_20250530.xlsx")
 stationLocations <- stationLocations <- sf::st_read("../../data/rijkswaterstaat/waterhoogtestations.geojson", crs= 25831, quiet = T)
@@ -40,6 +44,11 @@ dplyr::left_join(nulpalen_main %>% dplyr::select(puntnummer, locatie, status))
 ```
 
 
+De gemeten hoogtes van de nulpalen zijn indicatief voor de beweging de nulpaal ten opzichte van de regionale referenties. Welke referenties precies gebruikt worden kan afhangen van het doel van de metingen. De getoonde waarden in dit document bestaat uit alle metingen.  
+
+Na de laatste nauwkeurigheidswaterpassing (NWP) zijn de NAP hoogtes van ondergrondse merken herberkend. Dit is te zien in de grafieken als "HERBEREKEND". 
+
+De ontwikkeling van de relatieve hoogte laat zien dat deze herberekende waarden soms een iets andere ontwikkeling in de tijd laten zien dan de waarden van vóór de laatste NWP. 
 
 
 ```{r nap-historie-hoofdstations}
@@ -62,15 +71,14 @@ plot_nap_historie <- function(naphistory.df){
     geom_smooth(method = "lm") +
     geom_point(size = 2) +
     ggtitle(paste("NAP historie", "hoofdstations")) +
-    ylab("hoogte in m") +
+    ylab("hoogte in m t.o.v. eerste meting") +
     facet_wrap("locatie")
 }
 
 plot_nap_historie(naphistory.df = historie_main)
 ```
 
-
-```{r, fig.height=10,fig.width=10}
+```{r, fig.height=10,fig.width=10, echo=F, include=F}
 
 q <- historie_all %>%
   # filter(status == "ACTUEEL") %>%
@@ -127,22 +135,25 @@ r <- q %>%
 
 ## Wat is het verschil in verandering voor en na de NAP aanpassing?
 
+De verschillen in relatieve beweging worden opgesomd in onderstaande tabel. 
 
-```{r}
+```{r nap-aanpassing}
 # check p values and make verandering zero when p > 0.05
 
 r %>% 
   filter(locatie %in% mainstations_df$location | locatie == "IJmuiden buitenhaven") %>%
   select(locatie, status, `verandering in mm/jaar`) %>%
+  filter(grepl("ACTUEEL", status)) %>%
   pivot_wider(id_cols = "locatie", names_from = status, values_from = `verandering in mm/jaar`) %>%
   mutate(verschil = `ACTUEEL herberekend` - `ACTUEEL gemeten`) %>%
-  arrange(-verschil)
+  arrange(-verschil) %>%
+  knitr::kable(caption = "Verandering van hoogte voor nulpalen bij de hoofdgetijdestations voor de gemeten en herberkende NAP-hoogtes.")
 
 
 ```
 
 
-```{r}
+```{r plot-allestations, fig.cap="Gemeten en herberekende (na bijstelling NAP in 2005) hoogtes van de nulpalen gerelateerd aan alle getijdestations." fig.height=10, fig.width=10}
 p <- historie_all %>%
     mutate(
         status = case_when(
