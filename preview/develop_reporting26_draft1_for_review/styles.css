@@ -1,0 +1,88 @@
+/* css styles */
+
+:root {
+  --color-primary: #2e89bf;
+}
+
+h1,
+h2,
+h3,
+h4 {
+  color: var(--color-primary);
+}
+
+h1::after {
+  content: '';
+  display: block;
+  position: relative;
+  width: 50px;
+  border-bottom: 3px solid var(--color-primary);
+  padding-top: 10px;
+}
+
+/* Custom header */
+
+.custom-header {
+  display: flex;
+  justify-content: flex-end;
+  align-items: center;
+  margin-bottom: 2rem;
+  gap: 20px;
+  width: 100%;
+}
+
+.custom-header .header-image {
+  width: 150px;
+}
+
+.custom-header svg {
+  min-width: 50px;
+  height: 40px;
+}
+
+/* Sidebar navigation */
+
+#quarto-sidebar {
+  border-right: 1px solid var(--color-primary);
+}
+
+.sidebar-footer .sidebar-footer__logos {
+  display: flex;
+  align-items: center;
+  gap: 20px;
+  height: max-content;
+  margin-bottom: 2rem;
+}
+
+.sidebar-footer .infrastructure-logo {
+  width: 100px;
+  height: 100%;
+  object-fit: contain;
+}
+
+.sidebar-footer {
+  padding: 0 !important;
+}
+
+.sidebar-footer svg {
+  min-width: 50px;
+  height: 40px;
+}
+
+.sidebar-footer__label {
+  font-size: 0.8rem;
+  text-transform: uppercase;
+  line-height: 0;
+  margin: 0;
+}
+
+.sidebar-footer__author {
+  margin-top: 8px;
+  font-size: 0.875rem;
+  color: var(--bs-gray-700);
+}
+
+.nav-footer-center {
+  display: flex;
+  align-items: center;
+}
