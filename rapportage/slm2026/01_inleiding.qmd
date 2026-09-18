@@ -9,11 +9,13 @@ acronyms:
 
 # Inleiding {#sec-inleiding}
 
-Dit rapport beschrijft de lange-termijn ontwikkeling van de hoogte van de gemiddelde zeespiegel langs de Nederlandse kust gebaseerd op metingen op zes hoofdstations. Dit gebeurt volgens een methodiek die is ontwikkeld in dienst van het Nederlandse kustbeleid.
+Dit rapport beschrijft de lange-termijn ontwikkeling van de hoogte van de gemiddelde zeespiegel langs de Nederlandse kust gebaseerd op metingen op de zes hoofdstations. Dit gebeurt volgens een methodiek die is ontwikkeld in dienst van het Nederlandse kustbeleid.
 
 ## Doel
 
 De Zeespiegelmonitor produceert sinds 2010 elk jaar een korte rapportage, en elke vier jaar een uitgebreidere. Deze rapportages hebben tot primair doel het eenduidig vaststellen van de in Nederland optredende zeespiegelstijging. 
+
+Voorliggend rapport heeft ook als doel een verslag te geven van het onderzoek dat in de afgelopen jaren is gedaan. De keuzes in dat onderzoek volgen uit de vooraf opgestelde onderzoeksagenda. In paragraaf @sec-onderzoeksvragen staat een overzicht. Een aantal onderzoeken zijn ook als aparte memo's of rapporten gepresenteerd. Dit staat aangegeven in het overzicht in @sec-onderzoeksvragen.
 
 ## Toepassingen
 
@@ -35,23 +37,17 @@ De hydraulische belastingen die worden gebruikt voor toetsen en ontwerpen van wa
 - Inzicht in trendveranderingen en versnelling van de zeespiegelstijging.
 - Een representatieve trend voor de komende circa 15 jaar.
 
-## Werkwijze {#sec-werkwijze}
+## Algemene werkwijze {#sec-werkwijze}
 
-In de vorige rapportages [2014](https://publications.deltares.nl/1209426_202.pdf), [2018](https://www.deltares.nl/app/uploads/2019/03/Zeespiegelmonitor-2018-final.pdf) en [2022](https://publications.deltares.nl/11209266_000.pdf) zijn overzichten te vinden van eerder onderzoek en hoe deze tot keuzes in de methodiek leidden. In grote lijnen is de methodiek over de gehele periode dezelfde geweest. Wel zijn er aanpassingen geweest aan de exacte modelformuleringen waaruit gekozen kan worden. 
+In de vorige rapportages [2014](https://publications.deltares.nl/1209426_202.pdf), [2018](https://www.deltares.nl/app/uploads/2019/03/Zeespiegelmonitor-2018-final.pdf) en [2022](https://publications.deltares.nl/11209266_000.pdf) zijn overzichten te vinden van eerder onderzoek en hoe deze tot keuzes in de methodiek leidden. In grote lijnen is de methodiek over de gehele periode dezelfde geweest. Wel zijn er aanpassingen geweest aan de exacte modelformuleringen waaruit gekozen wordt. 
 
-De methode die is gebruikt voor de bepaling van de zeespiegel en stijging ervan staat in hoofdstuk @sec-methodiek. De waarden worden elk jaar geactualiseerd in het online rekendocument voor de [zeespiegelmonitor](https://github.com/Deltares-research/sealevelmonitor/blob/main/analysis/sealevelmonitor/20_sealevelmonitor.md).
-
-Voorliggend rapport heeft ook als doel een verslag te geven van het onderzoek dat in de afgelopen jaren is gedaan. De keuzes in dat onderzoek volgen uit de vooraf opgestelde onderzoeksagenda. In paragraaf @ref-onderzoeksvragen staat een overzicht. Een aantal onderzoeken zijn ook als aparte memo's of rapporten gepresenteerd. Dit staat aangegeven in het overzicht.
+De methode die is gebruikt voor de bepaling van de zeespiegel en stijging ervan staat in hoofdstuk @sec-methodiek. De waarden worden elk jaar geactualiseerd in het online [rekendocument](https://github.com/Deltares-research/sealevelmonitor/blob/main/analysis/sealevelmonitor/20_sealevelmonitor.md).
 
 De getallen van de Zeespiegelmonitor zijn belangrijk voor het kustbeleid. Om die redenen is de wens dat de bepaling van deze indicatoren voldoet aan:
 
 **Openbaarheid, toegankelijkheid en reproduceerbaarheid**
 
 Om dit te bewerkstelligen worden alle berekeningen en analyses van de Zeespiegelmonitor, inclusief de bron van dit rapport, met scripts uitgevoerd, die gedeeld worden op een openbare [Github repository](https://github.com/Deltares-research/sealevelmonitor).
-
-**Voorspelkracht**
-
-Toepassing van model in het verleden moet een goede hindcast opleveren voor een voorspelhorizon die vergelijkbaar is met de lengte van de gewenste periode (10-15 jaar)
 
 **Draagvlak**
 
@@ -60,7 +56,7 @@ De methodiek en resultaten van de Zeespiegelmonitor worden regelmatig besproken 
 
 ## Inhoud van dit rapport {#leeswijzer}
 
-Dit rapport heeft als doel om een overzicht te geven van het werk dat in de afgelopen jaren is gedaan in het kader van het onderzoek Kustbeleid. Allereerst gaat het om de berekeningen van de zeespiegel en zeespiegelstijging. Verder is er ook ruimte geweest voor onderzoek met als doel om de gebruikte methodieken te verbeteren, of om de resultaten beter te kunnen interpreteren. Vanaf 2022 is er richting gegeven aan dit onderzoek vanuit een met de opdrachtgevers afgestemde onderzoeksagenda. Deze agenda is in 2023 vastgesteld voor de periode 2023 - 2025. In dit rapport worden deze centrale vraagstellingen beantwoord.
+Dit rapport bevat een overzicht van het werk dat in de afgelopen jaren is gedaan in het kader van het onderzoek Kustbeleid. Allereerst gaat het om de berekeningen van de zeespiegel en zeespiegelstijging. Verder is er ook ruimte geweest voor onderzoek met als doel om de gebruikte methodieken te verbeteren, of om de resultaten beter te kunnen interpreteren. Vanaf 2022 is er richting gegeven aan dit onderzoek vanuit een met de opdrachtgevers afgestemde onderzoeksagenda. Deze agenda is in 2023 vastgesteld voor de periode 2023 - 2025. In dit rapport worden deze centrale vraagstellingen beantwoord.
 
 In deze rapportage worden de resultaten op een toegankelijke manier gepresenteerd. Voor diegene die een meer diepgaande analyse wil bekijken zijn er online "rekendocumenten", waar gegevens worden gecombineerd, berekeningen gedaan, en figuren of tabellen worden gemaakt. In dit rapport wordt hier en daar verwezen naar deze rekendocumenten. 
 
@@ -97,7 +93,7 @@ Figuren uit de infographic worden hier en daar in het rapport gebruikt. De infog
 ## Stand van zaken in de literatuur
 
 **Placeholder**
-Input Martin
+Input Martin (mogelijk niet precies hier, maar verspreid in het document)
 
 ::: {.content-visible when-format="html"}
 

@@ -33,7 +33,7 @@ In @sec-modelkeuze wordt uitgelegd hoe we tot een voorkeursmodel komen om de hui
 
 ## Huidige zeespiegelstijging {#sec-huidige}
 
-Op basis van de gegevens over alle jaren, inclusief de meest recente t/m 2025, en met gebruik van het voorkeursmodel zijn voor de gemeten waterhoogte minus de windopzetanomalie bepaald:
+Op basis van de gegevens over alle jaren, inclusief de meest recente t/m 2025, en met gebruik van het voorkeursmodel zijn met @eq-gedetailleerd voor de gemeten waterhoogte minus de windopzetanomalie bepaald:
 
 - de trend over de afgelopen jaren
 - het nodaal getij
@@ -69,7 +69,7 @@ Gemeten zeespiegel (height), trend (fitted_total) en de bijdragen van de verschi
 
 ## Huidige zeespiegelhoogte {#sec-huidige-zeespiegelhoogte}
 
-Opvallend was dat de gemeten zeespiegel twee jaar op rij (namelijk in 2023 en 2024) ruim boven de verwachte zeespiegel (@fig-huidige-zeespiegel en @tbl-zeespiegelgetallen) lag. Dit was nog niet eerder gebeurd in de periode vanaf 1950. In 2025 was de gemeten zeespiegel weer een stuk lager. Dit is van belang, omdat een grote afwijking van metingen ten opzichte van het model, vooral in de "uiteinden", erop kan wijzen dat het gebruikte model moet worden herzien. Op dit moment zie we daar nog geen aanleiding toe. 
+Opvallend was dat de gemeten zeespiegel twee jaar op rij (namelijk in 2023 en 2024) ruim boven de verwachte zeespiegel (@fig-huidige-zeespiegel en @tbl-zeespiegelgetallen) lag. Dit was nog niet eerder gebeurd in de periode vanaf 1950. In 2025 was de gemeten zeespiegel weer een stuk lager. Dit is van belang, omdat een grote afwijking van metingen ten opzichte van het model, vooral in de "uiteinden", erop kan wijzen dat het gebruikte model moet worden herzien. Op dit moment zien we daar nog geen aanleiding toe. 
 
 : Gemiddelde zeespiegel zonder en met windopzeteffect, en de geschatte hoogte van het nodaal getij per jaar ten opzichte van NAP2005 voor de laatste 10 jaar. {#tbl-zeespiegelgetallen}
 
@@ -88,13 +88,13 @@ Opvallend was dat de gemeten zeespiegel twee jaar op rij (namelijk in 2023 en 20
 
 
 
-## Nodaal getij (#sec-nodaalgetij-resultaten)
+## Nodaal getij {#sec-nodaalgetij-resultaten}
 
 Het nodaal getij wordt samen met de trend (en het residu) berekend uit de waterhoogtegevens (zie @sec-modelkeuze). De amplitude wordt geschat op ongeveer 25 mm (@fig-huidige-zeespiegel-componenten en @tbl-zeespiegelgetallen). In 2025 is het nodaal getij net over een maximum heen, en dus aan het afnemen. De verwachting is dan ook dat de komende jaren weer een iets lagere gemeten zeespiegel zullen laten zien vergeleken met de afgelopen pakweg 5 jaar.
 
 ## Residu {#sec-residu-variatie}
 
-Het residu in @fig-huidige-zeespiegel-componenten is de variatie die overblijft wanneer de windopzetanomalie, het nodaal getij en de trendlijn zijn afgetrokken van de gemeten waterhoogtes. Het is te zien dat de variatie van het residu kleiner is over de periode waar jaarlijkse windopzet beschikbaar is (vanaf 1950). 
+Het residu in @fig-huidige-zeespiegel-componenten is de variatie die overblijft wanneer de windopzetanomalie, het nodaal getij en de trendlijn zijn afgetrokken van de gemeten waterhoogtes. Het is te zien dat de variatie van het residu iets kleiner is over de periode waar jaarlijkse windopzet beschikbaar is (vanaf 1950). Dit veroorzaakt een kleine scheefheid in de residuverdeling (zie deze passage in het online [rekendocument](https://github.com/Deltares-research/sealevelmonitor/blob/main/analysis/sealevelmonitor/20_sealevelmonitor.md#verdeling-van-residuen. Echter, nadere analyse laat zien dat de trend over de eerste periode (tot 1993) zonder correctie identiek is aan die van met correctie (op verzoek opvraagbaar), wat er op wijst dat de schatting van de trend robust is ten opzichte van de windopzetcorrectie. 
 
 ## Bodemdaling en zeespiegelstijging {#sec-bodemdaling}
 

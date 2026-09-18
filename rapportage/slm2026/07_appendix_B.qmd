@@ -10,7 +10,9 @@ acronyms:
 
 # Van meting naar zeespiegelverandering {#sec-infographic-relatieve-zeespiegelstijging}
 
-<insert here a copy of the pdf infographic>
+
+
+insert here a copy of the pdf infographic
 
 
 
