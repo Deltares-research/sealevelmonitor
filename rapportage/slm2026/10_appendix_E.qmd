@@ -1,0 +1,26 @@
+---
+acronyms:
+  include_unused: false
+  insert_loa: false
+  loa_title: ""
+  fromfile:
+  - acronyms.yml
+---
+
+
+
+# Zeespiegel in de Waddenzee {#sec-zeespiegel-wadden}
+
+
+**Placeholder**
+
+Rapport of link naar rapport invoegen
+
+
+::: {.content-visible when-format="html"}
+
+## Lijst met gebruikte afkortingen
+
+\printacronyms
+
+:::

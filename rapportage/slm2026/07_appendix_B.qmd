@@ -1,0 +1,26 @@
+---
+acronyms:
+  include_unused: false
+  insert_loa: false
+  loa_title: ""
+  fromfile:
+  - acronyms.yml
+---
+
+
+# Van meting naar zeespiegelverandering {#sec-infographic-relatieve-zeespiegelstijging}
+
+
+
+insert here a copy of the pdf infographic
+
+
+
+
+::: {.content-visible when-format="html"}
+
+## Lijst met gebruikte afkortingen
+
+\printacronyms
+
+:::

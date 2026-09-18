@@ -49,10 +49,14 @@ acronyms:
       longname: Earth Gravitational Model 2008
     - shortname: EGM96
       longname: Earth Gravitational Model 1996
+    - shortname: ECMWF
+      longname: European Centre for Medium-Range Weather Forecasts
     - shortname: ENSO
       longname: El Niño–Southern Oscillation
     - shortname: ENW
       longname: Expertisenetwerk Waterveiligheid
+    - shortname: ERA5
+      longname: ECMWF ReAnalysis version 5
     - shortname: ERSST
       longname: Extended Reconstructed Sea Surface Temperature
     - shortname: ETRS89
@@ -225,7 +229,7 @@ acronyms:
       longname: Seasonal Decomposition of Time Series by Loess
     - shortname: STM
       longname: Structural Time series Model
-    - shortname: TNO
+    - shortname: TGB
       longname: Tide Gauge Benchmark
     - shortname: TNO
       longname: Nederlandse Organisatie voor Toegepast Natuurwetenschappelijk Onderzoek
