@@ -4,22 +4,9 @@ author: "Willem Stolte"
 date: "`r format(Sys.time(), '%d %B, %Y')`"
 output:
   github_document: 
-    fig_path: "figs/sealevelanalysis-"
-params:
-  monitoryear: 2025
-  startyear: 1890
-  station:
-  - Delfzijl
-  - Harlingen
-  - Den Helder
-  - IJmuiden
-  - Hoek van Holland
-  - Vlissingen
-  - Netherlands
-  - Netherlands (without Delfzijl)
 ---
 
-## Harmonische analyse
+# Harmonische analyse op residu van de Zeespiegelmonitor analyse
 
 ```{r setup, include=FALSE}
 
@@ -29,146 +16,106 @@ knitr::opts_chunk$set(
   message=FALSE,
   warning = FALSE
 )
-
-require(leaflet)
-require(plotly)
-require(nlme)
 require(tidyverse)
-require(rsealevel)
-
-# require(reticulate)
-
-config <- RcppTOML::parseToml("_common/configuration.TOML")
-config_flat <- list_flatten(config)
-source("_common/functions.R")
-source("_common/plotfunctions.R")
-epoch = config$constants$epoch
-mainstations_df <- readMainStationInfo(filepath = "../../")
-mainstations_locs <- readMainStationLocations(path = "../../")
-nstations = length(params$station)
-nmodels  = length(params$modeltype)
-nsurge  = length(params$wind_or_surge_type)
-select = dplyr::select
-
 ```
 
+## De meest recente gegevens uit het bestand ophalen
+
+In [het Sealevelmonitor-script](https://github.com/Deltares-research/sealevelmonitor/blob/main/analysis/sealevelmonitor/20_sealevelmonitor.md) worden gegevens over de gemiddelde jaarlijkse zeespiegelstand bij de belangrijkste Nederlandse meetstations – afkomstig van de website van de [Permanent Service for Mean Sea Level](http://www.psmsl.org) – gecombineerd met de gemiddelde jaarlijkse waarden voor de stormvloedopzet volgens het Global Tide and Surge Model (GTSM). Er wordt een model gefit om de beste waarde voor de zeespiegelstijging over de afgelopen decennia te bepalen. Een van de factoren waarvoor wordt gecorrigeerd, is de nodale cyclus.
+
+Dit document heeft tot doel te onderzoeken of er nog andere harmonische signalen in de residuen aanwezig zijn. Mocht dit het geval zijn, dan moeten we overwegen om deze harmonische component in de analyse op te nemen.
 
 
-## Get latest data from file
-
-In an other script, annual average sea level data for the Dutch main stations is downloaded from the [Permanent Service for Mean Sea Level site](http://www.psmsl.org) and combined with the Global Tide and Surge Model (GTSM) annual average surge values. 
-
-```{r}
+```{r, fig.cap="Tijdserie voor residuen "}
 
 aug_long <- read_delim(file = "../../data/deltares/results/dutch-sea-level-products.csv", comment = "#")
 
 seaLevelClean <- aug_long %>%
   select(year, name, height, fitted_total) %>%
-  mutate(corr_height = height - fitted_total)
+  mutate(residual = height - fitted_total)
 
-ggplot(seaLevelClean, aes(year, corr_height)) + geom_point()
+ggplot(seaLevelClean, aes(year, residual)) + geom_point()
 
 ```
 
-## Eerste stap: spectrum bekijken (essentieel)
+## Eerste stap: spectrum bekijken
 
 ```{r}
 
-spec <- spectrum(seaLevelClean$corr_height, log = "yes")
-
-plot(1/spec$freq, spec$spec, log = "y",
-     xlab = "periode (jaar)",
-     ylab = "spectrum")
-
+spec <- stats::spectrum(seaLevelClean$residual, log = "yes")
 ```
 
 ## Automatisch pieken selecteren (semi-automatisch)
 
-```{r}
-
-library(pracma)
-
-spec <- spectrum(seaLevelClean$corr_height, plot = TRUE)
-
-peaks <- findpeaks(spec$spec, npeaks = 10)
-
-freqs <- spec$freq[peaks[,2]]  # per jaar
-1/freqs
-
-```
-
-## Lomb–Scargle (veel robuuster, aanrader)
+## Fourier
 
 ```{r}
+# Residuals selecteren
+y <- seaLevelClean$residual
+y <- y[is.finite(y)]
 
-library(lomb)
+n <- length(y)
+y <- y - mean(y)
 
-lsp <- lsp(seaLevelClean$corr_height, times = seaLevelClean$year, type = "period",
-           from = 1, to = 20)  # cycli/jaar
+# FFT van de oorspronkelijke data
+z <- fft(y)
+freq <- (0:(n - 1)) / n
+power <- Mod(z)^2 / n
 
+# Positieve frequenties, zonder nulfrequentie
+idx_pos <- 2:(floor(n / 2) + 1)
 
-```
+freq_pos <- freq[idx_pos]
+power_pos <- power[idx_pos]
 
-Pieken rond 5-6 jaar kunnen duiden op NAO (quasi-periodische klimaatmodus)
+# Geobserveerde hoogste piek
+peak_index <- which.max(power_pos)
+observed_peak <- power_pos[peak_index]
 
-Pieken rond 12 jaar: decadal variability of mogelijk zonnecyclus imprint (maar meestal zwak in MSL)
+observed_frequency <- freq_pos[peak_index]
+observed_period <- 1 / observed_frequency
 
-
-
-✅ Wat werkt hier beter (echt belangrijk)
-🔹 Optie 1 — band-gebaseerde modellering
-In plaats van exacte frequenties:
-
-```{r}
-Rlibrary(mgcv)
-model <- gam(msl ~ s(t, k = 30))
-```
-
-👉 dit modelleert:
-
-langzame variaties
-zonder te doen alsof ze perfect periodiek zijn
-
-
-🔹 Optie 2 — smalle set “quasi-harmonischen”
-Gebruik alleen de duidelijke band (~5–6 jaar):
-```{r}
-Rlm(msl ~    sin(2*pi*(1/5.5)*t) +    cos(2*pi*(1/5.5)*t))
-```
-
-Maar:
-👉 verwacht:
-
-fase drift
-amplitude variatie
-
-
-🔹 Optie 3 — sliding window analyse (sterk aanbevolen)
-Check of frequenties stabiel zijn:
-```{r}
-Rlibrary(zoo)
-roll_spec <- rollapply(
-  df$msl, width = 240, FUN = function(x) {  
-    sp <- spectrum(x, plot = FALSE)  
-    sp$freq[which.max(sp$spec)]
-  }
+c(
+  frequency = observed_frequency,
+  period_years = observed_period,
+  power = observed_peak
 )
+
 ```
 
-👉 Als frequentie verschuift → geen echte harmonische component
+De sterkste piek heeft dus een periode van 5.6667 jaar. Hieronder wordt bekeken of deze piek ook significant is, dat wil zeggen wat de kans is dat de piek op toeval berust. 
 
-🔹 Optie 4 — SSA (beste match voor jouw probleem)
-Dit is eigenlijk perfect hier:
+
 ```{r}
-Rlibrary(Rssa)
-s <- ssa(df$msl, L = 200)
-plot(s)
+set.seed(123)
+
+n_sim <- 5000
+max_powers <- numeric(n_sim)
+
+for (i in seq_len(n_sim)) {
+  y_sim <- sample(y)
+
+  z_sim <- fft(y_sim)
+  power_sim <- Mod(z_sim)^2 / n
+
+  # Gebruik dezelfde positieve frequenties
+  power_sim_pos <- power_sim[idx_pos]
+
+  max_powers[i] <- max(power_sim_pos)
+}
+
+# Empirische p-waarde
+p_value <- (
+  1 + sum(max_powers >= observed_peak)
+) / (n_sim + 1)
+
+cat("De p-waarde voor de maximale piek is ", p_value)
+
 ```
 
-👉 SSA:
+De geschatte p-waarde moet als volgt geïnterpreteerd worden. Een p_value < 0.05 wijst op een piek die sterker is dan je op basis van willekeurig herschikte residuals zou verwachten. Deze eenvoudige test veronderstelt wel dat de residuals onderling onafhankelijk zijn. Het zou aanbevolen worden om rekening te houden met autoregressie. Aangezien de p-waarde niet in de buurt van significantie zit, nemen we voorlopig aan dat er geen harmonische componenten meer in het residu-signaal zitten. 
 
-vindt oscillaties zonder vaste frequentie
-scheidt:
+## Conclusie
 
-trendachtige componenten
-quasi-cycli
+Er lijkt geen significant harmonisch signaal te zitten in het residu van de Zeespiegelmonitor analyse. 
+
