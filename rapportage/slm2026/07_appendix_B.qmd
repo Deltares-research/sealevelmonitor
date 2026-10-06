@@ -10,17 +10,57 @@ acronyms:
 
 # Van meting naar zeespiegelverandering {#sec-infographic-relatieve-zeespiegelstijging}
 
+Over de processen die een rol spelen bij het meten en uitrekenen van de zeespiegel en zeespiegelstijging zijn al veel rapportages gewijd. Op dit moment is veel informatie verspreid, en is het niet altijd duidelijk welke versie de juiste is. Voor deze Zeespiegelmonitor zijn de belangrijkste processen uitgelicht en verwerkt in een "Infographic". 
 
+Er zijn twee versies gemaakt. Een eenvoudige die voor het algemene publiek de allerbelangrijkste punten belicht, en een meer geavanceerde die voor de geïnteresseerde professional genoeg kennis biedt. 
 
-insert here a copy of the pdf infographic
+## Eenvoudige infographic voor algemeen publiek
 
+::: {.content-visible when-format="html"}
 
+De Infographic is [hier](https://github.com/Deltares-research/sealevelmonitor/blob/main/rapportage/slm2026/documents/Infographics%20ZSM/Zeespiegelstijging%20infographic%20-%20toelichting%20basisbegrippen.pdf) beschikbaar voor download.
+
+<iframe
+  src="documents/Infographics ZSM/Zeespiegelstijging infographic - toelichting basisbegrippen.pdf"
+  width="100%"
+  height="800"
+  style="border: none;">
+</iframe>
+
+:::
+
+::: {.content-visible unless-format="html"}
+
+De Infographic is [hier](https://github.com/Deltares-research/sealevelmonitor/blob/main/rapportage/slm2026/documents/Infographics%20ZSM/Zeespiegelstijging%20infographic%20-%20toelichting%20basisbegrippen.pdf) beschikbaar voor download.
+
+:::
+
+## Meer diepgaande infographic voor geïnteresseerde professionals
 
 
 ::: {.content-visible when-format="html"}
 
-## Lijst met gebruikte afkortingen
+De Infographic is [hier](https://github.com/Deltares-research/sealevelmonitor/blob/main/rapportage/slm2026/documents/Infographics%20ZSM/Zeespiegelstijging%20infographic%20-%20gericht%20op%20ge%C3%AFnteresseerde%20professionals%20uit%20gerelateerde%20onderzoeksgebieden.pdf) beschikbaar voor download.
 
-\printacronyms
+<iframe
+  src="documents/Infographics ZSM/Zeespiegelstijging infographic - gericht op geïnteresseerde professionals uit gerelateerde onderzoeksgebieden.pdf"
+  width="100%"
+  height="800"
+  style="border: none;">
+</iframe>
 
 :::
+
+::: {.content-visible unless-format="html"}
+
+De Infographic is [hier](https://github.com/Deltares-research/sealevelmonitor/blob/main/rapportage/slm2026/documents/Infographics%20ZSM/Zeespiegelstijging%20infographic%20-%20gericht%20op%20ge%C3%AFnteresseerde%20professionals%20uit%20gerelateerde%20onderzoeksgebieden.pdf) beschikbaar voor download.
+
+:::
+
+<!-- ::: {.content-visible when-format="html"} -->
+
+<!-- ## Lijst met gebruikte afkortingen -->
+
+<!-- \printacronyms -->
+
+<!-- ::: -->
