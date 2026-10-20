@@ -7,7 +7,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
 
 
-<title>Bijlage C — Expertworkshop Zeespiegelmonitor – Zeespiegelmonitor 2026</title>
+<title>Bijlage C — Ontwikkelingen aan het Global Tidal Surge Model (GTSM) – Zeespiegelmonitor 2026</title>
 <style>
 /* Default styles provided by pandoc.
 ** See https://pandoc.org/MANUAL.html#variables-for-html for config info.
@@ -26,7 +26,26 @@ ul.task-list li input[type="checkbox"] {
   margin: 0 0.8em 0.2em -1em; /* quarto-specific, see https://github.com/quarto-dev/quarto-cli/issues/4556 */ 
   vertical-align: middle;
 }
-</style>
+/* CSS for citations */
+div.csl-bib-body { }
+div.csl-entry {
+  clear: both;
+}
+.hanging-indent div.csl-entry {
+  margin-left:2em;
+  text-indent:-2em;
+}
+div.csl-left-margin {
+  min-width:2em;
+  float:left;
+}
+div.csl-right-inline {
+  margin-left:2em;
+  padding-left:1em;
+}
+div.csl-indent {
+  margin-left: 2em;
+}</style>
 
 
 <script src="site_libs/quarto-nav/quarto-nav.js"></script>
@@ -47,7 +66,10 @@ ul.task-list li input[type="checkbox"] {
 <link href="site_libs/quarto-html/quarto-syntax-highlighting-bf27225e3a48a9273f3daa8f8e829971.css" rel="stylesheet" id="quarto-text-highlighting-styles">
 <script src="site_libs/bootstrap/bootstrap.min.js"></script>
 <link href="site_libs/bootstrap/bootstrap-icons.css" rel="stylesheet">
-<link href="site_libs/bootstrap/bootstrap-ba26a4716d6cf44139741fbb83a0f426.min.css" rel="stylesheet" append-hash="true" id="quarto-bootstrap" data-mode="light">
+<link href="site_libs/bootstrap/bootstrap-5024109b7589e7c1fcc9a38d8262f8a0.min.css" rel="stylesheet" append-hash="true" id="quarto-bootstrap" data-mode="light">
+<script src="site_libs/quarto-contrib/glightbox/glightbox.min.js"></script>
+<link href="site_libs/quarto-contrib/glightbox/glightbox.min.css" rel="stylesheet">
+<link href="site_libs/quarto-contrib/glightbox/lightbox.css" rel="stylesheet">
 <script id="quarto-search-options" type="application/json">{
   "location": "navbar",
   "copy-button": false,
@@ -102,7 +124,7 @@ ul.task-list li input[type="checkbox"] {
       <button type="button" class="quarto-btn-toggle btn" data-bs-toggle="collapse" role="button" data-bs-target=".quarto-sidebar-collapse-item" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Schakel zijbalknavigatie" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">
         <i class="bi bi-layout-text-sidebar-reverse"></i>
       </button>
-        <nav class="quarto-page-breadcrumbs" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="./06_appendix_A.html">Bijlagen</a></li><li class="breadcrumb-item"><a href="./08_appendix_C.html"><span class="chapter-number">C</span>&nbsp; <span class="chapter-title">Expertworkshop Zeespiegelmonitor</span></a></li></ol></nav>
+        <nav class="quarto-page-breadcrumbs" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="./06_appendix_A.html">Bijlagen</a></li><li class="breadcrumb-item"><a href="./08_appendix_C.html"><span class="chapter-number">C</span>&nbsp; <span class="chapter-title">Ontwikkelingen aan het </span></a><a href="#acronyms_GTSM">GTSM</a></li></ol></nav>
         <a class="flex-grow-1" role="navigation" data-bs-toggle="collapse" data-bs-target=".quarto-sidebar-collapse-item" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Schakel zijbalknavigatie" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">      
         </a>
     </div>
@@ -174,13 +196,13 @@ ul.task-list li input[type="checkbox"] {
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
   <a href="./07_appendix_B.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text"><span class="chapter-number">B</span>&nbsp; <span class="chapter-title">Van meting naar zeespiegelverandering</span></span></a>
+ <span class="menu-text"><span class="chapter-number">B</span>&nbsp; <span class="chapter-title">Metingen van de zeespiegel</span></span></a>
   </div>
 </li>
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
   <a href="./08_appendix_C.html" class="sidebar-item-text sidebar-link active">
- <span class="menu-text"><span class="chapter-number">C</span>&nbsp; <span class="chapter-title">Expertworkshop Zeespiegelmonitor</span></span></a>
+ <span class="menu-text"><span class="chapter-number">C</span>&nbsp; <span class="chapter-title">Ontwikkelingen aan het </span></span></a><a href="#acronyms_GTSM">GTSM</a>
   </div>
 </li>
           <li class="sidebar-item">
@@ -192,7 +214,7 @@ ul.task-list li input[type="checkbox"] {
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
   <a href="./10_appendix_E.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text"><span class="chapter-number">E</span>&nbsp; <span class="chapter-title">Zeespiegel in de Waddenzee</span></span></a>
+ <span class="menu-text"><span class="chapter-number">E</span>&nbsp; <span class="chapter-title">Variatie van de zeespiegel in de Waddenzee</span></span></a>
   </div>
 </li>
           <li class="sidebar-item">
@@ -232,18 +254,17 @@ ul.task-list li input[type="checkbox"] {
     <h2 id="toc-title">Inhoudsopgave</h2>
    
   <ul>
-  <li><a href="#programma" id="toc-programma" class="nav-link active" data-scroll-target="#programma"><span class="header-section-number">C.1</span> Programma</a></li>
-  <li><a href="#deelnemers" id="toc-deelnemers" class="nav-link" data-scroll-target="#deelnemers"><span class="header-section-number">C.2</span> Deelnemers</a></li>
-  <li><a href="#lijst-met-gebruikte-afkortingen" id="toc-lijst-met-gebruikte-afkortingen" class="nav-link" data-scroll-target="#lijst-met-gebruikte-afkortingen"><span class="header-section-number">C.3</span> Lijst met gebruikte afkortingen</a></li>
+  <li><a href="#invloed-van-zeespiegelstijging" id="toc-invloed-van-zeespiegelstijging" class="nav-link active" data-scroll-target="#invloed-van-zeespiegelstijging"><span class="header-section-number">C.1</span> Invloed van zeespiegelstijging</a></li>
+  <li><a href="#lijst-met-gebruikte-afkortingen" id="toc-lijst-met-gebruikte-afkortingen" class="nav-link" data-scroll-target="#lijst-met-gebruikte-afkortingen"><span class="header-section-number">C.2</span> Lijst met gebruikte afkortingen</a></li>
   </ul>
 </nav>
     </div>
 <!-- main -->
 <main class="content" id="quarto-document-content">
 
-<header id="title-block-header" class="quarto-title-block default"><nav class="quarto-page-breadcrumbs quarto-title-breadcrumbs d-none d-lg-block" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="./06_appendix_A.html">Bijlagen</a></li><li class="breadcrumb-item"><a href="./08_appendix_C.html"><span class="chapter-number">C</span>&nbsp; <span class="chapter-title">Expertworkshop Zeespiegelmonitor</span></a></li></ol></nav>
+<header id="title-block-header" class="quarto-title-block default"><nav class="quarto-page-breadcrumbs quarto-title-breadcrumbs d-none d-lg-block" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="./06_appendix_A.html">Bijlagen</a></li><li class="breadcrumb-item"><a href="./08_appendix_C.html"><span class="chapter-number">C</span>&nbsp; <span class="chapter-title">Ontwikkelingen aan het </span></a><a href="#acronyms_GTSM">GTSM</a></li></ol></nav>
 <div class="quarto-title">
-<h1 class="title"><span id="sec-expertworkshop" class="quarto-section-identifier">Bijlage C — Expertworkshop Zeespiegelmonitor</span></h1>
+<h1 class="title"><span id="sec-gtsm-methodiek" class="quarto-section-identifier">Bijlage C — Ontwikkelingen aan het <a href="#acronyms_GTSM">Global Tidal Surge Model (GTSM)</a></span></h1>
 </div>
 
 
@@ -260,202 +281,98 @@ ul.task-list li input[type="checkbox"] {
 </header>
 
 
-<p>Datum: 2026-04-16</p>
-<p>Plaats: Firma van Buiten, Delft</p>
-<section id="programma" class="level2" data-number="C.1">
-<h2 data-number="C.1" class="anchored" data-anchor-id="programma"><span class="header-section-number">C.1</span> Programma</h2>
-<div id="tbl-programmaworkshop" class="quarto-float quarto-figure quarto-figure-center anchored">
-<figure class="quarto-float quarto-float-tbl figure">
-<figcaption class="quarto-float-caption-top quarto-float-caption quarto-float-tbl" id="tbl-programmaworkshop-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
-Tabel&nbsp;C.1: Programma Zeespiegelmonitor workshop
-</figcaption>
-<div aria-describedby="tbl-programmaworkshop-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
-<table class="caption-top table">
-<colgroup>
-<col style="width: 22%">
-<col style="width: 35%">
-<col style="width: 41%">
-</colgroup>
-<thead>
-<tr class="header">
-<th style="text-align: left;">Tijd</th>
-<th style="text-align: left;">Onderwerp</th>
-<th style="text-align: left;">Spreker(s)</th>
-</tr>
-</thead>
-<tbody>
-<tr class="odd">
-<td style="text-align: left;">09:00</td>
-<td style="text-align: left;">Inloop en introductie</td>
-<td style="text-align: left;">Marcel (moderator)</td>
-</tr>
-<tr class="even">
-<td style="text-align: left;">09:20</td>
-<td style="text-align: left;">Introductie Zeespiegelmonitor 2026</td>
-<td style="text-align: left;">Quirijn Lodder (RWS)</td>
-</tr>
-<tr class="odd">
-<td style="text-align: left;">09:40</td>
-<td style="text-align: left;">Waterstandsmetingen en getijdenstations in NL</td>
-<td style="text-align: left;">Dorien Honingh (HKV)<br>Martijn Kleinobbink (RWS)</td>
-</tr>
-<tr class="even">
-<td style="text-align: left;">10:10</td>
-<td style="text-align: left;">Toegepaste correcties voor wind en getij</td>
-<td style="text-align: left;">Martin Verlaan (Deltares)<br>Natalia Aleksandrova (Deltares)</td>
-</tr>
-<tr class="odd">
-<td style="text-align: left;">10:40</td>
-<td style="text-align: left;">Pauze</td>
-<td style="text-align: left;"></td>
-</tr>
-<tr class="even">
-<td style="text-align: left;">11:05</td>
-<td style="text-align: left;">Toegepaste statistiek in de Zeespiegelmonitor</td>
-<td style="text-align: left;">Willem Stolte (Deltares)</td>
-</tr>
-<tr class="odd">
-<td style="text-align: left;">11:40</td>
-<td style="text-align: left;">Conclusies, presentatie en communicatie</td>
-<td style="text-align: left;">Willem Stolte (Deltares)<br>Martijn Kleinobbink (RWS)</td>
-</tr>
-<tr class="even">
-<td style="text-align: left;">12:15</td>
-<td style="text-align: left;">Grab your lunch</td>
-<td style="text-align: left;"></td>
-</tr>
-<tr class="odd">
-<td style="text-align: left;">12:25</td>
-<td style="text-align: left;">Connection to projections</td>
-<td style="text-align: left;">Dewi Le Bars (KNMI)</td>
-</tr>
-<tr class="even">
-<td style="text-align: left;">13:00</td>
-<td style="text-align: left;">Afsluiting</td>
-<td style="text-align: left;"></td>
-</tr>
-</tbody>
-</table>
+<p>Een van de factoren die de zeespiegel beïnvloeden is de windopzet (storm surge). Om de bijdrage hiervan te kwantificeren, is de gemiddelde jaarlijkse windopzet berekend op basis van de Door Deltares geproduceerde <a href="#acronyms_GTSM">GTSM</a> dataset met <a href="#acronyms_ERA5">ECMWF ReAnalysis version 5 (ERA5)</a> forcing (van het <a href="#acronyms_ECMWF">European Centre for Medium-Range Weather Forecasts (ECMWF)</a>). Deze bevat uurlijkse mondiale waterstanden en windopzet tijdreeksen voor de periode vanaf 1950 tot heden. De dataset is berekend met (<a href="#acronyms_GTSM">GTSM</a>), een dieptegemiddeld hydrodynamisch model dat getijden, windopzet en hun niet-lineaire interacties in de wereldoceaan simuleert, aangestuurd door de <a href="#acronyms_ERA5">ERA5</a> atmosferische heranalyse. De windopzet wordt bepaald als het verschil tussen een gecombineerde windopzet-getijdensimulatie en een simulatie met uitsluitend astronomisch getij en is als afzonderlijke variabele beschikbaar in de dataset. Meer informatie is beschikbaar in de documentatie van de <a href="https://doi.org/10.24381/cds.a6d42d60">GTSM-ERA5-dataset</a> en in <span class="citation" data-cites="Muis2023">(<a href="05_literatuur.html#ref-Muis2023" role="doc-biblioref">Muis e.a. 2023</a>)</span>, <span class="citation" data-cites="Aleksandrova2026">(<a href="05_literatuur.html#ref-Aleksandrova2026" role="doc-biblioref">Aleksandrova e.a. 2025</a>)</span>.</p>
+<p>Modelresultaten voor windopzet uit <a href="#acronyms_GTSM">GTSM</a> runs worden geselecteerd per hoofdstation. Deze worden daarna gemiddeld per maand voor elk hoofdstation en opgeslagen voor later gebruik in de Zeespiegelmonitor (zie dit <a href="https://github.com/Deltares-research/sealevelmonitor/blob/develop_reporting26_aleksandrova/analysis/gtsm/get_monthly_means_surge.ipynb">rekendocument</a>). In de onderstaande figuur zijn, ter illustratie voor Hoek van Holland, de uurlijkse tijdreeks van de windopzet in 2025 en de daaruit afgeleide maand- en jaargemiddelden weergegeven.</p>
+<div id="fig-windopzet-tijdreeks" class="quarto-float quarto-figure quarto-figure-center anchored">
+<figure class="quarto-float quarto-float-fig figure">
+<div aria-describedby="fig-windopzet-tijdreeks-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+<a href="images/gtsm_monthly_means_surge_HOEKVHLD_2025_timeseries.png" class="lightbox" data-gallery="quarto-lightbox-gallery-1" title="Figuur&nbsp;C.1: Windopzet tijdreeks en maandgemiddelde windopzet voor 2025 voor Hoek van Holland"><img src="images/gtsm_monthly_means_surge_HOEKVHLD_2025_timeseries.png" class="img-fluid figure-img" style="width:80.0%"></a>
 </div>
+<figcaption class="quarto-float-caption-bottom quarto-float-caption quarto-float-fig" id="fig-windopzet-tijdreeks-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+Figuur&nbsp;C.1: Windopzet tijdreeks en maandgemiddelde windopzet voor 2025 voor Hoek van Holland
+</figcaption>
 </figure>
 </div>
-</section>
-<section id="deelnemers" class="level2" data-number="C.2">
-<h2 data-number="C.2" class="anchored" data-anchor-id="deelnemers"><span class="header-section-number">C.2</span> Deelnemers</h2>
-<div id="tbl-deelnemersworkshop" class="quarto-float quarto-figure quarto-figure-center anchored">
-<figure class="quarto-float quarto-float-tbl figure">
-<figcaption class="quarto-float-caption-top quarto-float-caption quarto-float-tbl" id="tbl-deelnemersworkshop-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
-Tabel&nbsp;C.2: Deelnemerslijst Zeespiegelmonitor workshop
-</figcaption>
-<div aria-describedby="tbl-deelnemersworkshop-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
-<table class="caption-top table">
-<thead>
-<tr class="header">
-<th style="text-align: left;">Organisatie</th>
-<th style="text-align: left;">Deelnemer</th>
-</tr>
-</thead>
-<tbody>
-<tr class="odd">
-<td style="text-align: left;">MinIenW - DGWB</td>
-<td style="text-align: left;">Hermine Ehrenstein</td>
-</tr>
-<tr class="even">
-<td style="text-align: left;">Rijkswaterstaat</td>
-<td style="text-align: left;">Quirijn Lodder</td>
-</tr>
-<tr class="odd">
-<td style="text-align: left;">Rijkswaterstaat</td>
-<td style="text-align: left;">Saskia van Gool</td>
-</tr>
-<tr class="even">
-<td style="text-align: left;">Rijkswaterstaat</td>
-<td style="text-align: left;">Martijn Klein Obbink</td>
-</tr>
-<tr class="odd">
-<td style="text-align: left;">Deltares</td>
-<td style="text-align: left;">Marcel Taal</td>
-</tr>
-<tr class="even">
-<td style="text-align: left;">Deltares</td>
-<td style="text-align: left;">Martin Verlaan</td>
-</tr>
-<tr class="odd">
-<td style="text-align: left;">Deltares</td>
-<td style="text-align: left;">Willem Stolte</td>
-</tr>
-<tr class="even">
-<td style="text-align: left;">Deltares</td>
-<td style="text-align: left;">Nathalie Dees</td>
-</tr>
-<tr class="odd">
-<td style="text-align: left;">Deltares</td>
-<td style="text-align: left;">Natalia Aleksandrova</td>
-</tr>
-<tr class="even">
-<td style="text-align: left;">Deltares</td>
-<td style="text-align: left;">Marc Hijma</td>
-</tr>
-<tr class="odd">
-<td style="text-align: left;">KNMI</td>
-<td style="text-align: left;">Dewi Le Bars</td>
-</tr>
-<tr class="even">
-<td style="text-align: left;">UU</td>
-<td style="text-align: left;">Roderik van de Wal</td>
-</tr>
-<tr class="odd">
-<td style="text-align: left;">NIOZ</td>
-<td style="text-align: left;">Aimée Slangen</td>
-</tr>
-<tr class="even">
-<td style="text-align: left;">NIOZ</td>
-<td style="text-align: left;">Theo Gerkema</td>
-</tr>
-<tr class="odd">
-<td style="text-align: left;">TU Delft</td>
-<td style="text-align: left;">Ricardo Riva</td>
-</tr>
-<tr class="even">
-<td style="text-align: left;">HKV</td>
-<td style="text-align: left;">Dorien Honingh</td>
-</tr>
-<tr class="odd">
-<td style="text-align: left;">HVEC</td>
-<td style="text-align: left;">Hessel Voortman</td>
-</tr>
-<tr class="even">
-<td style="text-align: left;">PBL</td>
-<td style="text-align: left;">Jelle van Minnen</td>
-</tr>
-<tr class="odd">
-<td style="text-align: left;">PBL</td>
-<td style="text-align: left;">Carine van der Boog</td>
-</tr>
-<tr class="even">
-<td style="text-align: left;">TNO</td>
-<td style="text-align: left;">Samantha Kim</td>
-</tr>
-<tr class="odd">
-<td style="text-align: left;">TNO</td>
-<td style="text-align: left;">Joost Roholl</td>
-</tr>
-<tr class="even">
-<td style="text-align: left;">PBL</td>
-<td style="text-align: left;">Hans Visser</td>
-</tr>
-</tbody>
-</table>
+<p>De maandgemiddelden vertonen interjaarlijkse variaties, maar zijn in het algemeen hoger gedurende het winterseizoen. De onderstaande figuur toont de spreiding van de maandgemiddelden van de windopzet voor Hoek van Holland voor de periode 1950–2025.</p>
+<div id="fig-windopzet-maandgemiddelden" class="quarto-float quarto-figure quarto-figure-center anchored">
+<figure class="quarto-float quarto-float-fig figure">
+<div aria-describedby="fig-windopzet-maandgemiddelden-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+<a href="images/gtsm_monthly_means_surge_HOEKVHLD.png" class="lightbox" data-gallery="quarto-lightbox-gallery-2" title="Figuur&nbsp;C.2: Maandgemiddelde windopzet voor alle jaren over de periode 1950 - 2025 voor Hoek van Holland."><img src="images/gtsm_monthly_means_surge_HOEKVHLD.png" class="img-fluid figure-img" style="width:80.0%"></a>
 </div>
+<figcaption class="quarto-float-caption-bottom quarto-float-caption quarto-float-fig" id="fig-windopzet-maandgemiddelden-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+Figuur&nbsp;C.2: Maandgemiddelde windopzet voor alle jaren over de periode 1950 - 2025 voor Hoek van Holland.
+</figcaption>
 </figure>
 </div>
+<p>De gemiddelde jaarlijkse windopzet varieert tussen locaties en individuele meetstations, afhankelijk van de weersomstandigheden in een bepaald jaar en de blootstelling van de getijdestationlocatie aan wind- en storminvloeden. De onderstaande figuur toont de tijdreeks van de jaarlijkse gemiddelde windopzet voor de hoofdstations.</p>
+<div id="fig-surge-all-stations" class="quarto-float quarto-figure quarto-figure-center anchored">
+<figure class="quarto-float quarto-float-fig figure">
+<div aria-describedby="fig-surge-all-stations-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+<a href="images/gtsm_annual_means_surge_all_stations.png" class="lightbox" data-gallery="quarto-lightbox-gallery-3" title="Figuur&nbsp;C.3: Jaargemiddelde windopzet voor 1950-2025 voor alle stations"><img src="images/gtsm_annual_means_surge_all_stations.png" class="img-fluid figure-img" style="width:80.0%"></a>
+</div>
+<figcaption class="quarto-float-caption-bottom quarto-float-caption quarto-float-fig" id="fig-surge-all-stations-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+Figuur&nbsp;C.3: Jaargemiddelde windopzet voor 1950-2025 voor alle stations
+</figcaption>
+</figure>
+</div>
+<section id="invloed-van-zeespiegelstijging" class="level2" data-number="C.1">
+<h2 data-number="C.1" class="anchored" data-anchor-id="invloed-van-zeespiegelstijging"><span class="header-section-number">C.1</span> Invloed van zeespiegelstijging</h2>
+<p>De huidige versie van GTSM die gebruikt wordt voor berekening van windopzet voor de Zeespiegelmonitor wordt aangestuurd door een waterpeil inclusief een stijging. De zeespiegelstijging die is toegepast is afgeleid van SLR-projecties in <a href="#acronyms_AR5">Fifth Assessment Report IPCC (AR5)</a> van <a href="#acronyms_IPCC">Intergovernmental Panel on Climate Change (IPCC)</a>. Deze wijken waarschijnlijk af van de daadwerkelijk waargenomen zeespiegelstijging. De bijdrage van zeespiegelstijging wordt bij de berekening van de windopzet grotendeels opgeheven doordat de windopzet wordt gedefinieerd als het verschil tussen de totale waterstand (getij en windopzet) en een simulatie met uitsluitend getij. Wel kan zeespiegelstijging een geringe indirecte invloed hebben op de berekende windopzet, doordat veranderingen in de waterdiepte de hydrodynamische processen beïnvloeden. Het is daarom belangrijk om te weten of de gebruikte stijging invloed heeft op de berekende windopzet aan de Nederlandse kust. Dit is gecontroleerd door de GTSM-ERA5 modelopstelling voor 2023 te draaien, zodat modelresultaten zowel met als zonder <a href="#acronyms_SLR">Sea Level Rise (SLR)</a> (totaal waterpeil en alleen getijdenruns) worden getoond. Deze resultaten zijn vergeleken (zoals te zien in dit <a href="https://github.com/VU-IVM/gtsm3-era5-nrt/blob/main/02_analysis_and_validation/p06_compare_SLR_effect_surge_mean.ipynb">rekendocument</a>. Uit deze resultaten kan worden geconcludeerd:</p>
+<ul>
+<li>SLR in 2023, die in onze modelruns is opgenomen, is ~0.1 m te opzichte van het referentie periode 1986-2005.</li>
+<li>Dit niveau van SLR heeft geen significant effect op de gemiddelde windopzet. Het verschil dat het model veroorzaakt is verwaarloosbaar (minder dan 1 mm).</li>
+<li>Op enkele locaties diep in de Waddenzee is er enig verschil in windopzet tussen de twee runs, maar dit zijn locaties in relatief afgesloten gebieden in ondiep water. Het verschil blijft beperkt tot enkele millimeters.</li>
+</ul>
+<div id="fig-windopzet-zss" class="quarto-float quarto-figure quarto-figure-center anchored">
+<figure class="quarto-float quarto-float-fig figure">
+<div aria-describedby="fig-windopzet-zss-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+<a href="images/GTSM_SLR_diff.png" class="lightbox" data-gallery="quarto-lightbox-gallery-4" title="Figuur&nbsp;C.4: Gemiddelde windopzet op de zeespiegel voor 2023 inclusief zeespiegelstijging zoals gedefinieerd in GTSM (linker figuur) en het verschil in windopzet tussen modelruns met en zonder zeespiegelstijging (rechter figuur)."><img src="images/GTSM_SLR_diff.png" class="img-fluid figure-img" style="width:80.0%"></a>
+</div>
+<figcaption class="quarto-float-caption-bottom quarto-float-caption quarto-float-fig" id="fig-windopzet-zss-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+Figuur&nbsp;C.4: Gemiddelde windopzet op de zeespiegel voor 2023 inclusief zeespiegelstijging zoals gedefinieerd in GTSM (linker figuur) en het verschil in windopzet tussen modelruns met en zonder zeespiegelstijging (rechter figuur).
+</figcaption>
+</figure>
+</div>
+<p>Hieruit concluderen we dat de windopzet uit <a href="#acronyms_GTSM">GTSM</a> inclusief zeespiegelstijging, die we op dit moment gebruiken voor de Zeespiegelmonitor, niet wordt beïnvloed door de gebruikte zeespiegelprojectie.</p>
 </section>
-<section id="lijst-met-gebruikte-afkortingen" class="level2" data-number="C.3">
-<h2 data-number="C.3" class="anchored" data-anchor-id="lijst-met-gebruikte-afkortingen"><span class="header-section-number">C.3</span> Lijst met gebruikte afkortingen</h2>
+<section id="lijst-met-gebruikte-afkortingen" class="level2" data-number="C.2">
+<h2 data-number="C.2" class="anchored" data-anchor-id="lijst-met-gebruikte-afkortingen"><span class="header-section-number">C.2</span> Lijst met gebruikte afkortingen</h2>
 <dl>
+<dt><span id="acronyms_AR5">AR5</span></dt>
+<dd>
+Fifth Assessment Report IPCC
+</dd>
+<dt><span id="acronyms_ECMWF">ECMWF</span></dt>
+<dd>
+European Centre for Medium-Range Weather Forecasts
+</dd>
+<dt><span id="acronyms_ERA5">ERA5</span></dt>
+<dd>
+ECMWF ReAnalysis version 5
+</dd>
+<dt><span id="acronyms_GTSM">GTSM</span></dt>
+<dd>
+Global Tidal Surge Model
+</dd>
+<dt><span id="acronyms_IPCC">IPCC</span></dt>
+<dd>
+Intergovernmental Panel on Climate Change
+</dd>
+<dt><span id="acronyms_SLR">SLR</span></dt>
+<dd>
+Sea Level Rise
+</dd>
 </dl>
 
 
+<div id="refs" class="references csl-bib-body hanging-indent" role="list" style="display: none">
+<div id="ref-Aleksandrova2026" class="csl-entry" role="listitem">
+Aleksandrova, N., J. Veenstra, en S. Muis. 2025. <span>‘Global dataset of storm surges and extreme sea levels for 1950–2024 based on the ERA5 climate reanalysis’</span>. <em>Earth System Science Data Discussions</em> 2025: 1-22. <a href="https://doi.org/10.5194/essd-2025-471">https://doi.org/10.5194/essd-2025-471</a>.
+</div>
+<div id="ref-Muis2023" class="csl-entry" role="listitem">
+Muis, Sanne, Jeroen C. J. H. Aerts, José A. Á. Antolínez, e.a. 2023. <span>‘Global Projections of Storm Surges Using High-Resolution CMIP6 Climate Models’</span>. <em>Earth’s Future</em> 11 (9): e2023EF003479. https://doi.org/<a href="https://doi.org/10.1029/2023EF003479">https://doi.org/10.1029/2023EF003479</a>.
+</div>
+</div>
 </section>
 
 </main> <!-- /main -->
@@ -861,8 +778,8 @@ Tabel&nbsp;C.2: Deelnemerslijst Zeespiegelmonitor workshop
   </script>
 <nav class="page-navigation">
   <div class="nav-page nav-page-previous">
-      <a href="./07_appendix_B.html" class="pagination-link" aria-label="Van meting naar zeespiegelverandering">
-        <i class="bi bi-arrow-left-short"></i> <span class="nav-page-text"><span class="chapter-number">B</span>&nbsp; <span class="chapter-title">Van meting naar zeespiegelverandering</span></span>
+      <a href="./07_appendix_B.html" class="pagination-link" aria-label="Metingen van de zeespiegel">
+        <i class="bi bi-arrow-left-short"></i> <span class="nav-page-text"><span class="chapter-number">B</span>&nbsp; <span class="chapter-title">Metingen van de zeespiegel</span></span>
       </a>          
   </div>
   <div class="nav-page nav-page-next">
@@ -885,6 +802,38 @@ Tabel&nbsp;C.2: Deelnemerslijst Zeespiegelmonitor workshop
     </div>
   </div>
 </footer>
+<script>var lightboxQuarto = GLightbox({"closeEffect":"zoom","descPosition":"bottom","loop":false,"openEffect":"zoom","selector":".lightbox"});
+(function() {
+  let previousOnload = window.onload;
+  window.onload = () => {
+    if (previousOnload) {
+      previousOnload();
+    }
+    lightboxQuarto.on('slide_before_load', (data) => {
+      const { slideIndex, slideNode, slideConfig, player, trigger } = data;
+      const href = trigger.getAttribute('href');
+      if (href !== null) {
+        const imgEl = window.document.querySelector(`a[href="${href}"] img`);
+        if (imgEl !== null) {
+          const srcAttr = imgEl.getAttribute("src");
+          if (srcAttr && srcAttr.startsWith("data:")) {
+            slideConfig.href = srcAttr;
+          }
+        }
+      } 
+    });
+  
+    lightboxQuarto.on('slide_after_load', (data) => {
+      const { slideIndex, slideNode, slideConfig, player, trigger } = data;
+      if (window.Quarto?.typesetMath) {
+        window.Quarto.typesetMath(slideNode);
+      }
+    });
+  
+  };
+  
+})();
+          </script>
 
 
 
