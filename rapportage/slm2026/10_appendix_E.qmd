@@ -9,18 +9,26 @@ acronyms:
 
 
 
-# Zeespiegel in de Waddenzee {#sec-zeespiegel-wadden}
-
-
-**Placeholder**
-
-Rapport of link naar rapport invoegen
+# Variatie van de zeespiegel in de Waddenzee {#sec-zeespiegel-wadden}
 
 
 ::: {.content-visible when-format="html"}
 
-## Lijst met gebruikte afkortingen
+Het rapport is [hier]() beschikbaar voor download.
 
-\printacronyms
+<iframe
+  src="documents/"
+  width="100%"
+  height="800"
+  style="border: none;">
+</iframe>
 
 :::
+
+::: {.content-visible unless-format="html"}
+
+Het rapport is [hier](https://www.deltares.nl/expertise/publicaties/procedures-en-meetresultaten-gnss-stations-bodemdaling-en-relatieve-zeespiegelstijging-eindrapport) beschikbaar voor download.
+
+:::
+
+

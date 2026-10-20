@@ -8,13 +8,113 @@ acronyms:
 ---
 
 
-# Van meting naar zeespiegelverandering {#sec-infographic-relatieve-zeespiegelstijging}
+# Metingen van de zeespiegel {#sec-metingen}
 
-Over de processen die een rol spelen bij het meten en uitrekenen van de zeespiegel en zeespiegelstijging zijn al veel rapportages gewijd. Op dit moment is veel informatie verspreid, en is het niet altijd duidelijk welke versie de juiste is. Voor deze Zeespiegelmonitor zijn de belangrijkste processen uitgelicht en verwerkt in een "Infographic". 
+Over de processen die een rol spelen bij het meten en uitrekenen van de zeespiegel en zeespiegelstijging zijn al veel rapportages gewijd. Op dit moment is veel informatie verspreid, en is het niet altijd duidelijk welke versie de juiste is. Voor deze Zeespiegelmonitor zijn de belangrijkste processen uitgelicht en verwerkt in twee "Infographics". Een met beperkte informati voor het algemene publiek (@sec-eenvoudige-infographic) die de allerbelangrijkste punten belicht, en een meer geavanceerde infographic (@sec-geavanceerde-infographic) die voor de geïnteresseerde professional genoeg kennis biedt.
 
-Er zijn twee versies gemaakt. Een eenvoudige die voor het algemene publiek de allerbelangrijkste punten belicht, en een meer geavanceerde die voor de geïnteresseerde professional genoeg kennis biedt. 
+De tekst en figuren hieronder zijn identiek aan die in de infographics. 
 
-## Eenvoudige infographic voor algemeen publiek
+## Bepalen van de zeespiegelstijging 
+
+\acr{RWS} legt ten behoeve van het Nederlandse waterveiligheidsbeleid jaarlijks de stand en de ontwikkeling van de zeespiegel vast in de Zeespiegelmonitor. Hiervoor worden de gemeten waterstanden bij de hoofdgetijdenstations gebruikt. Deze gegevens worden geanalyseerd om de jaarlijkse zeespiegelstand vast te stellen en om langjarige trendanalyses uit te voeren. Hiervoor worden jaarlijkse gemiddelden geraadpleegd via de \acr{PSMSL} database. Dit is een mondiale database waarvoor \acr{RWS} jaarlijks gegevens aanlevert. 
+
+:::{#fig-complex-overzichtsfiguur}
+
+![](documents\Losse figuren\Complex overzichtsfiguur.png)
+
+:::
+
+In het verleden hebben ingrepen aan de Nederlandse kust plaatsgevonden die invloed hebben op de gemeten waterstanden, zoals de aanleg van de Deltawerken en de Afsluitdijk. Dit kan invloed hebben op de relatieve zeespiegelstijging bij een hoofdgetijdenstation zelf. De hoeveelheid suppletiezand langs de Nederlandse kust wordt bepaald op basis van de gemiddelde relatieve zeespiegelstijging over de zes hoofdgetijdenstations. De zes hoofdgetijdenstations zijn Vlissingen (metingen sinds 1862), Hoek van Holland (metingen sinds 1864), IJmuiden (metingen sinds 1871), Den Helder (metingen sinds 1865), Harlingen (metingen sinds 1865) en Delfzijl (metingen sinds 1865). In de Zeespiegelmonitor 2022  is geen gebruik gemaakt van station Delfzijl vanwege onzekerheid in het doorvoeren van correcties voor de bodemdaling door gaswinning. Dit leidt tot informatieverlies en is uiteraard niet wenselijk. Op dit moment worden de gegevens van Delfzijl gecorrigeerd, zodat ze weer bruikbaar zijn voor trendanalyses in de toekomst. 
+
+Naast de waterstandsmetingen bij de getijdenstations wordt gebruik gemaakt van altimetriemetingen via satellieten. De satellieten meten de hoogte van de zeespiegel (altimetrie) op basis van een radar-altimeter. Deze meetmethodiek is gestart in 1992, na de lancering van de TOPEX/Poseidon satelliet, en inmiddels zijn er meerdere satellieten die de hoogte meten. Deze satellietgegevens zijn niet gevalideerd langs de kust omdat de metingen langs de kust “vervuild” kunnen raken en daarom minder bruikbaar zijn. Dit heeft twee oorzaken: onzekerheden in de correctie voor getij, en een ruimtelijke resolutie die nog te laag is om water en land afzonderlijk te onderscheiden waardoor de metingen langs de kust zowel water als land gegevens bevatten. 
+
+Voor ieder station wordt de relatieve zeespiegelstijging berekend en samen met de (gemodelleerde) bodemdaling wordt de absolute zeespiegelstijging langs de Nederlandse kust bepaald. De absolute zeespiegelstijging voor de Nederlandse kust wordt op basis van de gemiddelde waarde voor de hoofdgetijdenstations bepaald en deze waarde wordt ter verificatie vergeleken met de wereldwijde satelliet-altimetrie waarneming.
+
+:::{#fig-waarmingen-combined layout-ncol=2}
+
+![GNSS](documents\Losse figuren\GNSS.png){#fig-gnss}
+
+![Satelietaltimetrie](documents\Losse figuren\Satellietaltimetrie.png){#fig-altimetrie}
+
+Satelietgebaseerde hoogtemetingen
+
+:::
+
+
+## Metingen en analyses van waterstanden bij hoofgetijdenstations
+
+Het hoogtesysteem in Nederland is gedefinieerd ten opzichte van het \acr{NAP}. Met ‘het NAP’ wordt het NAP-nulvlak bedoeld. Het NAP-nulvlak wordt in de praktijk vastgelegd door middel van zes ondergrondse peilmerken op de zandgronden van Midden-Nederland, die stabiel worden verondersteld. Daarnaast zijn er NAP-peilmerken. Dit zijn bronzen bouten bevestigd aan gebouwen, bruggen en viaducten, waarvan de hoogte ten opzichte van het NAP-nulvlak bepaald is. Hierdoor ontstaat een samenhangende set van peilmerken met bekende NAP-hoogtes, het Nederlandse referentiesysteem. Er zijn twee typen NAP-peilmerken, primaire en secundaire merken. Dit wordt nader toegelicht binnen de tekst over waterpassingen. De primaire peilmerken zijn stabieler omdat deze meestal gefundeerd zijn in de pleistocene zandlaag. Dit betekent dat de zeespiegeltrend ten opzichte van de top van de pleistocene zandlaag verkregen wordt.
+
+Sinds 1890 is het gebruikte referentiesysteem bekend en daarom wordt sindsdien de meetreeks van waterstanden gebruikt voor het bepalen van de zeespiegelstand. Voor het meten van de waterstanden bij de getijdenstations is de meest gangbare meetmethode een DNM-meetinstrument (Digitale Niveaumeter; vlottersysteem). De hoofdgetijdenstations zijn allemaal uitgerust met vlottersystemen. Alleen bij IJmuiden wordt sinds 2020 met radar gemeten vanwege toenemende verzandingsproblemen bij de toevoerbuis van het vlottersysteem. Beide instrumenten hebben een aanwijsbaar referentiepunt en bij beide meetmethoden wordt de afstand vanaf het meetinstrument tot het water gemeten. Het meetinstrument registreert de waterstandsmetingen iedere 10 seconden, dit zijn de ruwe gegevens. Uit deze ruwe gegevens wordt een 10-minuten gemiddelde waterstand bepaald. De gemeten waterstanden bij de hoofdgetijdenstations worden gerefereerd aan een diepgefundeerde paal, de nulpaal (P-bout). Indien er geen nulpaal (P-bout) in het hoofdgetijdenstation is, wordt een muurbout (M-bout) gebruikt als tussenstap voor het ijken van het meetinstrument van de waterstanden. Vervolgens moet de muurbout dan alsnog ingemeten worden ten opzichte van de nulpaal. 
+
+De waterstandsmetingen worden geanalyseerd met een geavanceerd regressiemodel waarbij voor ieder hoofdgetijdenstation de langjarige trend wordt bepaald. De methode om de trend te bepalen in de Zeespiegelmonitor met dit regressiemodel is in 2014 vastgesteld1 . Bij het bepalen van de trend en eventuele versnelling in de zeespiegel wordt rekening gehouden met periodieke fluctuaties in de waterstanden. Hierbij is de 18,613-jarige nodale getijcyclus, veroorzaakt door de veranderende positie van het maanvlak ten opzichte van de evenaar, de belangrijkste cyclus in de waterstanden. Het regressiemodel bevat naast een trend en het nodaal getij de windopzet als covariaat (verklarende variabele). Het residu van het model bevat autocorrelatie. Een jaar met een hogere waterstand dan verwacht wordt waarschijnlijk gevolgd door een jaar met een hogere waterstand dan volgens het model verwacht. De verschillende modelcomponenten zijn in onderstaande figuur weergegeven. 
+
+
+:::{#fig-componenten-zeespiegel}
+
+![](documents\Losse figuren\bijdrage aan zeespiegelstijging.png){width=4in}
+
+De verschillende componenten die geanalyseerd worden in de Zeespiegelmonitor
+
+:::
+
+## Controles van de waterstandsmetingen en meetapparatuur 
+  
+:::{#fig-menpbouten}
+
+![](documents\Losse figuren\M-bout en P-bout.png){width=4in}
+
+Schematische weergave van M- en P-bout.
+
+:::
+  
+  
+De meetinstrumenten en de waterstandsmetingen worden met verschillende frequenties gecontroleerd, namelijk:
+
+- 2x per dag vindt er een visuele controle van de waterstandsmetingen plaats. In deze check wordt vooral gecontroleerd of het meetinstrument de waterstand registreert. Alleen als er iets mis lijkt te zijn met de metingen wordt iemand naar het station gestuurd om de meetapparatuur te inspecteren. 
+- 1x per maand vindt er een controle van langetermijntrends plaats. Afwijkingen kunnen bijvoorbeeld ontstaan door problemen met de toevoerleiding (verstopping door vervuiling of slibophoping), een vlotterband die loskomt van het vlotterwiel of een aanvaring. De afwijking kan worden gedetecteerd door een faseverschuiving ten opzichte van het gedrag bij buurstations of een sprong in de gegevens. Als dit het geval is dan wordt een correctie vanaf het incident doorgevoerd.
+- 1x per jaar wordt de hoogtemeting van de waterstandsinstrumenten gecontroleerd t.o.v. de nulpalen (P-bout) of de muurbouten (M-bout), dit wordt ook wel de B0-verificatie genoemd. 
+Een aannemer voert deze meting uit met een kruislijnlaser met een nauwkeurigheid van <1,4 mm. Als de afwijking tussen het meetinstrument en het NAP-peilmerk groter is dan 6 mm moet het instrument door de aannemer versteld worden. Dit is vrijblijvend voor een afwijking in de range van 1-6 mm. De meetreeks wordt hierbij met 1 cm gecorrigeerd en de correctie wordt door middel van lineaire interpolatie tussen de vorige B0-verificatie en de huidige B0-verificatie toegepast. Deze B0-verificatie wordt geregistreerd (datum, hoogte NAP-referentie, wie de meting heeft uitgevoerd, etc.) in pdf-bestanden. RWS-CIV-Vaste Meetnetten voert een eventuele correctie uit.  
+- Bij de stations waar de P-bout niet in het hoofdgetijdenstation zelf zit, wordt tijdens primaire en secundaire waterpassingen de muurbout (M-bout) ingemeten ten opzichte van de nulpaal (P-bout). Bij Harlingen en Den Helder bevindt de nulpaal (P-bout) zich in het getijdenstation en is deze meting niet van toepassing. In de andere hoofdgetijdenstations is een muurbout (M-bout) aanwezig die, afhankelijk van de fundering van het getijdenstation, anders kan bewegen ten opzichte van de nulpaal. Daarom wordt ook de M-bout t.o.v. de nulpaal (P-bout) ingemeten. Dit gebeurt tijdens primaire en secundaire waterpassingen. Deze waterpassingen worden op de volgende pagina toegelicht. In 2021 is éénmalig een controle van alle hoogtes van muurbouten (M-bouten) ten opzichte van de nulpalen (P-bout) uitgevoerd. Sindsdien wordt ook een aantal stations extra gecontroleerd en wordt de M-bout tijdens regionale waterpassingen ingemeten. Bij een aantal stations is geconstateerd dat de beweging van de M-bout afweek ten opzichte van de P-bout. De afwijkingen waren bij deze controles als volgt: Vlissingen 1 mm in 2021, Hoek van Holland 1 mm in 2021, IJmuiden 14 mm in 2021 en 2 mm in 2025, en Delfzijl 6 mm in 2021 en 12 mm in 2023.
+
+## Waterpassingen
+
+De NAP-peilmerken werden voorheen per regio 1x per 10 jaar ingemeten, waarbij de hoogte en de informatie van de peilmerken werden gecontroleerd. Deze cyclus van 10 jaar wordt ook wel ‘planperiode’ genoemd. Alleen de minder stabiele locaties (Groningen en Friesland) werden 1x per 5 jaar ingemeten. De vaste cycli van 5 of 10 jaar zijn losgelaten, omdat er nu geprioriteerd wordt op basis van bodemdalingskaarten . De metingen worden voor de primaire en secundaire peilmerken uitgevoerd en de informatie wordt ontsloten in de NAP-info viewer en via webservices.
+
+Het controleren en vastleggen van de hoogtes van primaire merken gebeurt met landelijke nauwkeurigheidswaterpassingen (NWP’s). Er zijn tot nu toe vijf NWP’s uitgevoerd. Naar aanleiding van de 5de NWP zijn de volgende correcties voor de hoofdgetijdenstations doorgevoerd in 2005: Delfzijl -8,2 mm, Den Helder -16,8 mm, Harlingen -6,5 mm, Hoek van Holland -6,5 mm, IJmuiden -21,5 mm en Vlissingen -29,7 mm. In de meerjarenplanning van Rijkswaterstaat is een volgende NWP opgenomen, waarvoor de aanleiding tweeledig is: controle van de primaire merken en het verbeteren van de omrekening naar Europese referentiesystemen door dit te combineren met \acr{GNSS}-metingen.
+
+:::{#fig-merken-combined}
+
+![](documents\Losse figuren\Merken.png){width=4in}
+
+
+![](documents\Losse figuren\kaart_merken.png)
+
+Schematische weergave van de verschillende merken.
+
+:::
+
+## Geologische bodemdaling en GNSS-metingen
+Bodemdaling bij de getijdenstations wordt veroorzaakt door geologische bodembewegingen en soms ook door winning van grondstoffen (hoofdzakelijk gaswinning). Ook is het mogelijk dat de fundering van het getijdenstation langzaam beweegt. Ondiepe bodemdaling (bijv. door inklinking, compactie of veenoxidatie) speelt over het algemeen geen rol, omdat getijdenstations doorgaans voldoende diep gefundeerd zijn. Deze funderingsdiepte is niet van alle stations bekend. De geologische bodemdaling en daling door het winnen van grondstoffen worden gemodelleerd en beschikbaar gesteld via de Bodemdalingsmonitor .
+
+De bodemdaling bij de hoofdgetijdenstations wordt gemeten met behulp van waterpassingen en met het \acr{GNSS}. Voor het monitoren van de bodembeweging van een GNSS-antenne bij een hoofdgetijdenstation zijn geen transformaties nodig, omdat de bodembeweging direct afgeleid wordt uit veranderingen in de afstand tussen de satelliet en de GNSS-antenne. De GNSS-metingen zijn dus niet gekoppeld aan het referentiesysteem NAP en de hoogtebepaling van de GNSS-antenne bij een hoofdgetijdenstation kan daarmee gebruikt worden als onafhankelijke controle van de (diepe) bodembeweging die afgeleid is uit de waterpassingen.  Wel moet nog gecontroleerd worden of eventuele ongelijkheden in zakkingen (scheefstand) bij een getijdenstation van toepassing zijn. Daarom wordt jaarlijks de hoogteligging van het waterstandsinstrument en de GNSS-antenne ingemeten ten opzichte van de nulpaal (P-bout) en wordt een vergelijk gemaakt tussen de gemeten beweging van de GNSS-antenne, de NAP-peilmerken en het waterstandsinstrument. 
+
+De resultaten van de GNSS-metingen worden vergeleken met de gemodelleerde geologische bodemdaling bij de getijdenstations. Aangezien bodembewegingen langzame processen zijn, is een meetreeks van minimaal 10 jaar nodig om de GNSS-metingen zinvol te kunnen vergelijken met de gemodelleerde bodemdaling. Op dit moment worden de gemodelleerde bodemdalingsgegevens gebruikt in de Zeespiegelmonitor. Zodra de GNSS-metingen betrouwbare en robuuste gegevens opleveren kunnen deze gegevens direct ingezet worden voor het analyseren van de zeespiegeltrends. Bij de hoofdgetijdenstations zijn de GNSS-antennes geplaatst tussen 2004-2022.
+
+##	Gegevensontsluiting
+
+Op basis van de ruwe gegevens van de waterstandsmetingen wordt een 10-minuten gemiddelde waterstand bepaald en geregistreerd. Indien deze gemiddelde waterstand niet wordt berekend, dan wordt er een missende waarde gerapporteerd. Sinds 2021 worden er correctiereeksen opgesteld. De 10-minuten gemiddelde waterstanden worden direct openbaar ontsloten via de RWS WaterWebservices. Eerder werden de gemiddelde waterstanden na twee dagen opgeslagen in de permanente database DONAR (Data Opslag Natte Rijkswaterstaat). Deze database bevatte (gecorrigeerde) waterstandsgegevens en een statuskenmerk. Het statuskenmerk gaf aan of op deze gegevens een eerste validatieslag binnen het Landelijk Meetnet Water (LMW) uitgevoerd was aan de hand van buurstations. Missende waarden werden dan opgevuld middels gegevens van een back-up sensor of middels Meervoudige Lineaire Regressie (MLR). DONAR is inmiddels in 2026 vervangen door WADAR (WaterData Rijkswaterstaat). In WADAR worden nu de gemiddelde 1-minutenwaarde, 10-minutenwaarde, de maandelijkse trendanalyse correctiereeksen, de jaarlijkse B0-correctiereeksen en de NAP-correctiereeksen opgeslagen. 
+
+Jaarlijks geeft RWS-CIV de gegevens van gemiddelde waterstanden van de hoofdgetijdenstations en enkele andere stations door aan de Permanent Service for Mean Sea Level (PSMSL). Deze PSMSL-gegevens vormen de invoer van de Zeespiegelmonitor. RWS-CIV deelt de gegevens jaarlijks, na verwerking van eventuele correcties. Daarnaast moeten eventuele latere correcties ook worden gedeeld met PSMSL. Momenteel wordt er gewerkt aan het vergelijken van PSMSL- en DONAR-gegevens en het doorvoeren van correcties uit het verleden in PSMSL. 
+
+Voor de Zeespiegelmonitor wordt gebruik gemaakt van de gegevens van PSMSL, geharmoniseerd naar de zogenoemde Revised Local Reference (RLR). In de RLR is het effect van de NAP-nulvlak-correctie uit 2005 zodanig meegenomen dat er geen sprong in de gegevens zit. Dit wordt nader toegelicht per station op de PSMSL-website, met als voorbeeld Den Helder . De tijdreeksen voor de hoofdgetijdenstations uit WADAR vertonen wel een sprong, omdat hierin in 2005 een correctie van het NAP-nulvlak is doorgevoerd. Dit betekent dat in 2005 gecorrigeerd is voor verandering van het NAP-nulvlak veroorzaakt door langzame geologische bodembeweging. In WADAR zijn alle metingen ten opzichte van NAP opgeslagen, maar het referentiesysteem NAP vóór 2005 en ná 2005 zijn niet hetzelfde. Daarom is het voor een trendanalyse belangrijk om de geharmoniseerde PSMSL-gegevens te gebruiken. Doordat de NAP referentie niet constant is, is de zeespiegeltrend die uit de PSMSL-gegevens wordt afgeleid niet ten opzichte van NAP, maar relatief ten opzichte van de top van de, aan langzame geologische beweging onderhevige, pleistocene zandlaag.
+
+
+## Infographic {#sec-infographic-relatieve-zeespiegelstijging}
+
+
+
+### Eenvoudige infographic voor algemeen publiek {#sec-eenvoudige-infographic}
 
 ::: {.content-visible when-format="html"}
 
@@ -35,7 +135,7 @@ De Infographic is [hier](https://github.com/Deltares-research/sealevelmonitor/bl
 
 :::
 
-## Meer diepgaande infographic voor geïnteresseerde professionals
+### Meer diepgaande infographic voor geïnteresseerde professionals {#sec-geavanceerde-infographic}
 
 
 ::: {.content-visible when-format="html"}
@@ -56,6 +156,7 @@ De Infographic is [hier](https://github.com/Deltares-research/sealevelmonitor/bl
 De Infographic is [hier](https://github.com/Deltares-research/sealevelmonitor/blob/main/rapportage/slm2026/documents/Infographics%20ZSM/Zeespiegelstijging%20infographic%20-%20gericht%20op%20ge%C3%AFnteresseerde%20professionals%20uit%20gerelateerde%20onderzoeksgebieden.pdf) beschikbaar voor download.
 
 :::
+
 
 <!-- ::: {.content-visible when-format="html"} -->
 

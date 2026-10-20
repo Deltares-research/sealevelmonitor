@@ -132,7 +132,7 @@ acronyms:
     - shortname: LMW
       longname: Landelijk Meetnet Water
     - shortname: LOESS
-      longname: LOcal regrESSion (a later generalization of LOWESS)
+      longname: LOcal regrESSion
     - shortname: LOWESS
       longname: Locally weighted scatterplot smoothing
     - shortname: LSTM
@@ -243,6 +243,8 @@ acronyms:
       longname: World Climate Research Programme
     - shortname: WGS84
       longname: World Geodetic System 1984
+    - shortname: WMO
+      longname: World Meteorological organization
     - shortname: ZSM
       longname: Zeespiegelmonitor
     - shortname: ZSS
