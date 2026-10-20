@@ -11,21 +11,25 @@ acronyms:
 
 Dit hoofdstuk beschrijft de resultaten voor zeespiegelmetingen tot en met 2025. We lopen langs de verschillende onderdelen van de resultaten, en maken een vergelijking met wat anderen rapporteren over de Nederlandse zeespiegel. Ook proberen we de verschillen binnen Nederland te duiden. 
 
-## Windopzetcorrectie {#sec-windopzetcorrectie}
+We hebben een goed beeld hoe de zeespiegelstand langs de Nederlandse kust zich heeft ontwikkeld. Kortweg staat vast:
 
-De windopzet wordt berekend met het \acr{GTSM} (zie @sec-windopzet). Vergeleken met de vorige rapportage in 2022 zijn de berekeningen met het \acr{GTSM} uitgebreid met de jaren 2022-2025, maar ook voor de eerdere jaren 1950-1978. Hierdoor is er nu een ruim 70 jaar lange serie voor berekende windopzet. Voor de  periode vóór 1950 gebruiken we de gemiddelde opzet (per station) over alle beschikbare jaren.
+## De zeespiegel stijgt in Nederland
 
-We corrigeren de zeespiegel voor windopzet alleen met de afwijking van het jaargemiddelde ten opzichte van het langjarig gemiddelde voor de periode vanaf 1950. We noemen dit de windopzetanomalie (@fig-opzetanomalie). De correctie zorgt dus alleen voor een kleinere variatie, maar heeft geen invloed op de gemiddelde zeespiegelstand over de jaren. Over de laatste jaren is er veel variatie in gemiddelde windopzetanomalie, met 2023 en 2024 als uitschieters naar boven, en weer een vrij lage windopzet in het laatste jaar, 2025.
+Gedurende de periode van de metingen (1890 - heden) heeft de relatieve zeespiegel altijd een gestaag stijgende lijn vertoond (@fig-zeespiegel-nederland-metingen). Op basis van deze metingen zien we wel dat er veel variatie is van jaar tot jaar. We kunnen een groot deel van deze variatie tegenwoordig verklaren (@sec-windopzetcorrectie en @sec-nodaalgetij-resultaten). Hierdoor, en door de lange tijdserie, is er geen enkele twijfel dat de zeespiegel over deze periode continu stijgt.
 
-Waar de absolute opzet variatie vertoont langs de Nederlandse kust (@fig-surge-all-stations), vertoont de opzetanomalie maar weinig variatie tussen de stations. Harlingen en in mindere mate Den Helder en Delfzijl vertonen de grootste variatie. 
+:::{#fig-zeespiegel-nederland-metingen}
 
-:::{#fig-opzetanomalie}
+![](https://github.com/Deltares-research/sealevelmonitor/raw/main/analysis/sealevelmonitor/10_sealevelanalysis_files/figure-gfm/zeespiegelmetingenGemiddeld-1.png){width=80%}
 
-![](https://github.com/Deltares-research/sealevelmonitor/raw/develop_reporting26_willem/analysis/sealevelmonitor/10_sealevelanalysis_files/figure-gfm/gtsm-surge-anomalie-1.png){width=80%}
-
-Windopzetanomalie langs de Nederlandse kust uitgedrukt als afwijking van het langjarige gemiddelde. De onderliggende berekeningen hiervoor zijn gedaan met GTSM.
+Het gemiddelde van de gemeten zeespiegel voor de hoofdstations langs de Nederlandse kust. Het weglaten van het station Delfzijl heeft vooral invloed op de absolute hoogte van de zeespiegel, en minder op de trend.
 
 :::
+
+## De versnellende zeespiegel
+
+De zeespiegel stijgt niet alleen, er is nu voldoende bewijs dat de gemiddelde snelheid van stijging in de afgelopen decennia groter is geweest dan in de lange periode daarvoor. Als indicatief jaar voor het breekpunt wordt hier 1993 gehanteerd (@sec-voorkeursmodel). De boodschap is: de huidige trend is duidelijk hoger dan in de eeuw ervoor gemiddeld (zie @sec-huidige).
+
+Kijkend naar de achterliggende processen van een sneller stijgende zeespiegel is het waarschijnlijk dat dit niet op één moment in de tijd gebeurde, maar dat de versnelling gedurende een langere periode plaatsvond (en misschien nog wel plaatsvindt). Hoe dat precies gegaan is niet goed te zeggen. In @sec-budget wordt het aandeel van de verschillende processen getoond. 
 
 ## Voorkeursmodel {#sec-voorkeursmodel}
 
@@ -86,6 +90,22 @@ Opvallend was dat de gemeten zeespiegel twee jaar op rij (namelijk in 2023 en 20
 | 2017 |         94.2 | 75.6          |   -3.22   |
 | 2016 |         63.6 | 83.0          |   -7.10   |
 
+
+## Windopzetcorrectie {#sec-windopzetcorrectie}
+
+De windopzet wordt berekend met het \acr{GTSM} (zie @sec-windopzet). Vergeleken met de vorige rapportage in 2022 zijn de berekeningen met het \acr{GTSM} uitgebreid met de jaren 2022-2025, maar ook voor de eerdere jaren 1950-1978. Hierdoor is er nu een ruim 70 jaar lange serie voor berekende windopzet. Voor de  periode vóór 1950 gebruiken we de gemiddelde opzet (per station) over alle beschikbare jaren.
+
+We corrigeren de zeespiegel voor windopzet alleen met de afwijking van het jaargemiddelde ten opzichte van het langjarig gemiddelde voor de periode vanaf 1950. We noemen dit de windopzetanomalie (@fig-opzetanomalie). De correctie zorgt dus alleen voor een kleinere variatie, maar heeft geen invloed op de gemiddelde zeespiegelstand over de jaren. Over de laatste jaren is er veel variatie in gemiddelde windopzetanomalie, met 2023 en 2024 als uitschieters naar boven, en weer een vrij lage windopzet in het laatste jaar, 2025.
+
+Waar de absolute opzet variatie vertoont langs de Nederlandse kust (@fig-surge-all-stations), vertoont de opzetanomalie maar weinig variatie tussen de stations. Harlingen en in mindere mate Den Helder en Delfzijl vertonen de grootste variatie. 
+
+:::{#fig-opzetanomalie}
+
+![](https://github.com/Deltares-research/sealevelmonitor/raw/develop_reporting26_willem/analysis/sealevelmonitor/10_sealevelanalysis_files/figure-gfm/gtsm-surge-anomalie-1.png){width=80%}
+
+Windopzetanomalie langs de Nederlandse kust uitgedrukt als afwijking van het langjarige gemiddelde. De onderliggende berekeningen hiervoor zijn gedaan met GTSM.
+
+:::
 
 
 ## Nodaal getij {#sec-nodaalgetij-resultaten}
