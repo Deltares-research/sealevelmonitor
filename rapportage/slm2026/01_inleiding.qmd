@@ -36,7 +36,7 @@ De methoden die zijn gebruikt voor dit rapport staan in @sec-methodiek. De vorig
 
 ### Wetenschappelijk draagvlak
 
-De methodiek en resultaten van de Zeespiegelmonitor worden regelmatig besproken met experts van andere Nederlandse Instituten. Op 16 april 2026 is een workshop gehouden met experts van Koninklijk \acr{NIOZ}, \acr{KNMI}, \acr{TNO}, \acr{PBL}, \acr{HKV}, \acr{TUD}, \acr{RWS}, \acr{HVEC} en \acr{UU}.
+De methodiek en resultaten van de Zeespiegelmonitor worden regelmatig besproken met experts van andere Nederlandse Instituten. Op 16 april 2026 is een workshop gehouden met experts van Koninklijk \acr{NIOZ}, \acr{KNMI}, \acr{TNO}, \acr{PBL}, \acr{HKV}, \acr{TUD}, \acr{RWS}, \acr{HVEC} en \acr{UU} om de preliminaire resultaten van de Zeespiegelmonitor te bespreken.
 
 
 
@@ -62,7 +62,7 @@ Getijkarakteristieken kunnen in de loop van de tijd veranderen. Niet altijd is h
 
 **Verbeter de schatting van de zeespiegelstijging door een betere schatting van de invloed van getij en wind door GTSM her-analyses*.*
 
-Het \acr{GTSM} is al gebruikt om voor windopzet te corrigeren voor de periode vanaf 1979. Deze periode is uitgebreid. Ook is gekeken of de huidige schatting van het nodale getij verbeterd dient te worden, en of \acr{GTSM} een rol kan spelen. Deze vraag wordt beantwoord in @sec-windopzet en @sec-getij.
+Het \acr{GTSM} is al gebruikt om voor windopzet te corrigeren voor de periode vanaf 1979. Deze periode is uitgebreid. Ook is gekeken of de huidige schatting van het nodale getij verbeterd dient te worden, en of \acr{GTSM} een rol kan spelen. Deze vraag wordt beantwoord in @sec-windopzet, @@sec-gtsm-methodiek en @sec-getij.
 
 **Bodemdaling en zeespiegelstijging. Hoe om te gaan met GNSS hoogtebepaling van de meetstations?**
 
