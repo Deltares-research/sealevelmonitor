@@ -375,7 +375,7 @@
     "href": "06_appendix_A.html#lijst-met-gebruikte-afkortingen",
     "title": "Bijlage A — Bodemdalingscomponenten",
     "section": "",
-    "text": "GTSM\n\nGlobal Tide and Surge Model\n\n\n\n\n\n\nHijma, Marc, en Henk Kooi. 2017. Bodemdaling in het kustfundament en de getijdenbekkens. Nos. 11200538-008. Deltares.\n\n\nHijma, Marc, en Henk Kooi. 2018. Bodemdaling in het kustfundament en de getijdenbekkens (deel 2). 11202190-001-ZKS-0001. Deltares.\n\n\nvan Veen, J. 1945. ‘Bestaat er een geologische bodemdaling te Amsterdam sedert 1700’. Tijdschrift Koninklijk Nederlandsch Aardrijkskundig Genootschap 2 (62): 2-36.\n\n\nvan Veen, J. 1954. ‘Tide-gauges, subsidence-gauges and flood-stones in the Netherlands’. Geol. Mijnbouw.",
+    "text": "Hijma, Marc, en Henk Kooi. 2017. Bodemdaling in het kustfundament en de getijdenbekkens. Nos. 11200538-008. Deltares.\n\n\nHijma, Marc, en Henk Kooi. 2018. Bodemdaling in het kustfundament en de getijdenbekkens (deel 2). 11202190-001-ZKS-0001. Deltares.\n\n\nvan Veen, J. 1945. ‘Bestaat er een geologische bodemdaling te Amsterdam sedert 1700’. Tijdschrift Koninklijk Nederlandsch Aardrijkskundig Genootschap 2 (62): 2-36.\n\n\nvan Veen, J. 1954. ‘Tide-gauges, subsidence-gauges and flood-stones in the Netherlands’. Geol. Mijnbouw.",
     "crumbs": [
       "Bijlagen",
       "<span class='chapter-number'>A</span>  <span class='chapter-title'>Bodemdalingscomponenten</span>"
@@ -472,34 +472,34 @@
   {
     "objectID": "08_appendix_C.html",
     "href": "08_appendix_C.html",
-    "title": "Bijlage C — Het gebruik van Global Tide and Surge Model (GTSM) en verdere ontwikkeling.",
+    "title": "Bijlage C — Het gebruik van het Global Tide and Surge Model (GTSM) in de Zeespiegelmonitor en verdere ontwikkeling.",
     "section": "",
-    "text": "C.1 Invloed van zeespiegelstijging\nEen van de factoren die de zeespiegel beïnvloeden is de windopzet (storm surge). Om de bijdrage hiervan te kwantificeren, is de gemiddelde jaarlijkse windopzet berekend op basis van de Door Deltares geproduceerde GTSM dataset met ECMWF ReAnalysis version 5 (ERA5) forcing (van het European Centre for Medium-Range Weather Forecasts (ECMWF)). Deze bevat uurlijkse mondiale waterstanden en windopzet tijdreeksen voor de periode vanaf 1950 tot heden. De dataset is berekend met (GTSM), een dieptegemiddeld hydrodynamisch model dat getijden, windopzet en hun niet-lineaire interacties in de wereldoceaan simuleert, aangestuurd door de ERA5 atmosferische heranalyse. De windopzet wordt bepaald als het verschil tussen een gecombineerde windopzet-getijdensimulatie en een simulatie met uitsluitend astronomisch getij en is als afzonderlijke variabele beschikbaar in de dataset. Meer informatie is beschikbaar in de documentatie van de GTSM-ERA5-dataset en in (Muis e.a. 2023), (Aleksandrova e.a. 2025).\nModelresultaten voor windopzet uit GTSM runs worden geselecteerd per hoofdstation. Deze worden daarna gemiddeld per maand voor elk hoofdstation en opgeslagen voor later gebruik in de Zeespiegelmonitor (zie dit rekendocument). In de onderstaande figuur zijn, ter illustratie voor Hoek van Holland, de uurlijkse tijdreeks van de windopzet in 2025 en de daaruit afgeleide maand- en jaargemiddelden weergegeven.\nDe maandgemiddelden vertonen interjaarlijkse variaties, maar zijn in het algemeen hoger gedurende het winterseizoen. De onderstaande figuur toont de spreiding van de maandgemiddelden van de windopzet voor Hoek van Holland voor de periode 1950–2025.\nDe gemiddelde jaarlijkse windopzet varieert tussen locaties en individuele meetstations, afhankelijk van de weersomstandigheden in een bepaald jaar en de blootstelling van de getijdestationlocatie aan wind- en storminvloeden. De onderstaande figuur toont de tijdreeks van de jaarlijkse gemiddelde windopzet voor de hoofdstations.\nDe huidige versie van GTSM die gebruikt wordt voor berekening van windopzet voor de Zeespiegelmonitor wordt aangestuurd door een waterpeil inclusief een stijging. De zeespiegelstijging die is toegepast is afgeleid van SLR-projecties in Fifth Assessment Report IPCC (AR5) van Intergovernmental Panel on Climate Change (IPCC). Deze wijken waarschijnlijk af van de daadwerkelijk waargenomen zeespiegelstijging. De bijdrage van zeespiegelstijging wordt bij de berekening van de windopzet grotendeels opgeheven doordat de windopzet wordt gedefinieerd als het verschil tussen de totale waterstand (getij en windopzet) en een simulatie met uitsluitend getij. Wel kan zeespiegelstijging een geringe indirecte invloed hebben op de berekende windopzet, doordat veranderingen in de waterdiepte de hydrodynamische processen beïnvloeden. Het is daarom belangrijk om te weten of de gebruikte stijging invloed heeft op de berekende windopzet aan de Nederlandse kust. Dit is gecontroleerd door de GTSM-ERA5 modelopstelling voor 2023 te draaien, zodat modelresultaten zowel met als zonder Sea Level Rise (SLR) (totaal waterpeil en alleen getijdenruns) worden getoond. Deze resultaten zijn vergeleken (zoals te zien in dit rekendocument. Uit deze resultaten kan worden geconcludeerd:\nHieruit concluderen we dat de windopzet uit GTSM inclusief zeespiegelstijging, die we op dit moment gebruiken voor de Zeespiegelmonitor, niet wordt beïnvloed door de gebruikte zeespiegelprojectie.",
+    "text": "C.1 Invloed van zeespiegelstijging\nEen van de factoren die de zeespiegel beïnvloeden is de windopzet (storm surge). Om de bijdrage hiervan te kwantificeren, is de gemiddelde jaarlijkse windopzet berekend op basis van de Door Deltares geproduceerde Global Tide and Surge Model (GTSM) dataset met ECMWF ReAnalysis version 5 (ERA5) forcing (van het European Centre for Medium-Range Weather Forecasts (ECMWF)). Deze bevat uurlijkse mondiale waterstanden en windopzet tijdreeksen voor de periode vanaf 1950 tot heden. De dataset is berekend met (GTSM), een dieptegemiddeld hydrodynamisch model dat getijden, windopzet en hun niet-lineaire interacties in de wereldoceaan simuleert, aangestuurd door de ERA5 atmosferische heranalyse. De windopzet wordt bepaald als het verschil tussen een gecombineerde windopzet-getijdensimulatie en een simulatie met uitsluitend astronomisch getij en is als afzonderlijke variabele beschikbaar in de dataset. Meer informatie is beschikbaar in de documentatie van de GTSM-ERA5-dataset en in (Muis e.a. 2023), (Aleksandrova e.a. 2025).\nModelresultaten voor windopzet uit GTSM runs worden geselecteerd per hoofdstation. Deze worden daarna gemiddeld per maand voor elk hoofdstation en opgeslagen voor later gebruik in de Zeespiegelmonitor (zie dit rekendocument). In de onderstaande figuur zijn, ter illustratie voor Hoek van Holland, de uurlijkse tijdreeks van de windopzet in 2025 en de daaruit afgeleide maand- en jaargemiddelden weergegeven.\nDe maandgemiddelden vertonen interjaarlijkse variaties, maar zijn in het algemeen hoger gedurende het winterseizoen. De onderstaande figuur toont de spreiding van de maandgemiddelden van de windopzet voor Hoek van Holland voor de periode 1950–2025.\nDe gemiddelde jaarlijkse windopzet varieert tussen locaties en individuele meetstations, afhankelijk van de weersomstandigheden in een bepaald jaar en de blootstelling van de getijdestationlocatie aan wind- en storminvloeden. De onderstaande figuur toont de tijdreeks van de jaarlijkse gemiddelde windopzet voor de hoofdstations.\nDe huidige versie van GTSM die gebruikt wordt voor berekening van windopzet voor de Zeespiegelmonitor wordt aangestuurd door een waterpeil inclusief een stijging. De zeespiegelstijging die is toegepast is afgeleid van SLR-projecties in Fifth Assessment Report IPCC (AR5) van Intergovernmental Panel on Climate Change (IPCC). Deze wijken waarschijnlijk af van de daadwerkelijk waargenomen zeespiegelstijging. De bijdrage van zeespiegelstijging wordt bij de berekening van de windopzet grotendeels opgeheven doordat de windopzet wordt gedefinieerd als het verschil tussen de totale waterstand (getij en windopzet) en een simulatie met uitsluitend getij. Wel kan zeespiegelstijging een geringe indirecte invloed hebben op de berekende windopzet, doordat veranderingen in de waterdiepte de hydrodynamische processen beïnvloeden. Het is daarom belangrijk om te weten of de gebruikte stijging invloed heeft op de berekende windopzet aan de Nederlandse kust. Dit is gecontroleerd door de GTSM-ERA5 modelopstelling voor 2023 te draaien, zodat modelresultaten zowel met als zonder Sea Level Rise (SLR) (totaal waterpeil en alleen getijdenruns) worden getoond. Deze resultaten zijn vergeleken (zoals te zien in dit rekendocument. Uit deze resultaten kan worden geconcludeerd:\nHieruit concluderen we dat de windopzet uit GTSM inclusief zeespiegelstijging, die we op dit moment gebruiken voor de Zeespiegelmonitor, niet wordt beïnvloed door de gebruikte zeespiegelprojectie.",
     "crumbs": [
       "Bijlagen",
-      "<span class='chapter-number'>C</span>  <span class='chapter-title'>Het gebruik van \\acr{GTSM} en verdere ontwikkeling.</span>"
+      "<span class='chapter-number'>C</span>  <span class='chapter-title'>Het gebruik van het Global Tide and Surge Model (GTSM) in de Zeespiegelmonitor en verdere ontwikkeling.</span>"
     ]
   },
   {
     "objectID": "08_appendix_C.html#invloed-van-zeespiegelstijging",
     "href": "08_appendix_C.html#invloed-van-zeespiegelstijging",
-    "title": "Bijlage C — Het gebruik van Global Tide and Surge Model (GTSM) en verdere ontwikkeling.",
+    "title": "Bijlage C — Het gebruik van het Global Tide and Surge Model (GTSM) in de Zeespiegelmonitor en verdere ontwikkeling.",
     "section": "",
     "text": "SLR in 2023, die in onze modelruns is opgenomen, is ~0.1 m te opzichte van het referentie periode 1986-2005.\nDit niveau van SLR heeft geen significant effect op de gemiddelde windopzet. Het verschil dat het model veroorzaakt is verwaarloosbaar (minder dan 1 mm).\nOp enkele locaties diep in de Waddenzee is er enig verschil in windopzet tussen de twee runs, maar dit zijn locaties in relatief afgesloten gebieden in ondiep water. Het verschil blijft beperkt tot enkele millimeters.\n\n\n\n\n\n\n\nFiguur C.5: Gemiddelde windopzet op de zeespiegel voor 2023 inclusief zeespiegelstijging zoals gedefinieerd in GTSM (linker figuur) en het verschil in windopzet tussen modelruns met en zonder zeespiegelstijging (rechter figuur).",
     "crumbs": [
       "Bijlagen",
-      "<span class='chapter-number'>C</span>  <span class='chapter-title'>Het gebruik van \\acr{GTSM} en verdere ontwikkeling.</span>"
+      "<span class='chapter-number'>C</span>  <span class='chapter-title'>Het gebruik van het Global Tide and Surge Model (GTSM) in de Zeespiegelmonitor en verdere ontwikkeling.</span>"
     ]
   },
   {
     "objectID": "08_appendix_C.html#lijst-met-gebruikte-afkortingen",
     "href": "08_appendix_C.html#lijst-met-gebruikte-afkortingen",
-    "title": "Bijlage C — Het gebruik van Global Tide and Surge Model (GTSM) en verdere ontwikkeling.",
+    "title": "Bijlage C — Het gebruik van het Global Tide and Surge Model (GTSM) in de Zeespiegelmonitor en verdere ontwikkeling.",
     "section": "C.2 Lijst met gebruikte afkortingen",
     "text": "C.2 Lijst met gebruikte afkortingen\n\nAR5\n\nFifth Assessment Report IPCC\n\nECMWF\n\nEuropean Centre for Medium-Range Weather Forecasts\n\nERA5\n\nECMWF ReAnalysis version 5\n\nGTSM\n\nGlobal Tide and Surge Model\n\nIPCC\n\nIntergovernmental Panel on Climate Change\n\nSLR\n\nSea Level Rise\n\n\n\n\n\n\nAleksandrova, N., J. Veenstra, en S. Muis. 2025. ‘Global dataset of storm surges and extreme sea levels for 1950–2024 based on the ERA5 climate reanalysis’. Earth System Science Data Discussions 2025: 1-22. https://doi.org/10.5194/essd-2025-471.\n\n\nMuis, Sanne, Jeroen C. J. H. Aerts, José A. Á. Antolínez, e.a. 2023. ‘Global Projections of Storm Surges Using High-Resolution CMIP6 Climate Models’. Earth’s Future 11 (9): e2023EF003479. https://doi.org/https://doi.org/10.1029/2023EF003479.",
     "crumbs": [
       "Bijlagen",
-      "<span class='chapter-number'>C</span>  <span class='chapter-title'>Het gebruik van \\acr{GTSM} en verdere ontwikkeling.</span>"
+      "<span class='chapter-number'>C</span>  <span class='chapter-title'>Het gebruik van het Global Tide and Surge Model (GTSM) in de Zeespiegelmonitor en verdere ontwikkeling.</span>"
     ]
   },
   {
@@ -540,7 +540,7 @@
     "href": "09_appendix_D.html#lijst-met-gebruikte-afkortingen",
     "title": "Bijlage D — Vragen aan de Zeespiegelmonitor",
     "section": "D.4 Lijst met gebruikte afkortingen",
-    "text": "D.4 Lijst met gebruikte afkortingen\n\nGTSM\n\nGlobal Tide and Surge Model\n\nKNMI\n\nKoninklijk Nederlands Meteorologisch Instituut\n\nPBL\n\nPlanbureau voor de Leefomgeving",
+    "text": "D.4 Lijst met gebruikte afkortingen\n\nKNMI\n\nKoninklijk Nederlands Meteorologisch Instituut\n\nPBL\n\nPlanbureau voor de Leefomgeving",
     "crumbs": [
       "Bijlagen",
       "<span class='chapter-number'>D</span>  <span class='chapter-title'>Vragen aan de Zeespiegelmonitor</span>"
@@ -573,7 +573,7 @@
     "href": "11_appendix_F.html#lijst-met-gebruikte-afkortingen",
     "title": "Bijlage F — GNSS hoogtebepaling van de meetstaions?",
     "section": "",
-    "text": "GNSS\n\nGlobal Navigation Satellite System\n\nGTSM\n\nGlobal Tide and Surge Model",
+    "text": "GNSS\n\nGlobal Navigation Satellite System",
     "crumbs": [
       "Bijlagen",
       "<span class='chapter-number'>F</span>  <span class='chapter-title'>GNSS hoogtebepaling van de meetstaions?</span>"
