@@ -7,9 +7,19 @@ acronyms:
   - acronyms.yml
 ---
 
-# Ontwikkelingen aan het \acr{GTSM} {#sec-gtsm-methodiek}
+# Het gebruik van \acr{GTSM} en verdere ontwikkeling. {#sec-gtsm-methodiek}
+
+
 
 Een van de factoren die de zeespiegel beïnvloeden is de windopzet (storm surge). Om de bijdrage hiervan te kwantificeren, is de gemiddelde jaarlijkse windopzet berekend op basis van de Door Deltares geproduceerde \acr{GTSM} dataset met \acr{ERA5} forcing (van het \acr{ECMWF}). Deze bevat uurlijkse mondiale waterstanden en windopzet tijdreeksen voor de periode vanaf 1950 tot heden. De dataset is berekend met (\acr{GTSM}), een dieptegemiddeld hydrodynamisch model dat getijden, windopzet en hun niet-lineaire interacties in de wereldoceaan simuleert, aangestuurd door de \acr{ERA5} atmosferische heranalyse. De windopzet wordt bepaald als het verschil tussen een gecombineerde windopzet-getijdensimulatie en een simulatie met uitsluitend astronomisch getij en is als afzonderlijke variabele beschikbaar in de dataset. Meer informatie is beschikbaar in de documentatie van de [GTSM-ERA5-dataset](https://doi.org/10.24381/cds.a6d42d60) en in [@Muis2023], [@Aleksandrova2026].
+
+:::{#fig-gtsm-workflow}
+
+![](images/gtsm_workflow.png){width=80%}
+
+Flowdiagram voor gebruik van GTSM windopzet in de Zeespiegelmonitor.
+
+:::
 
 Modelresultaten voor windopzet uit \acr{GTSM} runs worden geselecteerd per hoofdstation. Deze worden daarna gemiddeld per maand voor elk hoofdstation en opgeslagen voor later gebruik in de Zeespiegelmonitor (zie dit [rekendocument](https://github.com/Deltares-research/sealevelmonitor/blob/develop_reporting26_aleksandrova/analysis/gtsm/get_monthly_means_surge.ipynb)). In de onderstaande figuur zijn, ter illustratie voor Hoek van Holland, de uurlijkse tijdreeks van de windopzet in 2025 en de daaruit afgeleide maand- en jaargemiddelden weergegeven.
 
