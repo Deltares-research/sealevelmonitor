@@ -1,7 +1,7 @@
 Zeespiegelmonitor
 ================
 Willem Stolte, Nathalie Dees
-15 September, 2026
+27 October, 2026
 
 ## Inleiding
 
@@ -44,29 +44,32 @@ jaren is te zien in tabel @ref(tab:metingenView).
 ``` r
 df %>% 
   arrange(-year) %>%
+  mutate(
+    `height in cm`  = height / 10, 
+  ) %>%
   dplyr::select(
     year, 
-    `height in mm`  = height, 
+    `height in cm`, 
     station
     ) %>%
   head(10) %>%
-  kableExtra::kable(caption = "Zeespiegelhoogte in mm over de laatste 10 jaar")
+  kableExtra::kable(caption = "Zeespiegelhoogte in cm (NAP 2005) over de laatste 10 jaar")
 ```
 
-| year | height in mm | station                        |
+| year | height in cm | station                        |
 |-----:|-------------:|:-------------------------------|
-| 2025 |        112.4 | Netherlands (without Delfzijl) |
-| 2024 |        161.4 | Netherlands (without Delfzijl) |
-| 2023 |        152.8 | Netherlands (without Delfzijl) |
-| 2022 |         94.6 | Netherlands (without Delfzijl) |
-| 2021 |         75.8 | Netherlands (without Delfzijl) |
-| 2020 |         96.6 | Netherlands (without Delfzijl) |
-| 2019 |         92.0 | Netherlands (without Delfzijl) |
-| 2018 |         26.2 | Netherlands (without Delfzijl) |
-| 2017 |         94.2 | Netherlands (without Delfzijl) |
-| 2016 |         63.6 | Netherlands (without Delfzijl) |
+| 2025 |        11.24 | Netherlands (without Delfzijl) |
+| 2024 |        16.14 | Netherlands (without Delfzijl) |
+| 2023 |        15.28 | Netherlands (without Delfzijl) |
+| 2022 |         9.46 | Netherlands (without Delfzijl) |
+| 2021 |         7.58 | Netherlands (without Delfzijl) |
+| 2020 |         9.66 | Netherlands (without Delfzijl) |
+| 2019 |         9.20 | Netherlands (without Delfzijl) |
+| 2018 |         2.62 | Netherlands (without Delfzijl) |
+| 2017 |         9.42 | Netherlands (without Delfzijl) |
+| 2016 |         6.36 | Netherlands (without Delfzijl) |
 
-Zeespiegelhoogte in mm over de laatste 10 jaar
+Zeespiegelhoogte in cm (NAP 2005) over de laatste 10 jaar
 
 ### Windopzet
 
@@ -87,29 +90,33 @@ gevonden.
 ``` r
 df %>% 
   arrange(-year) %>%
-  dplyr::select(year, 
-         `opzetanomalie in mm`  = surge_anomaly, 
+  dplyr::mutate(
+             `opzetanomalie in cm`  = surge_anomaly / 10, 
+  ) %>%
+  dplyr::select(
+    year, 
+         `opzetanomalie in cm`, 
          station) %>%
   head(10) %>%
-  mutate(`opzetanomalie in mm` = signif(`opzetanomalie in mm`, 2)) %>%
-  kableExtra::kable(caption = "Opzetanomalie (de afwijking in opzet van het langjarige gemiddelde) berekend door GTSM in mm over de laatste 10 jaar")
+  mutate(`opzetanomalie in cm` = signif(`opzetanomalie in cm`, 2)) %>%
+  kableExtra::kable(caption = "Opzetanomalie (de afwijking in opzet van het langjarige gemiddelde) berekend door GTSM in Cm over de laatste 10 jaar")
 ```
 
-| year | opzetanomalie in mm | station                        |
+| year | opzetanomalie in cm | station                        |
 |-----:|--------------------:|:-------------------------------|
-| 2025 |               -23.0 | Netherlands (without Delfzijl) |
-| 2024 |                20.0 | Netherlands (without Delfzijl) |
-| 2023 |                26.0 | Netherlands (without Delfzijl) |
-| 2022 |                -7.3 | Netherlands (without Delfzijl) |
-| 2021 |               -16.0 | Netherlands (without Delfzijl) |
-| 2020 |                 9.3 | Netherlands (without Delfzijl) |
-| 2019 |                 7.3 | Netherlands (without Delfzijl) |
-| 2018 |               -40.0 | Netherlands (without Delfzijl) |
-| 2017 |                19.0 | Netherlands (without Delfzijl) |
-| 2016 |               -19.0 | Netherlands (without Delfzijl) |
+| 2025 |               -2.30 | Netherlands (without Delfzijl) |
+| 2024 |                2.00 | Netherlands (without Delfzijl) |
+| 2023 |                2.60 | Netherlands (without Delfzijl) |
+| 2022 |               -0.73 | Netherlands (without Delfzijl) |
+| 2021 |               -1.60 | Netherlands (without Delfzijl) |
+| 2020 |                0.93 | Netherlands (without Delfzijl) |
+| 2019 |                0.73 | Netherlands (without Delfzijl) |
+| 2018 |               -4.00 | Netherlands (without Delfzijl) |
+| 2017 |                1.90 | Netherlands (without Delfzijl) |
+| 2016 |               -1.90 | Netherlands (without Delfzijl) |
 
 Opzetanomalie (de afwijking in opzet van het langjarige gemiddelde)
-berekend door GTSM in mm over de laatste 10 jaar
+berekend door GTSM in Cm over de laatste 10 jaar
 
 ## Keuze van stations
 
@@ -350,20 +357,7 @@ write_aug_long(df = aug_long, filename = "../../data/deltares/results/dutch-sea-
 ```
 
 ``` r
-aug_long %>%
-  mutate(residual = height - trend_fit - nodal_fit - surge_anomaly) %>%
-  select(year, name, height, surge_anomaly, trend_fit, nodal_fit, fitted_total, residual) %>%
-  pivot_longer(-c(name, year), names_to = "variable", values_to = "value") %>%
-  mutate(value = ifelse(variable %in% c("nodal_fit"), value - 250, value)) %>%
-  mutate(value = ifelse(variable %in% c("surge_anomaly"), value - 350, value)) %>%
-  mutate(value = ifelse(variable %in% c("residual"), value - 450, value)) %>%
-  mutate(variable = factor(variable, levels = c("height", "fitted_total", "trend_fit", "nodal_fit", "surge_anomaly", "residual"))) %>%
-  ggplot(aes(x = year)) +
-  geom_point(data = . %>% filter(variable == "height"), aes(y = value, color = variable), size = 2) +
-  geom_line(data = . %>% filter(variable != "height"), aes(y = value, color = variable), size = 1) +
-  ylab("Sea level contribution in mm.") +
-  theme_light() +
-  scale_x_continuous(breaks = breaks_pretty(10))
+plot_decomposition(aug_long)
 ```
 
 <figure>

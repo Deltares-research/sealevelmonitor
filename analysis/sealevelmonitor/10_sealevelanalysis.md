@@ -1,7 +1,7 @@
 Zeespiegelmonitor analysis
 ================
 Willem Stolte, Nathalie Dees
-15 September, 2026
+27 October, 2026
 
 # Sea Level Monitor analysis
 
@@ -43,7 +43,7 @@ data.frame(
 | startyear          | 1890                           |
 | wind_or_surge_type | GTSM                           |
 | include_ddl        | FALSE                          |
-| overwrite          | TRUE                           |
+| overwrite          | FALSE                          |
 | station1           | Delfzijl                       |
 | station2           | Harlingen                      |
 | station3           | Den Helder                     |
@@ -146,11 +146,11 @@ interactive plot.
 p <- current_df %>%
   dplyr::filter(!grepl("Netherlands", station)) %>%
 ggplot(aes(year, height)) +
-  geom_point(alpha = 1, aes(color = station), shape = 21, fill = "white", size = 2) +
-  geom_line(alpha = 0.8, aes(color = station), linewidth = 1) +
+  geom_line(alpha = 0.8, aes(color = station), linewidth = .7) +
+  geom_point(alpha = 1, aes(color = station), shape = 21, fill = "white", size = 1.5) +
+  facet_wrap(facets = "station", ncol = 2, scales = "free_x") +
   xlab("jaar") + ylab("gemeten zeespiegel in mm") +
-  theme_light() +
-  theme(legend.position = "bottom")
+  theme_light()
 
 p
 ```
@@ -5152,8 +5152,8 @@ all_predictions %>%
     ) %>%
   
 ggplot(aes(x = data_year)) +
-  geom_point(aes(y = `data_height-surge_anomaly`, color = "observed"), alpha = 0.5, size = 2) +
-  geom_line(aes(y = prediction_recalc, color = "predicted"), linewidth = 2) +
+  geom_point(aes(y = `data_height-surge_anomaly`, color = "observed"), alpha = 0.5, size = 1.5) +
+  geom_line(aes(y = prediction_recalc, color = "predicted"), linewidth = 1) +
   facet_wrap("station") +
   theme(strip.text.y = element_text(angle = 0)) +
   xlab("jaar") + ylab("zeespiegel in mm t.o.v. NAP(2005)") +
@@ -5204,6 +5204,36 @@ parameterTable %>%
   ylab("zss in mm/jaar")
 ```
 
-![](10_sealevelanalysis_files/figure-gfm/zss-mainstations-1.png)<!-- -->
+<figure>
+<img src="10_sealevelanalysis_files/figure-gfm/zss-mainstations-1.png"
+alt="Sea level rate before (green) and after (red) 1993, where the breakpoint is located for the preferred model (see above)." />
+<figcaption aria-hidden="true">Sea level rate before (green) and after
+(red) 1993, where the breakpoint is located for the preferred model (see
+above).</figcaption>
+</figure>
+
+## Extrapolation of models into the future
+
+According to the sea level monitor methodology, the estimate of the
+current sea level rise can not be used for a longer time ahead then 15
+years. The figure below visualizes the consequences of the model choice
+for future sea level. There is very little difference between the
+current preferred model (broken linear) and the “next best” model
+(broken squared) for neither the current sea level nor the sea level at
+2040.
+
+``` r
+# get functionality
+source("_common/prediction_functions.R")
+
+prediction_2040 <- makePredictionTableCI(models = models, future_years = c(2025:2040), level = 0.95)
+
+plotLongtermTrends(
+  prediction_2040 %>% filter(station == "Netherlands (without Delfzijl)"), 
+  point_size = 3, line_width = 2
+  )
+```
+
+![](10_sealevelanalysis_files/figure-gfm/predictFuture-1.png)<!-- -->
 
 </div>

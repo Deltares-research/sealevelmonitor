@@ -772,3 +772,86 @@ plot_station_website_broken_linear_english <- function(
 }
 
 
+
+plot_decomposition <- function(df){
+  
+  ggplot(df, aes(year)) +
+    
+    # trend uncertainty
+    geom_ribbon(
+      aes(
+        ymin = trend_lwr,
+        ymax = trend_upr
+      ),
+      fill = "forestgreen",
+      alpha = 0.20
+    ) +
+    
+    # nodal uncertainty
+    geom_ribbon(
+      aes(
+        ymin = nodal_lwr - 250,
+        ymax = nodal_upr - 250
+      ),
+      fill = "deepskyblue3",
+      alpha = 0.20
+    ) +
+    
+    # observations
+    geom_point(
+      aes(y = height),
+      colour = "#F8766D",
+      size = 1.5
+    ) +
+    
+    # total fit
+    geom_line(
+      aes(y = fitted_total, colour = "fitted_total"),
+      linewidth = 0.6
+    ) +
+    
+    # trend
+    geom_line(
+      aes(y = trend_fit, colour = "trend_fit"),
+      linewidth = 0.8
+    ) +
+    
+    # nodal
+    geom_line(
+      aes(y = nodal_fit - 250,
+          colour = "nodal_fit"),
+      linewidth = 0.6
+    ) +
+    
+    # offset
+    geom_line(
+      aes(y = offset - 350,
+          colour = "surge_anomaly"),
+      linewidth = 0.6
+    ) +
+    
+    # residual
+    geom_line(
+      aes(y = (height - fitted_total) - 450,
+          colour = "residual"),
+      linewidth = 0.6
+    ) +
+    
+    scale_colour_manual(
+      values = c(
+        fitted_total  = "#B79F00",
+        trend_fit     = "#00BA38",
+        nodal_fit     = "#00BFC4",
+        surge_anomaly = "#619CFF",
+        residual      = "#F564E3"
+      ),
+      name = "variable"
+    ) +
+    
+    labs(
+      x = "year",
+      y = "Sea level contribution (mm)"
+    ) +
+    
+    theme_bw()
+}
