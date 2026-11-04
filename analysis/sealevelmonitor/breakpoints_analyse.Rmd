@@ -10,6 +10,7 @@ output: github_document
 One of the models used in the Sea Level Monitor is a broken linear model. In previous reports, the breakpoint was defined in the year 1993. This was done for two reasons:
 
 - Analyses showed that global and Dutch sea level in the beginning of the 1990's was lower than expected. One of the explanations was a global temperature drop due to the Pinatubo eruption
+- Earlier analysis showed a breakpoint in 1993 based on the measurements (Zeespiegelmonitor 2018)
 - By choosing the year 1993, the trend of the part after the break could be easily compared to trends calculated from satellite observations, as they also start in this year. At the same time, the connection with earlier years is kept intact. 
 
 This notebook explores the most likely breakpoint year. A strong deviation from 1993 would indicate that the breakpoint year may have to change, or that the model is no longer valid. 
@@ -28,6 +29,7 @@ require(leaflet)
 require(plotly)
 require(nlme)
 require(rsealevel)
+library(segmented)
 
 config <- RcppTOML::parseToml("_common/configuration.TOML")
 # source("_common/functions.R")
@@ -41,36 +43,31 @@ mainstations_locs <- readMainStationLocations(path = "../../")
 
 ## Read sea level data
 
+Read predictions table, in order to use the estimates for nodal tide (and storm surge) to correct the measured height. 
+
 ```{r readData, comment=F, message=F}
 
-  df <- read_delim(file.path("../", "../data/deltares/input/psmsl_gtsm_yr-latest.csv"), delim = ";") %>%
-  # filter(station %in% params$station) %>%
-  filter(year >= 1890)
+df <- read_csv(, file = "../../results/analysis_output/predictions_latest.csv") %>%
+filter(year >= 1890)
 
 ```
 
-## Find breakpoints for broken linear regression
+## Find breakpoints for broken linear regression in Sea Level time series
 
-Note: no correction is made for nodal tide in this implementation.
-
-```{r}
-library(segmented)
-```
-
-Breakpoint function
+Breakpoint function that looks for breakpoints in the corrected (for nodal cycle and surge anomaly) water level measurements:
 
 ```{r}
 
 slm_breakpoint <- function(
     df, 
-    mystation = "Netherlands (without Delfzijl)", 
+    mystation = "Netherlands (without Delfzijl)",
     startyear = 1890, 
     endyear = 2025,
     n_bp, 
     printsummary = F
     ) {
 
-  nr_of_breakpoints = 2
+  nr_of_breakpoints = n_bp
   
   mydf = df %>% 
     filter(
@@ -78,19 +75,19 @@ slm_breakpoint <- function(
       year >= startyear,
       year <= endyear
     ) %>%
-    mutate(corr_height = height - surge_anomaly) %>%
+    mutate(corr_height = height - surge_anomaly - nodal_tide) %>%
     group_by(year) %>%
     summarize(corr_height = mean(corr_height))
   
-  fit_lm = lm(corr_height ~ year, data = mydf )  # intercept-only model
+  fit_lm = lm(corr_height ~ year, data = mydf )  
   
   fit_segmented = selgmented(
-    fit_lm, 
+    fit_lm,
     seg.Z = ~year,
     Kmax = nr_of_breakpoints,
     type = "aic",
     bonferroni = TRUE,
-    plot.ic = TRUE
+    plot.ic = F
   )  # Two change points along x
   
  
@@ -109,25 +106,35 @@ slm_breakpoint <- function(
 }
 ```
 
+And apply this on time series from a few years back to now. 
 
 ```{r runBreakpoint}
 
-slm_breakpoint(df, 
-               mystation = "Netherlands (without Delfzijl)",
-               startyear = 1890,
-               endyear = 2025,
-               n_bp = 4, 
-               printsummary = T
-               )
+walk(
+  c(2021, 2022, 2023, 2024, 2025),
+  \(x) {
+    cat("\nSea level breakpoint analysis for the year ", x, "\n\n")
+    slm_breakpoint(df, 
+                   # mystation = "Den Helder",
+                   mystation = "Netherlands (without Delfzijl)",
+                   startyear = 1890,
+                   endyear = x,
+                   n_bp = 4, 
+                   printsummary = T
+    )
+  }  
+)
 
 ```
 
-From this analysis, the best fit is using one breakpoint at 1998 +/- 5 years. The currently used breakpoint (1993) is just within this standard error of the estimate. 
+What can be seen is that the optimal breakpoint was around 1993 untill the last two measurements (years) were added. Because of the "cluster" of high sea level at the end of the time series, the breakpoint is pulled towards the end, making the final part of the regression steepter. 
+
+For use in the Sea Level Monitor, where we want a rather conservative method, we choose to still keep 1993 as a breakpoint year for the analyses. Depending on future sea level measurements, this may turn out to be more or less conservative. 
 
 
 ## surge 
 
-Wind surge is determined with the Global Tide and Surge Model (GTSM). The following part tests whether ther is any breakpoint in the surge data. 
+Wind surge is determined with the Global Tide and Surge Model (GTSM). The following part tests whether there is any breakpoint in the surge data. 
 
 
 ```{r}

@@ -12,6 +12,8 @@ This was done for two reasons:
 - Analyses showed that global and Dutch sea level in the beginning of
   the 1990’s was lower than expected. One of the explanations was a
   global temperature drop due to the Pinatubo eruption
+- Earlier analysis showed a breakpoint in 1993 based on the measurements
+  (Zeespiegelmonitor 2018)
 - By choosing the year 1993, the trend of the part after the break could
   be easily compared to trends calculated from satellite observations,
   as they also start in this year. At the same time, the connection with
@@ -23,33 +25,30 @@ change, or that the model is no longer valid.
 
 ## Read sea level data
 
-``` r
-  df <- read_delim(file.path("../", "../data/deltares/input/psmsl_gtsm_yr-latest.csv"), delim = ";") %>%
-  # filter(station %in% params$station) %>%
-  filter(year >= 1890)
-```
-
-## Find breakpoints for broken linear regression
-
-Note: no correction is made for nodal tide in this implementation.
+Read predictions table, in order to use the estimates for nodal tide
+(and storm surge) to correct the measured height.
 
 ``` r
-library(segmented)
+df <- read_csv(, file = "../../results/analysis_output/predictions_latest.csv") %>%
+filter(year >= 1890)
 ```
 
-Breakpoint function
+## Find breakpoints for broken linear regression in Sea Level time series
+
+Breakpoint function that looks for breakpoints in the corrected (for
+nodal cycle and surge anomaly) water level measurements:
 
 ``` r
 slm_breakpoint <- function(
     df, 
-    mystation = "Netherlands (without Delfzijl)", 
+    mystation = "Netherlands (without Delfzijl)",
     startyear = 1890, 
     endyear = 2025,
     n_bp, 
     printsummary = F
     ) {
 
-  nr_of_breakpoints = 2
+  nr_of_breakpoints = n_bp
   
   mydf = df %>% 
     filter(
@@ -57,19 +56,19 @@ slm_breakpoint <- function(
       year >= startyear,
       year <= endyear
     ) %>%
-    mutate(corr_height = height - surge_anomaly) %>%
+    mutate(corr_height = height - surge_anomaly - nodal_tide) %>%
     group_by(year) %>%
     summarize(corr_height = mean(corr_height))
   
-  fit_lm = lm(corr_height ~ year, data = mydf )  # intercept-only model
+  fit_lm = lm(corr_height ~ year, data = mydf )  
   
   fit_segmented = selgmented(
-    fit_lm, 
+    fit_lm,
     seg.Z = ~year,
     Kmax = nr_of_breakpoints,
     type = "aic",
     bonferroni = TRUE,
-    plot.ic = TRUE
+    plot.ic = F
   )  # Two change points along x
   
  
@@ -88,60 +87,105 @@ slm_breakpoint <- function(
 }
 ```
 
+And apply this on time series from a few years back to now.
+
 ``` r
-slm_breakpoint(df, 
-               mystation = "Netherlands (without Delfzijl)",
-               startyear = 1890,
-               endyear = 2025,
-               n_bp = 4, 
-               printsummary = T
-               )
+walk(
+  c(2021, 2022, 2023, 2024, 2025),
+  \(x) {
+    cat("\nSea level breakpoint analysis for the year ", x, "\n\n")
+    slm_breakpoint(df, 
+                   # mystation = "Den Helder",
+                   mystation = "Netherlands (without Delfzijl)",
+                   startyear = 1890,
+                   endyear = x,
+                   n_bp = 4, 
+                   printsummary = T
+    )
+  }  
+)
 ```
 
-    FALSE No. of breakpoints: 2 ..
+    FALSE 
+    FALSE Sea level breakpoint analysis for the year  2021 
+    FALSE 
+    FALSE No. of breakpoints: 2 .. 3 .. 4 .. 
+    FALSE 
+    FALSE AIC to detect no. of breakpoints:
+    FALSE        0        1        2        3        4 
+    FALSE 1170.563 1164.357 1164.594 1168.443 1172.214 
+    FALSE 
+    FALSE No. of selected breakpoints: 1
 
 ![](breakpoints_analyse_files/figure-gfm/runBreakpoint-1.png)<!-- -->
 
     FALSE 
+    FALSE Sea level breakpoint analysis for the year  2022 
+    FALSE 
+    FALSE No. of breakpoints: 2 .. 3 .. 4 .. 
+    FALSE 
     FALSE AIC to detect no. of breakpoints:
-    FALSE        0        1        2 
-    FALSE 1254.879 1233.686 1236.232 
+    FALSE        0        1        2        3        4 
+    FALSE 1179.671 1172.214 1172.392 1176.300 1179.477 
     FALSE 
     FALSE No. of selected breakpoints: 1
 
 ![](breakpoints_analyse_files/figure-gfm/runBreakpoint-2.png)<!-- -->
 
     FALSE 
-    FALSE   ***Regression Model with Segmented Relationship(s)***
+    FALSE Sea level breakpoint analysis for the year  2023 
     FALSE 
-    FALSE Call: 
-    FALSE segmented.lm(obj = olm, seg.Z = seg.Z, npsi = 1, control = control1)
+    FALSE No. of breakpoints: 2 .. 3 .. 4 .. 
     FALSE 
-    FALSE Estimated Break-Point(s):
-    FALSE                Est. St.Err
-    FALSE psi1.year 1998.552  4.801
+    FALSE AIC to detect no. of breakpoints:
+    FALSE        0        1        2        3        4 
+    FALSE 1192.245 1181.616 1181.690 1185.642 1189.064 
     FALSE 
-    FALSE Coefficients of the linear terms:
-    FALSE               Estimate Std. Error t value Pr(>|t|)    
-    FALSE (Intercept) -3.559e+03  1.307e+02 -27.228   <2e-16 ***
-    FALSE year         1.787e+00  6.723e-02  26.576   <2e-16 ***
-    FALSE U1.year      1.974e+00  5.498e-01   3.591       NA    
-    FALSE ---
-    FALSE Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1
-    FALSE 
-    FALSE Residual standard error: 22.08 on 132 degrees of freedom
-    FALSE Multiple R-Squared: 0.929,  Adjusted R-squared: 0.9273 
-    FALSE 
-    FALSE Convergence attained in 3 iterations (rel. change 1.2247e-11)
+    FALSE No. of selected breakpoints: 1
 
-From this analysis, the best fit is using one breakpoint at 1998 +/- 5
-years. The currently used breakpoint (1993) is just within this standard
-error of the estimate.
+![](breakpoints_analyse_files/figure-gfm/runBreakpoint-3.png)<!-- -->
+
+    FALSE 
+    FALSE Sea level breakpoint analysis for the year  2024 
+    FALSE 
+    FALSE No. of breakpoints: 2 .. 3 .. 4 .. 
+    FALSE 
+    FALSE AIC to detect no. of breakpoints:
+    FALSE        0        1        2        3        4 
+    FALSE 1207.525 1191.685 1192.674 1193.632 1197.629 
+    FALSE 
+    FALSE No. of selected breakpoints: 1
+
+![](breakpoints_analyse_files/figure-gfm/runBreakpoint-4.png)<!-- -->
+
+    FALSE 
+    FALSE Sea level breakpoint analysis for the year  2025 
+    FALSE 
+    FALSE No. of breakpoints: 2 .. 3 .. 4 .. 
+    FALSE 
+    FALSE AIC to detect no. of breakpoints:
+    FALSE        0        1        2        3        4 
+    FALSE 1221.117 1200.540 1201.644 1201.772 1205.769 
+    FALSE 
+    FALSE No. of selected breakpoints: 1
+
+![](breakpoints_analyse_files/figure-gfm/runBreakpoint-5.png)<!-- -->
+
+What can be seen is that the optimal breakpoint was around 1993 untill
+the last two measurements (years) were added. Because of the “cluster”
+of high sea level at the end of the time series, the breakpoint is
+pulled towards the end, making the final part of the regression
+steepter.
+
+For use in the Sea Level Monitor, where we want a rather conservative
+method, we choose to still keep 1993 as a breakpoint year for the
+analyses. Depending on future sea level measurements, this may turn out
+to be more or less conservative.
 
 ## surge
 
 Wind surge is determined with the Global Tide and Surge Model (GTSM).
-The following part tests whether ther is any breakpoint in the surge
+The following part tests whether there is any breakpoint in the surge
 data.
 
 ``` r
@@ -199,7 +243,7 @@ surge_breakpoint(df %>% filter(year >= 1950),
     FALSE 
     FALSE AIC to detect no. of breakpoints:
     FALSE        0        1        2 
-    FALSE 699.9564 703.8843 707.1042 
+    FALSE 2087.869 2091.653 2095.413 
     FALSE 
     FALSE No. of selected breakpoints:  0
 
@@ -212,13 +256,13 @@ surge_breakpoint(df %>% filter(year >= 1950),
     FALSE -70.30 -16.95   0.67  19.22  52.78 
     FALSE 
     FALSE Coefficients:
-    FALSE             Estimate Std. Error t value Pr(>|t|)
-    FALSE (Intercept)  40.5488   244.9445   0.166    0.869
-    FALSE year         -0.0204     0.1232  -0.166    0.869
+    FALSE              Estimate Std. Error t value Pr(>|t|)
+    FALSE (Intercept)  40.54880  140.16170   0.289    0.773
+    FALSE year         -0.02040    0.07052  -0.289    0.773
     FALSE 
-    FALSE Residual standard error: 23.57 on 74 degrees of freedom
-    FALSE Multiple R-squared:  0.0003702,   Adjusted R-squared:  -0.01314 
-    FALSE F-statistic: 0.02741 on 1 and 74 DF,  p-value: 0.869
+    FALSE Residual standard error: 23.36 on 226 degrees of freedom
+    FALSE Multiple R-squared:  0.0003702,   Adjusted R-squared:  -0.004053 
+    FALSE F-statistic: 0.0837 on 1 and 226 DF,  p-value: 0.7726
 
 There are no breakpoints detected in the surge anomaly time series.
 
