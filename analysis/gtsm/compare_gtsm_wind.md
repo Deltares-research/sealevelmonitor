@@ -2,6 +2,11 @@
 
 # Compare GTSM with wind measurements and reanalyses
 
+This notebook contains some basic checks of the GTSM surge data, and
+comparisons with ERA5 reanalysis, and measured wind at Den Helder. It is
+a “sanity check” for use of the GTSM surge data in the Sea Level
+Monitor.
+
 ## Global Tide and Surge Model
 
 The GTSM model results for wind surge were produced by Deltares (Muis et
@@ -16,10 +21,10 @@ A first glance at the GTSM wind surge results is shown below.
 ``` r
 gtsm <- read_yearly_gtsm(filename = "../../data/deltares/gtsm/gtsm_surge_annual_mean_main_stations.csv") |>
   mutate(
-    year = year(ymd(t)),
+    year = t,
     surge_mm = surge *1000
     ) %>% 
-  select(-t, -surge)
+  dplyr::select(-t, -surge)
 
 kableExtra::kable(align = "c",
     gtsm %>% arrange(-year),
@@ -88,7 +93,7 @@ DELFZL
 
 <td style="text-align:center;">
 
-40.75
+39
 </td>
 
 </tr>
@@ -112,7 +117,7 @@ DENHDR
 
 <td style="text-align:center;">
 
-26.97
+26
 </td>
 
 </tr>
@@ -126,7 +131,7 @@ Harlingen
 
 <td style="text-align:center;">
 
-HARLGN
+HARLNGN
 </td>
 
 <td style="text-align:center;">
@@ -136,7 +141,7 @@ HARLGN
 
 <td style="text-align:center;">
 
-42.54
+41
 </td>
 
 </tr>
@@ -160,7 +165,7 @@ HOEKVHLD
 
 <td style="text-align:center;">
 
-14.67
+13
 </td>
 
 </tr>
@@ -184,31 +189,7 @@ IJMDBTHVN
 
 <td style="text-align:center;">
 
-22.64
-</td>
-
-</tr>
-
-<tr>
-
-<td style="text-align:center;">
-
-NL
-</td>
-
-<td style="text-align:center;">
-
-NL
-</td>
-
-<td style="text-align:center;">
-
-2025
-</td>
-
-<td style="text-align:center;">
-
-26.00
+21
 </td>
 
 </tr>
@@ -232,7 +213,7 @@ VLISSGN
 
 <td style="text-align:center;">
 
-8.42
+7
 </td>
 
 </tr>
@@ -256,7 +237,7 @@ DELFZL
 
 <td style="text-align:center;">
 
-72.24
+73
 </td>
 
 </tr>
@@ -280,7 +261,7 @@ DENHDR
 
 <td style="text-align:center;">
 
-68.44
+69
 </td>
 
 </tr>
@@ -294,7 +275,7 @@ Harlingen
 
 <td style="text-align:center;">
 
-HARLGN
+HARLNGN
 </td>
 
 <td style="text-align:center;">
@@ -304,7 +285,7 @@ HARLGN
 
 <td style="text-align:center;">
 
-84.48
+85
 </td>
 
 </tr>
@@ -328,7 +309,7 @@ HOEKVHLD
 
 <td style="text-align:center;">
 
-56.19
+57
 </td>
 
 </tr>
@@ -352,31 +333,7 @@ IJMDBTHVN
 
 <td style="text-align:center;">
 
-66.24
-</td>
-
-</tr>
-
-<tr>
-
-<td style="text-align:center;">
-
-NL
-</td>
-
-<td style="text-align:center;">
-
-NL
-</td>
-
-<td style="text-align:center;">
-
-2024
-</td>
-
-<td style="text-align:center;">
-
-65.86
+67
 </td>
 
 </tr>
@@ -400,7 +357,7 @@ VLISSGN
 
 <td style="text-align:center;">
 
-47.55
+48
 </td>
 
 </tr>
@@ -424,7 +381,7 @@ DELFZL
 
 <td style="text-align:center;">
 
-83.54
+83
 </td>
 
 </tr>
@@ -448,7 +405,7 @@ DENHDR
 
 <td style="text-align:center;">
 
-75.35
+75
 </td>
 
 </tr>
@@ -462,7 +419,7 @@ Harlingen
 
 <td style="text-align:center;">
 
-HARLGN
+HARLNGN
 </td>
 
 <td style="text-align:center;">
@@ -472,7 +429,7 @@ HARLGN
 
 <td style="text-align:center;">
 
-95.24
+95
 </td>
 
 </tr>
@@ -496,7 +453,7 @@ HOEKVHLD
 
 <td style="text-align:center;">
 
-61.32
+61
 </td>
 
 </tr>
@@ -520,31 +477,7 @@ IJMDBTHVN
 
 <td style="text-align:center;">
 
-73.32
-</td>
-
-</tr>
-
-<tr>
-
-<td style="text-align:center;">
-
-NL
-</td>
-
-<td style="text-align:center;">
-
-NL
-</td>
-
-<td style="text-align:center;">
-
-2023
-</td>
-
-<td style="text-align:center;">
-
-73.40
+73
 </td>
 
 </tr>
@@ -568,7 +501,7 @@ VLISSGN
 
 <td style="text-align:center;">
 
-51.59
+51
 </td>
 
 </tr>
@@ -592,7 +525,7 @@ DELFZL
 
 <td style="text-align:center;">
 
-58.98
+61
 </td>
 
 </tr>
@@ -616,7 +549,7 @@ DENHDR
 
 <td style="text-align:center;">
 
-40.71
+43
 </td>
 
 </tr>
@@ -630,7 +563,7 @@ Harlingen
 
 <td style="text-align:center;">
 
-HARLGN
+HARLNGN
 </td>
 
 <td style="text-align:center;">
@@ -640,7 +573,7 @@ HARLGN
 
 <td style="text-align:center;">
 
-59.54
+62
 </td>
 
 </tr>
@@ -664,7 +597,7 @@ HOEKVHLD
 
 <td style="text-align:center;">
 
-25.71
+27
 </td>
 
 </tr>
@@ -688,31 +621,7 @@ IJMDBTHVN
 
 <td style="text-align:center;">
 
-35.80
-</td>
-
-</tr>
-
-<tr>
-
-<td style="text-align:center;">
-
-NL
-</td>
-
-<td style="text-align:center;">
-
-NL
-</td>
-
-<td style="text-align:center;">
-
-2022
-</td>
-
-<td style="text-align:center;">
-
-39.71
+38
 </td>
 
 </tr>
@@ -736,7 +645,7 @@ VLISSGN
 
 <td style="text-align:center;">
 
-17.52
+19
 </td>
 
 </tr>
@@ -760,7 +669,7 @@ DELFZL
 
 <td style="text-align:center;">
 
-44.27
+42
 </td>
 
 </tr>
@@ -784,7 +693,7 @@ DENHDR
 
 <td style="text-align:center;">
 
-33.33
+31
 </td>
 
 </tr>
@@ -798,7 +707,7 @@ Harlingen
 
 <td style="text-align:center;">
 
-HARLGN
+HARLNGN
 </td>
 
 <td style="text-align:center;">
@@ -808,7 +717,7 @@ HARLGN
 
 <td style="text-align:center;">
 
-48.04
+46
 </td>
 
 </tr>
@@ -832,7 +741,7 @@ HOEKVHLD
 
 <td style="text-align:center;">
 
-23.54
+22
 </td>
 
 </tr>
@@ -856,31 +765,7 @@ IJMDBTHVN
 
 <td style="text-align:center;">
 
-31.14
-</td>
-
-</tr>
-
-<tr>
-
-<td style="text-align:center;">
-
-NL
-</td>
-
-<td style="text-align:center;">
-
-NL
-</td>
-
-<td style="text-align:center;">
-
-2021
-</td>
-
-<td style="text-align:center;">
-
-32.90
+29
 </td>
 
 </tr>
@@ -904,7 +789,7 @@ VLISSGN
 
 <td style="text-align:center;">
 
-17.11
+15
 </td>
 
 </tr>
@@ -928,7 +813,7 @@ DELFZL
 
 <td style="text-align:center;">
 
-70.89
+72
 </td>
 
 </tr>
@@ -952,7 +837,7 @@ DENHDR
 
 <td style="text-align:center;">
 
-60.04
+61
 </td>
 
 </tr>
@@ -966,7 +851,7 @@ Harlingen
 
 <td style="text-align:center;">
 
-HARLGN
+HARLNGN
 </td>
 
 <td style="text-align:center;">
@@ -976,7 +861,7 @@ HARLGN
 
 <td style="text-align:center;">
 
-84.08
+85
 </td>
 
 </tr>
@@ -1000,7 +885,7 @@ HOEKVHLD
 
 <td style="text-align:center;">
 
-40.37
+41
 </td>
 
 </tr>
@@ -1024,31 +909,7 @@ IJMDBTHVN
 
 <td style="text-align:center;">
 
-54.54
-</td>
-
-</tr>
-
-<tr>
-
-<td style="text-align:center;">
-
-NL
-</td>
-
-<td style="text-align:center;">
-
-NL
-</td>
-
-<td style="text-align:center;">
-
-2020
-</td>
-
-<td style="text-align:center;">
-
-56.56
+55
 </td>
 
 </tr>
@@ -1072,7 +933,7 @@ VLISSGN
 
 <td style="text-align:center;">
 
-29.43
+30
 </td>
 
 </tr>
@@ -1096,7 +957,7 @@ DELFZL
 
 <td style="text-align:center;">
 
-68.57
+67
 </td>
 
 </tr>
@@ -1120,7 +981,7 @@ DENHDR
 
 <td style="text-align:center;">
 
-58.19
+57
 </td>
 
 </tr>
@@ -1134,7 +995,7 @@ Harlingen
 
 <td style="text-align:center;">
 
-HARLGN
+HARLNGN
 </td>
 
 <td style="text-align:center;">
@@ -1144,7 +1005,7 @@ HARLGN
 
 <td style="text-align:center;">
 
-76.74
+76
 </td>
 
 </tr>
@@ -1168,7 +1029,7 @@ HOEKVHLD
 
 <td style="text-align:center;">
 
-43.31
+42
 </td>
 
 </tr>
@@ -1192,31 +1053,7 @@ IJMDBTHVN
 
 <td style="text-align:center;">
 
-54.28
-</td>
-
-</tr>
-
-<tr>
-
-<td style="text-align:center;">
-
-NL
-</td>
-
-<td style="text-align:center;">
-
-NL
-</td>
-
-<td style="text-align:center;">
-
-2019
-</td>
-
-<td style="text-align:center;">
-
-55.92
+53
 </td>
 
 </tr>
@@ -1240,7 +1077,7 @@ VLISSGN
 
 <td style="text-align:center;">
 
-34.40
+34
 </td>
 
 </tr>
@@ -1264,7 +1101,7 @@ DELFZL
 
 <td style="text-align:center;">
 
-16.68
+16
 </td>
 
 </tr>
@@ -1288,7 +1125,7 @@ DENHDR
 
 <td style="text-align:center;">
 
-6.18
+6
 </td>
 
 </tr>
@@ -1302,7 +1139,7 @@ Harlingen
 
 <td style="text-align:center;">
 
-HARLGN
+HARLNGN
 </td>
 
 <td style="text-align:center;">
@@ -1312,7 +1149,7 @@ HARLGN
 
 <td style="text-align:center;">
 
-15.07
+14
 </td>
 
 </tr>
@@ -1336,7 +1173,7 @@ HOEKVHLD
 
 <td style="text-align:center;">
 
-1.62
+1
 </td>
 
 </tr>
@@ -1360,31 +1197,7 @@ IJMDBTHVN
 
 <td style="text-align:center;">
 
-5.25
-</td>
-
-</tr>
-
-<tr>
-
-<td style="text-align:center;">
-
-NL
-</td>
-
-<td style="text-align:center;">
-
-NL
-</td>
-
-<td style="text-align:center;">
-
-2018
-</td>
-
-<td style="text-align:center;">
-
-7.34
+4
 </td>
 
 </tr>
@@ -1408,7 +1221,7 @@ VLISSGN
 
 <td style="text-align:center;">
 
--0.78
+-2
 </td>
 
 </tr>
@@ -1432,7 +1245,7 @@ DELFZL
 
 <td style="text-align:center;">
 
-88.87
+88
 </td>
 
 </tr>
@@ -1456,7 +1269,7 @@ DENHDR
 
 <td style="text-align:center;">
 
-69.67
+69
 </td>
 
 </tr>
@@ -1470,7 +1283,7 @@ Harlingen
 
 <td style="text-align:center;">
 
-HARLGN
+HARLNGN
 </td>
 
 <td style="text-align:center;">
@@ -1480,7 +1293,7 @@ HARLGN
 
 <td style="text-align:center;">
 
-92.57
+92
 </td>
 
 </tr>
@@ -1504,7 +1317,7 @@ HOEKVHLD
 
 <td style="text-align:center;">
 
-52.30
+52
 </td>
 
 </tr>
@@ -1528,31 +1341,7 @@ IJMDBTHVN
 
 <td style="text-align:center;">
 
-64.54
-</td>
-
-</tr>
-
-<tr>
-
-<td style="text-align:center;">
-
-NL
-</td>
-
-<td style="text-align:center;">
-
-NL
-</td>
-
-<td style="text-align:center;">
-
-2017
-</td>
-
-<td style="text-align:center;">
-
-68.23
+64
 </td>
 
 </tr>
@@ -1576,7 +1365,7 @@ VLISSGN
 
 <td style="text-align:center;">
 
-41.46
+41
 </td>
 
 </tr>
@@ -1600,7 +1389,7 @@ DELFZL
 
 <td style="text-align:center;">
 
-35.10
+36
 </td>
 
 </tr>
@@ -1624,7 +1413,7 @@ DENHDR
 
 <td style="text-align:center;">
 
-27.18
+28
 </td>
 
 </tr>
@@ -1638,7 +1427,7 @@ Harlingen
 
 <td style="text-align:center;">
 
-HARLGN
+HARLNGN
 </td>
 
 <td style="text-align:center;">
@@ -1648,7 +1437,7 @@ HARLGN
 
 <td style="text-align:center;">
 
-42.12
+43
 </td>
 
 </tr>
@@ -1672,7 +1461,7 @@ HOEKVHLD
 
 <td style="text-align:center;">
 
-17.49
+18
 </td>
 
 </tr>
@@ -1696,31 +1485,7 @@ IJMDBTHVN
 
 <td style="text-align:center;">
 
-24.94
-</td>
-
-</tr>
-
-<tr>
-
-<td style="text-align:center;">
-
-NL
-</td>
-
-<td style="text-align:center;">
-
-NL
-</td>
-
-<td style="text-align:center;">
-
-2016
-</td>
-
-<td style="text-align:center;">
-
-26.47
+26
 </td>
 
 </tr>
@@ -1744,7 +1509,7 @@ VLISSGN
 
 <td style="text-align:center;">
 
-11.98
+13
 </td>
 
 </tr>
@@ -1768,7 +1533,7 @@ DELFZL
 
 <td style="text-align:center;">
 
-95.54
+95
 </td>
 
 </tr>
@@ -1792,7 +1557,7 @@ DENHDR
 
 <td style="text-align:center;">
 
-71.62
+71
 </td>
 
 </tr>
@@ -1806,7 +1571,7 @@ Harlingen
 
 <td style="text-align:center;">
 
-HARLGN
+HARLNGN
 </td>
 
 <td style="text-align:center;">
@@ -1816,7 +1581,7 @@ HARLGN
 
 <td style="text-align:center;">
 
-102.84
+103
 </td>
 
 </tr>
@@ -1840,7 +1605,7 @@ HOEKVHLD
 
 <td style="text-align:center;">
 
-46.32
+46
 </td>
 
 </tr>
@@ -1864,31 +1629,7 @@ IJMDBTHVN
 
 <td style="text-align:center;">
 
-63.04
-</td>
-
-</tr>
-
-<tr>
-
-<td style="text-align:center;">
-
-NL
-</td>
-
-<td style="text-align:center;">
-
-NL
-</td>
-
-<td style="text-align:center;">
-
-2015
-</td>
-
-<td style="text-align:center;">
-
-68.71
+63
 </td>
 
 </tr>
@@ -1912,7 +1653,7 @@ VLISSGN
 
 <td style="text-align:center;">
 
-32.89
+33
 </td>
 
 </tr>
@@ -1936,7 +1677,7 @@ DELFZL
 
 <td style="text-align:center;">
 
-51.52
+52
 </td>
 
 </tr>
@@ -1960,7 +1701,7 @@ DENHDR
 
 <td style="text-align:center;">
 
-47.94
+48
 </td>
 
 </tr>
@@ -1974,7 +1715,7 @@ Harlingen
 
 <td style="text-align:center;">
 
-HARLGN
+HARLNGN
 </td>
 
 <td style="text-align:center;">
@@ -1984,7 +1725,7 @@ HARLGN
 
 <td style="text-align:center;">
 
-63.91
+64
 </td>
 
 </tr>
@@ -2008,7 +1749,7 @@ HOEKVHLD
 
 <td style="text-align:center;">
 
-34.41
+35
 </td>
 
 </tr>
@@ -2032,31 +1773,7 @@ IJMDBTHVN
 
 <td style="text-align:center;">
 
-44.32
-</td>
-
-</tr>
-
-<tr>
-
-<td style="text-align:center;">
-
-NL
-</td>
-
-<td style="text-align:center;">
-
-NL
-</td>
-
-<td style="text-align:center;">
-
-2014
-</td>
-
-<td style="text-align:center;">
-
-44.82
+45
 </td>
 
 </tr>
@@ -2080,7 +1797,7 @@ VLISSGN
 
 <td style="text-align:center;">
 
-26.84
+27
 </td>
 
 </tr>
@@ -2104,7 +1821,7 @@ DELFZL
 
 <td style="text-align:center;">
 
-30.81
+30
 </td>
 
 </tr>
@@ -2128,7 +1845,7 @@ DENHDR
 
 <td style="text-align:center;">
 
-20.06
+20
 </td>
 
 </tr>
@@ -2142,7 +1859,7 @@ Harlingen
 
 <td style="text-align:center;">
 
-HARLGN
+HARLNGN
 </td>
 
 <td style="text-align:center;">
@@ -2152,7 +1869,7 @@ HARLGN
 
 <td style="text-align:center;">
 
-30.80
+30
 </td>
 
 </tr>
@@ -2176,7 +1893,7 @@ HOEKVHLD
 
 <td style="text-align:center;">
 
-14.68
+14
 </td>
 
 </tr>
@@ -2200,31 +1917,7 @@ IJMDBTHVN
 
 <td style="text-align:center;">
 
-19.05
-</td>
-
-</tr>
-
-<tr>
-
-<td style="text-align:center;">
-
-NL
-</td>
-
-<td style="text-align:center;">
-
-NL
-</td>
-
-<td style="text-align:center;">
-
-2013
-</td>
-
-<td style="text-align:center;">
-
-21.19
+19
 </td>
 
 </tr>
@@ -2248,7 +1941,7 @@ VLISSGN
 
 <td style="text-align:center;">
 
-11.76
+12
 </td>
 
 </tr>
@@ -2272,7 +1965,7 @@ DELFZL
 
 <td style="text-align:center;">
 
-61.03
+61
 </td>
 
 </tr>
@@ -2296,7 +1989,7 @@ DENHDR
 
 <td style="text-align:center;">
 
-48.67
+48
 </td>
 
 </tr>
@@ -2310,7 +2003,7 @@ Harlingen
 
 <td style="text-align:center;">
 
-HARLGN
+HARLNGN
 </td>
 
 <td style="text-align:center;">
@@ -2320,7 +2013,7 @@ HARLGN
 
 <td style="text-align:center;">
 
-67.88
+68
 </td>
 
 </tr>
@@ -2344,7 +2037,7 @@ HOEKVHLD
 
 <td style="text-align:center;">
 
-35.12
+35
 </td>
 
 </tr>
@@ -2368,31 +2061,7 @@ IJMDBTHVN
 
 <td style="text-align:center;">
 
-45.12
-</td>
-
-</tr>
-
-<tr>
-
-<td style="text-align:center;">
-
-NL
-</td>
-
-<td style="text-align:center;">
-
-NL
-</td>
-
-<td style="text-align:center;">
-
-2012
-</td>
-
-<td style="text-align:center;">
-
-47.50
+45
 </td>
 
 </tr>
@@ -2416,7 +2085,7 @@ VLISSGN
 
 <td style="text-align:center;">
 
-27.16
+27
 </td>
 
 </tr>
@@ -2440,7 +2109,7 @@ DELFZL
 
 <td style="text-align:center;">
 
-76.53
+76
 </td>
 
 </tr>
@@ -2464,7 +2133,7 @@ DENHDR
 
 <td style="text-align:center;">
 
-60.25
+60
 </td>
 
 </tr>
@@ -2478,7 +2147,7 @@ Harlingen
 
 <td style="text-align:center;">
 
-HARLGN
+HARLNGN
 </td>
 
 <td style="text-align:center;">
@@ -2488,7 +2157,7 @@ HARLGN
 
 <td style="text-align:center;">
 
-85.01
+85
 </td>
 
 </tr>
@@ -2512,7 +2181,7 @@ HOEKVHLD
 
 <td style="text-align:center;">
 
-41.03
+41
 </td>
 
 </tr>
@@ -2536,31 +2205,7 @@ IJMDBTHVN
 
 <td style="text-align:center;">
 
-53.94
-</td>
-
-</tr>
-
-<tr>
-
-<td style="text-align:center;">
-
-NL
-</td>
-
-<td style="text-align:center;">
-
-NL
-</td>
-
-<td style="text-align:center;">
-
-2011
-</td>
-
-<td style="text-align:center;">
-
-57.84
+54
 </td>
 
 </tr>
@@ -2584,7 +2229,7 @@ VLISSGN
 
 <td style="text-align:center;">
 
-30.29
+30
 </td>
 
 </tr>
@@ -2608,7 +2253,7 @@ DELFZL
 
 <td style="text-align:center;">
 
-25.11
+25
 </td>
 
 </tr>
@@ -2632,7 +2277,7 @@ DENHDR
 
 <td style="text-align:center;">
 
-19.45
+20
 </td>
 
 </tr>
@@ -2646,7 +2291,7 @@ Harlingen
 
 <td style="text-align:center;">
 
-HARLGN
+HARLNGN
 </td>
 
 <td style="text-align:center;">
@@ -2656,7 +2301,7 @@ HARLGN
 
 <td style="text-align:center;">
 
-22.61
+23
 </td>
 
 </tr>
@@ -2680,7 +2325,7 @@ HOEKVHLD
 
 <td style="text-align:center;">
 
-23.09
+24
 </td>
 
 </tr>
@@ -2704,31 +2349,7 @@ IJMDBTHVN
 
 <td style="text-align:center;">
 
-22.67
-</td>
-
-</tr>
-
-<tr>
-
-<td style="text-align:center;">
-
-NL
-</td>
-
-<td style="text-align:center;">
-
-NL
-</td>
-
-<td style="text-align:center;">
-
-2010
-</td>
-
-<td style="text-align:center;">
-
-22.74
+23
 </td>
 
 </tr>
@@ -2752,7 +2373,7 @@ VLISSGN
 
 <td style="text-align:center;">
 
-23.54
+24
 </td>
 
 </tr>
@@ -2776,7 +2397,7 @@ DELFZL
 
 <td style="text-align:center;">
 
-46.94
+47
 </td>
 
 </tr>
@@ -2800,7 +2421,7 @@ DENHDR
 
 <td style="text-align:center;">
 
-40.55
+40
 </td>
 
 </tr>
@@ -2814,7 +2435,7 @@ Harlingen
 
 <td style="text-align:center;">
 
-HARLGN
+HARLNGN
 </td>
 
 <td style="text-align:center;">
@@ -2824,7 +2445,7 @@ HARLGN
 
 <td style="text-align:center;">
 
-54.84
+55
 </td>
 
 </tr>
@@ -2848,7 +2469,7 @@ HOEKVHLD
 
 <td style="text-align:center;">
 
-31.24
+31
 </td>
 
 </tr>
@@ -2872,31 +2493,7 @@ IJMDBTHVN
 
 <td style="text-align:center;">
 
-38.69
-</td>
-
-</tr>
-
-<tr>
-
-<td style="text-align:center;">
-
-NL
-</td>
-
-<td style="text-align:center;">
-
-NL
-</td>
-
-<td style="text-align:center;">
-
-2009
-</td>
-
-<td style="text-align:center;">
-
-39.60
+39
 </td>
 
 </tr>
@@ -2920,7 +2517,7 @@ VLISSGN
 
 <td style="text-align:center;">
 
-25.34
+25
 </td>
 
 </tr>
@@ -2944,7 +2541,7 @@ DELFZL
 
 <td style="text-align:center;">
 
-82.77
+83
 </td>
 
 </tr>
@@ -2968,7 +2565,7 @@ DENHDR
 
 <td style="text-align:center;">
 
-70.61
+70
 </td>
 
 </tr>
@@ -2982,7 +2579,7 @@ Harlingen
 
 <td style="text-align:center;">
 
-HARLGN
+HARLNGN
 </td>
 
 <td style="text-align:center;">
@@ -2992,7 +2589,7 @@ HARLGN
 
 <td style="text-align:center;">
 
-93.05
+93
 </td>
 
 </tr>
@@ -3016,7 +2613,7 @@ HOEKVHLD
 
 <td style="text-align:center;">
 
-51.79
+51
 </td>
 
 </tr>
@@ -3040,31 +2637,7 @@ IJMDBTHVN
 
 <td style="text-align:center;">
 
-65.02
-</td>
-
-</tr>
-
-<tr>
-
-<td style="text-align:center;">
-
-NL
-</td>
-
-<td style="text-align:center;">
-
-NL
-</td>
-
-<td style="text-align:center;">
-
-2008
-</td>
-
-<td style="text-align:center;">
-
-67.34
+64
 </td>
 
 </tr>
@@ -3088,7 +2661,7 @@ VLISSGN
 
 <td style="text-align:center;">
 
-40.81
+40
 </td>
 
 </tr>
@@ -3112,7 +2685,7 @@ DELFZL
 
 <td style="text-align:center;">
 
-95.57
+95
 </td>
 
 </tr>
@@ -3136,7 +2709,7 @@ DENHDR
 
 <td style="text-align:center;">
 
-73.66
+74
 </td>
 
 </tr>
@@ -3150,7 +2723,7 @@ Harlingen
 
 <td style="text-align:center;">
 
-HARLGN
+HARLNGN
 </td>
 
 <td style="text-align:center;">
@@ -3160,7 +2733,7 @@ HARLGN
 
 <td style="text-align:center;">
 
-96.15
+96
 </td>
 
 </tr>
@@ -3184,7 +2757,7 @@ HOEKVHLD
 
 <td style="text-align:center;">
 
-60.76
+61
 </td>
 
 </tr>
@@ -3208,31 +2781,7 @@ IJMDBTHVN
 
 <td style="text-align:center;">
 
-70.79
-</td>
-
-</tr>
-
-<tr>
-
-<td style="text-align:center;">
-
-NL
-</td>
-
-<td style="text-align:center;">
-
-NL
-</td>
-
-<td style="text-align:center;">
-
-2007
-</td>
-
-<td style="text-align:center;">
-
-74.89
+71
 </td>
 
 </tr>
@@ -3256,7 +2805,7 @@ VLISSGN
 
 <td style="text-align:center;">
 
-52.40
+52
 </td>
 
 </tr>
@@ -3280,7 +2829,7 @@ DELFZL
 
 <td style="text-align:center;">
 
-62.17
+63
 </td>
 
 </tr>
@@ -3304,7 +2853,7 @@ DENHDR
 
 <td style="text-align:center;">
 
-50.42
+51
 </td>
 
 </tr>
@@ -3318,7 +2867,7 @@ Harlingen
 
 <td style="text-align:center;">
 
-HARLGN
+HARLNGN
 </td>
 
 <td style="text-align:center;">
@@ -3328,7 +2877,7 @@ HARLGN
 
 <td style="text-align:center;">
 
-70.16
+70
 </td>
 
 </tr>
@@ -3352,7 +2901,7 @@ HOEKVHLD
 
 <td style="text-align:center;">
 
-35.62
+36
 </td>
 
 </tr>
@@ -3376,31 +2925,7 @@ IJMDBTHVN
 
 <td style="text-align:center;">
 
-46.04
-</td>
-
-</tr>
-
-<tr>
-
-<td style="text-align:center;">
-
-NL
-</td>
-
-<td style="text-align:center;">
-
-NL
-</td>
-
-<td style="text-align:center;">
-
-2006
-</td>
-
-<td style="text-align:center;">
-
-48.57
+46
 </td>
 
 </tr>
@@ -3424,7 +2949,7 @@ VLISSGN
 
 <td style="text-align:center;">
 
-26.97
+27
 </td>
 
 </tr>
@@ -3448,7 +2973,7 @@ DELFZL
 
 <td style="text-align:center;">
 
-57.58
+56
 </td>
 
 </tr>
@@ -3472,7 +2997,7 @@ DENHDR
 
 <td style="text-align:center;">
 
-43.12
+42
 </td>
 
 </tr>
@@ -3486,7 +3011,7 @@ Harlingen
 
 <td style="text-align:center;">
 
-HARLGN
+HARLNGN
 </td>
 
 <td style="text-align:center;">
@@ -3496,7 +3021,7 @@ HARLGN
 
 <td style="text-align:center;">
 
-59.13
+58
 </td>
 
 </tr>
@@ -3520,7 +3045,7 @@ HOEKVHLD
 
 <td style="text-align:center;">
 
-34.05
+34
 </td>
 
 </tr>
@@ -3544,31 +3069,7 @@ IJMDBTHVN
 
 <td style="text-align:center;">
 
-41.21
-</td>
-
-</tr>
-
-<tr>
-
-<td style="text-align:center;">
-
-NL
-</td>
-
-<td style="text-align:center;">
-
-NL
-</td>
-
-<td style="text-align:center;">
-
-2005
-</td>
-
-<td style="text-align:center;">
-
-43.77
+41
 </td>
 
 </tr>
@@ -3592,7 +3093,7 @@ VLISSGN
 
 <td style="text-align:center;">
 
-27.55
+27
 </td>
 
 </tr>
@@ -3616,7 +3117,7 @@ DELFZL
 
 <td style="text-align:center;">
 
-75.02
+76
 </td>
 
 </tr>
@@ -3640,7 +3141,7 @@ DENHDR
 
 <td style="text-align:center;">
 
-62.73
+63
 </td>
 
 </tr>
@@ -3654,7 +3155,7 @@ Harlingen
 
 <td style="text-align:center;">
 
-HARLGN
+HARLNGN
 </td>
 
 <td style="text-align:center;">
@@ -3664,7 +3165,7 @@ HARLGN
 
 <td style="text-align:center;">
 
-84.57
+85
 </td>
 
 </tr>
@@ -3688,7 +3189,7 @@ HOEKVHLD
 
 <td style="text-align:center;">
 
-47.22
+48
 </td>
 
 </tr>
@@ -3712,31 +3213,7 @@ IJMDBTHVN
 
 <td style="text-align:center;">
 
-58.91
-</td>
-
-</tr>
-
-<tr>
-
-<td style="text-align:center;">
-
-NL
-</td>
-
-<td style="text-align:center;">
-
-NL
-</td>
-
-<td style="text-align:center;">
-
-2004
-</td>
-
-<td style="text-align:center;">
-
-60.93
+59
 </td>
 
 </tr>
@@ -3760,7 +3237,7 @@ VLISSGN
 
 <td style="text-align:center;">
 
-37.13
+37
 </td>
 
 </tr>
@@ -3784,7 +3261,7 @@ DELFZL
 
 <td style="text-align:center;">
 
-32.99
+32
 </td>
 
 </tr>
@@ -3808,7 +3285,7 @@ DENHDR
 
 <td style="text-align:center;">
 
-14.69
+14
 </td>
 
 </tr>
@@ -3822,7 +3299,7 @@ Harlingen
 
 <td style="text-align:center;">
 
-HARLGN
+HARLNGN
 </td>
 
 <td style="text-align:center;">
@@ -3832,7 +3309,7 @@ HARLGN
 
 <td style="text-align:center;">
 
-28.68
+28
 </td>
 
 </tr>
@@ -3856,7 +3333,7 @@ HOEKVHLD
 
 <td style="text-align:center;">
 
-6.68
+6
 </td>
 
 </tr>
@@ -3880,31 +3357,7 @@ IJMDBTHVN
 
 <td style="text-align:center;">
 
-11.95
-</td>
-
-</tr>
-
-<tr>
-
-<td style="text-align:center;">
-
-NL
-</td>
-
-<td style="text-align:center;">
-
-NL
-</td>
-
-<td style="text-align:center;">
-
-2003
-</td>
-
-<td style="text-align:center;">
-
-16.25
+11
 </td>
 
 </tr>
@@ -3928,7 +3381,7 @@ VLISSGN
 
 <td style="text-align:center;">
 
-2.52
+2
 </td>
 
 </tr>
@@ -3952,7 +3405,7 @@ DELFZL
 
 <td style="text-align:center;">
 
-35.37
+38
 </td>
 
 </tr>
@@ -3976,7 +3429,7 @@ DENHDR
 
 <td style="text-align:center;">
 
-28.88
+31
 </td>
 
 </tr>
@@ -3990,7 +3443,7 @@ Harlingen
 
 <td style="text-align:center;">
 
-HARLGN
+HARLNGN
 </td>
 
 <td style="text-align:center;">
@@ -4000,7 +3453,7 @@ HARLGN
 
 <td style="text-align:center;">
 
-43.86
+46
 </td>
 
 </tr>
@@ -4024,7 +3477,7 @@ HOEKVHLD
 
 <td style="text-align:center;">
 
-20.66
+22
 </td>
 
 </tr>
@@ -4048,31 +3501,7 @@ IJMDBTHVN
 
 <td style="text-align:center;">
 
-27.93
-</td>
-
-</tr>
-
-<tr>
-
-<td style="text-align:center;">
-
-NL
-</td>
-
-<td style="text-align:center;">
-
-NL
-</td>
-
-<td style="text-align:center;">
-
-2002
-</td>
-
-<td style="text-align:center;">
-
-28.81
+30
 </td>
 
 </tr>
@@ -4096,7 +3525,7 @@ VLISSGN
 
 <td style="text-align:center;">
 
-16.13
+17
 </td>
 
 </tr>
@@ -4120,7 +3549,7 @@ DELFZL
 
 <td style="text-align:center;">
 
-62.21
+63
 </td>
 
 </tr>
@@ -4144,7 +3573,7 @@ DENHDR
 
 <td style="text-align:center;">
 
-55.72
+56
 </td>
 
 </tr>
@@ -4158,7 +3587,7 @@ Harlingen
 
 <td style="text-align:center;">
 
-HARLGN
+HARLNGN
 </td>
 
 <td style="text-align:center;">
@@ -4168,7 +3597,7 @@ HARLGN
 
 <td style="text-align:center;">
 
-69.73
+70
 </td>
 
 </tr>
@@ -4192,7 +3621,7 @@ HOEKVHLD
 
 <td style="text-align:center;">
 
-48.71
+49
 </td>
 
 </tr>
@@ -4216,31 +3645,7 @@ IJMDBTHVN
 
 <td style="text-align:center;">
 
-55.75
-</td>
-
-</tr>
-
-<tr>
-
-<td style="text-align:center;">
-
-NL
-</td>
-
-<td style="text-align:center;">
-
-NL
-</td>
-
-<td style="text-align:center;">
-
-2001
-</td>
-
-<td style="text-align:center;">
-
-55.71
+56
 </td>
 
 </tr>
@@ -4264,7 +3669,7 @@ VLISSGN
 
 <td style="text-align:center;">
 
-42.12
+42
 </td>
 
 </tr>
@@ -4288,7 +3693,7 @@ DELFZL
 
 <td style="text-align:center;">
 
-79.47
+80
 </td>
 
 </tr>
@@ -4312,7 +3717,7 @@ DENHDR
 
 <td style="text-align:center;">
 
-73.63
+74
 </td>
 
 </tr>
@@ -4326,7 +3731,7 @@ Harlingen
 
 <td style="text-align:center;">
 
-HARLGN
+HARLNGN
 </td>
 
 <td style="text-align:center;">
@@ -4336,7 +3741,7 @@ HARLGN
 
 <td style="text-align:center;">
 
-96.22
+97
 </td>
 
 </tr>
@@ -4360,7 +3765,7 @@ HOEKVHLD
 
 <td style="text-align:center;">
 
-54.44
+55
 </td>
 
 </tr>
@@ -4384,31 +3789,7 @@ IJMDBTHVN
 
 <td style="text-align:center;">
 
-68.52
-</td>
-
-</tr>
-
-<tr>
-
-<td style="text-align:center;">
-
-NL
-</td>
-
-<td style="text-align:center;">
-
-NL
-</td>
-
-<td style="text-align:center;">
-
-2000
-</td>
-
-<td style="text-align:center;">
-
-69.19
+69
 </td>
 
 </tr>
@@ -4432,7 +3813,7 @@ VLISSGN
 
 <td style="text-align:center;">
 
-42.86
+43
 </td>
 
 </tr>
@@ -4456,7 +3837,7 @@ DELFZL
 
 <td style="text-align:center;">
 
-90.46
+92
 </td>
 
 </tr>
@@ -4480,7 +3861,7 @@ DENHDR
 
 <td style="text-align:center;">
 
-81.21
+82
 </td>
 
 </tr>
@@ -4494,7 +3875,7 @@ Harlingen
 
 <td style="text-align:center;">
 
-HARLGN
+HARLNGN
 </td>
 
 <td style="text-align:center;">
@@ -4504,7 +3885,7 @@ HARLGN
 
 <td style="text-align:center;">
 
-103.76
+105
 </td>
 
 </tr>
@@ -4528,7 +3909,7 @@ HOEKVHLD
 
 <td style="text-align:center;">
 
-64.17
+65
 </td>
 
 </tr>
@@ -4552,31 +3933,7 @@ IJMDBTHVN
 
 <td style="text-align:center;">
 
-76.94
-</td>
-
-</tr>
-
-<tr>
-
-<td style="text-align:center;">
-
-NL
-</td>
-
-<td style="text-align:center;">
-
-NL
-</td>
-
-<td style="text-align:center;">
-
-1999
-</td>
-
-<td style="text-align:center;">
-
-78.24
+78
 </td>
 
 </tr>
@@ -4600,7 +3957,7 @@ VLISSGN
 
 <td style="text-align:center;">
 
-52.90
+54
 </td>
 
 </tr>
@@ -4624,7 +3981,7 @@ DELFZL
 
 <td style="text-align:center;">
 
-95.36
+96
 </td>
 
 </tr>
@@ -4648,7 +4005,7 @@ DENHDR
 
 <td style="text-align:center;">
 
-87.78
+88
 </td>
 
 </tr>
@@ -4662,7 +4019,7 @@ Harlingen
 
 <td style="text-align:center;">
 
-HARLGN
+HARLNGN
 </td>
 
 <td style="text-align:center;">
@@ -4672,7 +4029,7 @@ HARLGN
 
 <td style="text-align:center;">
 
-112.41
+113
 </td>
 
 </tr>
@@ -4696,7 +4053,7 @@ HOEKVHLD
 
 <td style="text-align:center;">
 
-69.74
+70
 </td>
 
 </tr>
@@ -4720,31 +4077,7 @@ IJMDBTHVN
 
 <td style="text-align:center;">
 
-84.06
-</td>
-
-</tr>
-
-<tr>
-
-<td style="text-align:center;">
-
-NL
-</td>
-
-<td style="text-align:center;">
-
-NL
-</td>
-
-<td style="text-align:center;">
-
-1998
-</td>
-
-<td style="text-align:center;">
-
-84.44
+84
 </td>
 
 </tr>
@@ -4768,7 +4101,7 @@ VLISSGN
 
 <td style="text-align:center;">
 
-57.28
+57
 </td>
 
 </tr>
@@ -4792,7 +4125,7 @@ DELFZL
 
 <td style="text-align:center;">
 
-31.87
+33
 </td>
 
 </tr>
@@ -4816,7 +4149,7 @@ DENHDR
 
 <td style="text-align:center;">
 
-14.08
+16
 </td>
 
 </tr>
@@ -4830,7 +4163,7 @@ Harlingen
 
 <td style="text-align:center;">
 
-HARLGN
+HARLNGN
 </td>
 
 <td style="text-align:center;">
@@ -4840,7 +4173,7 @@ HARLGN
 
 <td style="text-align:center;">
 
-29.66
+31
 </td>
 
 </tr>
@@ -4864,7 +4197,7 @@ HOEKVHLD
 
 <td style="text-align:center;">
 
-3.97
+5
 </td>
 
 </tr>
@@ -4888,31 +4221,7 @@ IJMDBTHVN
 
 <td style="text-align:center;">
 
-10.86
-</td>
-
-</tr>
-
-<tr>
-
-<td style="text-align:center;">
-
-NL
-</td>
-
-<td style="text-align:center;">
-
-NL
-</td>
-
-<td style="text-align:center;">
-
-1997
-</td>
-
-<td style="text-align:center;">
-
-14.88
+12
 </td>
 
 </tr>
@@ -4936,7 +4245,7 @@ VLISSGN
 
 <td style="text-align:center;">
 
--1.20
+0
 </td>
 
 </tr>
@@ -4960,7 +4269,7 @@ DELFZL
 
 <td style="text-align:center;">
 
--22.19
+-22
 </td>
 
 </tr>
@@ -4984,7 +4293,7 @@ DENHDR
 
 <td style="text-align:center;">
 
--30.66
+-30
 </td>
 
 </tr>
@@ -4998,7 +4307,7 @@ Harlingen
 
 <td style="text-align:center;">
 
-HARLGN
+HARLNGN
 </td>
 
 <td style="text-align:center;">
@@ -5008,7 +4317,7 @@ HARLGN
 
 <td style="text-align:center;">
 
--29.37
+-29
 </td>
 
 </tr>
@@ -5032,7 +4341,7 @@ HOEKVHLD
 
 <td style="text-align:center;">
 
--23.81
+-23
 </td>
 
 </tr>
@@ -5056,31 +4365,7 @@ IJMDBTHVN
 
 <td style="text-align:center;">
 
--26.63
-</td>
-
-</tr>
-
-<tr>
-
-<td style="text-align:center;">
-
-NL
-</td>
-
-<td style="text-align:center;">
-
-NL
-</td>
-
-<td style="text-align:center;">
-
-1996
-</td>
-
-<td style="text-align:center;">
-
--25.39
+-26
 </td>
 
 </tr>
@@ -5104,7 +4389,7 @@ VLISSGN
 
 <td style="text-align:center;">
 
--19.71
+-19
 </td>
 
 </tr>
@@ -5128,7 +4413,7 @@ DELFZL
 
 <td style="text-align:center;">
 
-68.25
+70
 </td>
 
 </tr>
@@ -5152,7 +4437,7 @@ DENHDR
 
 <td style="text-align:center;">
 
-50.86
+53
 </td>
 
 </tr>
@@ -5166,7 +4451,7 @@ Harlingen
 
 <td style="text-align:center;">
 
-HARLGN
+HARLNGN
 </td>
 
 <td style="text-align:center;">
@@ -5176,7 +4461,7 @@ HARLGN
 
 <td style="text-align:center;">
 
-68.27
+70
 </td>
 
 </tr>
@@ -5200,7 +4485,7 @@ HOEKVHLD
 
 <td style="text-align:center;">
 
-42.01
+43
 </td>
 
 </tr>
@@ -5224,31 +4509,7 @@ IJMDBTHVN
 
 <td style="text-align:center;">
 
-49.13
-</td>
-
-</tr>
-
-<tr>
-
-<td style="text-align:center;">
-
-NL
-</td>
-
-<td style="text-align:center;">
-
-NL
-</td>
-
-<td style="text-align:center;">
-
-1995
-</td>
-
-<td style="text-align:center;">
-
-52.42
+51
 </td>
 
 </tr>
@@ -5272,7 +4533,7 @@ VLISSGN
 
 <td style="text-align:center;">
 
-35.98
+37
 </td>
 
 </tr>
@@ -5296,7 +4557,7 @@ DELFZL
 
 <td style="text-align:center;">
 
-84.22
+82
 </td>
 
 </tr>
@@ -5320,7 +4581,7 @@ DENHDR
 
 <td style="text-align:center;">
 
-73.29
+71
 </td>
 
 </tr>
@@ -5334,7 +4595,7 @@ Harlingen
 
 <td style="text-align:center;">
 
-HARLGN
+HARLNGN
 </td>
 
 <td style="text-align:center;">
@@ -5344,7 +4605,7 @@ HARLGN
 
 <td style="text-align:center;">
 
-96.11
+94
 </td>
 
 </tr>
@@ -5368,7 +4629,7 @@ HOEKVHLD
 
 <td style="text-align:center;">
 
-57.53
+56
 </td>
 
 </tr>
@@ -5392,31 +4653,7 @@ IJMDBTHVN
 
 <td style="text-align:center;">
 
-70.02
-</td>
-
-</tr>
-
-<tr>
-
-<td style="text-align:center;">
-
-NL
-</td>
-
-<td style="text-align:center;">
-
-NL
-</td>
-
-<td style="text-align:center;">
-
-1994
-</td>
-
-<td style="text-align:center;">
-
-71.43
+68
 </td>
 
 </tr>
@@ -5440,7 +4677,7 @@ VLISSGN
 
 <td style="text-align:center;">
 
-47.38
+46
 </td>
 
 </tr>
@@ -5464,7 +4701,7 @@ DELFZL
 
 <td style="text-align:center;">
 
-51.53
+51
 </td>
 
 </tr>
@@ -5488,7 +4725,7 @@ DENHDR
 
 <td style="text-align:center;">
 
-35.61
+35
 </td>
 
 </tr>
@@ -5502,7 +4739,7 @@ Harlingen
 
 <td style="text-align:center;">
 
-HARLGN
+HARLNGN
 </td>
 
 <td style="text-align:center;">
@@ -5512,7 +4749,7 @@ HARLGN
 
 <td style="text-align:center;">
 
-52.77
+52
 </td>
 
 </tr>
@@ -5536,7 +4773,7 @@ HOEKVHLD
 
 <td style="text-align:center;">
 
-27.66
+27
 </td>
 
 </tr>
@@ -5560,31 +4797,7 @@ IJMDBTHVN
 
 <td style="text-align:center;">
 
-34.87
-</td>
-
-</tr>
-
-<tr>
-
-<td style="text-align:center;">
-
-NL
-</td>
-
-<td style="text-align:center;">
-
-NL
-</td>
-
-<td style="text-align:center;">
-
-1993
-</td>
-
-<td style="text-align:center;">
-
-37.49
+34
 </td>
 
 </tr>
@@ -5608,7 +4821,7 @@ VLISSGN
 
 <td style="text-align:center;">
 
-22.50
+22
 </td>
 
 </tr>
@@ -5632,7 +4845,7 @@ DELFZL
 
 <td style="text-align:center;">
 
-65.04
+66
 </td>
 
 </tr>
@@ -5656,7 +4869,7 @@ DENHDR
 
 <td style="text-align:center;">
 
-50.96
+52
 </td>
 
 </tr>
@@ -5670,7 +4883,7 @@ Harlingen
 
 <td style="text-align:center;">
 
-HARLGN
+HARLNGN
 </td>
 
 <td style="text-align:center;">
@@ -5680,7 +4893,7 @@ HARLGN
 
 <td style="text-align:center;">
 
-72.28
+73
 </td>
 
 </tr>
@@ -5704,7 +4917,7 @@ HOEKVHLD
 
 <td style="text-align:center;">
 
-36.49
+37
 </td>
 
 </tr>
@@ -5728,31 +4941,7 @@ IJMDBTHVN
 
 <td style="text-align:center;">
 
-47.42
-</td>
-
-</tr>
-
-<tr>
-
-<td style="text-align:center;">
-
-NL
-</td>
-
-<td style="text-align:center;">
-
-NL
-</td>
-
-<td style="text-align:center;">
-
-1992
-</td>
-
-<td style="text-align:center;">
-
-49.87
+48
 </td>
 
 </tr>
@@ -5776,7 +4965,7 @@ VLISSGN
 
 <td style="text-align:center;">
 
-27.03
+27
 </td>
 
 </tr>
@@ -5800,7 +4989,7 @@ DELFZL
 
 <td style="text-align:center;">
 
-48.70
+48
 </td>
 
 </tr>
@@ -5824,7 +5013,7 @@ DENHDR
 
 <td style="text-align:center;">
 
-25.56
+25
 </td>
 
 </tr>
@@ -5838,7 +5027,7 @@ Harlingen
 
 <td style="text-align:center;">
 
-HARLGN
+HARLNGN
 </td>
 
 <td style="text-align:center;">
@@ -5848,7 +5037,7 @@ HARLGN
 
 <td style="text-align:center;">
 
-45.93
+45
 </td>
 
 </tr>
@@ -5872,7 +5061,7 @@ HOEKVHLD
 
 <td style="text-align:center;">
 
-13.05
+13
 </td>
 
 </tr>
@@ -5896,31 +5085,7 @@ IJMDBTHVN
 
 <td style="text-align:center;">
 
-21.86
-</td>
-
-</tr>
-
-<tr>
-
-<td style="text-align:center;">
-
-NL
-</td>
-
-<td style="text-align:center;">
-
-NL
-</td>
-
-<td style="text-align:center;">
-
-1991
-</td>
-
-<td style="text-align:center;">
-
-27.00
+22
 </td>
 
 </tr>
@@ -5944,7 +5109,7 @@ VLISSGN
 
 <td style="text-align:center;">
 
-6.87
+7
 </td>
 
 </tr>
@@ -5968,7 +5133,7 @@ DELFZL
 
 <td style="text-align:center;">
 
-126.98
+129
 </td>
 
 </tr>
@@ -5992,7 +5157,7 @@ DENHDR
 
 <td style="text-align:center;">
 
-104.86
+107
 </td>
 
 </tr>
@@ -6006,7 +5171,7 @@ Harlingen
 
 <td style="text-align:center;">
 
-HARLGN
+HARLNGN
 </td>
 
 <td style="text-align:center;">
@@ -6016,7 +5181,7 @@ HARLGN
 
 <td style="text-align:center;">
 
-138.46
+141
 </td>
 
 </tr>
@@ -6040,7 +5205,7 @@ HOEKVHLD
 
 <td style="text-align:center;">
 
-77.32
+79
 </td>
 
 </tr>
@@ -6064,31 +5229,7 @@ IJMDBTHVN
 
 <td style="text-align:center;">
 
-96.09
-</td>
-
-</tr>
-
-<tr>
-
-<td style="text-align:center;">
-
-NL
-</td>
-
-<td style="text-align:center;">
-
-NL
-</td>
-
-<td style="text-align:center;">
-
-1990
-</td>
-
-<td style="text-align:center;">
-
-100.96
+98
 </td>
 
 </tr>
@@ -6112,7 +5253,7 @@ VLISSGN
 
 <td style="text-align:center;">
 
-62.06
+64
 </td>
 
 </tr>
@@ -6136,7 +5277,7 @@ DELFZL
 
 <td style="text-align:center;">
 
-74.69
+75
 </td>
 
 </tr>
@@ -6160,7 +5301,7 @@ DENHDR
 
 <td style="text-align:center;">
 
-55.77
+56
 </td>
 
 </tr>
@@ -6174,7 +5315,7 @@ Harlingen
 
 <td style="text-align:center;">
 
-HARLGN
+HARLNGN
 </td>
 
 <td style="text-align:center;">
@@ -6184,7 +5325,7 @@ HARLGN
 
 <td style="text-align:center;">
 
-76.62
+77
 </td>
 
 </tr>
@@ -6208,7 +5349,7 @@ HOEKVHLD
 
 <td style="text-align:center;">
 
-39.40
+40
 </td>
 
 </tr>
@@ -6232,31 +5373,7 @@ IJMDBTHVN
 
 <td style="text-align:center;">
 
-50.10
-</td>
-
-</tr>
-
-<tr>
-
-<td style="text-align:center;">
-
-NL
-</td>
-
-<td style="text-align:center;">
-
-NL
-</td>
-
-<td style="text-align:center;">
-
-1989
-</td>
-
-<td style="text-align:center;">
-
-54.51
+51
 </td>
 
 </tr>
@@ -6280,7 +5397,7 @@ VLISSGN
 
 <td style="text-align:center;">
 
-30.51
+31
 </td>
 
 </tr>
@@ -6304,7 +5421,7 @@ DELFZL
 
 <td style="text-align:center;">
 
-88.05
+89
 </td>
 
 </tr>
@@ -6328,7 +5445,7 @@ DENHDR
 
 <td style="text-align:center;">
 
-76.87
+77
 </td>
 
 </tr>
@@ -6342,7 +5459,7 @@ Harlingen
 
 <td style="text-align:center;">
 
-HARLGN
+HARLNGN
 </td>
 
 <td style="text-align:center;">
@@ -6352,7 +5469,7 @@ HARLGN
 
 <td style="text-align:center;">
 
-100.57
+101
 </td>
 
 </tr>
@@ -6376,7 +5493,7 @@ HOEKVHLD
 
 <td style="text-align:center;">
 
-60.87
+61
 </td>
 
 </tr>
@@ -6400,31 +5517,7 @@ IJMDBTHVN
 
 <td style="text-align:center;">
 
-73.25
-</td>
-
-</tr>
-
-<tr>
-
-<td style="text-align:center;">
-
-NL
-</td>
-
-<td style="text-align:center;">
-
-NL
-</td>
-
-<td style="text-align:center;">
-
-1988
-</td>
-
-<td style="text-align:center;">
-
-75.08
+73
 </td>
 
 </tr>
@@ -6448,7 +5541,7 @@ VLISSGN
 
 <td style="text-align:center;">
 
-50.89
+51
 </td>
 
 </tr>
@@ -6472,7 +5565,7 @@ DELFZL
 
 <td style="text-align:center;">
 
-24.80
+25
 </td>
 
 </tr>
@@ -6496,7 +5589,7 @@ DENHDR
 
 <td style="text-align:center;">
 
-15.83
+16
 </td>
 
 </tr>
@@ -6510,7 +5603,7 @@ Harlingen
 
 <td style="text-align:center;">
 
-HARLGN
+HARLNGN
 </td>
 
 <td style="text-align:center;">
@@ -6520,7 +5613,7 @@ HARLGN
 
 <td style="text-align:center;">
 
-26.69
+27
 </td>
 
 </tr>
@@ -6544,7 +5637,7 @@ HOEKVHLD
 
 <td style="text-align:center;">
 
-10.59
+11
 </td>
 
 </tr>
@@ -6568,31 +5661,7 @@ IJMDBTHVN
 
 <td style="text-align:center;">
 
-15.45
-</td>
-
-</tr>
-
-<tr>
-
-<td style="text-align:center;">
-
-NL
-</td>
-
-<td style="text-align:center;">
-
-NL
-</td>
-
-<td style="text-align:center;">
-
-1987
-</td>
-
-<td style="text-align:center;">
-
-16.74
+16
 </td>
 
 </tr>
@@ -6616,7 +5685,7 @@ VLISSGN
 
 <td style="text-align:center;">
 
-7.07
+7
 </td>
 
 </tr>
@@ -6640,7 +5709,7 @@ DELFZL
 
 <td style="text-align:center;">
 
-61.17
+58
 </td>
 
 </tr>
@@ -6664,7 +5733,7 @@ DENHDR
 
 <td style="text-align:center;">
 
-47.56
+45
 </td>
 
 </tr>
@@ -6678,7 +5747,7 @@ Harlingen
 
 <td style="text-align:center;">
 
-HARLGN
+HARLNGN
 </td>
 
 <td style="text-align:center;">
@@ -6688,7 +5757,7 @@ HARLGN
 
 <td style="text-align:center;">
 
-68.71
+65
 </td>
 
 </tr>
@@ -6712,7 +5781,7 @@ HOEKVHLD
 
 <td style="text-align:center;">
 
-33.93
+32
 </td>
 
 </tr>
@@ -6736,31 +5805,7 @@ IJMDBTHVN
 
 <td style="text-align:center;">
 
-44.22
-</td>
-
-</tr>
-
-<tr>
-
-<td style="text-align:center;">
-
-NL
-</td>
-
-<td style="text-align:center;">
-
-NL
-</td>
-
-<td style="text-align:center;">
-
-1986
-</td>
-
-<td style="text-align:center;">
-
-46.93
+42
 </td>
 
 </tr>
@@ -6784,7 +5829,7 @@ VLISSGN
 
 <td style="text-align:center;">
 
-25.99
+24
 </td>
 
 </tr>
@@ -6808,7 +5853,7 @@ DELFZL
 
 <td style="text-align:center;">
 
-54.59
+54
 </td>
 
 </tr>
@@ -6832,7 +5877,7 @@ DENHDR
 
 <td style="text-align:center;">
 
-39.84
+39
 </td>
 
 </tr>
@@ -6846,7 +5891,7 @@ Harlingen
 
 <td style="text-align:center;">
 
-HARLGN
+HARLNGN
 </td>
 
 <td style="text-align:center;">
@@ -6856,7 +5901,7 @@ HARLGN
 
 <td style="text-align:center;">
 
-58.03
+57
 </td>
 
 </tr>
@@ -6880,7 +5925,7 @@ HOEKVHLD
 
 <td style="text-align:center;">
 
-27.94
+27
 </td>
 
 </tr>
@@ -6904,31 +5949,7 @@ IJMDBTHVN
 
 <td style="text-align:center;">
 
-36.70
-</td>
-
-</tr>
-
-<tr>
-
-<td style="text-align:center;">
-
-NL
-</td>
-
-<td style="text-align:center;">
-
-NL
-</td>
-
-<td style="text-align:center;">
-
-1985
-</td>
-
-<td style="text-align:center;">
-
-39.78
+36
 </td>
 
 </tr>
@@ -6952,7 +5973,7 @@ VLISSGN
 
 <td style="text-align:center;">
 
-21.60
+21
 </td>
 
 </tr>
@@ -6976,7 +5997,7 @@ DELFZL
 
 <td style="text-align:center;">
 
-43.76
+43
 </td>
 
 </tr>
@@ -7000,7 +6021,7 @@ DENHDR
 
 <td style="text-align:center;">
 
-33.97
+33
 </td>
 
 </tr>
@@ -7014,7 +6035,7 @@ Harlingen
 
 <td style="text-align:center;">
 
-HARLGN
+HARLNGN
 </td>
 
 <td style="text-align:center;">
@@ -7024,7 +6045,7 @@ HARLGN
 
 <td style="text-align:center;">
 
-50.34
+50
 </td>
 
 </tr>
@@ -7048,7 +6069,7 @@ HOEKVHLD
 
 <td style="text-align:center;">
 
-26.60
+26
 </td>
 
 </tr>
@@ -7072,31 +6093,7 @@ IJMDBTHVN
 
 <td style="text-align:center;">
 
-33.34
-</td>
-
-</tr>
-
-<tr>
-
-<td style="text-align:center;">
-
-NL
-</td>
-
-<td style="text-align:center;">
-
-NL
-</td>
-
-<td style="text-align:center;">
-
-1984
-</td>
-
-<td style="text-align:center;">
-
-34.97
+33
 </td>
 
 </tr>
@@ -7120,7 +6117,7 @@ VLISSGN
 
 <td style="text-align:center;">
 
-21.78
+21
 </td>
 
 </tr>
@@ -7144,7 +6141,7 @@ DELFZL
 
 <td style="text-align:center;">
 
-105.44
+104
 </td>
 
 </tr>
@@ -7168,7 +6165,7 @@ DENHDR
 
 <td style="text-align:center;">
 
-83.60
+82
 </td>
 
 </tr>
@@ -7182,7 +6179,7 @@ Harlingen
 
 <td style="text-align:center;">
 
-HARLGN
+HARLNGN
 </td>
 
 <td style="text-align:center;">
@@ -7192,7 +6189,7 @@ HARLGN
 
 <td style="text-align:center;">
 
-111.00
+109
 </td>
 
 </tr>
@@ -7216,7 +6213,7 @@ HOEKVHLD
 
 <td style="text-align:center;">
 
-63.78
+63
 </td>
 
 </tr>
@@ -7240,31 +6237,7 @@ IJMDBTHVN
 
 <td style="text-align:center;">
 
-77.62
-</td>
-
-</tr>
-
-<tr>
-
-<td style="text-align:center;">
-
-NL
-</td>
-
-<td style="text-align:center;">
-
-NL
-</td>
-
-<td style="text-align:center;">
-
-1983
-</td>
-
-<td style="text-align:center;">
-
-82.18
+76
 </td>
 
 </tr>
@@ -7288,7 +6261,7 @@ VLISSGN
 
 <td style="text-align:center;">
 
-51.64
+51
 </td>
 
 </tr>
@@ -7312,7 +6285,7 @@ DELFZL
 
 <td style="text-align:center;">
 
-59.57
+59
 </td>
 
 </tr>
@@ -7336,7 +6309,7 @@ DENHDR
 
 <td style="text-align:center;">
 
-48.51
+47
 </td>
 
 </tr>
@@ -7350,7 +6323,7 @@ Harlingen
 
 <td style="text-align:center;">
 
-HARLGN
+HARLNGN
 </td>
 
 <td style="text-align:center;">
@@ -7360,7 +6333,7 @@ HARLGN
 
 <td style="text-align:center;">
 
-70.90
+70
 </td>
 
 </tr>
@@ -7384,7 +6357,7 @@ HOEKVHLD
 
 <td style="text-align:center;">
 
-30.65
+30
 </td>
 
 </tr>
@@ -7408,31 +6381,7 @@ IJMDBTHVN
 
 <td style="text-align:center;">
 
-43.02
-</td>
-
-</tr>
-
-<tr>
-
-<td style="text-align:center;">
-
-NL
-</td>
-
-<td style="text-align:center;">
-
-NL
-</td>
-
-<td style="text-align:center;">
-
-1982
-</td>
-
-<td style="text-align:center;">
-
-45.50
+42
 </td>
 
 </tr>
@@ -7456,7 +6405,7 @@ VLISSGN
 
 <td style="text-align:center;">
 
-20.36
+20
 </td>
 
 </tr>
@@ -7480,7 +6429,7 @@ DELFZL
 
 <td style="text-align:center;">
 
-87.68
+87
 </td>
 
 </tr>
@@ -7504,7 +6453,7 @@ DENHDR
 
 <td style="text-align:center;">
 
-70.98
+70
 </td>
 
 </tr>
@@ -7518,7 +6467,7 @@ Harlingen
 
 <td style="text-align:center;">
 
-HARLGN
+HARLNGN
 </td>
 
 <td style="text-align:center;">
@@ -7528,7 +6477,7 @@ HARLGN
 
 <td style="text-align:center;">
 
-90.02
+89
 </td>
 
 </tr>
@@ -7552,7 +6501,7 @@ HOEKVHLD
 
 <td style="text-align:center;">
 
-60.42
+59
 </td>
 
 </tr>
@@ -7576,31 +6525,7 @@ IJMDBTHVN
 
 <td style="text-align:center;">
 
-69.32
-</td>
-
-</tr>
-
-<tr>
-
-<td style="text-align:center;">
-
-NL
-</td>
-
-<td style="text-align:center;">
-
-NL
-</td>
-
-<td style="text-align:center;">
-
-1981
-</td>
-
-<td style="text-align:center;">
-
-71.81
+68
 </td>
 
 </tr>
@@ -7624,7 +6549,7 @@ VLISSGN
 
 <td style="text-align:center;">
 
-52.43
+51
 </td>
 
 </tr>
@@ -7648,7 +6573,7 @@ DELFZL
 
 <td style="text-align:center;">
 
-47.24
+47
 </td>
 
 </tr>
@@ -7672,7 +6597,7 @@ DENHDR
 
 <td style="text-align:center;">
 
-36.38
+36
 </td>
 
 </tr>
@@ -7686,7 +6611,7 @@ Harlingen
 
 <td style="text-align:center;">
 
-HARLGN
+HARLNGN
 </td>
 
 <td style="text-align:center;">
@@ -7696,7 +6621,7 @@ HARLGN
 
 <td style="text-align:center;">
 
-51.20
+51
 </td>
 
 </tr>
@@ -7720,7 +6645,7 @@ HOEKVHLD
 
 <td style="text-align:center;">
 
-30.90
+30
 </td>
 
 </tr>
@@ -7744,31 +6669,7 @@ IJMDBTHVN
 
 <td style="text-align:center;">
 
-36.90
-</td>
-
-</tr>
-
-<tr>
-
-<td style="text-align:center;">
-
-NL
-</td>
-
-<td style="text-align:center;">
-
-NL
-</td>
-
-<td style="text-align:center;">
-
-1980
-</td>
-
-<td style="text-align:center;">
-
-38.09
+36
 </td>
 
 </tr>
@@ -7792,7 +6693,7 @@ VLISSGN
 
 <td style="text-align:center;">
 
-25.94
+25
 </td>
 
 </tr>
@@ -7816,7 +6717,7 @@ DELFZL
 
 <td style="text-align:center;">
 
-41.70
+42
 </td>
 
 </tr>
@@ -7840,7 +6741,7 @@ DENHDR
 
 <td style="text-align:center;">
 
-45.50
+44
 </td>
 
 </tr>
@@ -7854,7 +6755,7 @@ Harlingen
 
 <td style="text-align:center;">
 
-HARLGN
+HARLNGN
 </td>
 
 <td style="text-align:center;">
@@ -7864,7 +6765,7 @@ HARLGN
 
 <td style="text-align:center;">
 
-57.11
+56
 </td>
 
 </tr>
@@ -7888,7 +6789,7 @@ HOEKVHLD
 
 <td style="text-align:center;">
 
-36.47
+36
 </td>
 
 </tr>
@@ -7912,31 +6813,7 @@ IJMDBTHVN
 
 <td style="text-align:center;">
 
-44.14
-</td>
-
-</tr>
-
-<tr>
-
-<td style="text-align:center;">
-
-NL
-</td>
-
-<td style="text-align:center;">
-
-NL
-</td>
-
-<td style="text-align:center;">
-
-1979
-</td>
-
-<td style="text-align:center;">
-
-42.59
+43
 </td>
 
 </tr>
@@ -7960,7 +6837,7 @@ VLISSGN
 
 <td style="text-align:center;">
 
-30.62
+31
 </td>
 
 </tr>
@@ -7984,7 +6861,7 @@ DELFZL
 
 <td style="text-align:center;">
 
-53.90
+53
 </td>
 
 </tr>
@@ -8008,7 +6885,7 @@ DENHDR
 
 <td style="text-align:center;">
 
-46.76
+46
 </td>
 
 </tr>
@@ -8022,7 +6899,7 @@ Harlingen
 
 <td style="text-align:center;">
 
-HARLGN
+HARLNGN
 </td>
 
 <td style="text-align:center;">
@@ -8032,7 +6909,7 @@ HARLGN
 
 <td style="text-align:center;">
 
-58.92
+58
 </td>
 
 </tr>
@@ -8056,7 +6933,7 @@ HOEKVHLD
 
 <td style="text-align:center;">
 
-40.87
+40
 </td>
 
 </tr>
@@ -8080,31 +6957,7 @@ IJMDBTHVN
 
 <td style="text-align:center;">
 
-47.09
-</td>
-
-</tr>
-
-<tr>
-
-<td style="text-align:center;">
-
-NL
-</td>
-
-<td style="text-align:center;">
-
-NL
-</td>
-
-<td style="text-align:center;">
-
-1978
-</td>
-
-<td style="text-align:center;">
-
-47.16
+46
 </td>
 
 </tr>
@@ -8128,7 +6981,7 @@ VLISSGN
 
 <td style="text-align:center;">
 
-35.44
+35
 </td>
 
 </tr>
@@ -8152,7 +7005,7 @@ DELFZL
 
 <td style="text-align:center;">
 
-72.02
+73
 </td>
 
 </tr>
@@ -8176,7 +7029,7 @@ DENHDR
 
 <td style="text-align:center;">
 
-67.14
+68
 </td>
 
 </tr>
@@ -8190,7 +7043,7 @@ Harlingen
 
 <td style="text-align:center;">
 
-HARLGN
+HARLNGN
 </td>
 
 <td style="text-align:center;">
@@ -8200,7 +7053,7 @@ HARLGN
 
 <td style="text-align:center;">
 
-84.34
+86
 </td>
 
 </tr>
@@ -8224,7 +7077,7 @@ HOEKVHLD
 
 <td style="text-align:center;">
 
-56.72
+58
 </td>
 
 </tr>
@@ -8248,31 +7101,7 @@ IJMDBTHVN
 
 <td style="text-align:center;">
 
-65.69
-</td>
-
-</tr>
-
-<tr>
-
-<td style="text-align:center;">
-
-NL
-</td>
-
-<td style="text-align:center;">
-
-NL
-</td>
-
-<td style="text-align:center;">
-
-1977
-</td>
-
-<td style="text-align:center;">
-
-65.81
+67
 </td>
 
 </tr>
@@ -8296,7 +7125,7 @@ VLISSGN
 
 <td style="text-align:center;">
 
-48.94
+50
 </td>
 
 </tr>
@@ -8320,7 +7149,7 @@ DELFZL
 
 <td style="text-align:center;">
 
-26.37
+26
 </td>
 
 </tr>
@@ -8344,7 +7173,7 @@ DENHDR
 
 <td style="text-align:center;">
 
-11.67
+11
 </td>
 
 </tr>
@@ -8358,7 +7187,7 @@ Harlingen
 
 <td style="text-align:center;">
 
-HARLGN
+HARLNGN
 </td>
 
 <td style="text-align:center;">
@@ -8368,7 +7197,7 @@ HARLGN
 
 <td style="text-align:center;">
 
-20.78
+20
 </td>
 
 </tr>
@@ -8392,7 +7221,7 @@ HOEKVHLD
 
 <td style="text-align:center;">
 
-9.27
+9
 </td>
 
 </tr>
@@ -8416,31 +7245,7 @@ IJMDBTHVN
 
 <td style="text-align:center;">
 
-12.03
-</td>
-
-</tr>
-
-<tr>
-
-<td style="text-align:center;">
-
-NL
-</td>
-
-<td style="text-align:center;">
-
-NL
-</td>
-
-<td style="text-align:center;">
-
-1976
-</td>
-
-<td style="text-align:center;">
-
-14.49
+12
 </td>
 
 </tr>
@@ -8464,7 +7269,7 @@ VLISSGN
 
 <td style="text-align:center;">
 
-6.85
+7
 </td>
 
 </tr>
@@ -8488,7 +7293,7 @@ DELFZL
 
 <td style="text-align:center;">
 
-42.68
+41
 </td>
 
 </tr>
@@ -8512,7 +7317,7 @@ DENHDR
 
 <td style="text-align:center;">
 
-28.03
+27
 </td>
 
 </tr>
@@ -8526,7 +7331,7 @@ Harlingen
 
 <td style="text-align:center;">
 
-HARLGN
+HARLNGN
 </td>
 
 <td style="text-align:center;">
@@ -8536,7 +7341,7 @@ HARLGN
 
 <td style="text-align:center;">
 
-41.83
+41
 </td>
 
 </tr>
@@ -8560,7 +7365,7 @@ HOEKVHLD
 
 <td style="text-align:center;">
 
-19.96
+19
 </td>
 
 </tr>
@@ -8584,31 +7389,7 @@ IJMDBTHVN
 
 <td style="text-align:center;">
 
-25.65
-</td>
-
-</tr>
-
-<tr>
-
-<td style="text-align:center;">
-
-NL
-</td>
-
-<td style="text-align:center;">
-
-NL
-</td>
-
-<td style="text-align:center;">
-
-1975
-</td>
-
-<td style="text-align:center;">
-
-28.78
+24
 </td>
 
 </tr>
@@ -8632,7 +7413,7 @@ VLISSGN
 
 <td style="text-align:center;">
 
-14.51
+14
 </td>
 
 </tr>
@@ -8656,7 +7437,7 @@ DELFZL
 
 <td style="text-align:center;">
 
-87.28
+87
 </td>
 
 </tr>
@@ -8680,7 +7461,7 @@ DENHDR
 
 <td style="text-align:center;">
 
-85.15
+85
 </td>
 
 </tr>
@@ -8694,7 +7475,7 @@ Harlingen
 
 <td style="text-align:center;">
 
-HARLGN
+HARLNGN
 </td>
 
 <td style="text-align:center;">
@@ -8704,7 +7485,7 @@ HARLGN
 
 <td style="text-align:center;">
 
-104.18
+104
 </td>
 
 </tr>
@@ -8728,7 +7509,7 @@ HOEKVHLD
 
 <td style="text-align:center;">
 
-73.55
+73
 </td>
 
 </tr>
@@ -8752,31 +7533,7 @@ IJMDBTHVN
 
 <td style="text-align:center;">
 
-84.24
-</td>
-
-</tr>
-
-<tr>
-
-<td style="text-align:center;">
-
-NL
-</td>
-
-<td style="text-align:center;">
-
-NL
-</td>
-
-<td style="text-align:center;">
-
-1974
-</td>
-
-<td style="text-align:center;">
-
-83.26
+84
 </td>
 
 </tr>
@@ -8800,7 +7557,7 @@ VLISSGN
 
 <td style="text-align:center;">
 
-65.15
+65
 </td>
 
 </tr>
@@ -8824,7 +7581,7 @@ DELFZL
 
 <td style="text-align:center;">
 
-88.95
+90
 </td>
 
 </tr>
@@ -8848,7 +7605,7 @@ DENHDR
 
 <td style="text-align:center;">
 
-63.25
+65
 </td>
 
 </tr>
@@ -8862,7 +7619,7 @@ Harlingen
 
 <td style="text-align:center;">
 
-HARLGN
+HARLNGN
 </td>
 
 <td style="text-align:center;">
@@ -8872,7 +7629,7 @@ HARLGN
 
 <td style="text-align:center;">
 
-84.92
+86
 </td>
 
 </tr>
@@ -8896,7 +7653,7 @@ HOEKVHLD
 
 <td style="text-align:center;">
 
-51.03
+52
 </td>
 
 </tr>
@@ -8920,31 +7677,7 @@ IJMDBTHVN
 
 <td style="text-align:center;">
 
-60.19
-</td>
-
-</tr>
-
-<tr>
-
-<td style="text-align:center;">
-
-NL
-</td>
-
-<td style="text-align:center;">
-
-NL
-</td>
-
-<td style="text-align:center;">
-
-1973
-</td>
-
-<td style="text-align:center;">
-
-64.95
+62
 </td>
 
 </tr>
@@ -8968,7 +7701,7 @@ VLISSGN
 
 <td style="text-align:center;">
 
-41.36
+42
 </td>
 
 </tr>
@@ -8992,7 +7725,7 @@ DELFZL
 
 <td style="text-align:center;">
 
-6.01
+6
 </td>
 
 </tr>
@@ -9016,7 +7749,7 @@ DENHDR
 
 <td style="text-align:center;">
 
-1.44
+2
 </td>
 
 </tr>
@@ -9030,7 +7763,7 @@ Harlingen
 
 <td style="text-align:center;">
 
-HARLGN
+HARLNGN
 </td>
 
 <td style="text-align:center;">
@@ -9040,7 +7773,7 @@ HARLGN
 
 <td style="text-align:center;">
 
-10.20
+11
 </td>
 
 </tr>
@@ -9064,7 +7797,7 @@ HOEKVHLD
 
 <td style="text-align:center;">
 
--1.21
+-1
 </td>
 
 </tr>
@@ -9088,31 +7821,7 @@ IJMDBTHVN
 
 <td style="text-align:center;">
 
-2.15
-</td>
-
-</tr>
-
-<tr>
-
-<td style="text-align:center;">
-
-NL
-</td>
-
-<td style="text-align:center;">
-
-NL
-</td>
-
-<td style="text-align:center;">
-
-1972
-</td>
-
-<td style="text-align:center;">
-
-2.64
+3
 </td>
 
 </tr>
@@ -9136,7 +7845,7 @@ VLISSGN
 
 <td style="text-align:center;">
 
--2.78
+-2
 </td>
 
 </tr>
@@ -9160,7 +7869,7 @@ DELFZL
 
 <td style="text-align:center;">
 
-40.68
+41
 </td>
 
 </tr>
@@ -9184,7 +7893,7 @@ DENHDR
 
 <td style="text-align:center;">
 
-24.28
+25
 </td>
 
 </tr>
@@ -9198,7 +7907,7 @@ Harlingen
 
 <td style="text-align:center;">
 
-HARLGN
+HARLNGN
 </td>
 
 <td style="text-align:center;">
@@ -9208,7 +7917,7 @@ HARLGN
 
 <td style="text-align:center;">
 
-36.99
+37
 </td>
 
 </tr>
@@ -9232,7 +7941,7 @@ HOEKVHLD
 
 <td style="text-align:center;">
 
-18.25
+18
 </td>
 
 </tr>
@@ -9256,31 +7965,7 @@ IJMDBTHVN
 
 <td style="text-align:center;">
 
-22.93
-</td>
-
-</tr>
-
-<tr>
-
-<td style="text-align:center;">
-
-NL
-</td>
-
-<td style="text-align:center;">
-
-NL
-</td>
-
-<td style="text-align:center;">
-
-1971
-</td>
-
-<td style="text-align:center;">
-
-26.19
+23
 </td>
 
 </tr>
@@ -9304,7 +7989,7 @@ VLISSGN
 
 <td style="text-align:center;">
 
-14.03
+14
 </td>
 
 </tr>
@@ -9328,7 +8013,7 @@ DELFZL
 
 <td style="text-align:center;">
 
-69.29
+70
 </td>
 
 </tr>
@@ -9352,7 +8037,7 @@ DENHDR
 
 <td style="text-align:center;">
 
-61.67
+62
 </td>
 
 </tr>
@@ -9366,7 +8051,7 @@ Harlingen
 
 <td style="text-align:center;">
 
-HARLGN
+HARLNGN
 </td>
 
 <td style="text-align:center;">
@@ -9376,7 +8061,7 @@ HARLGN
 
 <td style="text-align:center;">
 
-77.91
+79
 </td>
 
 </tr>
@@ -9400,7 +8085,7 @@ HOEKVHLD
 
 <td style="text-align:center;">
 
-54.62
+55
 </td>
 
 </tr>
@@ -9424,31 +8109,7 @@ IJMDBTHVN
 
 <td style="text-align:center;">
 
-62.06
-</td>
-
-</tr>
-
-<tr>
-
-<td style="text-align:center;">
-
-NL
-</td>
-
-<td style="text-align:center;">
-
-NL
-</td>
-
-<td style="text-align:center;">
-
-1970
-</td>
-
-<td style="text-align:center;">
-
-62.29
+63
 </td>
 
 </tr>
@@ -9472,7 +8133,7 @@ VLISSGN
 
 <td style="text-align:center;">
 
-48.19
+49
 </td>
 
 </tr>
@@ -9496,7 +8157,7 @@ DELFZL
 
 <td style="text-align:center;">
 
-23.02
+24
 </td>
 
 </tr>
@@ -9520,7 +8181,7 @@ DENHDR
 
 <td style="text-align:center;">
 
-21.91
+23
 </td>
 
 </tr>
@@ -9534,7 +8195,7 @@ Harlingen
 
 <td style="text-align:center;">
 
-HARLGN
+HARLNGN
 </td>
 
 <td style="text-align:center;">
@@ -9544,7 +8205,7 @@ HARLGN
 
 <td style="text-align:center;">
 
-26.83
+28
 </td>
 
 </tr>
@@ -9568,7 +8229,7 @@ HOEKVHLD
 
 <td style="text-align:center;">
 
-24.51
+26
 </td>
 
 </tr>
@@ -9592,31 +8253,7 @@ IJMDBTHVN
 
 <td style="text-align:center;">
 
-25.63
-</td>
-
-</tr>
-
-<tr>
-
-<td style="text-align:center;">
-
-NL
-</td>
-
-<td style="text-align:center;">
-
-NL
-</td>
-
-<td style="text-align:center;">
-
-1969
-</td>
-
-<td style="text-align:center;">
-
-24.28
+27
 </td>
 
 </tr>
@@ -9640,7 +8277,7 @@ VLISSGN
 
 <td style="text-align:center;">
 
-23.77
+25
 </td>
 
 </tr>
@@ -9664,7 +8301,7 @@ DELFZL
 
 <td style="text-align:center;">
 
-42.26
+41
 </td>
 
 </tr>
@@ -9688,7 +8325,7 @@ DENHDR
 
 <td style="text-align:center;">
 
-37.12
+36
 </td>
 
 </tr>
@@ -9702,7 +8339,7 @@ Harlingen
 
 <td style="text-align:center;">
 
-HARLGN
+HARLNGN
 </td>
 
 <td style="text-align:center;">
@@ -9712,7 +8349,7 @@ HARLGN
 
 <td style="text-align:center;">
 
-47.35
+46
 </td>
 
 </tr>
@@ -9736,7 +8373,7 @@ HOEKVHLD
 
 <td style="text-align:center;">
 
-33.94
+33
 </td>
 
 </tr>
@@ -9760,31 +8397,7 @@ IJMDBTHVN
 
 <td style="text-align:center;">
 
-38.07
-</td>
-
-</tr>
-
-<tr>
-
-<td style="text-align:center;">
-
-NL
-</td>
-
-<td style="text-align:center;">
-
-NL
-</td>
-
-<td style="text-align:center;">
-
-1968
-</td>
-
-<td style="text-align:center;">
-
-38.23
+37
 </td>
 
 </tr>
@@ -9808,7 +8421,7 @@ VLISSGN
 
 <td style="text-align:center;">
 
-30.64
+30
 </td>
 
 </tr>
@@ -9832,7 +8445,7 @@ DELFZL
 
 <td style="text-align:center;">
 
-113.32
+113
 </td>
 
 </tr>
@@ -9856,7 +8469,7 @@ DENHDR
 
 <td style="text-align:center;">
 
-98.26
+98
 </td>
 
 </tr>
@@ -9870,7 +8483,7 @@ Harlingen
 
 <td style="text-align:center;">
 
-HARLGN
+HARLNGN
 </td>
 
 <td style="text-align:center;">
@@ -9880,7 +8493,7 @@ HARLGN
 
 <td style="text-align:center;">
 
-127.65
+127
 </td>
 
 </tr>
@@ -9904,7 +8517,7 @@ HOEKVHLD
 
 <td style="text-align:center;">
 
-74.16
+74
 </td>
 
 </tr>
@@ -9928,31 +8541,7 @@ IJMDBTHVN
 
 <td style="text-align:center;">
 
-91.35
-</td>
-
-</tr>
-
-<tr>
-
-<td style="text-align:center;">
-
-NL
-</td>
-
-<td style="text-align:center;">
-
-NL
-</td>
-
-<td style="text-align:center;">
-
-1967
-</td>
-
-<td style="text-align:center;">
-
-93.86
+91
 </td>
 
 </tr>
@@ -9976,7 +8565,7 @@ VLISSGN
 
 <td style="text-align:center;">
 
-58.43
+58
 </td>
 
 </tr>
@@ -10000,7 +8589,7 @@ DELFZL
 
 <td style="text-align:center;">
 
-63.37
+63
 </td>
 
 </tr>
@@ -10024,7 +8613,7 @@ DENHDR
 
 <td style="text-align:center;">
 
-66.18
+66
 </td>
 
 </tr>
@@ -10038,7 +8627,7 @@ Harlingen
 
 <td style="text-align:center;">
 
-HARLGN
+HARLNGN
 </td>
 
 <td style="text-align:center;">
@@ -10048,7 +8637,7 @@ HARLGN
 
 <td style="text-align:center;">
 
-78.65
+79
 </td>
 
 </tr>
@@ -10072,7 +8661,7 @@ HOEKVHLD
 
 <td style="text-align:center;">
 
-59.32
+60
 </td>
 
 </tr>
@@ -10096,31 +8685,7 @@ IJMDBTHVN
 
 <td style="text-align:center;">
 
-67.01
-</td>
-
-</tr>
-
-<tr>
-
-<td style="text-align:center;">
-
-NL
-</td>
-
-<td style="text-align:center;">
-
-NL
-</td>
-
-<td style="text-align:center;">
-
-1966
-</td>
-
-<td style="text-align:center;">
-
-64.54
+67
 </td>
 
 </tr>
@@ -10144,7 +8709,7 @@ VLISSGN
 
 <td style="text-align:center;">
 
-52.69
+53
 </td>
 
 </tr>
@@ -10168,7 +8733,7 @@ DELFZL
 
 <td style="text-align:center;">
 
-79.93
+80
 </td>
 
 </tr>
@@ -10192,7 +8757,7 @@ DENHDR
 
 <td style="text-align:center;">
 
-74.84
+74
 </td>
 
 </tr>
@@ -10206,7 +8771,7 @@ Harlingen
 
 <td style="text-align:center;">
 
-HARLGN
+HARLNGN
 </td>
 
 <td style="text-align:center;">
@@ -10216,7 +8781,7 @@ HARLGN
 
 <td style="text-align:center;">
 
-91.92
+91
 </td>
 
 </tr>
@@ -10240,7 +8805,7 @@ HOEKVHLD
 
 <td style="text-align:center;">
 
-64.84
+64
 </td>
 
 </tr>
@@ -10264,31 +8829,7 @@ IJMDBTHVN
 
 <td style="text-align:center;">
 
-73.91
-</td>
-
-</tr>
-
-<tr>
-
-<td style="text-align:center;">
-
-NL
-</td>
-
-<td style="text-align:center;">
-
-NL
-</td>
-
-<td style="text-align:center;">
-
-1965
-</td>
-
-<td style="text-align:center;">
-
-73.77
+74
 </td>
 
 </tr>
@@ -10312,7 +8853,7 @@ VLISSGN
 
 <td style="text-align:center;">
 
-57.18
+57
 </td>
 
 </tr>
@@ -10336,7 +8877,7 @@ DELFZL
 
 <td style="text-align:center;">
 
-30.46
+31
 </td>
 
 </tr>
@@ -10360,7 +8901,7 @@ DENHDR
 
 <td style="text-align:center;">
 
-14.15
+15
 </td>
 
 </tr>
@@ -10374,7 +8915,7 @@ Harlingen
 
 <td style="text-align:center;">
 
-HARLGN
+HARLNGN
 </td>
 
 <td style="text-align:center;">
@@ -10384,7 +8925,7 @@ HARLGN
 
 <td style="text-align:center;">
 
-28.41
+29
 </td>
 
 </tr>
@@ -10408,7 +8949,7 @@ HOEKVHLD
 
 <td style="text-align:center;">
 
-7.30
+8
 </td>
 
 </tr>
@@ -10432,31 +8973,7 @@ IJMDBTHVN
 
 <td style="text-align:center;">
 
-12.39
-</td>
-
-</tr>
-
-<tr>
-
-<td style="text-align:center;">
-
-NL
-</td>
-
-<td style="text-align:center;">
-
-NL
-</td>
-
-<td style="text-align:center;">
-
-1964
-</td>
-
-<td style="text-align:center;">
-
-15.92
+13
 </td>
 
 </tr>
@@ -10480,7 +8997,7 @@ VLISSGN
 
 <td style="text-align:center;">
 
-2.82
+3
 </td>
 
 </tr>
@@ -10504,7 +9021,7 @@ DELFZL
 
 <td style="text-align:center;">
 
-25.26
+25
 </td>
 
 </tr>
@@ -10528,7 +9045,7 @@ DENHDR
 
 <td style="text-align:center;">
 
-18.06
+18
 </td>
 
 </tr>
@@ -10542,7 +9059,7 @@ Harlingen
 
 <td style="text-align:center;">
 
-HARLGN
+HARLNGN
 </td>
 
 <td style="text-align:center;">
@@ -10552,7 +9069,7 @@ HARLGN
 
 <td style="text-align:center;">
 
-29.42
+29
 </td>
 
 </tr>
@@ -10576,7 +9093,7 @@ HOEKVHLD
 
 <td style="text-align:center;">
 
-12.55
+13
 </td>
 
 </tr>
@@ -10600,31 +9117,7 @@ IJMDBTHVN
 
 <td style="text-align:center;">
 
-17.46
-</td>
-
-</tr>
-
-<tr>
-
-<td style="text-align:center;">
-
-NL
-</td>
-
-<td style="text-align:center;">
-
-NL
-</td>
-
-<td style="text-align:center;">
-
-1963
-</td>
-
-<td style="text-align:center;">
-
-18.61
+18
 </td>
 
 </tr>
@@ -10648,7 +9141,7 @@ VLISSGN
 
 <td style="text-align:center;">
 
-8.94
+9
 </td>
 
 </tr>
@@ -10672,7 +9165,7 @@ DELFZL
 
 <td style="text-align:center;">
 
-73.75
+74
 </td>
 
 </tr>
@@ -10696,7 +9189,7 @@ DENHDR
 
 <td style="text-align:center;">
 
-55.04
+55
 </td>
 
 </tr>
@@ -10710,7 +9203,7 @@ Harlingen
 
 <td style="text-align:center;">
 
-HARLGN
+HARLNGN
 </td>
 
 <td style="text-align:center;">
@@ -10720,7 +9213,7 @@ HARLGN
 
 <td style="text-align:center;">
 
-76.38
+76
 </td>
 
 </tr>
@@ -10744,7 +9237,7 @@ HOEKVHLD
 
 <td style="text-align:center;">
 
-41.78
+42
 </td>
 
 </tr>
@@ -10768,31 +9261,7 @@ IJMDBTHVN
 
 <td style="text-align:center;">
 
-51.61
-</td>
-
-</tr>
-
-<tr>
-
-<td style="text-align:center;">
-
-NL
-</td>
-
-<td style="text-align:center;">
-
-NL
-</td>
-
-<td style="text-align:center;">
-
-1962
-</td>
-
-<td style="text-align:center;">
-
-55.22
+51
 </td>
 
 </tr>
@@ -10816,7 +9285,7 @@ VLISSGN
 
 <td style="text-align:center;">
 
-32.74
+33
 </td>
 
 </tr>
@@ -10840,7 +9309,7 @@ DELFZL
 
 <td style="text-align:center;">
 
-80.27
+80
 </td>
 
 </tr>
@@ -10864,7 +9333,7 @@ DENHDR
 
 <td style="text-align:center;">
 
-71.59
+71
 </td>
 
 </tr>
@@ -10878,7 +9347,7 @@ Harlingen
 
 <td style="text-align:center;">
 
-HARLGN
+HARLNGN
 </td>
 
 <td style="text-align:center;">
@@ -10888,7 +9357,7 @@ HARLGN
 
 <td style="text-align:center;">
 
-90.72
+91
 </td>
 
 </tr>
@@ -10912,7 +9381,7 @@ HOEKVHLD
 
 <td style="text-align:center;">
 
-57.67
+57
 </td>
 
 </tr>
@@ -10936,31 +9405,7 @@ IJMDBTHVN
 
 <td style="text-align:center;">
 
-68.12
-</td>
-
-</tr>
-
-<tr>
-
-<td style="text-align:center;">
-
-NL
-</td>
-
-<td style="text-align:center;">
-
-NL
-</td>
-
-<td style="text-align:center;">
-
-1961
-</td>
-
-<td style="text-align:center;">
-
-69.50
+68
 </td>
 
 </tr>
@@ -10984,7 +9429,7 @@ VLISSGN
 
 <td style="text-align:center;">
 
-48.65
+48
 </td>
 
 </tr>
@@ -11008,7 +9453,7 @@ DELFZL
 
 <td style="text-align:center;">
 
-32.63
+33
 </td>
 
 </tr>
@@ -11032,7 +9477,7 @@ DENHDR
 
 <td style="text-align:center;">
 
-41.64
+42
 </td>
 
 </tr>
@@ -11046,7 +9491,7 @@ Harlingen
 
 <td style="text-align:center;">
 
-HARLGN
+HARLNGN
 </td>
 
 <td style="text-align:center;">
@@ -11056,7 +9501,7 @@ HARLGN
 
 <td style="text-align:center;">
 
-48.48
+49
 </td>
 
 </tr>
@@ -11080,7 +9525,7 @@ HOEKVHLD
 
 <td style="text-align:center;">
 
-39.64
+39
 </td>
 
 </tr>
@@ -11104,31 +9549,7 @@ IJMDBTHVN
 
 <td style="text-align:center;">
 
-44.13
-</td>
-
-</tr>
-
-<tr>
-
-<td style="text-align:center;">
-
-NL
-</td>
-
-<td style="text-align:center;">
-
-NL
-</td>
-
-<td style="text-align:center;">
-
-1960
-</td>
-
-<td style="text-align:center;">
-
-40.40
+44
 </td>
 
 </tr>
@@ -11152,7 +9573,7 @@ VLISSGN
 
 <td style="text-align:center;">
 
-35.87
+36
 </td>
 
 </tr>
@@ -11176,7 +9597,7 @@ DELFZL
 
 <td style="text-align:center;">
 
-13.41
+12
 </td>
 
 </tr>
@@ -11200,7 +9621,7 @@ DENHDR
 
 <td style="text-align:center;">
 
-4.01
+3
 </td>
 
 </tr>
@@ -11214,7 +9635,7 @@ Harlingen
 
 <td style="text-align:center;">
 
-HARLGN
+HARLNGN
 </td>
 
 <td style="text-align:center;">
@@ -11224,7 +9645,7 @@ HARLGN
 
 <td style="text-align:center;">
 
-13.80
+12
 </td>
 
 </tr>
@@ -11248,7 +9669,7 @@ HOEKVHLD
 
 <td style="text-align:center;">
 
--0.29
+-2
 </td>
 
 </tr>
@@ -11272,31 +9693,7 @@ IJMDBTHVN
 
 <td style="text-align:center;">
 
-3.47
-</td>
-
-</tr>
-
-<tr>
-
-<td style="text-align:center;">
-
-NL
-</td>
-
-<td style="text-align:center;">
-
-NL
-</td>
-
-<td style="text-align:center;">
-
-1959
-</td>
-
-<td style="text-align:center;">
-
-5.31
+2
 </td>
 
 </tr>
@@ -11320,7 +9717,7 @@ VLISSGN
 
 <td style="text-align:center;">
 
--2.56
+-4
 </td>
 
 </tr>
@@ -11344,7 +9741,7 @@ DELFZL
 
 <td style="text-align:center;">
 
-53.61
+54
 </td>
 
 </tr>
@@ -11368,7 +9765,7 @@ DENHDR
 
 <td style="text-align:center;">
 
-50.64
+51
 </td>
 
 </tr>
@@ -11382,7 +9779,7 @@ Harlingen
 
 <td style="text-align:center;">
 
-HARLGN
+HARLNGN
 </td>
 
 <td style="text-align:center;">
@@ -11392,7 +9789,7 @@ HARLGN
 
 <td style="text-align:center;">
 
-62.08
+63
 </td>
 
 </tr>
@@ -11416,7 +9813,7 @@ HOEKVHLD
 
 <td style="text-align:center;">
 
-45.80
+46
 </td>
 
 </tr>
@@ -11440,31 +9837,7 @@ IJMDBTHVN
 
 <td style="text-align:center;">
 
-51.22
-</td>
-
-</tr>
-
-<tr>
-
-<td style="text-align:center;">
-
-NL
-</td>
-
-<td style="text-align:center;">
-
-NL
-</td>
-
-<td style="text-align:center;">
-
-1958
-</td>
-
-<td style="text-align:center;">
-
-50.81
+52
 </td>
 
 </tr>
@@ -11488,7 +9861,7 @@ VLISSGN
 
 <td style="text-align:center;">
 
-41.48
+42
 </td>
 
 </tr>
@@ -11512,7 +9885,7 @@ DELFZL
 
 <td style="text-align:center;">
 
-59.39
+60
 </td>
 
 </tr>
@@ -11536,7 +9909,7 @@ DENHDR
 
 <td style="text-align:center;">
 
-47.16
+48
 </td>
 
 </tr>
@@ -11550,7 +9923,7 @@ Harlingen
 
 <td style="text-align:center;">
 
-HARLGN
+HARLNGN
 </td>
 
 <td style="text-align:center;">
@@ -11560,7 +9933,7 @@ HARLGN
 
 <td style="text-align:center;">
 
-64.33
+65
 </td>
 
 </tr>
@@ -11584,7 +9957,7 @@ HOEKVHLD
 
 <td style="text-align:center;">
 
-36.32
+37
 </td>
 
 </tr>
@@ -11608,31 +9981,7 @@ IJMDBTHVN
 
 <td style="text-align:center;">
 
-44.22
-</td>
-
-</tr>
-
-<tr>
-
-<td style="text-align:center;">
-
-NL
-</td>
-
-<td style="text-align:center;">
-
-NL
-</td>
-
-<td style="text-align:center;">
-
-1957
-</td>
-
-<td style="text-align:center;">
-
-46.77
+45
 </td>
 
 </tr>
@@ -11656,7 +10005,7 @@ VLISSGN
 
 <td style="text-align:center;">
 
-29.22
+30
 </td>
 
 </tr>
@@ -11680,7 +10029,7 @@ DELFZL
 
 <td style="text-align:center;">
 
-47.90
+47
 </td>
 
 </tr>
@@ -11704,7 +10053,7 @@ DENHDR
 
 <td style="text-align:center;">
 
-31.06
+30
 </td>
 
 </tr>
@@ -11718,7 +10067,7 @@ Harlingen
 
 <td style="text-align:center;">
 
-HARLGN
+HARLNGN
 </td>
 
 <td style="text-align:center;">
@@ -11728,7 +10077,7 @@ HARLGN
 
 <td style="text-align:center;">
 
-46.48
+45
 </td>
 
 </tr>
@@ -11752,7 +10101,7 @@ HOEKVHLD
 
 <td style="text-align:center;">
 
-24.67
+24
 </td>
 
 </tr>
@@ -11776,31 +10125,7 @@ IJMDBTHVN
 
 <td style="text-align:center;">
 
-30.23
-</td>
-
-</tr>
-
-<tr>
-
-<td style="text-align:center;">
-
-NL
-</td>
-
-<td style="text-align:center;">
-
-NL
-</td>
-
-<td style="text-align:center;">
-
-1956
-</td>
-
-<td style="text-align:center;">
-
-33.43
+29
 </td>
 
 </tr>
@@ -11824,7 +10149,7 @@ VLISSGN
 
 <td style="text-align:center;">
 
-20.24
+19
 </td>
 
 </tr>
@@ -11848,7 +10173,7 @@ DELFZL
 
 <td style="text-align:center;">
 
-69.27
+69
 </td>
 
 </tr>
@@ -11872,7 +10197,7 @@ DENHDR
 
 <td style="text-align:center;">
 
-52.04
+52
 </td>
 
 </tr>
@@ -11886,7 +10211,7 @@ Harlingen
 
 <td style="text-align:center;">
 
-HARLGN
+HARLNGN
 </td>
 
 <td style="text-align:center;">
@@ -11896,7 +10221,7 @@ HARLGN
 
 <td style="text-align:center;">
 
-64.44
+64
 </td>
 
 </tr>
@@ -11920,7 +10245,7 @@ HOEKVHLD
 
 <td style="text-align:center;">
 
-47.26
+47
 </td>
 
 </tr>
@@ -11944,31 +10269,7 @@ IJMDBTHVN
 
 <td style="text-align:center;">
 
-51.38
-</td>
-
-</tr>
-
-<tr>
-
-<td style="text-align:center;">
-
-NL
-</td>
-
-<td style="text-align:center;">
-
-NL
-</td>
-
-<td style="text-align:center;">
-
-1955
-</td>
-
-<td style="text-align:center;">
-
-54.51
+51
 </td>
 
 </tr>
@@ -11992,7 +10293,7 @@ VLISSGN
 
 <td style="text-align:center;">
 
-42.68
+43
 </td>
 
 </tr>
@@ -12016,7 +10317,7 @@ DELFZL
 
 <td style="text-align:center;">
 
-81.89
+80
 </td>
 
 </tr>
@@ -12040,7 +10341,7 @@ DENHDR
 
 <td style="text-align:center;">
 
-73.30
+72
 </td>
 
 </tr>
@@ -12054,7 +10355,7 @@ Harlingen
 
 <td style="text-align:center;">
 
-HARLGN
+HARLNGN
 </td>
 
 <td style="text-align:center;">
@@ -12064,7 +10365,7 @@ HARLGN
 
 <td style="text-align:center;">
 
-97.49
+96
 </td>
 
 </tr>
@@ -12088,7 +10389,7 @@ HOEKVHLD
 
 <td style="text-align:center;">
 
-56.56
+55
 </td>
 
 </tr>
@@ -12112,31 +10413,7 @@ IJMDBTHVN
 
 <td style="text-align:center;">
 
-69.32
-</td>
-
-</tr>
-
-<tr>
-
-<td style="text-align:center;">
-
-NL
-</td>
-
-<td style="text-align:center;">
-
-NL
-</td>
-
-<td style="text-align:center;">
-
-1954
-</td>
-
-<td style="text-align:center;">
-
-70.73
+68
 </td>
 
 </tr>
@@ -12160,7 +10437,7 @@ VLISSGN
 
 <td style="text-align:center;">
 
-45.85
+45
 </td>
 
 </tr>
@@ -12184,7 +10461,7 @@ DELFZL
 
 <td style="text-align:center;">
 
-34.50
+35
 </td>
 
 </tr>
@@ -12208,7 +10485,7 @@ DENHDR
 
 <td style="text-align:center;">
 
-18.98
+20
 </td>
 
 </tr>
@@ -12222,7 +10499,7 @@ Harlingen
 
 <td style="text-align:center;">
 
-HARLGN
+HARLNGN
 </td>
 
 <td style="text-align:center;">
@@ -12232,7 +10509,7 @@ HARLGN
 
 <td style="text-align:center;">
 
-36.65
+37
 </td>
 
 </tr>
@@ -12256,7 +10533,7 @@ HOEKVHLD
 
 <td style="text-align:center;">
 
-6.98
+8
 </td>
 
 </tr>
@@ -12280,31 +10557,7 @@ IJMDBTHVN
 
 <td style="text-align:center;">
 
-15.03
-</td>
-
-</tr>
-
-<tr>
-
-<td style="text-align:center;">
-
-NL
-</td>
-
-<td style="text-align:center;">
-
-NL
-</td>
-
-<td style="text-align:center;">
-
-1953
-</td>
-
-<td style="text-align:center;">
-
-18.73
+16
 </td>
 
 </tr>
@@ -12328,7 +10581,7 @@ VLISSGN
 
 <td style="text-align:center;">
 
-0.25
+1
 </td>
 
 </tr>
@@ -12352,7 +10605,7 @@ DELFZL
 
 <td style="text-align:center;">
 
-68.15
+69
 </td>
 
 </tr>
@@ -12376,7 +10629,7 @@ DENHDR
 
 <td style="text-align:center;">
 
-58.14
+58
 </td>
 
 </tr>
@@ -12390,7 +10643,7 @@ Harlingen
 
 <td style="text-align:center;">
 
-HARLGN
+HARLNGN
 </td>
 
 <td style="text-align:center;">
@@ -12400,7 +10653,7 @@ HARLGN
 
 <td style="text-align:center;">
 
-73.24
+74
 </td>
 
 </tr>
@@ -12424,7 +10677,7 @@ HOEKVHLD
 
 <td style="text-align:center;">
 
-50.11
+50
 </td>
 
 </tr>
@@ -12448,31 +10701,7 @@ IJMDBTHVN
 
 <td style="text-align:center;">
 
-56.93
-</td>
-
-</tr>
-
-<tr>
-
-<td style="text-align:center;">
-
-NL
-</td>
-
-<td style="text-align:center;">
-
-NL
-</td>
-
-<td style="text-align:center;">
-
-1952
-</td>
-
-<td style="text-align:center;">
-
-58.58
+57
 </td>
 
 </tr>
@@ -12496,7 +10725,7 @@ VLISSGN
 
 <td style="text-align:center;">
 
-44.92
+45
 </td>
 
 </tr>
@@ -12520,7 +10749,7 @@ DELFZL
 
 <td style="text-align:center;">
 
-55.19
+55
 </td>
 
 </tr>
@@ -12544,7 +10773,7 @@ DENHDR
 
 <td style="text-align:center;">
 
-54.02
+54
 </td>
 
 </tr>
@@ -12558,7 +10787,7 @@ Harlingen
 
 <td style="text-align:center;">
 
-HARLGN
+HARLNGN
 </td>
 
 <td style="text-align:center;">
@@ -12568,7 +10797,7 @@ HARLGN
 
 <td style="text-align:center;">
 
-70.77
+71
 </td>
 
 </tr>
@@ -12592,7 +10821,7 @@ HOEKVHLD
 
 <td style="text-align:center;">
 
-39.96
+40
 </td>
 
 </tr>
@@ -12616,31 +10845,7 @@ IJMDBTHVN
 
 <td style="text-align:center;">
 
-50.15
-</td>
-
-</tr>
-
-<tr>
-
-<td style="text-align:center;">
-
-NL
-</td>
-
-<td style="text-align:center;">
-
-NL
-</td>
-
-<td style="text-align:center;">
-
-1951
-</td>
-
-<td style="text-align:center;">
-
-50.43
+50
 </td>
 
 </tr>
@@ -12664,7 +10869,7 @@ VLISSGN
 
 <td style="text-align:center;">
 
-32.48
+32
 </td>
 
 </tr>
@@ -12688,7 +10893,7 @@ DELFZL
 
 <td style="text-align:center;">
 
-75.44
+76
 </td>
 
 </tr>
@@ -12712,7 +10917,7 @@ DENHDR
 
 <td style="text-align:center;">
 
-70.35
+72
 </td>
 
 </tr>
@@ -12726,7 +10931,7 @@ Harlingen
 
 <td style="text-align:center;">
 
-HARLGN
+HARLNGN
 </td>
 
 <td style="text-align:center;">
@@ -12736,7 +10941,7 @@ HARLGN
 
 <td style="text-align:center;">
 
-91.74
+93
 </td>
 
 </tr>
@@ -12760,7 +10965,7 @@ HOEKVHLD
 
 <td style="text-align:center;">
 
-53.65
+55
 </td>
 
 </tr>
@@ -12784,31 +10989,7 @@ IJMDBTHVN
 
 <td style="text-align:center;">
 
-66.13
-</td>
-
-</tr>
-
-<tr>
-
-<td style="text-align:center;">
-
-NL
-</td>
-
-<td style="text-align:center;">
-
-NL
-</td>
-
-<td style="text-align:center;">
-
-1950
-</td>
-
-<td style="text-align:center;">
-
-66.83
+67
 </td>
 
 </tr>
@@ -12832,7 +11013,7 @@ VLISSGN
 
 <td style="text-align:center;">
 
-43.65
+45
 </td>
 
 </tr>
@@ -12847,6 +11028,32 @@ For validation of GTSM wind surge, and perhaps a first explanation of
 its variation, GTSM surge is compared to measured wind along the Dutch
 coast, and a commonly used reanalysis of wind selection for the Dutch
 coast.
+
+## Check if there is a trend in surge_mm from GTSM
+
+Using a linear model, no trend could be detected in surge, for any of
+the stations.
+
+``` r
+library(dplyr)
+library(broom)
+
+gtsm %>%
+  group_by(name) %>%
+  do(tidy(lm(surge_mm ~ year, data = .))) %>%
+  filter(term == "year")
+```
+
+    FALSE # A tibble: 6 × 6
+    FALSE # Groups:   name [6]
+    FALSE   name             term  estimate std.error statistic p.value
+    FALSE   <chr>            <chr>    <dbl>     <dbl>     <dbl>   <dbl>
+    FALSE 1 Delfzijl         year   0.0662     0.139     0.476    0.636
+    FALSE 2 Den Helder       year   0.00960    0.132     0.0725   0.942
+    FALSE 3 Harlingen        year   0.0548     0.159     0.345    0.731
+    FALSE 4 Hoek van Holland year  -0.0579     0.110    -0.528    0.599
+    FALSE 5 IJmuiden         year  -0.0217     0.125    -0.173    0.863
+    FALSE 6 Vlissingen       year  -0.0868     0.0960   -0.905    0.369
 
 ## measured wind at De Kooy
 
@@ -13030,7 +11237,7 @@ gtsm %>%
   geom_path(aes(year, value, color = factor), size = 1)
 ```
 
-![](compare_gtsm_wind_files/figure-gfm/unnamed-chunk-1-1.png)<!-- -->
+![](compare_gtsm_wind_files/figure-gfm/unnamed-chunk-2-1.png)<!-- -->
 
 ### Compare GTSM with ERA5 reanalysis wind at Den Helder
 
@@ -13068,7 +11275,7 @@ gtsm %>%
   geom_path(aes(year, value, color = factor), size = 1)
 ```
 
-![](compare_gtsm_wind_files/figure-gfm/unnamed-chunk-2-1.png)<!-- -->
+![](compare_gtsm_wind_files/figure-gfm/unnamed-chunk-3-1.png)<!-- -->
 
 # Literatuur
 

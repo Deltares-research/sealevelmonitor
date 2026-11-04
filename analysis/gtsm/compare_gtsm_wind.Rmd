@@ -12,6 +12,9 @@ always_allow_html: true
 
 # Compare GTSM with wind measurements and reanalyses
 
+This notebook contains some basic checks of the GTSM surge data, and comparisons with ERA5 reanalysis, and measured wind at Den Helder. It is a "sanity check" for use of the GTSM surge data in the Sea Level Monitor. 
+
+
 ```{r setupWind, include = FALSE}
 knitr::opts_chunk$set(
   echo = TRUE,
@@ -40,10 +43,10 @@ A first glance at the GTSM wind surge results is shown below.
 
 gtsm <- read_yearly_gtsm(filename = "../../data/deltares/gtsm/gtsm_surge_annual_mean_main_stations.csv") |>
   mutate(
-    year = year(ymd(t)),
+    year = t,
     surge_mm = surge *1000
     ) %>% 
-  select(-t, -surge)
+  dplyr::select(-t, -surge)
 
 kableExtra::kable(align = "c",
     gtsm %>% arrange(-year),
@@ -56,6 +59,21 @@ kableExtra::kable(align = "c",
 ```
 
 For validation of GTSM wind surge, and perhaps a first explanation of its variation, GTSM surge is compared to measured wind along the Dutch coast, and a commonly used reanalysis of wind selection for the Dutch coast. 
+
+## Check if there is a trend in surge_mm from GTSM
+
+Using a linear model, no trend could be detected in surge, for any of the stations. 
+
+```{r}
+library(dplyr)
+library(broom)
+
+gtsm %>%
+  group_by(name) %>%
+  do(tidy(lm(surge_mm ~ year, data = .))) %>%
+  filter(term == "year")
+```
+
 
 ## measured wind at De Kooy
 
