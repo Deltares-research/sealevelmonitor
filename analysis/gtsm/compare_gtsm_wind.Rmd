@@ -49,7 +49,7 @@ gtsm <- read_yearly_gtsm(filename = "../../data/deltares/gtsm/gtsm_surge_annual_
   dplyr::select(-t, -surge)
 
 kableExtra::kable(align = "c",
-    gtsm %>% arrange(-year),
+    gtsm %>% head(12) %>% arrange(-year),
     caption = "GTSM wind surge per station and year.",
     digits = 2
     ) %>%
@@ -58,7 +58,6 @@ kableExtra::kable(align = "c",
 
 ```
 
-For validation of GTSM wind surge, and perhaps a first explanation of its variation, GTSM surge is compared to measured wind along the Dutch coast, and a commonly used reanalysis of wind selection for the Dutch coast. 
 
 ## Check if there is a trend in surge_mm from GTSM
 
@@ -75,7 +74,12 @@ gtsm %>%
 ```
 
 
-## measured wind at De Kooy
+## Check by comparing to measured wind and ERA5 reanalysis
+
+For validation of GTSM wind surge, and perhaps a first explanation of its variation, GTSM surge is compared to measured wind along the Dutch coast, and a commonly used reanalysis of wind selection for the Dutch coast. 
+
+
+### measured wind at De Kooy
 
 KNMI daily average wind observations were downloaded via https://www.knmi.nl/nederland-nu/klimatologie/daggegevens.  . Data for station "De Kooy" ([station nr 235](https://cdn.knmi.nl/knmi/map/page/klimatologie/gegevens/daggegevens/etmgeg_235.zip)) were selected. This station is close by the tidal station "Den Helder". Wind data, originally as wind direction and wind speed, were decomposed in its two perpendicular components ***u*** and ***v***. 
 
@@ -125,7 +129,7 @@ kooy = kooy_raw %>%
 
 
 
-## Windrose
+### Windrose
 
 Windroses for the last four years show that there is considerable variation in average wind speed, and direction distribution.
 
