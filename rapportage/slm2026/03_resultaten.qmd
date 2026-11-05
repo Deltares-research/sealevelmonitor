@@ -19,7 +19,7 @@ Gedurende de periode van de metingen (1890 - heden) heeft de relatieve zeespiege
 
 :::{#fig-zeespiegel-nederland-metingen}
 
-![](https://github.com/Deltares-research/sealevelmonitor/raw/main/analysis/sealevelmonitor/10_sealevelanalysis_files/figure-gfm/zeespiegelmetingenGemiddeld-1.png){width=80%}
+![](images/zeespiegelmetingenGemiddelde.png){width=80%}
 
 Het gemiddelde van de gemeten zeespiegel voor de hoofdstations langs de Nederlandse kust. Het weglaten van het station Delfzijl heeft vooral invloed op de absolute hoogte van de zeespiegel, en minder op de trend.
 
@@ -27,23 +27,23 @@ Het gemiddelde van de gemeten zeespiegel voor de hoofdstations langs de Nederlan
 
 ## De versnellende zeespiegel
 
-De zeespiegel stijgt niet alleen, er is nu voldoende bewijs dat de gemiddelde snelheid van stijging in de afgelopen decennia groter is geweest dan in de lange periode daarvoor. Als indicatief jaar voor het breekpunt wordt hier 1993 gehanteerd (@sec-voorkeursmodel). De boodschap is: de huidige trend is duidelijk hoger dan in de eeuw ervoor gemiddeld (zie @sec-huidige).
+De zeespiegel stijgt niet alleen, er is nu voldoende bewijs dat de gemiddelde snelheid van stijging in de afgelopen decennia groter is geweest dan in de lange periode daarvoor. Als indicatief jaar voor het breekpunt wordt in dit rapport 1993 gehanteerd (zie verder @sec-voorkeursmodel). De boodschap is: de huidige trend is duidelijk hoger dan in de eeuw ervoor gemiddeld (zie @sec-huidige).
 
-Kijkend naar de achterliggende processen van een sneller stijgende zeespiegel is het waarschijnlijk dat dit niet op één moment in de tijd gebeurde, maar dat de versnelling gedurende een langere periode plaatsvond (en misschien nog wel plaatsvindt). Hoe dat precies gegaan is niet goed te zeggen. In @sec-budget wordt het aandeel van de verschillende processen getoond. 
+Kijkend naar de achterliggende processen van een sneller stijgende zeespiegel is het waarschijnlijk dat dit niet op één moment in de tijd gebeurde, maar dat de versnelling gedurende een langere periode plaatsvond (en waarschijnlijk nog plaatsvindt). Hoe dat precies is gegaan is niet goed te zeggen. In @sec-budget wordt het aandeel van de verschillende processen getoond. 
 
 ## Voorkeursmodel {#sec-voorkeursmodel}
 
-In @sec-modelkeuze wordt uitgelegd hoe we tot een voorkeursmodel komen om de huidige stijging van de zeespiegel zo goed mogelijk te beschrijven. De berekeningen voor deze keuze staan in een [online rekendocument](https://github.com/Deltares-research/sealevelmonitor/blob/main/analysis/sealevelmonitor/10_sealevelanalysis.md). Net als in de vorige rapportage is van de geteste modellen het gebroken lineaire model het best passende model en dit model blijkt het gemeten signaal (inclusief correctie voor windopzet en getij) significant beter te beschrijven dan een lineair model. De aanname bij dit model is dat de zeespiegel vanaf het begin van de jaren '90 sneller is gaan stijgen (@sec-versnelling-methods).
+In @sec-modelkeuze wordt uitgelegd hoe we tot een voorkeursmodel komen om de huidige stijging van de zeespiegel zo goed mogelijk te beschrijven. De berekeningen die leiden tot deze keuze staan in een [online rekendocument](https://github.com/Deltares-research/sealevelmonitor/blob/main/analysis/sealevelmonitor/10_sealevelanalysis.md). Net als in de vorige rapportage is van de geteste modellen het gebroken lineaire model het best passende model. Dit model blijkt het gemeten signaal (inclusief correctie voor windopzet en getij) significant beter te beschrijven dan een lineair model. De aanname bij dit model is dat de zeespiegel vanaf het begin van de jaren '90 (in het model hanteren we 1993) sneller is gaan stijgen (@sec-versnelling-methods).
 
 ## Huidige zeespiegelstijging {#sec-huidige}
 
-Op basis van de gegevens over alle jaren, inclusief de meest recente t/m 2025, en met gebruik van het voorkeursmodel zijn met @eq-gedetailleerd voor de gemeten waterhoogte minus de windopzetanomalie bepaald:
+Op basis van de vor windopzet gecorrigeerde gegevens over alle jaren en met gebruik van het voorkeursmodel zijn met @eq-gedetailleerd zijn bepaald:
 
 - de trend over de afgelopen jaren
 - het nodaal getij
 - het residu, dat wil zeggen het onverklaarde deel van de variatie in de metingen. 
 
-In @fig-huidige-zeespiegel is de gefitte gebroken lineaire trend (ononderbroken lijnen) te zien voor het gemiddelde van de stations. De gekleurde punten bestaan uit metingen minus windopzetanomalie, waarvan ook nog het geschatte nodaal getij is afgetrokken. Dat is de waterhoogte bij gemiddelde windopzet en een gemiddelde waarde van het nodaal getij. De zeespiegel is uitgedrukt ten opzichte van NAP2005. Omdat de NAP hoogte van de referenties (nulpalen) is aangepast in 2005, is de zeespiegelstijging uitgedrukt als een verandering ten opzichte van de fundering van de nulpalen, die veelal in de bovenkant van de Pleistocene zandlaag is (@sec-relatieve-zeespiegel).  
+In @fig-huidige-zeespiegel is de gefitte gebroken lineaire trend (ononderbroken lijnen) te zien voor het gemiddelde van de stations (minus Delfzijl). De gekleurde punten bestaan uit metingen minus windopzetanomalie, waarvan ook nog het door het model geschatte nodaal getij is afgetrokken. Dat is de waterhoogte bij gemiddelde windopzet en een gemiddelde waarde van het nodaal getij. De zeespiegel is uitgedrukt ten opzichte van NAP2005. Omdat de NAP hoogte van de referenties (nulpalen) is aangepast in 2005, is de zeespiegelstijging uitgedrukt als een verandering ten opzichte van de fundering van de nulpalen, die veelal in de bovenkant van de Pleistocene zandlaag is (@sec-metingen en @Dillingh2014).  
 
 :::{#fig-huidige-zeespiegel}
 
@@ -55,9 +55,9 @@ Gemeten zeespiegel, voor windopzet gecorrigeerde waarden, en de trend met gebrui
 
 Uit de berekende trendlijn volgen de volgende conclusies over de zeespiegelstijging aan de Nederlandse kust:
 
-- De lineaire trend tot 1993 bedraagt 1.8 +/- 0.1 mm/jaar.
-- De extra trend na 1993 bedraagt 1.4 +/- 0.3 mm/jaar.
-- Na 1993 is de totale trend verhoogd en bedraagt 3.2 +/- 0.3 mm/jaar.
+- De lineaire trend tot 1993 bedraagt 1,8 +/- 0,1 mm/jaar.
+- De extra trend na 1993 bedraagt 1,4 +/- 0,3 mm/jaar.
+- Na 1993 is de totale trend verhoogd en bedraagt 3,2 +/- 0,3 mm/jaar.
 
 Deze stijging is dus ten opzichte van de bovenkant van de Pleistocene zandlaag. 
 
@@ -67,7 +67,7 @@ In @fig-huidige-zeespiegel-componenten zijn alle componenten die bij de analyse 
 
 ![](https://github.com/Deltares-research/sealevelmonitor/raw/main/analysis/sealevelmonitor/20_sealevelmonitor_files/figure-gfm/partials-1.png){width=80%}
 
-Gemeten zeespiegel (height), trend (fitted_total) en de bijdragen van de verschillende processen in het verloop van de zeespiegel in de tijd. De onderste drie lijnen zijn getransformeerd zodat ze beter te zien zijn. In werkelijkheid zijn dit afwijkingen van de nullijn.
+Gemeten zeespiegel zonder correcties (height), trend (fitted_total) en de bijdragen van de verschillende processen in het verloop van de zeespiegel in de tijd. De onderste drie lijnen zijn getransformeerd zodat ze beter te zien zijn. In werkelijkheid zijn dit afwijkingen van de nullijn.
 
 :::
 
@@ -79,29 +79,31 @@ Opvallend was dat de gemeten zeespiegel twee jaar op rij (namelijk in 2023 en 20
 
 | jaar | zeespiegel <br> mm NAP2005 | zeespiegel - windopzetanomalie <br> mm NAP2005  | nodaal getij <br> mm |
 |-----:|-------------:| -------------:|-------------:|
-| 2025 |        112 | 135           |   8.15   |
-| 2024 |        161 | 141           |   10.9   |
-| 2023 |        152 | 126           |   12.4   |
-| 2022 |         94.6 | 101           |   12.5   |
-| 2021 |         75.8 | 92.2          |   11.2   |
-| 2020 |         96.6 | 87.2          |   8.68   |
-| 2019 |         92.0 | 84.6          |   5.14   |
-| 2018 |         26.2 | 66.6          |   1.01   |
-| 2017 |         94.2 | 75.6          |   -3.22   |
-| 2016 |         63.6 | 83.0          |   -7.10   |
+| 2025 |        112 | 135           |   8,15   |
+| 2024 |        161 | 141           |   10,9   |
+| 2023 |        152 | 126           |   12,4   |
+| 2022 |         94,6 | 101           |   12,5   |
+| 2021 |         75,8 | 92,2          |   11,2   |
+| 2020 |         96,6 | 87,2          |   8,68   |
+| 2019 |         92,0 | 84,6          |   5,14   |
+| 2018 |         26,2 | 66,6          |   1,01   |
+| 2017 |         94,2 | 75,6          |   -3,22   |
+| 2016 |         63,6 | 83,0          |   -7,10   |
 
 
 ## Windopzetcorrectie {#sec-windopzetcorrectie}
 
-De windopzet wordt berekend met het \acr{GTSM} (zie @sec-windopzet). Vergeleken met de vorige rapportage in 2022 zijn de berekeningen met het \acr{GTSM} uitgebreid met de jaren 2022-2025, maar ook voor de eerdere jaren 1950-1978. Hierdoor is er nu een ruim 70 jaar lange serie voor berekende windopzet. Voor de  periode vóór 1950 gebruiken we de gemiddelde opzet (per station) over alle beschikbare jaren.
+De windopzet wordt berekend met het \acr{GTSM} (zie @sec-windopzet). Vergeleken met de vorige rapportage in 2022 zijn de berekeningen met het \acr{GTSM} uitgebreid met de jaren 2022-2025, maar ook voor de eerdere jaren 1950-1978. Hierdoor is er nu een ruim 70 jaar lange serie voor berekende windopzet. Voor de  periode vóór 1950 gebruiken we de gemiddelde opzet (per station) over alle beschikbare jaren. 
 
-We corrigeren de zeespiegel voor windopzet alleen met de afwijking van het jaargemiddelde ten opzichte van het langjarig gemiddelde voor de periode vanaf 1950. We noemen dit de windopzetanomalie (@fig-opzetanomalie). De correctie zorgt dus alleen voor een kleinere variatie, maar heeft geen invloed op de gemiddelde zeespiegelstand over de jaren. Over de laatste jaren is er veel variatie in gemiddelde windopzetanomalie, met 2023 en 2024 als uitschieters naar boven, en weer een vrij lage windopzet in het laatste jaar, 2025.
+De windopzet zelf vertoont over de beschikbare jaren overigens geen trend zoals te zien is in dit  [rekendocument](https://github.com/Deltares-research/sealevelmonitor/blob/reporting26_final/analysis/gtsm/compare_gtsm_wind.md#check-if-there-is-a-trend-in-surge_mm-from-gtsm). 
+
+We corrigeren de zeespiegel voor windopzet als afwijking van het jaargemiddelde ten opzichte van het langjarig gemiddelde (@sec-windopzet). We noemen dit de windopzetanomalie (@fig-opzetanomalie). De correctie zorgt dus alleen voor een kleinere variatie, maar heeft geen invloed op de gemiddelde zeespiegelstand over de jaren. Voor de periode vóór 1950 is er geen berekende windopzet, waardoor de windopzetanomalie nul is. Over de laatste jaren is er veel variatie in gemiddelde windopzetanomalie, met 2023 en 2024 als uitschieters naar boven, en weer een vrij lage windopzet in het laatste jaar, 2025.
 
 Waar de absolute opzet variatie vertoont langs de Nederlandse kust (@fig-surge-all-stations), vertoont de opzetanomalie maar weinig variatie tussen de stations. Harlingen en in mindere mate Den Helder en Delfzijl vertonen de grootste variatie. 
 
 :::{#fig-opzetanomalie}
 
-![](https://github.com/Deltares-research/sealevelmonitor/raw/develop_reporting26_willem/analysis/sealevelmonitor/10_sealevelanalysis_files/figure-gfm/gtsm-surge-anomalie-1.png){width=80%}
+![](images/gtsm-surge-anomalie.png){width=80%}
 
 Windopzetanomalie langs de Nederlandse kust uitgedrukt als afwijking van het langjarige gemiddelde. De onderliggende berekeningen hiervoor zijn gedaan met GTSM.
 
@@ -114,7 +116,7 @@ Het nodaal getij wordt samen met de trend (en het residu) berekend uit de waterh
 
 ## Residu {#sec-residu-variatie}
 
-Het residu in @fig-huidige-zeespiegel-componenten is de variatie die overblijft wanneer de windopzetanomalie, het nodaal getij en de trendlijn zijn afgetrokken van de gemeten waterhoogtes. Het is te zien dat de variatie van het residu iets kleiner is over de periode waar jaarlijkse windopzet beschikbaar is (vanaf 1950). Dit veroorzaakt een kleine scheefheid in de residuverdeling (zie deze passage in het online [rekendocument](https://github.com/Deltares-research/sealevelmonitor/blob/main/analysis/sealevelmonitor/20_sealevelmonitor.md#verdeling-van-residuen. Echter, nadere analyse laat zien dat de trend over de eerste periode (tot 1993) zonder correctie identiek is aan die van met correctie (op verzoek opvraagbaar), wat er op wijst dat de schatting van de trend robust is ten opzichte van de windopzetcorrectie. 
+Het residu in @fig-huidige-zeespiegel-componenten is de variatie die overblijft wanneer de windopzetanomalie, het nodaal getij en de trendlijn zijn afgetrokken van de gemeten waterhoogtes. Het is te zien dat de variatie van het residu iets kleiner is over de periode waar jaarlijkse windopzet beschikbaar is (vanaf 1950). Dit veroorzaakt een kleine scheefheid in de residuverdeling (zie deze passage in het online [rekendocument](https://github.com/Deltares-research/sealevelmonitor/blob/main/analysis/sealevelmonitor/20_sealevelmonitor.md#verdeling-van-residuen). Aangezien er in de windopzetgegevens zelf geen trend zit (@sec-windopzetcorrectie) kunnen we aannemen dat de schatting van de zeespiegeltrend robuust is ten opzichte van de windopzetcorrectie.
 
 ## Bodemdaling en zeespiegelstijging {#sec-bodemdaling}
 
@@ -137,12 +139,12 @@ Bij de meeste stations is de totale bodemdaling dus gelijk aan de geologische bo
 
 | station | Geologische bodemdaling (mm/jaar) | Daling door winning (mm/jaar) | Totale bodemdaling (mm/jaar) | Huidige relatieve ZSS (mm/jaar) | Huidige absolute ZSS (mm/jaar) |
 |------------|------------|------------|------------|------------|------------|
-| Vlissingen | 0.23 | 0 | 0.23 | 3.24 | 3.0 |
-| Hoek van Holland | 0.33 | 0.2 | 0.53 | 3.51 | 3.0 |
-| IJmuiden | 0.42 | 0 | 0.42 | 2.51 | 2.9 |
-| Den Helder | 0.48 | 0 | 0.48 | 3.14 | 2.7 |
-| Harlingen | 0.37 | 0 | 0.37 | 3.60 | 3.2 |
-| *Delfzijl* | *0.39* | *4* | *4.39* | *3.83* | *3.4* |
+| Vlissingen | 0,23 | 0 | 0,23 | 3,24 | 3,0 |
+| Hoek van Holland | 0,33 | 0,2 | 0,53 | 3,51 | 3,0 |
+| IJmuiden | 0,42 | 0 | 0,42 | 2,51 | 2,9 |
+| Den Helder | 0,48 | 0 | 0,48 | 3,14 | 2,7 |
+| Harlingen | 0,37 | 0 | 0,37 | 3,60 | 3,2 |
+| *Delfzijl* | *0,39* | *4* | *4,39* | *3,83* | *3,4* |
 
 : Uitsplitsing bodemdaling [op basis van @Hijma2025b and @Hijma2026] en zeespiegelstijging per station (dit rapport). Geologische bodemdaling is constant op tijdschalen van eeuwen, de dalingssnelheid door winning is berekend voor de periode 1996-2025. Voor Delfzijl is bij de bepaling van de absolute zeespiegelsnelheid aangenomen dat de waterstandsmetingen gecorrigeerd zijn voor de daling door winning (zie ook tekst). De gemiddelde relatieve zeespiegelstijging is gemeten over de periode **xxx (gebroken lineair model)**. Het 66%-betrouwbaarheidsinterval staat tussen haakjes vermeld. {#tbl-bodemdalingscomponenten}
 
@@ -152,24 +154,21 @@ Bij de meeste stations is de totale bodemdaling dus gelijk aan de geologische bo
 
 ## Zeespiegelbudget {#sec-budget}
 
-In het bovenste paneel van @fig-budget zijn de jaarlijkse zeespiegelobservaties weergegeven met stalenblauwe stippen. Dit kan worden vergeleken met de som van alle bijdragen in het rood. De kwadratisch gemiddelde afwijking (root mean square error) tussen de twee tijdreeksen bedraagt 1,1 cm. Tijdreeksen van de belangrijkste factoren achter de zeespiegelstand langs de Nederlandse kust worden eveneens getoond. De belangrijkste factoren voor zeespiegelvariabiliteit zijn wind en luchtdruk (@sec-windopzet), de 18,6-jarige nodaal cyclus en sterische effecten. De regionale en mondiale sterische bijdrage vertegenwoordigt de invloed van veranderingen in temperatuur en zoutgehalte op de zeespiegel. Deze bijdrage is niet lokaal; het vindt niet plaats in de Noordzee omdat deze te ondiep is, maar ontstaat in de diepe oceaan en wordt naar de Noordzee getransporteerd (@calafat_mechanisms_2012). In het paneel linksonder wordt de lineaire trend van elke bijdragende factor getoond en het paneel rechtsonder toont de versnelling. Voor deze panelen zijn sommige factoren verder opgesplitst in afzonderlijke processen. We zien dat de waargenomen trend over de periode 1960-2025 van 2,5 mm/jaar dicht bij de trend van de som van de bijdragen van 2,7 mm/jaar ligt. De belangrijkste bijdragen aan de trend zijn de regionale en mondiale sterische effecten, gevolgd door het smelten van gletsjers en glaciale isostatische aanpassing (GIA, @sec-bodemdaling). De versnelling van de som van de factoren komt eveneens overeen met de waargenomen versnelling. De meeste processen vertonen een versnelling, maar wind draagt bij aan een vertraging. GIA verandert alleen op een tijdschaal van duizenden jaren, waardoor het wel bijdraagt aan de lineaire trend, maar niet aan de versnelling.
+In het bovenste paneel van @fig-budget zijn de jaarlijkse zeespiegelobservaties weergegeven met blauwe stippen. Dit kan worden vergeleken met de som van alle bijdragen in het rood. De kwadratisch gemiddelde afwijking (root mean square error) tussen de twee tijdreeksen bedraagt 1,1 cm. Tijdreeksen van de belangrijkste factoren achter de zeespiegelstand langs de Nederlandse kust worden eveneens getoond. De belangrijkste factoren voor zeespiegelvariabiliteit zijn wind en luchtdruk (@sec-windopzet), de 18,6-jarige nodale cyclus en sterische (uitzetting door warmte) effecten. De regionale en mondiale sterische bijdrage vertegenwoordigt de invloed van veranderingen in temperatuur en zoutgehalte op de zeespiegel. Deze bijdrage is niet lokaal; het vindt niet plaats in de Noordzee omdat deze te ondiep is, maar ontstaat in de diepe oceaan en wordt naar de Noordzee getransporteerd (@calafat_mechanisms_2012). In het paneel linksonder wordt de lineaire trend van elke bijdragende factor getoond en het paneel rechtsonder toont de versnelling. Voor deze panelen zijn sommige factoren verder opgesplitst in afzonderlijke processen. We zien dat de waargenomen trend over de periode 1960-2025 van 2,5 mm/jaar dicht bij de trend van de som van de bijdragen van 2,7 mm/jaar ligt. De belangrijkste bijdragen aan de trend zijn de regionale en mondiale sterische effecten, gevolgd door het smelten van gletsjers en glaciale isostatische aanpassing (GIA, @sec-bodemdaling). De versnelling van de som van de factoren komt eveneens overeen met de waargenomen versnelling. De meeste processen vertonen een versnelling, maar wind draagt bij aan een vertraging. GIA verandert alleen op een tijdschaal van duizenden jaren, waardoor het wel bijdraagt aan de lineaire trend, maar niet aan de versnelling.
 
 :::{#fig-budget}
 
 ![](images/budget.png){width=80%}
 
 
-Zeespiegelbudget langs de kust van Nederland tot 2025
+Zeespiegelbudget langs de kust van Nederland tot 2025. de blauwe punten zijn de ongecorrigeerde waarnemingen (jaargemiddeld). Verdere uitleg in de tekst. 
 
 :::
 
-Dit budget stelt ons in staat om de waargenomen verandering van de zeespiegel toe te schrijven aan specifieke fysische mechanismen op interannuele tot multidecadale tijdschalen. Zo zien we bijvoorbeeld dat de hoge zeespiegelwaarden van 2023 en 2024 werden gedreven door een sterke toename van sterische expansie in combinatie met een bovengemiddelde windopzet, terwijl 2025 lager uitviel omdat de windbijdrage kleiner was dan gebruikelijk.
+Dit budget stelt ons in staat om de waargenomen verandering van de zeespiegel toe te schrijven aan specifieke fysische mechanismen op interannuele tot multidecadale tijdschalen. Zo zien we bijvoorbeeld dat de hoge zeespiegelwaarden van 2023 en 2024 (zie ook @sec-huidige-zeespiegelhoogte) werden gedreven door een sterke toename van sterische expansie in combinatie met een bovengemiddelde windopzet, terwijl 2025 lager uitviel omdat de windbijdrage kleiner was dan gebruikelijk (zie ook @sec-windopzetcorrectie).
 
-<hieronder naar discussie?>
 
-Deze methode kent haar beperkingen. Wanneer de methode wordt toegepast op individuele getijdenstations, neemt de overeenkomst tussen de waarnemingen en de som van de bijdragende factoren af. Dit is waarschijnlijk te wijten aan lokale fysische processen zoals veranderingen in getijden, rivierafvoer en kustbescherming. Bovendien presenteren we alleen de veranderingen sinds 1960, omdat veranderingen van vóór 1960 niet kunnen worden toegeschreven aan de hier gepresenteerde fysische processen. Dit zou het gevolg kunnen zijn van een gebrek aan waarnemingen van de oceaantemperatuur en het zoutgehalte, of van een afname in de kwaliteit van de metingen van getijdenstations. Hoewel Delfzijl in andere secties niet is opgenomen in de gemiddelde zeespiegel langs de kust, is het hier wel inbegrepen, in lijn met de oorspronkelijke KNMI-studies. Het weglaten van Delfzijl uit het gemiddelde heeft echter geen invloed op de belangrijkste conclusies die in deze sectie worden getrokken.
-
-## Vergelijking met projecties {#sec-scenarios}
+## Vergelijking met lange termijn projecties {#sec-scenarios}
 
 De geprojecteerde zeespiegelwaarden van KNMI24(laagste IPCC scenario ?) sluiten goed aan op de zeespiegelmetingen (gecorrigeerd voor windopzetvariatie en getij), 
 
@@ -185,7 +184,7 @@ Gemeten zeespiegel gefit met het gebroken lineaire model, en de KNMI projecties 
 
 ## Variatie binnen Nederland {#sec-ruimtelijke-variatie}
 
-De analyse en bepaling van de zeespiegelstijging aan de Nederlandse kust wordt gedaan aan het gemiddelde van alle hoofdstations (voorlopig even zonder Delfzijl). We hebben gezien dat het gebroken lineare model het best passende model is voor de gemiddelde zeespiegel over alle stations. Als we dezelfde methode toepassen op de individuele stations krijgen we een idee van de variatie in zeespiegelstijging door de tijd langs de Nederlandse kust (@fig-slr-hoofdstations). In de figuur valt het volgende op:
+De analyse en bepaling van de zeespiegelstijging aan de Nederlandse kust wordt gedaan aan het gemiddelde van alle hoofdstations (voorlopig zonder Delfzijl, zie @sec-methodiek). We hebben gezien dat het gebroken lineaire model het best passende model is voor de gemiddelde zeespiegel over alle stations. Als we dezelfde methode toepassen op de individuele stations krijgen we een idee van de variatie in zeespiegelstijging door de tijd langs de Nederlandse kust (@fig-slr-hoofdstations). In de figuur valt het volgende op:
 
 1) De stations in het Waddengebied vertonen een sterkere "knik", wat betekent dat de gemiddelde stijging na 1993 meer verhoogd is t.o.v. vóór 1993 dan bij de stations aan de Hollandse kust.  
 1) Bij verschillende stations zijn er zichtbare uitschieters gedurende bepaalde perioden. Dit verschilt per station.
@@ -198,7 +197,7 @@ Gemeten Zeespiegel met het voorkeursmodel (gebroken lineair) voor alle hoofdstat
 
 :::
 
-De zeespiegelstijging vóór de knik in 1993 is voor de stations in de Waddenzee blijft duidelijk achter bij die van de stations aan de Hollandse kust. De trend na 1993 is weer vrijwel gelijk voor alle stations (@fig-slr-hoofdstations-compared), alhoewel de trend bij IJmuiden wat achterloopt op de rest. Er is eerder al gesuggereerd dat de wat trage stijging in de Waddenzee vóór de knik te maken zou kunnen hebben met de aanleg van de Afsluitdijk en de daarbij afgesloten Zuiderzee (refs), maar over de mechanismen was niet veel gerapporteerd. 
+De zeespiegelstijging vóór de knik in 1993 is voor de stations in de Waddenzee duidelijk dat die achter blijft bij die van de stations aan de Hollandse kust. De trend na 1993 is weer vrijwel gelijk voor alle stations (@fig-slr-hoofdstations-compared), alhoewel de trend bij IJmuiden wat achterloopt op de rest. Er is eerder al gesuggereerd dat de wat trage stijging in de Waddenzee vóór de knik te maken zou kunnen hebben met de aanleg van de Afsluitdijk en de daarbij afgesloten Zuiderzee (refs), maar over de mechanismen was niet veel gerapporteerd. 
 
 :::{#fig-slr-hoofdstations-compared}
 
@@ -208,10 +207,7 @@ Zeespiegelstijging voor de hoofdstations. De stijging is opgesplitst in die van 
 
 :::
 
-Door de aanleg van de afsluitdijk zijn de verdeling van stromingen, getij en zoutgehalte in de westelijke Waddenzee abrupt veranderd. Hierdoor is een proces in gang gezet waardoor de westelijke Waddenzee zich decennialang heeft 'aangepast' aan de nieuwe omstandigheden, met veranderingen in vooral morfologie, maar daardoor ook weer verandering in getij en stroming tot gevolg. De zoetwaterverdeling vanuit het IJsselmeer is deels daardoor, en deels door veranderde afvoer van de IJssel ook over een lange periode in de 20e eeuw veranderd. Dit is verder uitgewerkt in <link naar rapport, en bijlage> 
-
-
-
+Door de aanleg van de Afsluitdijk zijn de verdeling van stromingen, getij en zoutgehalte in de westelijke Waddenzee veranderd. Hierdoor is een proces in gang gezet waardoor de westelijke Waddenzee zich decennialang heeft 'aangepast' aan de nieuwe omstandigheden, met veranderingen in vooral morfologie, maar daardoor ook weer verandering in getij en stroming tot gevolg. De zoetwaterverdeling vanuit het IJsselmeer is deels daardoor, en deels door veranderde afvoer van de IJssel ook over een lange periode in de 20e eeuw veranderd. Dit is verder uitgewerkt in @sec-zeespiegel-wadden. 
 
 ## Vergelijking met satellietmetingen
 

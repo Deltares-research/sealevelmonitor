@@ -154,7 +154,7 @@ plot_station <- function(
     ) +
     coord_cartesian(ylim = c(NA, NA)) +
     xlab("jaar") +
-    ylab("zeespiegel in cm tov NAP") +
+    ylab("zeespiegel in cm tov NAP (2005)") +
     labs(subtitle = "Gecorrigeerde zeespiegel (GTSM) en trends") +
     fitstyle +
     theme(
@@ -286,7 +286,7 @@ plot_station_website_broken_linear <- function(
     annotation_custom(rlogo, xmin = 1993, xmax = 2015, ymin = -30, ymax = -25) +
     coord_cartesian(ylim = c(NA, NA)) +
     xlab("jaar") +
-    ylab("zeespiegel in cm tov NAP") +
+    ylab("zeespiegel in cm tov NAP (2005)") +
     labs(subtitle = "Gecorrigeerde zeespiegel (GTSM) en trends") +
     theme_light() +
     theme(
@@ -415,7 +415,7 @@ plot_station_website_broken_squared <- function(
     annotation_custom(rlogo, xmin = accellerationyear, xmax = 2015, ymin = -30, ymax = -25) +
     coord_cartesian(ylim = c(NA, NA)) +
     xlab("jaar") +
-    ylab("zeespiegel in cm tov NAP") +
+    ylab("zeespiegel in cm tov NAP (2005)") +
     labs(subtitle = "Gecorrigeerde zeespiegel (GTSM) en trends") +
     theme_light() +
     theme(
