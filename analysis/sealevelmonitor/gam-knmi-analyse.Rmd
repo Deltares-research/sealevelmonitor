@@ -145,6 +145,20 @@ glm_model <- function(df){
     method = "REML"
   )
 }
+
+glm2_model <- function(df){
+    mgcv::gam(
+    height ~ year_c
+    +        from1960_square
+    +        nodal_cos
+    +        nodal_sin
+    +        surge_anomaly,
+    family = gaussian(),
+    data = df,
+    method = "REML"
+  )
+
+} 
 ```
 
 Functions to extract predictions, standard errors and derivatives
@@ -156,29 +170,31 @@ Functions to extract predictions, standard errors and derivatives
 
 ## use for plotting - vertically neutral compared to measurements
 get_height_predictions <- function(model, newdata){
-
+  
   preddata <- newdata
-
+  
   preddata$nodal_cos     <- 0
   preddata$nodal_sin     <- 0
   preddata$surge_anomaly <- mean(newdata$surge_anomaly, na.rm = TRUE)
-
+  
   p <- predict(
     model,
     newdata = preddata,
     type = "response",
     se.fit = TRUE
   )
-
+  
   tibble(
     fit_height = p$fit,
     se_height  = p$se.fit
   )
 }
 
-get_derivatives <- function(model) {
+get_derivatives <- function(model, epoch = 1970) {
 
-  # ==== CASE 1: GAM MET SMOOTH ====
+  # =====================================================
+  # CASE 1: GAM met smooth term
+  # =====================================================
   if (length(model$smooth) > 0) {
 
     der <- gratia::derivatives(
@@ -189,59 +205,102 @@ get_derivatives <- function(model) {
       unconditional = TRUE
     )
 
-
-  # Bouw een nette, uniforme tibble met de juiste kolommen
-  out <- tibble::tibble(
-    x          = der$year,
-    derivative = der$.derivative,
-    se         = der$.se,
-    lower      = der$.lower_ci,
-    upper      = der$.upper_ci
-  )
-
-    return(out)
+    return(
+      tibble::tibble(
+        x          = der$year,
+        derivative = der$.derivative,
+        se         = der$.se,
+        lower      = der$.lower_ci,
+        upper      = der$.upper_ci
+      )
+    )
   }
 
-  # ==== CASE 2: LINEAIR MODEL ====
-  
-cf <- coef(model)
-vc <- vcov(model)
+  coefs <- coef(model)
+  V <- vcov(model)
 
-slope_year <- cf["year_c"]
-slope_from <- cf["from1993"]
-
-xvals <- model$model$year_c + 1970
-
-derivative_vals <- ifelse(
-  xvals < 1993,
-  slope_year,
-  slope_year + slope_from
-)
-
-var_before <- vc["year_c", "year_c"]
-
-var_after <-
-  vc["year_c", "year_c"] +
-  vc["from1993", "from1993"] +
-  2 * vc["year_c", "from1993"]
-
-se_before <- sqrt(var_before)
-se_after  <- sqrt(var_after)
-
-se_vals <- ifelse(
-  xvals < 1993,
-  se_before,
-  se_after
-)
-  
-  tibble::tibble(
-    x          = xvals,
-    derivative = derivative_vals,
-    se         = se_vals,
-    lower      = derivative_vals - 1.96 * se_vals,
-    upper      = derivative_vals + 1.96 * se_vals
+  # model bevat year_c, niet year
+  x_c <- seq(
+    floor(min(model$model$year_c, na.rm = TRUE)),
+    ceiling(max(model$model$year_c, na.rm = TRUE)),
+    by = 1
   )
+
+  year <- x_c + epoch
+
+  # =====================================================
+  # CASE 2: Gebroken lineair model
+  # year_c + from1993
+  # =====================================================
+  if ("from1993" %in% names(coefs)) {
+
+    b1 <- coefs["year_c"]
+    b2 <- coefs["from1993"]
+
+    h <- as.numeric(year >= 1993)
+
+    derivative <- b1 + b2 * h
+
+    V11 <- V["year_c", "year_c"]
+    V22 <- V["from1993", "from1993"]
+    V12 <- V["year_c", "from1993"]
+
+    se <- sqrt(
+      V11 +
+        h^2 * V22 +
+        2 * h * V12
+    )
+
+    return(
+      tibble::tibble(
+        x = year,
+        derivative = derivative,
+        se = se,
+        lower = derivative - 1.96 * se,
+        upper = derivative + 1.96 * se
+      )
+    )
+  }
+
+  # =====================================================
+  # CASE 3: Gebroken kwadratisch model
+  # year_c + from1960_square
+  # met:
+  # from1960_square = pmax(year - 1960, 0)^2
+  # =====================================================
+  if ("from1960_square" %in% names(coefs)) {
+
+    b1 <- coefs["year_c"]
+    b2 <- coefs["from1960_square"]
+
+    h <- pmax(year - 1960, 0)
+
+    derivative <- b1 + 2 * b2 * h
+
+    V11 <- V["year_c", "year_c"]
+    V22 <- V["from1960_square", "from1960_square"]
+    V12 <- V["year_c", "from1960_square"]
+
+    se <- sqrt(
+      V11 +
+        (2 * h)^2 * V22 +
+        2 * (2 * h) * V12
+    )
+
+    return(
+      tibble::tibble(
+        x = year,
+        derivative = derivative,
+        se = se,
+        lower = derivative - 1.96 * se,
+        upper = derivative + 1.96 * se
+      )
+    )
+  }
+
+  stop("Unsupported model type")
 }
+
 
 ```
 
@@ -256,7 +315,7 @@ The GAM and GLM models was applied to all six main stations and the composite st
 
 ```{r model-generation}
 
-selected_model = c("glm", "gam")
+selected_model = c("glm", "glm2", "gam")
 
 by_station_model_compared = df %>%
   prepare_nodal() %>%
@@ -433,11 +492,115 @@ by_station_model_compared %>%
 
 ## Conclusions
 
-A first trial to compare GAM and GLM reveals that both models describe the sea level change at the Dutch coast well, and the difference between them in terms of AIC is smalll. For individual stations, the differences are larger, where GAM better describes the variation. 
+A first trial to compare GAM and GLM reveals that both models describe the sea level change at the Dutch coast well, and the difference between them in terms of AIC is smalll. For individual stations, the differences are larger, where GAM better describes the variation for stations Vlissingen, Hoek van Holland, IJmuiden, and Harlingen. 
+
+## Compare to analyses by other institutes
+
+In het volgende deel worden ook de berekende trendschattingen van KNMI en PBL geintegreerd. Zowel KNMI als PBL rekenden dit jaar, op basis van hun eigen analysemethoden, de zeespiegelstijging uit over de jaren. Onderstaande figuur geeft hier een beeld van. Voor de duidelijkheid hebben we hier alleen de GAM van KNMi getoond. 
+
+
+
+```{r readKNMI}
+# read knmi slr data (produced 2026)
+knmi_gam <- read_delim("../../data/knmi/gam/NetherlandsNoDelfzijl/1000/rates_quantiles_NearestPointAverage2.csv", delim = ",") %>%
+  select(
+    x = time,
+    derivative = `0.5`,
+    lower = `0.05`,
+    upper = `0.95`
+  ) %>%
+  mutate(
+    modeltype = "knmi_gam",
+    station = "Netherlands (without Delfzijl)"
+  )
+
+```
+
+```{r readPBL}
+# read pbl slr data (produced 2026)
+pbl_link <- "../../data/pbl/slm_pbl_2026/0229_001g_clo_11_nlv5schoon.xlsx"
+readxl::excel_sheets(pbl_link)
+pbl_irw <- readxl::read_xlsx(pbl_link, sheet = "versnelling", skip = 8, col_names = c("year", "rate", "lower", "upper")) %>%
+    select(
+    x = year,
+    derivative = rate,
+    lower = lower,
+    upper = upper
+  ) %>%
+  mutate(
+    modeltype = "pbl_irw",
+    station = "Netherlands (without Delfzijl)"
+  )
+
+
+```
+
+
+
+```{r plot-derivatives_all, fig.cap="Sea level rates", fig.height=5, fig.width=7 }
+
+  df_plot <- by_station_model_compared %>%
+    select(station, modeltype, derivatives) %>%
+    unnest(c(derivatives)) %>%
+  filter(
+    station %in% params$selected_station,
+    modeltype %in% c("glm", "glm2")) %>%
+  select(
+    x,
+    station,
+    modeltype,
+    derivative, 
+    lower,
+    upper
+  ) %>%
+  bind_rows(knmi_gam) %>%
+  bind_rows(pbl_irw) 
+
+  ggplot(df_plot, aes(x = x, y = derivative, color = modeltype)) +
+    geom_ribbon(
+      aes(
+        ymin = lower, 
+        ymax = upper, 
+        fill = modeltype
+      ),
+      alpha = 0.1,
+      linewidth = 0.3
+    ) +
+    geom_line(size = 1.2) +
+    # facet_wrap(~ station, scales = "free_y") +
+    theme_bw() +
+    labs(
+      title = "trends inclusief 95% betrouwbaarheid",
+      subtitle = "Vergelijking methodieken",
+      x = "Jaar",
+      y = "trend in mm per jaar",
+      color = "modeltype"
+    ) +
+    coord_cartesian(xlim = c(1960, NA), ylim = c(0,NA))
+
+ggsave("../../rapportage/slm2026/images/vergelijking_alle_modellen.png", 
+       width = 7, height = 5)
+```
+
 
 ## References
 
 Keizer, Iris, Dewi Le Bars, Cees De Valk, André Jüling, Roderik Van De Wal, and Sybren Drijfhout. 2023. “The Acceleration of Sea-Level Rise along the Coast of the Netherlands Started in the 1960s.” Ocean Science 19 (4): 991–1007. https://doi.org/10.5194/os-19-991-2023.
+
+## Additinal analysis
+
+```{r, eval=FALSE}
+by_station_model_compared %>% 
+  unnest(data, pred_height) %>% 
+  select(-modelfunctions, - model, - glance, -tidy, - augment) %>% 
+  unnest(fit_height, se_height) %>% 
+  ggplot(aes(x = year)) + 
+  geom_point(aes(y = height), alpha = 0.1) + 
+  geom_line(aes(y = fit_height, color = modeltype), linewidth = 1) +
+  facet_wrap("station")
+
+```
+
 
 ## Appendix
 
