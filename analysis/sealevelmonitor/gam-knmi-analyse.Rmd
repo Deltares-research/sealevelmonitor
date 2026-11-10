@@ -496,8 +496,7 @@ A first trial to compare GAM and GLM reveals that both models describe the sea l
 
 ## Compare to analyses by other institutes
 
-In het volgende deel worden ook de berekende trendschattingen van KNMI en PBL geintegreerd. Zowel KNMI als PBL rekenden dit jaar, op basis van hun eigen analysemethoden, de zeespiegelstijging uit over de jaren. Onderstaande figuur geeft hier een beeld van. Voor de duidelijkheid hebben we hier alleen de GAM van KNMi getoond. 
-
+In the next part we compare our trend estimations to the estimates from the Royal Dutch Meteorlogical Institute (KNMI) and the Planning Institute for the Environment (PBL). They have updated their estimations in 2026 with figures up to 2025. The figure below shows the result. The GAM method used by KNMI results in a slightly higher estimate of current SLR. The Integrated Random Walk method used by PBL results in exactly the same value as the Sea Level Monitor. Note that KNMI has a different wind surge correction compared to SLM (but similar correction for nodal tide) and that PBL does not correct for wind or nodal tide at all. 
 
 
 ```{r readKNMI}
