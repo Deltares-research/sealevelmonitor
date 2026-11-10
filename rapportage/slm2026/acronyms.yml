@@ -219,6 +219,8 @@ acronyms:
       longname: Rijkswaterstaat
     - shortname: S2
       longname: Principal solar semidiurnal constituent
+    - shortname: S3NG-T
+      longname: Sentinel-3 Next Generation
     - shortname: SaaS
       longname: Software as a Service
     - shortname: SLR
