@@ -11,6 +11,7 @@ output:
   # pdf_document: default
 # always_allow_html: true
 params:
+  imagepath: "../../rapportage/slm2026/images"
   monitoryear: 2026
   startyear: 1890
   wind_or_surge_type: GTSM
@@ -64,6 +65,7 @@ config <- RcppTOML::parseToml("_common/configuration.TOML")
 config_flat <- list_flatten(config)
 source("_common/functions.R")
 source("_common/plotfunctions.R")
+source("_common/prediction_functions.R")
 epoch = config$constants$epoch
 mainstations_df <- readMainStationInfo(filepath = "../../")
 mainstations_locs <- readMainStationLocations(path = "../../")
@@ -194,9 +196,10 @@ ggplot(aes(year, height / 10)) +
   xlab("jaar") + ylab("gemeten zeespiegel in cm NAP (2005)") +
   theme_light() +
   theme(legend.position = "bottom")
-
 # ggplotly(p) %>% layout(legend = list(x = 0.05, y = 0.95))
 p
+
+ggsave("zeespiegelmetingenGemiddelde.png", path = params$imagepath)
 ```
 
 ### Sea level high years
@@ -221,7 +224,7 @@ current_df %>%
 
 The expected storm surge per year is determined using output of the Global Tide and Surge Model (GTSM) (ref). This calculates the surge given the bathymetry and climatic conditions. Model results are available from 1950 onwards (figure \@ref(fig:gtsm-surge)). The model is run each successive year to calculate the annual average wind and air pressure for use in the Sea Level Monitor. The calculated variation in surge (surge anomaly) is subtracted from the measured sea level before the sea level rise is calculated. For the years before 1950, no runs are available and sea level is corrected for average surge only. This correction reduces the variation due to differences in surge per year and allows a more precise estimate of the long-term trend to be made.
 
-```{r gtsm-surge-anomalie, fig.width=8, fig.height=5, fig.cap="Modelled surge anomaly (deviation of storm surge from long year avearge). The yearly averages surge is calculated for 1950 - now. For earlier years, an average surge is assumed." }
+```{r gtsm-surge-anomalie, fig.width=6, fig.height=4, fig.cap="Modelled surge anomaly (deviation of storm surge from long year avearge). The yearly averages surge is calculated for 1950 - now. For earlier years, an average surge is assumed." }
 
 p <- current_df %>%
   # filter(!grepl("Netherlands", station)) %>%
@@ -236,6 +239,8 @@ ggplot(aes(year, surge_anomaly / 10)) +
 
 # ggplotly(p) # %>% layout(legend = list(x = 0.05, y = 0.95))
 p
+ggsave("gtsm-surge-anomalie.png", path = params$imagepath)
+
 ```
 
 
@@ -381,21 +386,23 @@ lookup <- c(
 )
 
 all_predictions <- makePredictionTable(models, lookup)
+all_predictions2 <- makePredictionTableCI(models = models, future_years = NULL, level = 0.95)
+
 
 if(params$overwrite){
-  write_csv(all_predictions, file = paste0("../../results/analysis_output/predictions_", today(), ".csv"))
-  write_csv(all_predictions, file = "../../results/analysis_output/predictions_latest.csv")
+  write_csv(all_predictions2, file = paste0("../../results/analysis_output/predictions_", today(), ".csv"))
+  write_csv(all_predictions2, file = "../../results/analysis_output/predictions_latest.csv")
 }
 ```
 
 ```{r prediction-plot, eval=T, fig.height=nstations*1.3+1, fig.width=nmodels*3+1, fig.cap= "Observed and predicted sea level for selected stations and models. "}
 
 ggplot(
-  all_predictions,
-  aes(x = data_year)
+  all_predictions2,
+  aes(x = year)
 ) +
-  geom_point(aes(y = data_height, color = "observed"), alpha = 0.5, size = 2) +
-  geom_line(aes(y = prediction_recalc, color = "predicted"), linewidth = 2) +
+  geom_point(aes(y = height / 10, color = "observed"), alpha = 0.5, size = 2) +
+  geom_line(aes(y = prediction_recalc / 10, color = "predicted"), linewidth = 2) +
   facet_grid(station ~ modeltype) +
   theme(strip.text.y = element_text(angle = 0))
 
@@ -505,7 +512,44 @@ AIC_df %>% ungroup() %>%
   knitr::kable(caption = "Model with lowest AIC for each station or station combination. ")
 
 ```
+## Trends for broken linear model per station
 
+```{r broken_linear_trends, include=FALSE}
+
+# calculate trends and SE before and after 1993
+
+trends <- models %>%
+  filter(modeltype == "broken_linear") %>%
+  select(
+    station,
+    modeltype,
+    model,
+    rsq,
+    AIC
+  ) %>%
+  mutate(
+    post1993_trend = map_dbl(model, ~{
+      b <- coef(.x)
+      b["I(year - epoch)"] + b["from1993"]
+    }),
+    post1993_se = map_dbl(model, ~{
+      V <- vcov(.x)
+      sqrt(
+        V["I(year - epoch)", "I(year - epoch)"] +
+        V["from1993", "from1993"] +
+        2*V["I(year - epoch)", "from1993"]
+      )
+    })
+  ) %>%
+  mutate(
+    df_resid = map_dbl(model, ~ df.residual(.x)),
+    crit = qt(0.975, df_resid),
+    post1993_lwr = post1993_trend - crit * post1993_se,
+    post1993_upr = post1993_trend + crit * post1993_se
+  )
+
+write_delim(trends %>% select(-model), "../../results/analysis_output/trends_stations.csv", delim = ";")
+```
 
 For the combined stations Netherlands and Netherlands (without Delfzijl), the `r cat(preferred_model)` model has the lowest AIC, and is therefore the first candidate for the preferred model. In the next section, it is tested whether the broken-linear model explains the observed variation significantly better than the simplest model, the linear model.
 
@@ -578,36 +622,36 @@ cat('Based on variance analysis the broken linear model is not significantly bet
 
 ```{r prediction-plot_preferred-model, eval=T, fig.height=6, fig.width=9, fig.cap= "Observed (corrected for surge anomaly) and predicted sea level for all main stations and the preferred model. "}
 
-all_predictions %>%
+all_predictions2 %>%
   filter(
     modeltype == "broken_linear",
     !grepl("Netherl", station, ignore.case = T)
     ) %>%
   
-ggplot(aes(x = data_year)) +
-  geom_point(aes(y = `data_height-surge_anomaly`, color = "observed"), alpha = 0.5, size = 1.5) +
-  geom_line(aes(y = prediction_recalc, color = "predicted"), linewidth = 1) +
+ggplot(aes(x = year)) +
+  geom_point(aes(y = `data_height-surge_anomaly` / 10, color = "observed"), alpha = 0.5, size = 1.5) +
+  geom_line(aes(y = prediction_recalc / 10, color = "predicted"), linewidth = 1) +
   facet_wrap("station") +
   theme(strip.text.y = element_text(angle = 0)) +
-  xlab("jaar") + ylab("zeespiegel in mm t.o.v. NAP(2005)") +
+  xlab("jaar") + ylab("zeespiegel in cm t.o.v. NAP(2005)") +
   theme(legend.title=element_blank())
 
 ```
 
 ```{r prediction-plot_preferred-model2, eval=T, fig.height=3, fig.width=8, fig.cap= "Observed (corrected for surge anomaly) and predicted sea level for averaged station and the preferred model. "}
 
-all_predictions %>%
+all_predictions2 %>%
   filter(
     modeltype == "broken_linear",
     grepl("Netherl", station, ignore.case = T)
     ) %>%
   
-ggplot(aes(x = data_year)) +
-  geom_point(aes(y = `data_height-surge_anomaly`, color = "observed"), alpha = 0.5, size = 2) +
-  geom_line(aes(y = prediction_recalc, color = "predicted"), linewidth = 2) +
+ggplot(aes(x = year)) +
+  geom_point(aes(y = `data_height-surge_anomaly` / 10, color = "observed"), alpha = 0.5, size = 2) +
+  geom_line(aes(y = prediction_recalc / 10, color = "predicted"), linewidth = 2) +
   facet_wrap("station") +
   theme(strip.text.y = element_text(angle = 0)) +
-  xlab("jaar") + ylab("zeespiegel in mm t.o.v. NAP(2005)") +
+  xlab("jaar") + ylab("zeespiegel in cm t.o.v. NAP(2005)") +
   theme(legend.title=element_blank())
 
 ```
@@ -630,20 +674,21 @@ parameterTable %>%
 According to the sea level monitor methodology, the estimate of the current sea level rise can not be used for a longer time ahead then 15 years. The figure below visualizes the consequences of the model choice for future sea level. There is very little difference between the current preferred model (broken linear) and the "next best" model (broken squared) for neither the current sea level nor the sea level at 2040.  
 
 
-```{r predictFuture, fig.height=8, fig.width=10, fig.cap="Extrapolatie voor het station 'Netherlands (without Delfzijl)' to the year 2040. Only the years from 2050 are plotted. "}
+```{r predictFuture, fig.height=6, fig.width=10, fig.cap="Extrapolatie voor het station 'Netherlands (without Delfzijl)' to the year 2040. Only the years from 2050 are plotted. "}
 # get functionality
-source("_common/prediction_functions.R")
+
 
 prediction_2040 <- makePredictionTableCI(models = models, future_years = c(2025:2040), level = 0.95)
 
 plotLongtermTrends(
   prediction_2040 %>% 
     filter(
-      station == "Netherlands (without Delfzijl)",
-      year >= 1950
+      station == "Netherlands (without Delfzijl)"#,
+      # year >= 1950
       ), 
   point_size = 3, line_width = 2
   )
+ggsave("predictFuture.png", path = params$imagepath, width = 8, height = 5)
 
 ```
 

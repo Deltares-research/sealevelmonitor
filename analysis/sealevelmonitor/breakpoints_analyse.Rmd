@@ -1,7 +1,7 @@
 ---
-title: "Untitled"
+title: "Breekpuntanalyse voor het gebroken lineaire model in de Zeespiegelmonitor"
 author: "Willem Stolte"
-date: "2025-06-16"
+date: today
 output: github_document
 ---
 

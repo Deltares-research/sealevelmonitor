@@ -66,46 +66,43 @@ makePredictionTableCI <- function(
   
   # ============================================================
   # 2. Helper: toekomstige jaren toevoegen
-  #
-  # Bestaande jaren worden niet gedupliceerd.
-  #
-  # Voor toekomstige jaren geldt:
-  # - height = NA
-  # - surge_anomaly = 0
-  # - from1993 wordt automatisch berekend
-  # - from1960_square wordt automatisch berekend
   # ============================================================
   
   add_future_years <- function(df, future_years) {
     
-    if (!"year" %in% names(df)) {
+    required_data_columns <- c(
+      "year",
+      "height",
+      "surge_anomaly"
+    )
+    
+    missing_data_columns <- setdiff(
+      required_data_columns,
+      names(df)
+    )
+    
+    if (length(missing_data_columns) > 0L) {
       stop(
-        "Iedere tabel in de data-listkolom moet ",
-        "een kolom 'year' bevatten."
+        "De volgende kolommen ontbreken in een data-tabel: ",
+        paste(missing_data_columns, collapse = ", ")
       )
     }
     
-    if (!"height" %in% names(df)) {
-      stop(
-        "Iedere tabel in de data-listkolom moet ",
-        "een kolom 'height' bevatten."
-      )
+    # Zorg dat beide gebroken-trendpredictoren beschikbaar zijn.
+    if (!"from1993" %in% names(df)) {
+      df$from1993 <- pmax(df$year - 1993, 0)
     }
     
-    if (!"surge_anomaly" %in% names(df)) {
-      stop(
-        "Iedere tabel in de data-listkolom moet ",
-        "een kolom 'surge_anomaly' bevatten."
-      )
+    if (!"from1960_square" %in% names(df)) {
+      df$from1960_square <- pmax(df$year - 1960, 0)^2
     }
     
-    # Bestaande rijen markeren als niet-toekomstig
+    # Bestaande rijen behoren tot de oorspronkelijke modeldata.
     df <- df |>
       dplyr::mutate(
         is_future = FALSE
       )
     
-    # Geen toekomstige jaren gevraagd
     if (
       is.null(future_years) ||
       length(future_years) == 0L
@@ -113,16 +110,17 @@ makePredictionTableCI <- function(
       return(df)
     }
     
-    future_years <- future_years |>
-      as.numeric() |>
-      unique() |>
-      sort()
+    future_years <- sort(
+      unique(
+        as.numeric(future_years)
+      )
+    )
     
     if (anyNA(future_years)) {
       stop("future_years mag geen ontbrekende waarden bevatten.")
     }
     
-    # Alleen jaren toevoegen die nog niet in de data voorkomen
+    # Alleen nog ontbrekende jaren toevoegen.
     years_to_add <- setdiff(
       future_years,
       df$year
@@ -135,20 +133,19 @@ makePredictionTableCI <- function(
     future_df <- tibble::tibble(
       year = years_to_add,
       
-      # Geen waarnemingen beschikbaar voor toekomstige jaren
+      # Geen waarnemingen voor toekomstige jaren.
       height = NA_real_,
       
-      # Geen voorspelbare surge anomaly:
-      # de offset wordt daarom op nul gezet
+      # Surge anomaly kan niet worden geëxtrapoleerd.
       surge_anomaly = 0,
       
-      # Gebroken lineaire predictor
+      # Gebroken lineaire predictor.
       from1993 = pmax(
         years_to_add - 1993,
         0
       ),
       
-      # Gebroken kwadratische predictor
+      # Gebroken kwadratische predictor.
       from1960_square = pmax(
         years_to_add - 1960,
         0
@@ -166,21 +163,60 @@ makePredictionTableCI <- function(
   
   
   # ============================================================
-  # 3. Helper: voorspellingen voor één model
+  # 3. Helper: diagonaal van X V X'
+  # ============================================================
+  
+  calculate_component_variance <- function(
+    X_component,
+    V
+  ) {
+    
+    component_variance <- rowSums(
+      (X_component %*% V) * X_component
+    )
+    
+    # Door numerieke afronding kunnen zeer kleine negatieve
+    # waarden ontstaan.
+    scale_value <- max(
+      1,
+      max(abs(component_variance), na.rm = TRUE)
+    )
+    
+    tolerance <- 100 *
+      .Machine$double.eps *
+      scale_value
+    
+    materially_negative <-
+      component_variance < -tolerance
+    
+    if (any(materially_negative, na.rm = TRUE)) {
+      warning(
+        "Negatieve varianties gevonden die groter zijn dan ",
+        "verwachte numerieke afrondingsfouten. Controleer vcov.HAC.",
+        call. = FALSE
+      )
+    }
+    
+    pmax(
+      component_variance,
+      0
+    )
+  }
+  
+  
+  # ============================================================
+  # 4. Helper: voorspellingen voor één model
   #
   # Berekent:
   #
-  # A. volledige voorspelling
-  #    trend + nodale cyclus + surge-offset
+  # A. volledige modelvoorspelling
   #
-  # B. langetermijntrend
-  #    zonder nodale cyclus en zonder surge-offset
+  # B. langetermijntrend:
+  #    - HAC-confidence interval;
+  #    - predictie-interval voor één gecorrigeerde jaarwaarde
   #
-  # C. HAC-confidence interval voor de gemiddelde
-  #    langetermijntrend
-  #
-  # D. predictie-interval voor één voor surge en nodaal getij
-  #    gecorrigeerde jaarwaarde
+  # C. nodale component:
+  #    - uitsluitend HAC-confidence interval
   # ============================================================
   
   predict_one_model <- function(
@@ -191,7 +227,7 @@ makePredictionTableCI <- function(
   ) {
     
     # ----------------------------------------------------------
-    # HAC-matrix controleren
+    # HAC-covariantiematrix controleren
     # ----------------------------------------------------------
     
     if (is.null(vcov_hac)) {
@@ -206,7 +242,7 @@ makePredictionTableCI <- function(
     ) {
       stop(
         "vcov.HAC moet rij- en kolomnamen hebben die ",
-        "overeenkomen met de namen in coef(model)."
+        "overeenkomen met coef(model)."
       )
     }
     
@@ -214,9 +250,9 @@ makePredictionTableCI <- function(
     # ----------------------------------------------------------
     # Volledige modelvoorspelling
     #
-    # predict.lm() verwerkt automatisch:
-    # - de lineaire en eventuele extra trendterm;
-    # - de nodale sin- en cos-termen;
+    # Inclusief:
+    # - langetermijntrend;
+    # - nodale cyclus;
     # - offset(surge_anomaly).
     # ----------------------------------------------------------
     
@@ -227,7 +263,7 @@ makePredictionTableCI <- function(
     
     
     # ----------------------------------------------------------
-    # Designmatrix voor de nieuwe data
+    # Designmatrix maken
     # ----------------------------------------------------------
     
     model_terms <- stats::delete.response(
@@ -245,10 +281,10 @@ makePredictionTableCI <- function(
     
     
     # ----------------------------------------------------------
-    # Modelmatrix, coëfficiënten en HAC-matrix uitlijnen
+    # Coëfficiënten, designmatrix en HAC-matrix uitlijnen
     #
-    # De offset heeft geen geschatte regressiecoëfficiënt.
-    # De offset valt daarom automatisch buiten common_terms.
+    # offset(surge_anomaly) heeft geen geschatte coëfficiënt en
+    # valt daardoor automatisch buiten common_terms.
     # ----------------------------------------------------------
     
     common_terms <- Reduce(
@@ -261,7 +297,7 @@ makePredictionTableCI <- function(
       )
     )
     
-    # Eventuele aliasede coëfficiënten uitsluiten
+    # Niet-geschatte of aliasede coëfficiënten verwijderen.
     common_terms <- common_terms[
       !is.na(beta[common_terms]) &
         is.finite(beta[common_terms])
@@ -294,7 +330,7 @@ makePredictionTableCI <- function(
     
     
     # ----------------------------------------------------------
-    # Modeltermen herkennen
+    # Nodale modeltermen herkennen
     # ----------------------------------------------------------
     
     nodal_columns <- grepl(
@@ -304,71 +340,21 @@ makePredictionTableCI <- function(
     
     if (!any(nodal_columns)) {
       warning(
-        "Geen sin- of cos-termen gevonden in modelmatrix voor model: ",
-        deparse(stats::formula(model)),
+        "Geen sin- of cos-termen gevonden voor model: ",
+        paste(
+          deparse(stats::formula(model)),
+          collapse = " "
+        ),
         call. = FALSE
       )
     }
     
     
     # ----------------------------------------------------------
-    # Langetermijn-designmatrix
-    #
-    # De nodale sin- en cos-termen worden op nul gezet.
-    # De volgende termen blijven behouden indien aanwezig:
-    #
-    # - (Intercept)
-    # - I(year - epoch)
-    # - from1993
-    # - from1960_square
-    # ----------------------------------------------------------
-    
-    X_longterm <- X_use
-    
-    X_longterm[
-      ,
-      nodal_columns
-    ] <- 0
-    
-    
-    # ----------------------------------------------------------
-    # Langetermijntrend
-    # ----------------------------------------------------------
-    
-    longterm_trend <- as.numeric(
-      X_longterm %*% beta_use
-    )
-    
-    
-    # ----------------------------------------------------------
-    # HAC-variantie van de geschatte gemiddelde trend
-    #
-    # diag(X V X') wordt efficiënt berekend als:
-    #
-    # rowSums((X %*% V) * X)
-    # ----------------------------------------------------------
-    
-    longterm_variance <- rowSums(
-      (X_longterm %*% V_use) * X_longterm
-    )
-    
-    # Bescherming tegen kleine negatieve waarden door
-    # numerieke afronding
-    longterm_variance <- pmax(
-      longterm_variance,
-      0
-    )
-    
-    longterm_se <- sqrt(
-      longterm_variance
-    )
-    
-    
-    # ----------------------------------------------------------
     # Kritieke waarde
     #
-    # HAC-inferentie is asymptotisch. Daarom wordt de
-    # standaardnormale kritieke waarde gebruikt.
+    # HAC-inferentie is asymptotisch, daarom wordt qnorm()
+    # gebruikt.
     # ----------------------------------------------------------
     
     critical_value <- stats::qnorm(
@@ -376,24 +362,55 @@ makePredictionTableCI <- function(
     )
     
     
-    # ----------------------------------------------------------
-    # Confidence interval voor de gemiddelde langetermijntrend
-    # ----------------------------------------------------------
-    
-    longterm_conf_lwr <-
-      longterm_trend -
-      critical_value * longterm_se
-    
-    longterm_conf_upr <-
-      longterm_trend +
-      critical_value * longterm_se
-    
-    
-    # ----------------------------------------------------------
-    # Residuele standaardafwijking
+    # ==========================================================
+    # 4A. Langetermijntrend
     #
-    # Dit is de geschatte jaarlijkse restvariatie rondom het
-    # volledige regressiemodel.
+    # De nodale predictoren worden op nul gezet.
+    # ==========================================================
+    
+    X_longterm <- X_use
+    
+    if (any(nodal_columns)) {
+      X_longterm[
+        ,
+        nodal_columns
+      ] <- 0
+    }
+    
+    prediction_recalc <- as.numeric(
+      X_longterm %*% beta_use
+    )
+    
+    prediction_recalc_variance <-
+      calculate_component_variance(
+        X_component = X_longterm,
+        V = V_use
+      )
+    
+    prediction_recalc_se <- sqrt(
+      prediction_recalc_variance
+    )
+    
+    
+    # ----------------------------------------------------------
+    # Confidence interval van de gemiddelde langetermijntrend
+    # ----------------------------------------------------------
+    
+    prediction_recalc_lwr <-
+      prediction_recalc -
+      critical_value * prediction_recalc_se
+    
+    prediction_recalc_upr <-
+      prediction_recalc +
+      critical_value * prediction_recalc_se
+    
+    
+    # ----------------------------------------------------------
+    # Predictie-interval van één toekomstige, voor surge en
+    # nodaal getij gecorrigeerde jaarwaarde
+    #
+    # Var(nieuwe jaarwaarde) =
+    #   HAC-parameteronzekerheid + residuele variantie
     # ----------------------------------------------------------
     
     residual_sigma <- stats::sigma(
@@ -411,46 +428,32 @@ makePredictionTableCI <- function(
       )
     }
     
-    
-    # ----------------------------------------------------------
-    # Predictie-interval
-    #
-    # Voor één nieuwe, gecorrigeerde jaarwaarde:
-    #
-    # Var(new observation) =
-    #   Var(estimated long-term mean) +
-    #   residual variance
-    #
-    # Dit gebruikt een constante residuele variantie.
-    # ----------------------------------------------------------
-    
-    longterm_prediction_variance <-
-      longterm_variance +
+    prediction_recalc_pred_variance <-
+      prediction_recalc_variance +
       residual_sigma^2
     
-    longterm_prediction_variance <- pmax(
-      longterm_prediction_variance,
-      0
+    prediction_recalc_pred_se <- sqrt(
+      pmax(
+        prediction_recalc_pred_variance,
+        0
+      )
     )
     
-    longterm_prediction_se <- sqrt(
-      longterm_prediction_variance
-    )
+    prediction_recalc_pred_lwr <-
+      prediction_recalc -
+      critical_value * prediction_recalc_pred_se
     
-    longterm_pred_lwr <-
-      longterm_trend -
-      critical_value * longterm_prediction_se
-    
-    longterm_pred_upr <-
-      longterm_trend +
-      critical_value * longterm_prediction_se
+    prediction_recalc_pred_upr <-
+      prediction_recalc +
+      critical_value * prediction_recalc_pred_se
     
     
-    # ----------------------------------------------------------
-    # Nodale bijdrage afzonderlijk berekenen
+    # ==========================================================
+    # 4B. Nodale component
     #
-    # Alle niet-nodale kolommen worden op nul gezet.
-    # ----------------------------------------------------------
+    # Alleen de sinus- en cosinustermen blijven behouden.
+    # Hiervoor wordt alleen een HAC-confidence interval berekend.
+    # ==========================================================
     
     X_nodal <- X_use
     
@@ -463,59 +466,90 @@ makePredictionTableCI <- function(
       X_nodal %*% beta_use
     )
     
+    nodal_tide_variance <-
+      calculate_component_variance(
+        X_component = X_nodal,
+        V = V_use
+      )
     
-    # ----------------------------------------------------------
-    # Resultaat voor dit model
-    # ----------------------------------------------------------
+    nodal_tide_se <- sqrt(
+      nodal_tide_variance
+    )
+    
+    nodal_tide_lwr <-
+      nodal_tide -
+      critical_value * nodal_tide_se
+    
+    nodal_tide_upr <-
+      nodal_tide +
+      critical_value * nodal_tide_se
+    
+    
+    # ==========================================================
+    # 4C. Resultaat voor dit model
+    # ==========================================================
     
     df |>
       dplyr::mutate(
         
-        # Volledige modelvoorspelling:
-        # trend + nodaal + surge-offset
+        # Volledige voorspelling:
+        # trend + nodaal getij + surge-offset
         prediction =
           as.numeric(full_prediction),
         
-        # Langetermijntrend:
-        # zonder nodaal en zonder surge-offset
+        # ------------------------------------------------------
+        # Langetermijntrend
+        # ------------------------------------------------------
+        
         prediction_recalc =
-          longterm_trend,
+          prediction_recalc,
         
-        # HAC-standaardfout van de gemiddelde trend
+        # HAC-confidence interval
         prediction_recalc_se =
-          longterm_se,
+          prediction_recalc_se,
         
-        # HAC-confidence interval van de gemiddelde trend
         prediction_recalc_lwr =
-          longterm_conf_lwr,
+          prediction_recalc_lwr,
         
         prediction_recalc_upr =
-          longterm_conf_upr,
+          prediction_recalc_upr,
         
-        # Residuele standaardafwijking
+        # Predictie-interval
         residual_sigma =
           residual_sigma,
         
-        # Standaardfout voor één nieuwe jaarwaarde
         prediction_recalc_pred_se =
-          longterm_prediction_se,
+          prediction_recalc_pred_se,
         
-        # Predictie-interval voor één nieuwe jaarwaarde
         prediction_recalc_pred_lwr =
-          longterm_pred_lwr,
+          prediction_recalc_pred_lwr,
         
         prediction_recalc_pred_upr =
-          longterm_pred_upr,
+          prediction_recalc_pred_upr,
         
-        # Afzonderlijke nodale bijdrage
+        # ------------------------------------------------------
+        # Nodale component
+        #
+        # Alleen een HAC-confidence interval.
+        # ------------------------------------------------------
+        
         nodal_tide =
-          nodal_tide
+          nodal_tide,
+        
+        nodal_tide_se =
+          nodal_tide_se,
+        
+        nodal_tide_lwr =
+          nodal_tide_lwr,
+        
+        nodal_tide_upr =
+          nodal_tide_upr
       )
   }
   
   
   # ============================================================
-  # 4. Data eventueel uitbreiden met toekomstige jaren
+  # 5. Eventueel toekomstige jaren toevoegen
   # ============================================================
   
   models_extended <- models |>
@@ -529,7 +563,7 @@ makePredictionTableCI <- function(
   
   
   # ============================================================
-  # 5. Voorspellingen voor ieder station en ieder model maken
+  # 6. Voorspellingen voor ieder station en model berekenen
   # ============================================================
   
   results <- models_extended |>
@@ -562,32 +596,32 @@ makePredictionTableCI <- function(
   
   
   # ============================================================
-  # 6. Gecorrigeerde waarnemingen en controlevariabelen
+  # 7. Gecorrigeerde waarnemingen en diagnostiek
   # ============================================================
   
   results <- results |>
     dplyr::mutate(
       
-      # Meting gecorrigeerd voor surge anomaly
+      # Meting gecorrigeerd voor alleen surge anomaly.
       `data_height-surge_anomaly` =
         height -
         surge_anomaly,
       
-      # Meting gecorrigeerd voor surge anomaly én nodaal getij
+      # Meting gecorrigeerd voor surge en nodaal getij.
       height_corrected =
         height -
         surge_anomaly -
         nodal_tide,
       
-      # Volledige voorspelling gecorrigeerd voor surge
+      # Volledige voorspelling zonder surge-offset.
       `preds_height-surge_anomaly` =
         prediction -
         surge_anomaly,
       
-      # Reconstructiefout van de modeldecompositie
+      # Controle van de decompositie:
       #
-      # Deze hoort alleen numerieke afrondingsverschillen
-      # te bevatten.
+      # prediction =
+      #   langetermijntrend + nodaal getij + surge anomaly
       reconstruction_error =
         prediction -
         (
@@ -599,7 +633,7 @@ makePredictionTableCI <- function(
   
   
   # ============================================================
-  # 7. Uitvoerkolommen selecteren
+  # 8. Uitvoerkolommen selecteren
   # ============================================================
   
   results <- results |>
@@ -614,30 +648,46 @@ makePredictionTableCI <- function(
       surge_anomaly,
       height_corrected,
       
+      # --------------------------------------------------------
       # Langetermijntrend
+      # --------------------------------------------------------
+      
       prediction_recalc,
       
-      # Confidence interval van de gemiddelde trend
+      # HAC-confidence interval
       prediction_recalc_se,
       prediction_recalc_lwr,
       prediction_recalc_upr,
       
-      # Predictie-interval van één gecorrigeerde jaarwaarde
+      # Predictie-interval
       residual_sigma,
       prediction_recalc_pred_se,
       prediction_recalc_pred_lwr,
       prediction_recalc_pred_upr,
       
-      # Volledige voorspelling en decompositie
-      prediction,
+      # --------------------------------------------------------
+      # Nodale component
+      #
+      # Alleen HAC-confidence interval.
+      # --------------------------------------------------------
+      
       nodal_tide,
+      nodal_tide_se,
+      nodal_tide_lwr,
+      nodal_tide_upr,
+      
+      # --------------------------------------------------------
+      # Volledige voorspelling en diagnostiek
+      # --------------------------------------------------------
+      
+      prediction,
       
       `data_height-surge_anomaly`,
       `preds_height-surge_anomaly`,
       
       reconstruction_error,
       
-      # Predictoren behouden, indien aanwezig
+      # Modelpredictoren behouden indien aanwezig.
       dplyr::any_of(
         c(
           "from1993",
@@ -653,7 +703,6 @@ makePredictionTableCI <- function(
   
   return(results)
 }
-
 plotLongtermTrends <- function(
     predictions,
     station_name = NULL,
@@ -1020,7 +1069,7 @@ plotLongtermTrends <- function(
       x = "Jaar",
       
       y = paste0(
-        "Zeespiegelniveau gecorrigeerd voor surge anomaly ",
+        "Zeespiegel gecorrigeerd voor windopzetanomalie ", "\n",
         "en nodaal getij (cm t.o.v. NAP (2005))"
       ),
       
@@ -1034,7 +1083,9 @@ plotLongtermTrends <- function(
       panel.grid.minor = ggplot2::element_blank(),
       plot.title.position = "plot",
       legend.position = "right"
-    )
+    ) +
+    
+    ggplot2::scale_x_continuous(breaks = scales::pretty_breaks(n = 10))
   
   
   # ============================================================

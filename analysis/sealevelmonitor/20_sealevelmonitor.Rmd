@@ -322,7 +322,7 @@ write_aug_long(df = aug_long, filename = "../../data/deltares/results/dutch-sea-
 ```{r partials, fig.cap="Bijdrage van de verschillende componenten aan de totale zeespiegel aan de Nederlandse kust. De bijdrage van windopzet (surge_anomaly) is apart berekend met GTSM. De bijdrage van het nodaal getij (nodal_fit) is geschat met het regressiemodel. De bijdragen van windopzet, nodaal getij en residu zijn kunstmatig verlaagd in de grafiek voor de presentatie. In het echt zijn hun bijdragen gecentreerd rond nul."}
 
 plot_decomposition(aug_long)
-# ggsave("c:\\OneDriveTemp\\ZSM_for_infographic.svg")
+ggsave("../../rapportage/slm2026/images/ZSM_partials.png")
   
 ```
 
@@ -399,6 +399,8 @@ p
 
 # different formats for publication. possibly change way of saving e.g. use dpi iso width and height. 
 # 
+ggsave(paste0("../../rapportage/slm2026/images/sl_web", ".png"), width = 8, height = 5)
+
 ggsave(paste0("../../results/sl_web_", params$station, params$modeltype, ".png"), width = 8, height = 5)
 ggsave(paste0("../../results/sl_web_", params$station, params$modeltype, ".svg"), width = 8, height = 5)
 ggsave(paste0("../../results/sl_web_", params$station, params$modeltype, ".eps"), width = 8, height = 5)
@@ -513,7 +515,7 @@ trends <- models %>%
     post1993_upr = post1993_trend + crit * post1993_se
   )
 
-write_delim(trends, "../../results/analysis_output/trends.csv")
+write_delim(trends %>% select(-model), "../../results/analysis_output/trends.csv", delim = ";")
 ```
 
 
@@ -599,6 +601,38 @@ if(params$modeltype == "broken_squared"){
 ```{r, results='asis'}
 
 cat(trend_message)
+
+```
+
+# Extrapolatie van het voorkeursmodel over de komende 15 jaren
+
+```{r predictFuture, fig.height=7, fig.width=10, fig.cap="Extrapolatie voor het station 'Netherlands (without Delfzijl)' to the year 2040. Only the years from 2050 are plotted. "}
+# get functionality
+source("_common/prediction_functions.R")
+
+prediction_2040 <- makePredictionTableCI(models = models, future_years = c(params$monitoryear - 1,  params$monitoryear + 15), level = 0.95)
+
+plotLongtermTrends(
+  prediction_2040 %>% 
+    filter(
+      station == "Netherlands (without Delfzijl)",
+      year >= 1950
+      ), 
+  point_size = 3, line_width = 2
+  )
+
+```
+
+```{r nodalresult, fig.width=7, fig.height=3, fig.cap=""}
+
+prediction_now <- makePredictionTableCI(models = models, future_years = NULL, level = 0.95)
+
+prediction_now %>%
+  ggplot(aes(x = year)) +
+  geom_ribbon(aes(ymin = nodal_tide_lwr / 10, ymax = nodal_tide_upr / 10), alpha = 0.2) +
+  geom_line(aes(, y = nodal_tide / 10)) +
+  xlab("jaar") + ylab("nodaal getij component in cm")
+
 
 ```
 
