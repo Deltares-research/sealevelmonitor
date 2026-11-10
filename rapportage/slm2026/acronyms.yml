@@ -231,6 +231,8 @@ acronyms:
       longname: Seasonal Decomposition of Time Series by Loess
     - shortname: STM
       longname: Structural Time series Model
+    - shortname: SWOT
+      longname: Surface Water and Ocean Topography
     - shortname: TGB
       longname: Tide Gauge Benchmark
     - shortname: TNO
