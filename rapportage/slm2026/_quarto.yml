@@ -9,8 +9,9 @@ execute:
 
 book:
   title: "Zeespiegelmonitor 2026"
-  author: "Willem Stolte, Dewi Lebars, Dorien Honingh, Nathalie Dees, Marc Hijma, Martin Verlaan, Marcel Taal"
+  author: "Willem Stolte, Dorien Honingh, Nathalie Dees, Marc Hijma, Martin Verlaan, Marcel Taal"
   date: today
+  image: images\gnss_satelliet.png
   page-navigation: true
   favicon: assets/icon-deltares.svg
   page-footer: 
