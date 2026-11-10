@@ -47,7 +47,7 @@ In @fig-huidige-zeespiegel is de gefitte gebroken lineaire trend (ononderbroken 
 
 :::{#fig-huidige-zeespiegel}
 
-![](https://github.com/Deltares-research/sealevelmonitor/raw/main/analysis/sealevelmonitor/20_sealevelmonitor_files/figure-gfm/unnamed-chunk-6-1.png){width=80%}
+![](images/sl_web.png){width=80%}
 
 Gemeten zeespiegel, voor windopzet gecorrigeerde waarden, en de trend met gebruik van het voorkeursmodel, een gebroken lineair model.
 
@@ -65,7 +65,7 @@ In @fig-huidige-zeespiegel-componenten zijn alle componenten die bij de analyse 
 
 :::{#fig-huidige-zeespiegel-componenten}
 
-![](https://github.com/Deltares-research/sealevelmonitor/raw/main/analysis/sealevelmonitor/20_sealevelmonitor_files/figure-gfm/partials-1.png){width=80%}
+![](images/ZSM_partials.png){width=80%}
 
 Gemeten zeespiegel zonder correcties (height), trend (fitted_total) en de bijdragen van de verschillende processen in het verloop van de zeespiegel in de tijd. De onderste drie lijnen zijn getransformeerd zodat ze beter te zien zijn. In werkelijkheid zijn dit afwijkingen van de nullijn.
 
@@ -148,11 +148,15 @@ Station Harlingen wordt waarschijnlijk enigszins beïnvloed door bodemdaling doo
 | Harlingen | 0,37 | 0 | 0,37 | 3,60 (0.32) | 3,2 |
 | *Delfzijl* | *0,39* | *4* | *4,39* | *3,83 (0.36)* | *3,4* |
 
-: Uitsplitsing bodemdaling [op basis van @Hijma2025b and @Hijma2026] en zeespiegelstijging per station (dit rapport). Geologische bodemdaling is constant op tijdschalen van eeuwen, de dalingssnelheid door winning is berekend voor de periode 1996-2025. Voor Delfzijl is bij de bepaling van de absolute zeespiegelsnelheid aangenomen dat de waterstandsmetingen gecorrigeerd zijn voor de daling door winning (zie ook tekst). De gemiddelde relatieve zeespiegelstijging is bepaald over de periode 1993 - 2025 (gebroken lineair model). De standaardfout voor de schatting van de relatieve zeespiegelstijging staat tussen haakjes vermeld. {#tbl-bodemdalingscomponenten}
+: Uitsplitsing bodemdaling [op basis van @Hijma2025b and @Hijma2026] en zeespiegelstijging per station (dit rapport). Geologische bodemdaling is constant op tijdschalen van eeuwen, de dalingssnelheid door winning is berekend voor de periode 1996-2025. Voor Delfzijl is bij de bepaling van de absolute zeespiegelsnelheid aangenomen dat de waterstandsmetingen gecorrigeerd zijn voor de daling door winning (zie ook tekst). De gemiddelde relatieve zeespiegelstijging is bepaald over de periode 1993 - 2025 (gebroken lineair model). De 95 % betrouwbaarheid voor de schatting van de relatieve zeespiegelstijging staat tussen haakjes vermeld. {#tbl-bodemdalingscomponenten}
 
+:::{#fig-totdaling100yr}
 
-![Totale bodemdaling in het kustgebied in de laatste 100 jaar [@Hijma2026]](images/Totaledaling1926_2025.png){#fig-totdaling100yr width=80%}
+![](images/Totaledaling1926_2025.png){width="80%"}
 
+Totale bodemdaling in het kustgebied in de laatste 100 jaar
+
+:::
 
 ## Zeespiegelbudget {#sec-budget}
 

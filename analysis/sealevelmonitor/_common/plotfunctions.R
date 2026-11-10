@@ -780,8 +780,8 @@ plot_decomposition <- function(df){
     # trend uncertainty
     geom_ribbon(
       aes(
-        ymin = trend_lwr,
-        ymax = trend_upr
+        ymin = trend_lwr / 10,
+        ymax = trend_upr / 10
       ),
       fill = "forestgreen",
       alpha = 0.20
@@ -790,8 +790,8 @@ plot_decomposition <- function(df){
     # nodal uncertainty
     geom_ribbon(
       aes(
-        ymin = nodal_lwr - 250,
-        ymax = nodal_upr - 250
+        ymin = nodal_lwr  / 10 - 25,
+        ymax = nodal_upr / 10 - 25
       ),
       fill = "deepskyblue3",
       alpha = 0.20
@@ -799,40 +799,40 @@ plot_decomposition <- function(df){
     
     # observations
     geom_point(
-      aes(y = height),
+      aes(y = height / 10),
       colour = "#F8766D",
       size = 1.5
     ) +
     
     # total fit
     geom_line(
-      aes(y = fitted_total, colour = "fitted_total"),
+      aes(y = fitted_total / 10, colour = "fitted_total"),
       linewidth = 0.6
     ) +
     
     # trend
     geom_line(
-      aes(y = trend_fit, colour = "trend_fit"),
+      aes(y = trend_fit / 10, colour = "trend_fit"),
       linewidth = 0.8
     ) +
     
     # nodal
     geom_line(
-      aes(y = nodal_fit - 250,
+      aes(y = nodal_fit / 10 - 25,
           colour = "nodal_fit"),
       linewidth = 0.6
     ) +
     
     # offset
     geom_line(
-      aes(y = offset - 350,
+      aes(y = offset / 10 - 35,
           colour = "surge_anomaly"),
       linewidth = 0.6
     ) +
     
     # residual
     geom_line(
-      aes(y = (height - fitted_total) - 450,
+      aes(y = (height - fitted_total) / 10 - 45,
           colour = "residual"),
       linewidth = 0.6
     ) +
@@ -850,7 +850,7 @@ plot_decomposition <- function(df){
     
     labs(
       x = "year",
-      y = "Sea level contribution (mm)"
+      y = "Sea level contribution (cm)"
     ) +
     
     theme_bw()
