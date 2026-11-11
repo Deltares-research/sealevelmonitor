@@ -30,7 +30,7 @@ ww %>%
 ```
 
 
-```{r, fig.width=8, fig.height=8}
+```{r, fig.width=10, fig.height=7}
 
 order = ww %>% arrange(-end) %>% select(project) %>% unlist %>% unname
 
@@ -40,18 +40,21 @@ ww %>%
     project = factor(project, levels = order),
     regio = as.factor(regio)) %>%
   mutate(positie = row_number()) %>%
+  filter(start >1890) %>%
   ggplot() +
   geom_segment(aes(x = start, 
                    xend = end, 
-                   y = interaction(regio, project),
+                   y = project,
                    color = regio),
-               linewidth = 2, 
-               alpha = 0.6#, 
+               linewidth = 3, 
+               alpha = 0.8#, 
                # arrow = grid::arrow(ends = "last", type = "open")
                ) +   #, position = position_jitter(width = 0)
+  geom_point(aes(x = end, y = project), shape = "|", size = 3) +
   theme_minimal() +
   theme(legend.position = "bottom", axis.title.y = element_blank()) +
-  coord_cartesian(xlim = c(NA, 2000))
+  coord_cartesian(xlim = c(1890, 2025)) +
+  scale_x_continuous(n.breaks = 12)
 
 ```
 
