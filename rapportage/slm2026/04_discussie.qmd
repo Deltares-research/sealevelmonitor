@@ -35,7 +35,7 @@ Een versnelde zeespiegelstijging langs de Nederlandse kust is, met andere method
 
 Het is aannemelijk, kijkend naar de achterliggende processen, dat het sneller stijgen niet op één moment in de tijd gebeurde. Onderzoek naar de oorzaken van versnelling, tevens leidend tot uitspraken of de versnelling steeds sterker wordt, wordt door het KNMI gedaan (@sec-budget). Een sluitende fysische verklaring voor een trendbreuk in 1993 is daarom niet erg waarschijnlijk. De statistische uitkomst dat ergens in de 90-er jaren de zeespiegel sneller is gaan stijgen is door meer partijen gevonden (@Steffelbauer2022). In de Zeespiegelmonitor wordt het gebroken lineaire model gebruikt als een soort "maatlat", of monitoringswerktuig, dat zonder veel verklarende kracht toch een betrouwbare (maar ook conservatieve) schatting geeft van de zeespiegel over de afgelopen 15-30 jaar. Dit betekent ook dat de data-analyse van de Zeespiegelmonitor niet gebruikt kan worden om een uitspraak te doen over òf en in welke mate de versnelling zich voortzet. 
 
-### Gebruik van de resultaten
+### Gebruik van de resultaten {#sec-gebruik-van-de-resultaten}
 
 In @sec-inleiding is uiteengezet 
 
@@ -77,7 +77,6 @@ Verschillen in starheid bij modelformuleringen kunnen worden gebruikt om de meth
 ![Zeespiegelstijging berekend met verschillende modellen.Verklaring: glm: zsm gebroken lineair; glm2: zsm gebroken kwadratisch; knmi_gam: GAM model gehanteerd door \acr{KNMI} (jaar 2024); pbl_irw: Integrated Random Walk model gehanteerd door \acr{PBL}. Het 95% betrouwbaarheidsinterval is aangegeven voor elk model. ](images/vergelijking_alle_modellen.png){#fig-modelvergelijking-all width=80%}
 
 De verschillen tussen de verschillende modellen is klein. Het is moeilijk deze spreiding, veroorzaakt door de keuze van het model (afgestemd op een bepaald doel) precies in te schatten. Voor elke situatie moet bewust gekozen worden tussen een conservatiever dan wel beweeglijker model.
-
 
 ## Onzekerheden door verschillen in metingen tussen hoofdstations
 
