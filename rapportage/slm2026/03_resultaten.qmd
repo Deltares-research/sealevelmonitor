@@ -25,15 +25,17 @@ Het gemiddelde van de gemeten zeespiegel voor de hoofdstations langs de Nederlan
 
 :::
 
-## De versnellende zeespiegel
+## Voorkeursmodel {#sec-voorkeursmodel}
+
+In @sec-modelkeuze wordt uitgelegd hoe we tot een voorkeursmodel komen om de huidige stijging van de zeespiegel zo goed mogelijk te beschrijven. De berekeningen die leiden tot deze keuze staan in een [online rekendocument](https://github.com/Deltares-research/sealevelmonitor/blob/main/analysis/sealevelmonitor/10_sealevelanalysis.md). Net als in de vorige rapportage is van de geteste modellen het gebroken lineaire model het best passende model, af te leiden uit de waarde van het \acr{AIC}. Dit model blijkt het gemeten signaal (inclusief correctie voor windopzet en getij) significant beter te beschrijven dan een lineair model. De aanname bij dit model is dat de zeespiegel vanaf het begin van de jaren '90 (in het model hanteren we 1993) sneller is gaan stijgen (@sec-versnelling-methods).
+
+Het alternatieve model met een versnellingsterm is het gebroken kwadratische model  (@sec-modelkeuze). Dit model heeft een iets lagere \acr{AIC} dan het gebroken lineaire model. Het heeft ook een hogere vrijheidsgraad dan het gebroken lineaire model. Echter is het fysische beter verklaarbaar (@Slangen2016, @Dangendorf2019). We laten daarom resultaten voor beide modellen zien. Het zal blijken dat de uitkomsten van de modellen weinig van elkaar verschillen. 
+
+## De versnellende zeespiegel (mogelijk naar discussie)
 
 De zeespiegel stijgt niet alleen, er is nu voldoende bewijs dat de gemiddelde snelheid van stijging in de afgelopen decennia groter is geweest dan in de lange periode daarvoor. Als indicatief jaar voor het breekpunt wordt in dit rapport 1993 gehanteerd (zie verder @sec-voorkeursmodel). De boodschap is: de huidige trend is duidelijk hoger dan in de eeuw ervoor gemiddeld (zie @sec-huidige).
 
 Kijkend naar de achterliggende processen van een sneller stijgende zeespiegel is het waarschijnlijk dat dit niet op één moment in de tijd gebeurde, maar dat de versnelling gedurende een langere periode plaatsvond (en waarschijnlijk nog plaatsvindt). Hoe dat precies is gegaan is niet goed te zeggen. In @sec-budget wordt het aandeel van de verschillende processen getoond. 
-
-## Voorkeursmodel {#sec-voorkeursmodel}
-
-In @sec-modelkeuze wordt uitgelegd hoe we tot een voorkeursmodel komen om de huidige stijging van de zeespiegel zo goed mogelijk te beschrijven. De berekeningen die leiden tot deze keuze staan in een [online rekendocument](https://github.com/Deltares-research/sealevelmonitor/blob/main/analysis/sealevelmonitor/10_sealevelanalysis.md). Net als in de vorige rapportage is van de geteste modellen het gebroken lineaire model het best passende model. Dit model blijkt het gemeten signaal (inclusief correctie voor windopzet en getij) significant beter te beschrijven dan een lineair model. De aanname bij dit model is dat de zeespiegel vanaf het begin van de jaren '90 (in het model hanteren we 1993) sneller is gaan stijgen (@sec-versnelling-methods).
 
 ## Huidige zeespiegelstijging {#sec-huidige}
 
@@ -53,13 +55,23 @@ Gemeten zeespiegel, voor windopzet gecorrigeerde waarden, en de trend met gebrui
 
 :::
 
-Uit de berekende trendlijn volgen de volgende conclusies over de zeespiegelstijging aan de Nederlandse kust:
+Het toepassen van een gebroken kwadratische model op dezelfde gegevens leidt tot een soortgelijk resultaat (@fig-huidige-zeespiegel-alternatief). Door de combinatie van lineair en kwadratisch en het andere knikpunt (1960) valt de stijging in het eerste deel een fractie lager uit dan bij het gebroken lineaire model. Verder blijft de stijging bij het gebroken kwadratische model toenemen in de tijd. Op het eerste gezicht liggen de resultaten erg dicht bij elkaar. In @sec-gebruik-van-de-resultaten worden uitkomsten uit de modellen verder vergeleken. 
+
+:::{#fig-huidige-zeespiegel-alternatief}
+
+![](images/sl_webbroken_squared.png){width=80%}
+
+Gemeten zeespiegel, voor windopzet gecorrigeerde waarden, en de trend met gebruik van het alternatieve model, een gebroken kwadratisch model.
+
+:::
+
+Als hoofdresultaat houden we de uitkomsten uit het gebroken lineaire model aan. Uit de berekende trendlijn volgen de volgende conclusies over de zeespiegelstijging aan de Nederlandse kust:
 
 - De lineaire trend tot 1993 bedraagt 1,8 +/- 0,1 mm/jaar.
 - De extra trend na 1993 bedraagt 1,4 +/- 0,3 mm/jaar.
 - Na 1993 is de totale trend verhoogd en bedraagt 3,2 +/- 0,3 mm/jaar.
 
-Deze stijging is dus ten opzichte van de bovenkant van de Pleistocene zandlaag. 
+Deze stijging is dus relatief ten opzichte van de bovenkant van de Pleistocene zandlaag. 
 
 In @fig-huidige-zeespiegel-componenten zijn alle componenten die bij de analyse betrokken zijn uitgesplitst. De bijdragen van windopzetanomalie, nodaal getij en het residu aan de totale variatie in de gemeten waterhoogte zijn alle drie in dezelfde ordegrootte.
 
@@ -73,7 +85,7 @@ Gemeten zeespiegel zonder correcties (height), trend (fitted_total) en de bijdra
 
 ## Huidige zeespiegelhoogte {#sec-huidige-zeespiegelhoogte}
 
-Opvallend was dat de gemeten zeespiegel twee jaar op rij (namelijk in 2023 en 2024) ruim boven de verwachte zeespiegel (@fig-huidige-zeespiegel en @tbl-zeespiegelgetallen) lag. Dit was nog niet eerder gebeurd in de periode vanaf 1950. In 2025 was de gemeten zeespiegel weer een stuk lager. Dit is van belang, omdat een grote afwijking van metingen ten opzichte van het model, vooral in de "uiteinden", erop kan wijzen dat het gebruikte model moet worden herzien. Op dit moment zien we daar nog geen aanleiding toe. 
+Opvallend was dat de gemeten zeespiegel twee jaar op rij (namelijk in 2023 en 2024) ruim boven de verwachte zeespiegel lag (@fig-huidige-zeespiegel en @tbl-zeespiegelgetallen). Dit was nog niet eerder gebeurd in de periode vanaf 1950. In 2025 was de gemeten zeespiegel weer een stuk lager. Dit is van belang, omdat een grote afwijking van metingen ten opzichte van het model, vooral in de "uiteinden", erop kan wijzen dat het gebruikte model moet worden herzien. Op dit moment zien we daar nog geen aanleiding toe. 
 
 : Gemiddelde zeespiegel zonder en met windopzeteffect, en de geschatte hoogte van het nodaal getij per jaar ten opzichte van NAP2005 voor de laatste 10 jaar. {#tbl-zeespiegelgetallen}
 
