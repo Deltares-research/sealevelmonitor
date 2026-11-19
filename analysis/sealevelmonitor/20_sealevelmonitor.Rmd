@@ -16,6 +16,7 @@ params:
   startyear: 1890
   wind_or_surge_type: GTSM
   include_ddl: FALSE
+  overwrite: FALSE
   station:
   - Netherlands (without Delfzijl)
   modeltype:
@@ -291,8 +292,9 @@ uitvoer_df <- all_predictions %>%
      `fit`= `preds_height (-nodal -surge anomaly)`
   ) 
 
-write_csv(uitvoer_df, file = "../../results/plotdata2024.csv")
-
+if(params$overwrite){
+  write_csv(uitvoer_df, file = "../../results/plotdata2024.csv")
+}
 
 ```
 
@@ -314,16 +316,18 @@ aug_long <- models %>%
   select(augmented) %>%
   unnest(augmented)
 
-write_aug_long(df = aug_long, filename = "../../data/deltares/results/dutch-sea-level-products.csv")
-
+if(params$overwrite){
+  write_aug_long(df = aug_long, filename = "../../data/deltares/results/dutch-sea-level-products.csv")
+}
 ```
 
 
 ```{r partials, fig.cap="Bijdrage van de verschillende componenten aan de totale zeespiegel aan de Nederlandse kust. De bijdrage van windopzet (surge_anomaly) is apart berekend met GTSM. De bijdrage van het nodaal getij (nodal_fit) is geschat met het regressiemodel. De bijdragen van windopzet, nodaal getij en residu zijn kunstmatig verlaagd in de grafiek voor de presentatie. In het echt zijn hun bijdragen gecentreerd rond nul."}
 
 plot_decomposition(aug_long)
-ggsave("../../rapportage/slm2026/images/ZSM_partials.png")
-  
+if(params$overwrite){
+  ggsave("../../rapportage/slm2026/images/ZSM_partials.png")
+}  
 ```
 
 
@@ -399,7 +403,7 @@ p
 
 # different formats for publication. possibly change way of saving e.g. use dpi iso width and height. 
 # 
-ggsave(paste0("../../rapportage/slm2026/images/sl_web", ".png"), width = 8, height = 5)
+ggsave(paste0("../../rapportage/slm2026/images/sl_web", params$modeltype, ".png"), width = 8, height = 5)
 
 ggsave(paste0("../../results/sl_web_", params$station, params$modeltype, ".png"), width = 8, height = 5)
 ggsave(paste0("../../results/sl_web_", params$station, params$modeltype, ".svg"), width = 8, height = 5)
@@ -442,7 +446,9 @@ p = plot_station_website_broken_squared_english(
 
 p
 
-ggsave(paste0("../../results/sl_web_en_", params$station, params$modeltype, ".png"), width = 8, height = 5)
+if(params$overwrite){
+  ggsave(paste0("../../results/sl_web_en_", params$station, params$modeltype, ".png"), width = 8, height = 5)
+}
 
 ```
 
@@ -515,7 +521,9 @@ trends <- models %>%
     post1993_upr = post1993_trend + crit * post1993_se
   )
 
-write_delim(trends %>% select(-model), "../../results/analysis_output/trends.csv", delim = ";")
+if(params$overwrite){
+  write_delim(trends %>% select(-model), "../../results/analysis_output/trends.csv", delim = ";")
+}
 ```
 
 

@@ -191,15 +191,18 @@ current_df %>%
 p <- current_df %>%
   dplyr::filter(grepl("Netherlands", station)) %>%
 ggplot(aes(year, height / 10)) +
-  geom_point(alpha = 1, aes(color = station), shape = 21, fill = "white", size = 1) +
-  geom_line(alpha = 0.5, aes(color = station), linewidth = 0.75) +
+  geom_point(alpha = 1, aes(color = station), size = 2) +
+  # geom_line(alpha = 0.5, aes(color = station), linewidth = 0.75) +
   xlab("jaar") + ylab("gemeten zeespiegel in cm NAP (2005)") +
   theme_light() +
   theme(legend.position = "bottom")
 # ggplotly(p) %>% layout(legend = list(x = 0.05, y = 0.95))
 p
 
-ggsave("zeespiegelmetingenGemiddelde.png", path = params$imagepath)
+if(params$overwrite){
+  ggsave("zeespiegelmetingenGemiddelde.png", path = params$imagepath, height = 4, width = 7)
+}
+
 ```
 
 ### Sea level high years
@@ -258,7 +261,6 @@ In the regression equation, nodal tide is one of the components and is estimated
 
 ```{r nest-per-station}
 byStation <- current_df %>%
-  filter(year > params$startyear) %>%
   addBreakPoints() %>%
   dplyr::group_by(station) %>%
   tidyr::nest() %>%
