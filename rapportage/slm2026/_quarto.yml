@@ -49,7 +49,7 @@ bibliography:
   - bib/dees.bib
   - bib/dewi.bib
 
-link-citations: true
+link-citations: false
 
 format:
   html:
