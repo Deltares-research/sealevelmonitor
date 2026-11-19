@@ -365,8 +365,8 @@ plot_station_website_broken_squared <- function(
     "meting gecorrigeerd voor getij en wind in het specifieke jaar" = "darkorange",
     # "gecorrigeerde zeespiegel (gemiddelde windopzet)" = pal[3],
     "meting gecorrigeerd voor getij in het specifieke jaar en gemiddelde wind " = pal[3],
-    "eerste 100 jaar: 1,8 mm/jr" = "darkblue",  ### pas aan naar actuele waarden
-    "laatste 30 jaar: 3,1 mm/jr" = "darkgreen"  ### pas aan naar actuele waarden
+    "eerste 70 jaar: 1,7 mm/jr" = "darkblue",  ### pas aan naar actuele waarden
+    "vanaf 1960: 0,1 mm/jr^2" = "darkgreen"  ### pas aan naar actuele waarden
   )
   
   plotFills = c(
@@ -397,18 +397,18 @@ plot_station_website_broken_squared <- function(
                size = symbolsize, 
                alpha = 1) +
     geom_line(data = predictions_all2 %>% filter(preds_year >= accellerationyear),
-              aes(x = preds_year, y = pre_accelleration/10, color = ifelse(preds_year>=accellerationyear, "eerste 100 jaar: 1,8 mm/jr", "Laatste 30 jaar: 3,1 mm/jr")),
+              aes(x = preds_year, y = pre_accelleration/10, color = ifelse(preds_year>=accellerationyear, "eerste 70 jaar: 1,7 mm/jr", "vanaf 1960: 0,1 mm/jr^2")),
               linetype = 2,
               size = symbolsize/2, 
               alpha = 1
     ) +
     geom_line(data = predictions_all2 %>% filter(preds_year < accellerationyear),
-              aes(x = preds_year, y = post_accelleration/10, color = ifelse(preds_year>=accellerationyear, "eerste 100 jaar: 1,8 mm/jr", "laatste 30 jaar: 3,1 mm/jr")),
+              aes(x = preds_year, y = post_accelleration/10, color = ifelse(preds_year>=accellerationyear, "eerste 70 jaar: 1,7 mm/jr", "vanaf 1960: 0,1 mm/jr^2")),
               linetype = 2,
               size = symbolsize/2, 
               alpha = 1) +
     geom_line(data = predictions_all2 %>% filter(preds_year >= startyear),
-              aes(x = preds_year, y = prediction_recalc/10, color = ifelse(preds_year<accellerationyear, "eerste 100 jaar: 1,8 mm/jr", "laatste 30 jaar: 3,1 mm/jr")),
+              aes(x = preds_year, y = prediction_recalc/10, color = ifelse(preds_year<accellerationyear, "eerste 70 jaar: 1,7 mm/jr", "vanaf 1960: 0,1 mm/jr^2")),
               linetype = 1,
               size = symbolsize, 
               alpha = 1) +
