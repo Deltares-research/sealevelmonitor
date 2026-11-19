@@ -29,17 +29,11 @@ Het gemiddelde van de gemeten zeespiegel voor de hoofdstations langs de Nederlan
 
 In @sec-modelkeuze wordt uitgelegd hoe we tot een voorkeursmodel komen om de huidige stijging van de zeespiegel zo goed mogelijk te beschrijven. De berekeningen die leiden tot deze keuze staan in een [online rekendocument](https://github.com/Deltares-research/sealevelmonitor/blob/main/analysis/sealevelmonitor/10_sealevelanalysis.md). Net als in de vorige rapportage is van de geteste modellen het gebroken lineaire model het best passende model, af te leiden uit de waarde van het \acr{AIC}. Dit model blijkt het gemeten signaal (inclusief correctie voor windopzet en getij) significant beter te beschrijven dan een lineair model. De aanname bij dit model is dat de zeespiegel vanaf het begin van de jaren '90 (in het model hanteren we 1993) sneller is gaan stijgen (@sec-versnelling-methods).
 
-Het alternatieve model met een versnellingsterm is het gebroken kwadratische model  (@sec-modelkeuze). Dit model heeft een iets lagere \acr{AIC} dan het gebroken lineaire model. Het heeft ook een hogere vrijheidsgraad dan het gebroken lineaire model. Echter is het fysische beter verklaarbaar (@Slangen2016, @Dangendorf2019). We laten daarom resultaten voor beide modellen zien. Het zal blijken dat de uitkomsten van de modellen weinig van elkaar verschillen. 
-
-## De versnellende zeespiegel (mogelijk naar discussie)
-
-De zeespiegel stijgt niet alleen, er is nu voldoende bewijs dat de gemiddelde snelheid van stijging in de afgelopen decennia groter is geweest dan in de lange periode daarvoor. Als indicatief jaar voor het breekpunt wordt in dit rapport 1993 gehanteerd (zie verder @sec-voorkeursmodel). De boodschap is: de huidige trend is duidelijk hoger dan in de eeuw ervoor gemiddeld (zie @sec-huidige).
-
-Kijkend naar de achterliggende processen van een sneller stijgende zeespiegel is het waarschijnlijk dat dit niet op één moment in de tijd gebeurde, maar dat de versnelling gedurende een langere periode plaatsvond (en waarschijnlijk nog plaatsvindt). Hoe dat precies is gegaan is niet goed te zeggen. In @sec-budget wordt het aandeel van de verschillende processen getoond. 
+Het alternatieve model met een versnellingsterm is het gebroken kwadratische model  (@sec-modelkeuze). Dit model heeft een iets lagere \acr{AIC} dan het gebroken lineaire model. Het heeft ook een hogere vrijheidsgraad dan het gebroken lineaire model. Echter is het fysische beter verklaarbaar (@Slangen2016, @Dangendorf2019). We laten daarom resultaten voor beide modellen zien. Het zal blijken dat de uitkomsten van de modellen weinig van elkaar verschillen.
 
 ## Huidige zeespiegelstijging {#sec-huidige}
 
-Op basis van de vor windopzet gecorrigeerde gegevens over alle jaren en met gebruik van het voorkeursmodel zijn met @eq-gedetailleerd zijn bepaald:
+Op basis van de voor windopzet gecorrigeerde gegevens over alle jaren en met gebruik van het voorkeursmodel zijn met @eq-gedetailleerd zijn bepaald:
 
 - de trend over de afgelopen jaren
 - het nodaal getij
@@ -49,7 +43,7 @@ In @fig-huidige-zeespiegel is de gefitte gebroken lineaire trend (ononderbroken 
 
 :::{#fig-huidige-zeespiegel}
 
-![](images/sl_web.png){width=80%}
+![](images/sl_webbroken_linear.png){width=80%}
 
 Gemeten zeespiegel, voor windopzet gecorrigeerde waarden, en de trend met gebruik van het voorkeursmodel, een gebroken lineair model.
 
@@ -153,14 +147,16 @@ Station Harlingen wordt waarschijnlijk enigszins beïnvloed door bodemdaling doo
 
 | station | Geologische bodemdaling (mm/jaar) | Daling door winning (mm/jaar) | Totale bodemdaling (mm/jaar) | Huidige relatieve ZSS (mm/jaar) | Huidige absolute ZSS (mm/jaar) |
 |------------|------------|------------|------------|------------|------------|
-| Vlissingen | 0,23 | 0 | 0,23 | 3,25 (0.3) | 3,0 |
-| Hoek van Holland | 0,33 | 0,2 | 0,53 | 3,52 (0.31) | 3,0 |
-| IJmuiden | 0,42 | 0 | 0,42 | 2,51 (0.35) | 2,9 |
-| Den Helder | 0,48 | 0 | 0,48 | 3,14 (0.31) | 2,7 |
-| Harlingen | 0,37 | 0 | 0,37 | 3,60 (0.32) | 3,2 |
-| *Delfzijl* | *0,39* | *4* | *4,39* | *3,83 (0.36)* | *3,4* |
+| Vlissingen | 0,23 | 0 | 0,23 | 3,25 | 3,0 |
+| Hoek van Holland | 0,33 | 0,2 | 0,53 | 3,52 | 3,0 |
+| IJmuiden | 0,42 | 0 | 0,42 | 2,51 | 2,9 |
+| Den Helder | 0,48 | 0 | 0,48 | 3,14 | 2,7 |
+| Harlingen | 0,37 | 0 | 0,37 | 3,60 | 3,2 |
+| *Delfzijl* | *0,39* | *4* | *4,39* | *3,83* | *3,4* |
 
-: Uitsplitsing bodemdaling [op basis van @Hijma2025b and @Hijma2026] en zeespiegelstijging per station (dit rapport). Geologische bodemdaling is constant op tijdschalen van eeuwen, de dalingssnelheid door winning is berekend voor de periode 1996-2025. Voor Delfzijl is bij de bepaling van de absolute zeespiegelsnelheid aangenomen dat de waterstandsmetingen gecorrigeerd zijn voor de daling door winning (zie ook tekst). De gemiddelde relatieve zeespiegelstijging is bepaald over de periode 1993 - 2025 (gebroken lineair model). De 95 % betrouwbaarheid voor de schatting van de relatieve zeespiegelstijging staat tussen haakjes vermeld. {#tbl-bodemdalingscomponenten}
+: Uitsplitsing bodemdaling [op basis van @Hijma2025b and @Hijma2026] en zeespiegelstijging per station (dit rapport). Geologische bodemdaling is constant op tijdschalen van eeuwen, de dalingssnelheid door winning is berekend voor de periode 1996-2025. Voor Delfzijl is bij de bepaling van de absolute zeespiegelsnelheid aangenomen dat de waterstandsmetingen gecorrigeerd zijn voor de daling door winning (zie ook tekst). De gemiddelde relatieve zeespiegelstijging is bepaald over de periode 1993 - 2025 (gebroken lineair model). {#tbl-bodemdalingscomponenten}
+
+</br>
 
 :::{#fig-totdaling100yr}
 

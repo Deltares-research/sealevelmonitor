@@ -3,12 +3,16 @@ acronyms:
   insert_loa: false
   loa_title: "Lijst met afkortingen"
   insert_links: false
-  fromfile:
-    - acronyms.yml
 ---
 
 # Samenvatting
 
-De Zeespiegelmonitor rapporteert eens in de vier jaar over de Nederlandse staat en trend van de zeespiegel. Ook wordt de stand van de wetenschap toegelicht, alsook de onderzoeken die binnen de Zeespiegelmonitor zijn gedaan.
+Samenvatting
+Dit is de vierde rapportage over de Zeespiegelmonitor. Eerdere rapporten verschenen in 2014, 2018 en 2022. De rapportages beschrijven de ontwikkeling van de zeespiegelstijging langs de Nederlandse kust. Dit is feitelijk relatieve zeespiegelstijging, want in Nederland is ook sprake van bodemdaling. Daarnaast doen de vierjaarlijkse rapportages verslag over onderzoek dat in de voorafgaande jaren plaatsvond.
+De uitkomsten van de Zeespiegelmonitor dienen het waterveiligheidsbeleid, in het bijzonder de kustlijnzorg. De Zeespiegelmonitor berekent een trend waarmee, tot 15 jaar vooruit, de hoeveelheid zand wordt vastgesteld die nodig is om de kustlijn te handhaven.  
+De basis van de berekeningen zijn de waterstandsmetingen die Rijkswaterstaat inwint op de zes hoofdgetijdestations. Dit zijn Vlissingen, Hoek van Holland, IJmuiden, Den Helder, Harlingen en Delfzijl, maar deze laatste is in deze rapportage, vanwege onbetrouwbaarheden, niet meegenomen. Tijdens de analyse van de waterstandsdata worden eerst de effecten van het getij en de windopzet bepaald. Vervolgens is de gemiddelde stand van de zeespiegel in Nederland in een bepaald jaar vastgesteld. 
+De snelheid van zeespiegelstijging is de trend in de jaarlijkse zeespiegelstand. Bij het vaststellen van de trend kunnen meerdere beschrijvingen van de data worden gebruikt. Deze rapportage concludeert, net als de rapportage van 2022, dat de zeespiegelstijging versnelt. Voor het gebruik in de kustlijnzorg voldoet een beschrijving via twee rechte lijnen, op elkaar aansluitend in 1993. De gemiddelde stijging sinds 1993 is 3,2 +/- 0,3 mm/jaar. Een beschrijving via een (kwadratisch) steeds verder versnellende zeespiegel sinds 1960 scoort bijna even goed op de criteria van de Zeespiegelmonitor. Hierom wordt deze als gelijkwaardig gepresenteerd in dit rapport. De resultaten zijn een sterke indicatie dat de snelheid van stijging verder aan het toenemen is, cf. de mondiale trends. 
+De beschrijving van de huidige zeespiegelstijging door de gemiddelde stijging sinds 1993 te nemen is een benadering die past bij het makkelijk aanpasbare kustbeheer, mits suppletievolumes tijdig worden bijgesteld. Verder blijkt dat, vooruitkijkend naar benodigde volumes tot 2040, er weinig onzekerheid is. De verwachte stand van de zeespiegel in 2040 is bijna dezelfde bij gebruik van beide beschrijvingen. 
+Behalve de beschrijvingen die de Zeespiegelmonitor toetst zijn ook andere representaties van de waterstandsdata mogelijk. Daar gaat dit rapport op in. Het kan dat in andere beleidsterreinen dan kustlijnzorg één daarvan gebruikt wordt, afhankelijk van hoe men met resterende onzekerheden wil omgaan. Voor situaties waarin verder dan 2040 moet worden gekeken speelt dit eigenlijk niet. Dan moeten hoofdzakelijk scenariostudies gebruikt worden. In Nederland stelt het KNMI deze op. Deze scenario’s sluiten, zo laat ook dit rapport zien, goed aan op de zeespiegelmetingen.
 
-.... meer later...
+
