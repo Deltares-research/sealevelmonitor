@@ -4,7 +4,7 @@
 
 Dit is de vierde rapportage over de Zeespiegelmonitor. Eerdere rapporten verschenen in 2014, 2018 en 2022. De rapportages beschrijven de ontwikkeling van de zeespiegelstijging langs de Nederlandse kust. Dit is feitelijk relatieve zeespiegelstijging, want in Nederland is ook sprake van bodemdaling. Daarnaast doen de vierjaarlijkse rapportages verslag over onderzoek dat in de voorafgaande jaren plaatsvond.
 
-De uitkomsten van de Zeespiegelmonitor dienen het waterveiligheidsbeleid, in het bijzonder de kustlijnzorg. De Zeespiegelmonitor berekent een trend waarmee, tot 15 jaar vooruit, de hoeveelheid zand wordt vastgesteld die nodig is om de kustlijn te handhaven.  
+Het doel van de Zeespiegelmonitor is het geven van inzicht in de stand en ontwikkeling van de zeespiegel langs de Nederlandse kust. Zulk inzicht is nodig bij besluiten rondom waterveiligheid. De Zeespiegelmonitor berekent onder meer  een trend waarmee, tot 15 jaar vooruit, de hoeveelheid zand wordt vastgesteld die nodig is om de kustlijn te handhaven.  
 
 De basis van de berekeningen zijn de waterstandsmetingen die Rijkswaterstaat inwint op de zes hoofdgetijdestations. Dit zijn Vlissingen, Hoek van Holland, IJmuiden, Den Helder, Harlingen en Delfzijl, maar deze laatste is in deze rapportage, vanwege onbetrouwbaarheden, niet meegenomen. Tijdens de analyse van de waterstandsdata worden eerst de effecten van het getij en de windopzet bepaald. Vervolgens is de gemiddelde stand van de zeespiegel in Nederland in een bepaald jaar vastgesteld. 
 
