@@ -59,9 +59,9 @@ Gemeten zeespiegel, voor windopzet gecorrigeerde waarden, en de trend met gebrui
 
 Vanwege de hogere AIC-score en de consistentie met de vorige rapportage houdt dit rapport de uitkomsten uit het gebroken lineaire model als primair te presenteren resultaat aan. Uit de berekende trendlijn volgen de volgende conclusies over de zeespiegelstijging aan de Nederlandse kust:
 
-- De lineaire trend tot 1993 bedraagt 1,8 +/- 0,1 mm/jaar.
-- De extra trend na 1993 bedraagt 1,4 +/- 0,3 mm/jaar.
-- Na 1993 is de totale trend verhoogd en bedraagt 3,2 +/- 0,3 mm/jaar.
+- De lineaire trend tot 1993 bedraagt 1,8 +/- 0,1 (SE) mm/jaar.
+- De extra trend na 1993 bedraagt 1,4 +/- 0,3 (SE) mm/jaar.
+- Na 1993 is de totale trend verhoogd en bedraagt 3,2 +/- 0,3 (SE) mm/jaar (95%BI = 2.68 - 3.69 mm/jr).
 
 Deze stijging is relatief ten opzichte van de bovenkant van de Pleistocene zandlaag. 
 
@@ -182,13 +182,13 @@ Dit budget maakt het mogelijk om de waargenomen verandering van de zeespiegel to
 
 ## Vergelijking met lange termijn projecties {#sec-scenarios}
 
-De geprojecteerde zeespiegelwaarden van KNMI24(lage uitstootscenario) sluiten goed aan op de zeespiegelmetingen (gecorrigeerd voor windopzetvariatie en getij). De geprojecteerde zeespiegelstijging is op het oog iets groter dan de modelfit door de metingen. De hogere metingen voor de jaren 2023 en 2024, boven de geprojecteerde waarden, maken de aansluiting bijna naadloos.
+De geprojecteerde zeespiegelwaarden van KNMI24 sluiten goed aan op de zeespiegelmetingen (gecorrigeerd voor windopzetvariatie en getij). De geprojecteerde zeespiegelstijging is op het oog iets groter dan de modelfit door de metingen. De hogere metingen voor de jaren 2023 en 2024 maken de aansluiting bijna naadloos.
 
 :::{#fig-metingen-projecties}
 
 ![](images/metingen_projecties_combi.png){width=80%}
 
-Gemeten zeespiegel gefit met het gebroken lineaire model, en de KNMI projecties (jaar?) voor de Nederlandse kust afgeleid van het laagste ICPP scenario. 
+Gemeten zeespiegel gefit met het gebroken lineaire model (met 95% predictie-interval), en de KNMI projecties (met 95% betrouwbaarheid) voor de Nederlandse kust afgeleid van drie ICPP scenarios. 
 
 :::
 
