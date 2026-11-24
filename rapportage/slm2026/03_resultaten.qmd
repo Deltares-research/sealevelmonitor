@@ -13,13 +13,13 @@ Dit hoofdstuk beschrijft de resultaten tot en met 2025. Na de bespreking volgt e
 
 ## De zeespiegel stijgt in Nederland
 
-We hebben een goed beeld hoe de zeespiegelstand langs de Nederlandse kust zich heeft ontwikkeld. Gedurende de periode van de metingen (1890 - heden) heeft de relatieve zeespiegel altijd een gestaag stijgende lijn vertoond (@fig-zeespiegel-nederland-metingen). Deze metingen geven veel variatie van jaar tot jaar. Een groot deel daarvan is te verklaren (@sec-windopzetcorrectie en @sec-nodaalgetij-resultaten). Hierdoor, en door de lange tijdserie, is er geen enkele twijfel dat de zeespiegel over deze periode continu stijgt.
+We hebben een goed beeld hoe de zeespiegelstand langs de Nederlandse kust zich heeft ontwikkeld. Gedurende de periode van de metingen (1890 - heden) heeft de relatieve zeespiegel altijd een gestaag stijgende lijn vertoond (@fig-zeespiegel-nederland-metingen). Deze metingen geven veel variatie van jaar tot jaar. Een groot deel daarvan is te verklaren door variatie in windopzet zoals in @fig-zeespiegel-nederland-metingen te zien is. Variatie door nodaal getij wordt in het regressiemodel meegenomen, en is een resultaat van de analyse (@sec-nodaalgetij-resultaten). Doordat we de variatie kunnen verklaren, en door de lange tijdserie, is er geen enkele twijfel dat de zeespiegel over deze periode continu stijgt.
 
 :::{#fig-zeespiegel-nederland-metingen}
 
 ![](images/zeespiegelmetingenGemiddelde.png){width=80%}
 
-Het gemiddelde van de gemeten zeespiegel voor de hoofdstations langs de Nederlandse kust. Het weglaten van het station Delfzijl heeft vooral invloed op de absolute hoogte van de zeespiegel, en minder op de trend.
+Het gemiddelde van de gemeten zeespiegel (open symbolen) en gemeten zeespiegel gecorrigeerd voor windopzet (dichte symbolen) voor de hoofdstations langs de Nederlandse kust. Het weglaten van het station Delfzijl heeft vooral invloed op de absolute hoogte van de zeespiegel, en minder op de trend.
 
 :::
 
@@ -219,7 +219,7 @@ Zeespiegelstijging voor de hoofdstations. De stijging is opgesplitst in die van 
 
 :::
 
-Door de aanleg van de Afsluitdijk zijn de verdeling van stromingen, getij en zoutgehalte in de westelijke Waddenzee veranderd. Dit zette Hierdoor is een proces in gang gezet waarbij door de Wwestelijke Waddenzee zich decennialang heeft ‘aangepaste’ aan de nieuwe omstandigheden, met vooral veranderingen in de vooral morfologie, die maar daardoor ook weer tot veranderingen in getij en stroming tot gevolgleidden. De verdeling van zoetwater afkomstig verdeling vanuit het Ijsselmeer in de Waddenzee is deels daardoor, en deels door veranderde afvoer van de IJssel ook over een lange periode in de 20e eeuw veranderd. Dit is verder uitgewerkt in @sec-zeespiegel-wadden.
+Door de aanleg van de Afsluitdijk zijn de verdeling van stromingen, getij en zoutgehalte in de westelijke Waddenzee veranderd. Dit zette Hierdoor is een proces in gang gezet waarbij door de westelijke Waddenzee zich decennialang heeft ‘aangepaste’ aan de nieuwe omstandigheden, met vooral veranderingen in de vooral morfologie, die maar daardoor ook weer tot veranderingen in getij en stroming tot gevolgleidden. De verdeling van zoetwater afkomstig verdeling vanuit het Ijsselmeer in de Waddenzee is deels daardoor, en deels door veranderde afvoer van de IJssel ook over een lange periode in de 20e eeuw veranderd. Dit is verder uitgewerkt in @sec-zeespiegel-wadden.
 
 ## Vergelijking met satellietmetingen
 
