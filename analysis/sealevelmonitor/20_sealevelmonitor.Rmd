@@ -16,7 +16,7 @@ params:
   startyear: 1890
   wind_or_surge_type: GTSM
   include_ddl: FALSE
-  overwrite: FALSE
+  overwrite: TRUE
   station:
   - Netherlands (without Delfzijl)
   modeltype:
@@ -631,6 +631,10 @@ plotLongtermTrends(
 
 ```
 
+## Nodaal getij 
+
+Nodaal getij over de meetperiode inclusief 95% betrouwbaarheidsinterval van het model.
+
 ```{r nodalresult, fig.width=7, fig.height=3, fig.cap=""}
 
 prediction_now <- makePredictionTableCI(models = models, future_years = NULL, level = 0.95)
@@ -641,6 +645,77 @@ prediction_now %>%
   geom_line(aes(, y = nodal_tide / 10)) +
   xlab("jaar") + ylab("nodaal getij component in cm")
 
+
+```
+
+# Vergelijk met KNMI projecties
+
+```{r compare_projection}
+knmidatadir <- "../../data/knmi/knmi23"
+
+load(file.path(knmidatadir, "knmi_df23.Rdata"))
+
+sealevelcorrection <- df %>%
+  filter(
+    year %in% c(1995:2014),
+    station == "Netherlands (without Delfzijl)"
+    ) %>%  # for recalculated KNMI scenarios (23)
+  summarize(meanHeight = (mean(height))/10) %>%
+  unlist() %>% unname()
+
+knmi_df[knmi_df$proc == "Total","perc_ts"] <- knmi_df[knmi_df$proc == "Total","perc_ts"] + sealevelcorrection
+
+knmi_perc_df <- knmi_df %>%
+  filter(percentiles %in% c(5, 50, 95) & proc == "Total") %>%
+  pivot_wider(
+    id_cols = c(time, scenario, proc),
+    names_from = percentiles,
+    values_from = perc_ts,
+    names_prefix = "perc_ts_"
+  )
+
+prediction_now %>%
+  ggplot(aes(x = year)) +
+  geom_point(aes(y = height_corrected / 10), size = 0.7) +
+  geom_line(
+    aes(y = prediction_recalc / 10,
+        color = "broken_linear"),
+    linewidth = 1,
+    alpha = 0.6
+  )+
+  geom_ribbon(aes(
+    ymin = prediction_recalc_pred_lwr / 10, 
+    ymax = prediction_recalc_pred_upr / 10), alpha = 0.1) +
+  geom_line(
+    data = knmi_perc_df,
+    aes(
+      x = time, 
+      y = perc_ts_50, 
+      color = scenario
+      ),
+    linewidth = 0.7,
+    alpha = 0.6
+  ) +
+  geom_ribbon(
+    data = knmi_perc_df,
+    aes(
+      x = time, 
+      ymin = perc_ts_5, color = scenario,
+      ymax = perc_ts_95, color = scenario
+    ),
+    alpha = 0.05,
+    linewidth = 0
+  ) +
+  labs(
+    x = "jaar",
+    y = "gemeten of geprojecteerde \n zeespiegel in cm NAP2005"
+  ) +
+  coord_cartesian(ylim = c(NA, 50))
+
+if(params$overwrite){
+  ggsave("../../rapportage/slm2026/images/metingen_projecties_combi.png",
+         width = 7, height = 3)
+}  
 
 ```
 
