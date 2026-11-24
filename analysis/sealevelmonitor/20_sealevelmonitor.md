@@ -1,7 +1,7 @@
 Zeespiegelmonitor
 ================
 Willem Stolte, Nathalie Dees
-28 October, 2026
+24 November, 2026
 
 ## Inleiding
 
@@ -353,7 +353,9 @@ aug_long <- models %>%
   select(augmented) %>%
   unnest(augmented)
 
-write_aug_long(df = aug_long, filename = "../../data/deltares/results/dutch-sea-level-products.csv")
+if(params$overwrite){
+  write_aug_long(df = aug_long, filename = "../../data/deltares/results/dutch-sea-level-products.csv")
+}
 ```
 
 ``` r
@@ -373,7 +375,9 @@ gecentreerd rond nul.</figcaption>
 </figure>
 
 ``` r
-# ggsave("c:\\OneDriveTemp\\ZSM_for_infographic.svg")
+if(params$overwrite){
+  ggsave("../../rapportage/slm2026/images/ZSM_partials.png")
+}  
 ```
 
 ## Zeespiegel met de verschillende termen
@@ -450,6 +454,8 @@ p
 ``` r
 # different formats for publication. possibly change way of saving e.g. use dpi iso width and height. 
 # 
+ggsave(paste0("../../rapportage/slm2026/images/sl_web", params$modeltype, ".png"), width = 8, height = 5)
+
 ggsave(paste0("../../results/sl_web_", params$station, params$modeltype, ".png"), width = 8, height = 5)
 ggsave(paste0("../../results/sl_web_", params$station, params$modeltype, ".svg"), width = 8, height = 5)
 ggsave(paste0("../../results/sl_web_", params$station, params$modeltype, ".eps"), width = 8, height = 5)
@@ -596,3 +602,150 @@ De lineaire trend tot 1993 bedraagt 1.8 +/- 0.1 mm/jaar.
 De extra trend na 1993 bedraagt 1.4 +/- 0.3 mm/jaar.
 
 Na 1993 is de totale trend verhoogd en bedraagt 3.2 +/- 0.3 mm/jaar.
+
+95% betrouwbaarheidsinterval:
+
+``` r
+  purrr::map2(
+    models$model,
+    models$vcov.HAC,
+    post_break_trend
+  ) %>% knitr::kable()
+```
+
+<table class="kable_wrapper">
+
+<tbody>
+
+<tr>
+
+<td>
+
+| estimate |        se | conf.low | conf.high |
+|---------:|----------:|---------:|----------:|
+| 3.185825 | 0.2585339 | 2.679099 |  3.692552 |
+
+</td>
+
+</tr>
+
+</tbody>
+
+</table>
+
+# Extrapolatie van het voorkeursmodel over de komende 15 jaren
+
+``` r
+# get functionality
+source("_common/prediction_functions.R")
+
+prediction_2040 <- makePredictionTableCI(models = models, future_years = c(params$monitoryear - 1,  params$monitoryear + 15), level = 0.95)
+
+plotLongtermTrends(
+  prediction_2040 %>% 
+    filter(
+      station == "Netherlands (without Delfzijl)",
+      year >= 1950
+      ), 
+  point_size = 3, line_width = 2
+  )
+```
+
+<figure>
+<img src="20_sealevelmonitor_files/figure-gfm/predictFuture-1.png"
+alt="Extrapolatie voor het station ‘Netherlands (without Delfzijl)’ to the year 2040. Only the years from 2050 are plotted." />
+<figcaption aria-hidden="true">Extrapolatie voor het station
+‘Netherlands (without Delfzijl)’ to the year 2040. Only the years from
+2050 are plotted.</figcaption>
+</figure>
+
+## Nodaal getij
+
+Nodaal getij over de meetperiode inclusief 95% betrouwbaarheidsinterval
+van het model.
+
+``` r
+prediction_now <- makePredictionTableCI(models = models, future_years = NULL, level = 0.95)
+
+prediction_now %>%
+  ggplot(aes(x = year)) +
+  geom_ribbon(aes(ymin = nodal_tide_lwr / 10, ymax = nodal_tide_upr / 10), alpha = 0.2) +
+  geom_line(aes(, y = nodal_tide / 10)) +
+  xlab("jaar") + ylab("nodaal getij component in cm")
+```
+
+![](20_sealevelmonitor_files/figure-gfm/nodalresult-1.png)<!-- -->
+
+# Vergelijk met KNMI projecties
+
+``` r
+knmidatadir <- "../../data/knmi/knmi23"
+
+load(file.path(knmidatadir, "knmi_df23.Rdata"))
+
+sealevelcorrection <- df %>%
+  filter(
+    year %in% c(1995:2014),
+    station == "Netherlands (without Delfzijl)"
+    ) %>%  # for recalculated KNMI scenarios (23)
+  summarize(meanHeight = (mean(height))/10) %>%
+  unlist() %>% unname()
+
+knmi_df[knmi_df$proc == "Total","perc_ts"] <- knmi_df[knmi_df$proc == "Total","perc_ts"] + sealevelcorrection
+
+knmi_perc_df <- knmi_df %>%
+  filter(percentiles %in% c(5, 50, 95) & proc == "Total") %>%
+  pivot_wider(
+    id_cols = c(time, scenario, proc),
+    names_from = percentiles,
+    values_from = perc_ts,
+    names_prefix = "perc_ts_"
+  )
+
+prediction_now %>%
+  ggplot(aes(x = year)) +
+  geom_point(aes(y = height_corrected / 10), size = 0.7) +
+  geom_line(
+    aes(y = prediction_recalc / 10,
+        color = "broken_linear"),
+    linewidth = 1,
+    alpha = 0.6
+  )+
+  geom_ribbon(aes(
+    ymin = prediction_recalc_pred_lwr / 10, 
+    ymax = prediction_recalc_pred_upr / 10), alpha = 0.1) +
+  geom_line(
+    data = knmi_perc_df,
+    aes(
+      x = time, 
+      y = perc_ts_50, 
+      color = scenario
+      ),
+    linewidth = 0.7,
+    alpha = 0.6
+  ) +
+  geom_ribbon(
+    data = knmi_perc_df,
+    aes(
+      x = time, 
+      ymin = perc_ts_5, color = scenario,
+      ymax = perc_ts_95, color = scenario
+    ),
+    alpha = 0.05,
+    linewidth = 0
+  ) +
+  labs(
+    x = "jaar",
+    y = "gemeten of geprojecteerde \n zeespiegel in cm NAP2005"
+  ) +
+  coord_cartesian(ylim = c(NA, 50))
+```
+
+![](20_sealevelmonitor_files/figure-gfm/compare_projection-1.png)<!-- -->
+
+``` r
+if(params$overwrite){
+  ggsave("../../rapportage/slm2026/images/metingen_projecties_combi.png",
+         width = 7, height = 3)
+}  
+```

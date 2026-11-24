@@ -11,11 +11,3 @@ De Zeespiegelmonitor rapporteert elke 4 jaar uitgebreid over de stand van zaken 
 
 In dit rapport zijn bijdragen van het KNMI verwerkt in @sec-methodiek, @sec-resultaten en @sec-discussie. 
 
-
-
-::: {.content-visible when-format="html"}
-
-
-\printacronyms
-
-:::

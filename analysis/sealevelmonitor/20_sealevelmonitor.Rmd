@@ -612,6 +612,16 @@ cat(trend_message)
 
 ```
 
+95% betrouwbaarheidsinterval: 
+```{r confint}
+  purrr::map2(
+    models$model,
+    models$vcov.HAC,
+    post_break_trend
+  ) %>% knitr::kable()
+```
+
+
 # Extrapolatie van het voorkeursmodel over de komende 15 jaren
 
 ```{r predictFuture, fig.height=7, fig.width=10, fig.cap="Extrapolatie voor het station 'Netherlands (without Delfzijl)' to the year 2040. Only the years from 2050 are plotted. "}
