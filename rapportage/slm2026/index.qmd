@@ -10,3 +10,12 @@ Dit is een work-in-progress versie van de Zeespiegelmonitor. Niets hieruit mag w
 De Zeespiegelmonitor rapporteert elke 4 jaar uitgebreid over de stand van zaken omtrent de zeespiegel aan de Nederlandse kust. Het onderzoek wordt uitgevoerd in opdracht van het Ministerie van Infrastructuur en Water Management in het kader van het kustbeleid. 
 
 In dit rapport zijn bijdragen van het KNMI verwerkt in @sec-methodiek, @sec-resultaten en @sec-discussie. 
+
+
+
+::: {.content-visible when-format="html"}
+
+
+\printacronyms
+
+:::
