@@ -186,7 +186,7 @@ De geprojecteerde zeespiegelwaarden van KNMI24(lage uitstootscenario) sluiten go
 
 :::{#fig-metingen-projecties}
 
-![](images/vergelijking-projecties-metingen-concept-26.png){width=80%}
+![](images/metingen_projecties_combi.png){width=80%}
 
 Gemeten zeespiegel gefit met het gebroken lineaire model, en de KNMI projecties (jaar?) voor de Nederlandse kust afgeleid van het laagste ICPP scenario. 
 
