@@ -22,7 +22,10 @@ jobs:
           echo "ref=${{ github.ref }}"
           echo "ref_name=${{ github.ref_name }}"
 
+#      - uses: quarto-dev/quarto-actions/setup@v2
       - uses: quarto-dev/quarto-actions/setup@v2
+        with:
+          version: "1.8.25"
 
       - name: Render
         working-directory: rapportage/slm2026

@@ -29,10 +29,8 @@ makePredictionTableCI <- function(
     level = 0.95
 ) {
   
-  # ============================================================
   # 1. Invoer controleren
-  # ============================================================
-  
+
   required_columns <- c(
     "station",
     "modeltype",
@@ -64,10 +62,8 @@ makePredictionTableCI <- function(
   }
   
   
-  # ============================================================
   # 2. Helper: toekomstige jaren toevoegen
-  # ============================================================
-  
+
   add_future_years <- function(df, future_years) {
     
     required_data_columns <- c(
@@ -162,10 +158,8 @@ makePredictionTableCI <- function(
   }
   
   
-  # ============================================================
   # 3. Helper: diagonaal van X V X'
-  # ============================================================
-  
+
   calculate_component_variance <- function(
     X_component,
     V
@@ -204,7 +198,6 @@ makePredictionTableCI <- function(
   }
   
   
-  # ============================================================
   # 4. Helper: voorspellingen voor één model
   #
   # Berekent:
@@ -217,8 +210,7 @@ makePredictionTableCI <- function(
   #
   # C. nodale component:
   #    - uitsluitend HAC-confidence interval
-  # ============================================================
-  
+
   predict_one_model <- function(
     df,
     model,
@@ -226,9 +218,9 @@ makePredictionTableCI <- function(
     level
   ) {
     
-    # ----------------------------------------------------------
+ 
     # HAC-covariantiematrix controleren
-    # ----------------------------------------------------------
+ 
     
     if (is.null(vcov_hac)) {
       stop("vcov.HAC ontbreekt voor één of meer modellen.")
@@ -247,14 +239,14 @@ makePredictionTableCI <- function(
     }
     
     
-    # ----------------------------------------------------------
+ 
     # Volledige modelvoorspelling
     #
     # Inclusief:
     # - langetermijntrend;
     # - nodale cyclus;
     # - offset(surge_anomaly).
-    # ----------------------------------------------------------
+ 
     
     full_prediction <- stats::predict(
       object = model,
@@ -262,9 +254,9 @@ makePredictionTableCI <- function(
     )
     
     
-    # ----------------------------------------------------------
+ 
     # Designmatrix maken
-    # ----------------------------------------------------------
+ 
     
     model_terms <- stats::delete.response(
       stats::terms(model)
@@ -280,12 +272,12 @@ makePredictionTableCI <- function(
     beta <- stats::coef(model)
     
     
-    # ----------------------------------------------------------
+ 
     # Coëfficiënten, designmatrix en HAC-matrix uitlijnen
     #
     # offset(surge_anomaly) heeft geen geschatte coëfficiënt en
     # valt daardoor automatisch buiten common_terms.
-    # ----------------------------------------------------------
+ 
     
     common_terms <- Reduce(
       intersect,
@@ -329,9 +321,9 @@ makePredictionTableCI <- function(
     ]
     
     
-    # ----------------------------------------------------------
+ 
     # Nodale modeltermen herkennen
-    # ----------------------------------------------------------
+ 
     
     nodal_columns <- grepl(
       pattern = "cos\\(|sin\\(",
@@ -350,23 +342,23 @@ makePredictionTableCI <- function(
     }
     
     
-    # ----------------------------------------------------------
+ 
     # Kritieke waarde
     #
     # HAC-inferentie is asymptotisch, daarom wordt qnorm()
     # gebruikt.
-    # ----------------------------------------------------------
+ 
     
     critical_value <- stats::qnorm(
       1 - (1 - level) / 2
     )
     
     
-    # ==========================================================
+
     # 4A. Langetermijntrend
     #
     # De nodale predictoren worden op nul gezet.
-    # ==========================================================
+
     
     X_longterm <- X_use
     
@@ -392,9 +384,9 @@ makePredictionTableCI <- function(
     )
     
     
-    # ----------------------------------------------------------
+ 
     # Confidence interval van de gemiddelde langetermijntrend
-    # ----------------------------------------------------------
+ 
     
     prediction_recalc_lwr <-
       prediction_recalc -
@@ -405,13 +397,13 @@ makePredictionTableCI <- function(
       critical_value * prediction_recalc_se
     
     
-    # ----------------------------------------------------------
+ 
     # Predictie-interval van één toekomstige, voor surge en
     # nodaal getij gecorrigeerde jaarwaarde
     #
     # Var(nieuwe jaarwaarde) =
     #   HAC-parameteronzekerheid + residuele variantie
-    # ----------------------------------------------------------
+ 
     
     residual_sigma <- stats::sigma(
       model
@@ -448,12 +440,12 @@ makePredictionTableCI <- function(
       critical_value * prediction_recalc_pred_se
     
     
-    # ==========================================================
+
     # 4B. Nodale component
     #
     # Alleen de sinus- en cosinustermen blijven behouden.
     # Hiervoor wordt alleen een HAC-confidence interval berekend.
-    # ==========================================================
+
     
     X_nodal <- X_use
     
@@ -485,9 +477,9 @@ makePredictionTableCI <- function(
       critical_value * nodal_tide_se
     
     
-    # ==========================================================
+
     # 4C. Resultaat voor dit model
-    # ==========================================================
+
     
     df |>
       dplyr::mutate(
@@ -497,9 +489,9 @@ makePredictionTableCI <- function(
         prediction =
           as.numeric(full_prediction),
         
-        # ------------------------------------------------------
+
         # Langetermijntrend
-        # ------------------------------------------------------
+
         
         prediction_recalc =
           prediction_recalc,
@@ -527,11 +519,11 @@ makePredictionTableCI <- function(
         prediction_recalc_pred_upr =
           prediction_recalc_pred_upr,
         
-        # ------------------------------------------------------
+
         # Nodale component
         #
         # Alleen een HAC-confidence interval.
-        # ------------------------------------------------------
+
         
         nodal_tide =
           nodal_tide,
@@ -548,9 +540,9 @@ makePredictionTableCI <- function(
   }
   
   
-  # ============================================================
+
   # 5. Eventueel toekomstige jaren toevoegen
-  # ============================================================
+
   
   models_extended <- models |>
     dplyr::mutate(
@@ -562,9 +554,9 @@ makePredictionTableCI <- function(
     )
   
   
-  # ============================================================
+
   # 6. Voorspellingen voor ieder station en model berekenen
-  # ============================================================
+
   
   results <- models_extended |>
     dplyr::mutate(
@@ -595,9 +587,9 @@ makePredictionTableCI <- function(
     )
   
   
-  # ============================================================
+
   # 7. Gecorrigeerde waarnemingen en diagnostiek
-  # ============================================================
+
   
   results <- results |>
     dplyr::mutate(
@@ -632,9 +624,9 @@ makePredictionTableCI <- function(
     )
   
   
-  # ============================================================
+
   # 8. Uitvoerkolommen selecteren
-  # ============================================================
+
   
   results <- results |>
     dplyr::select(
@@ -648,9 +640,9 @@ makePredictionTableCI <- function(
       surge_anomaly,
       height_corrected,
       
-      # --------------------------------------------------------
+ 
       # Langetermijntrend
-      # --------------------------------------------------------
+ 
       
       prediction_recalc,
       
@@ -665,20 +657,20 @@ makePredictionTableCI <- function(
       prediction_recalc_pred_lwr,
       prediction_recalc_pred_upr,
       
-      # --------------------------------------------------------
+ 
       # Nodale component
       #
       # Alleen HAC-confidence interval.
-      # --------------------------------------------------------
+ 
       
       nodal_tide,
       nodal_tide_se,
       nodal_tide_lwr,
       nodal_tide_upr,
       
-      # --------------------------------------------------------
+ 
       # Volledige voorspelling en diagnostiek
-      # --------------------------------------------------------
+ 
       
       prediction,
       
@@ -714,9 +706,9 @@ plotLongtermTrends <- function(
     line_width = 0.9
 ) {
   
-  # ============================================================
+
   # 1. Invoer controleren
-  # ============================================================
+
   
   required_columns <- c(
     "station",
@@ -746,9 +738,9 @@ plotLongtermTrends <- function(
   }
   
   
-  # ============================================================
+
   # 2. Eventueel één station selecteren
-  # ============================================================
+
   
   plot_data <- predictions
   
@@ -769,7 +761,7 @@ plotLongtermTrends <- function(
   }
   
   
-  # ============================================================
+
   # 3. Gecorrigeerde metingen berekenen
   #
   # Gecorrigeerde zeespiegel =
@@ -777,7 +769,7 @@ plotLongtermTrends <- function(
   #
   # Als height_corrected al door makePredictionTableCI() is
   # gemaakt, wordt de bestaande kolom gebruikt.
-  # ============================================================
+
   
   if (!"height_corrected" %in% names(plot_data)) {
     
@@ -791,7 +783,7 @@ plotLongtermTrends <- function(
   }
   
   
-  # ============================================================
+
   # 4. Historische metingen voorbereiden
   #
   # De oorspronkelijke waarneming staat eenmaal per modeltype in
@@ -802,7 +794,7 @@ plotLongtermTrends <- function(
   # De nodale correctie kan per model enigszins verschillen.
   # Daarom worden bij facet_models = TRUE de modelspecifieke
   # gecorrigeerde metingen per facet gebruikt.
-  # ============================================================
+
   
   if (isTRUE(facet_models)) {
     
@@ -832,14 +824,14 @@ plotLongtermTrends <- function(
   }
   
   
-  # ============================================================
+
   # 5. Basispalet
   #
   # Dezelfde kleuren worden gebruikt voor:
   # - langetermijntrend;
   # - confidence interval;
   # - predictie-interval.
-  # ============================================================
+
   
   modeltypes <- unique(
     plot_data$modeltype
@@ -879,9 +871,9 @@ plotLongtermTrends <- function(
   ]
   
   
-  # ============================================================
+
   # 6. Basisfiguur
-  # ============================================================
+
   
   p <- ggplot2::ggplot(
     data = plot_data,
@@ -891,7 +883,7 @@ plotLongtermTrends <- function(
   )
   
   
-  # ============================================================
+
   # 7. Predictie-interval
   #
   # Dit is de buitenste, lichtste band.
@@ -899,7 +891,7 @@ plotLongtermTrends <- function(
   # De band omvat:
   # - parameteronzekerheid van de trend;
   # - residuele spreiding van één individuele jaarwaarde.
-  # ============================================================
+
   
   if (isTRUE(show_prediction_interval)) {
     
@@ -917,14 +909,14 @@ plotLongtermTrends <- function(
   }
   
   
-  # ============================================================
+
   # 8. Confidence interval
   #
   # Dit is de binnenste, donkerdere band.
   #
   # De band beschrijft de HAC-onzekerheid van de geschatte
   # gemiddelde langetermijntrend.
-  # ============================================================
+
   
   if (isTRUE(show_confidence_interval)) {
     
@@ -942,12 +934,12 @@ plotLongtermTrends <- function(
   }
   
   
-  # ============================================================
+
   # 9. Langetermijntrend
   #
   # Historisch deel: doorgetrokken lijn
   # Toekomstig deel: gestreepte lijn
-  # ============================================================
+
   
   p <- p +
     ggplot2::geom_line(
@@ -965,9 +957,9 @@ plotLongtermTrends <- function(
     )
   
   
-  # ============================================================
+
   # 10. Gecorrigeerde metingen
-  # ============================================================
+
   
   p <- p +
     ggplot2::geom_point(
@@ -987,9 +979,9 @@ plotLongtermTrends <- function(
     )
   
   
-  # ============================================================
+
   # 11. Overgang tussen historische periode en toekomst
-  # ============================================================
+
   
   if (
     isTRUE(show_future_line) &&
@@ -1013,9 +1005,9 @@ plotLongtermTrends <- function(
   }
   
   
-  # ============================================================
+
   # 12. Schalen en labels
-  # ============================================================
+
   
   p <- p +
     ggplot2::scale_colour_manual(
@@ -1031,7 +1023,7 @@ plotLongtermTrends <- function(
     ggplot2::scale_linetype_manual(
       values = c(
         `FALSE` = "solid",
-        `TRUE` = "dashed"
+        `TRUE` = "22"
       ),
       breaks = c(FALSE, TRUE),
       labels = c(
@@ -1088,9 +1080,9 @@ plotLongtermTrends <- function(
     ggplot2::scale_x_continuous(breaks = scales::pretty_breaks(n = 10))
   
   
-  # ============================================================
+
   # 13. Optioneel aparte panelen per modeltype
-  # ============================================================
+
   
   if (isTRUE(facet_models)) {
     

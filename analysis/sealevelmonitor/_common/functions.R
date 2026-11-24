@@ -658,3 +658,24 @@ broken_jerk_model <- function(df){
   }
 }
 
+post_break_trend <- function(model, vcov_hac) {
+  
+  b <- coef(model)
+  
+  trend <- b["I(year - epoch)"] +
+    b["from1993"]
+  
+  var <- vcov_hac["I(year - epoch)", "I(year - epoch)"] +
+    vcov_hac["from1993", "from1993"] +
+    2 * vcov_hac["I(year - epoch)", "from1993"]
+  
+  se <- sqrt(var)
+  
+  tibble(
+    estimate = trend,
+    se = se,
+    conf.low = trend - 1.96 * se,
+    conf.high = trend + 1.96 * se
+  )
+}
+

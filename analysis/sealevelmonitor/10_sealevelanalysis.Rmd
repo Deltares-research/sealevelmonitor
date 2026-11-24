@@ -188,18 +188,29 @@ current_df %>%
 ```
 
 ```{r zeespiegelmetingenGemiddeld, fig.width=8, fig.height=5, fig.cap="Jaarlijks gemiddelde zeespiegel voor gemiddelde van stations langs de Nederlandse kust."}
+
+shapes <- c(
+  "gemeten" = 21,
+  "gemeten - wind" = 16
+)
+
 p <- current_df %>%
   dplyr::filter(grepl("Netherlands", station)) %>%
-ggplot(aes(year, height / 10)) +
-  geom_point(alpha = 1, aes(color = station), shape = 21, fill = "white", size = 1) +
-  geom_line(alpha = 0.5, aes(color = station), linewidth = 0.75) +
+ggplot(aes(x = year)) +
+  geom_point(aes(y = height / 10, color = station, shape = "gemeten"), size = 2, alpha = 0.8) +
+  geom_point(aes(y = (height - surge_anomaly) / 10, color = station, shape = "gemeten - wind"), alpha = 0.7,  size = 3) +
+  # geom_line(alpha = 0.5, aes(color = station), linewidth = 0.75) +
   xlab("jaar") + ylab("gemeten zeespiegel in cm NAP (2005)") +
   theme_light() +
-  theme(legend.position = "bottom")
+  theme(legend.position = "bottom", legend.title = element_blank()) +
+  scale_shape_manual(values = shapes)
 # ggplotly(p) %>% layout(legend = list(x = 0.05, y = 0.95))
 p
 
-ggsave("zeespiegelmetingenGemiddelde.png", path = params$imagepath)
+if(params$overwrite){
+  ggsave("zeespiegelmetingenGemiddelde.png", path = params$imagepath, height = 4, width = 7)
+}
+
 ```
 
 ### Sea level high years
@@ -258,7 +269,6 @@ In the regression equation, nodal tide is one of the components and is estimated
 
 ```{r nest-per-station}
 byStation <- current_df %>%
-  filter(year > params$startyear) %>%
   addBreakPoints() %>%
   dplyr::group_by(station) %>%
   tidyr::nest() %>%
@@ -565,6 +575,13 @@ The broken linear model is chosen as the preferred candidate because it gave a b
 
 ```{r}
 # extract models to compare
+bs <- models %>% 
+  filter(
+    station == "Netherlands (without Delfzijl)",
+    modeltype == "broken_squared"
+  ) %>%
+  select(model) %>% unlist(recursive = F) %>% unname() 
+ 
 bl <- models %>% 
   filter(
     station == "Netherlands (without Delfzijl)",
