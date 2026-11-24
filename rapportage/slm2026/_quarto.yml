@@ -24,7 +24,8 @@ book:
     pinned: true
   chapters:
     - index.qmd
-    - samenvatting.qmd
+    - 005_acronyms.qmd
+    - 005_samenvatting.qmd
     - 01_inleiding.qmd
     # - 015_zeespiegelaspecten.qmd
     - 02_methodiek.qmd
@@ -58,20 +59,20 @@ format:
     css:
         - styles.css
         - draft.css
-  # pdf:
-  #   # documentclass: scrreprt
-  #   fig-width: 6
-  #   fig-height: 4
-  #   template: deltares-report-template.tex
-  #   # extra_dependencies: ["flafter"]
-  #   include-in-header:
-  #     - preamble.tex
-  #   pdf-engine: pdflatex
-  #   keep_tex: true
-  #   # biblio-config: false
-  #   cite-method: natbib   # natbib
-  # docx:
-  #   default
+  pdf:
+    # documentclass: scrreprt
+    fig-width: 6
+    fig-height: 4
+    template: deltares-report-template.tex
+    # extra_dependencies: ["flafter"]
+    include-in-header:
+      - preamble.tex
+    pdf-engine: pdflatex
+    keep_tex: true
+    # biblio-config: false
+    cite-method: natbib   # natbib
+  docx:
+    default
 
   
 filters:
@@ -80,6 +81,7 @@ filters:
 acronyms:
   loa_title: "Lijst met afkortingen"
   insert_links: false
+  insert_loa: false
   id_prefix: "acronyms_"
   fromfile:
     - acronyms.yml
